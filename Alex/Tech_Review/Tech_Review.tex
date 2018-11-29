@@ -8,19 +8,16 @@
 \geometry{textheight=9.5in, textwidth=7in}
 
 % 1. Fill in these details
-\def \CapstoneTeamName{		The Cleverly Named Team}
-\def \CapstoneTeamNumber{		777}
-\def \GroupMemberOne{			David Hume}
-\def \GroupMemberTwo{			Thomas Kuhn}
-\def \GroupMemberThree{			Karl Popper}
-\def \CapstoneProjectName{		Building a Robot Using Only Philosophy}
-\def \CapstoneSponsorCompany{	Cheap Robots, Inc}
-\def \CapstoneSponsorPerson{		Roger Bacon}
+\def \CapstoneTeamNumber{		22}
+\def \GroupMemberOne{			Alexander Morefield}
+\def \CapstoneProjectName{		Tesla Web App}
+\def \CapstoneSponsorCompany{	Ingineerix, Inc}
+\def \CapstoneSponsorPerson{	Phil Sadow}
 
 % 2. Uncomment the appropriate line below so that the document type works
-\def \DocType{		Problem Statement
+\def \DocType{	%Problem Statement
 				%Requirements Document
-				%Technology Review
+				Technology Review
 				%Design Document
 				%Progress Report
 				}
@@ -30,7 +27,7 @@
 \par\vspace{-12pt} \textit{\tiny\noindent
 \makebox[2.75in]{} \hfil		\makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill	\makebox[.75in][r]{Date}}}}
 % 3. If the document is not to be signed, uncomment the RENEWcommand below
-%\renewcommand{\NameSigPair}[1]{#1}
+\renewcommand{\NameSigPair}[1]{#1}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -55,20 +52,16 @@
             {\large Prepared by }\par
             Group\CapstoneTeamNumber\par
             % 5. comment out the line below this one if you do not wish to name your team
-            \CapstoneTeamName\par 
             \vspace{5pt}
             {\Large
                 \NameSigPair{\GroupMemberOne}\par
-                \NameSigPair{\GroupMemberTwo}\par
-                \NameSigPair{\GroupMemberThree}\par
             }
             \vspace{20pt}
         }
         \begin{abstract}
         % 6. Fill in your abstract    
-        	This document is written using one sentence per line.
-        	This allows you to have sensible diffs when you use \LaTeX with version control, as well as giving a quick visual test to see if sentences are too short/long.
-        	If you have questions, ``The Not So Short Guide to LaTeX'' is a great resource (\url{https://tobi.oetiker.ch/lshort/lshort.pdf})
+        	For our project, we will be developing a web-based replacement for the Tesla app that will allow owners of grey-market Teslas to control their cars from their phones. 
+        	In this document the database software, hosting platforms, and UX research methods that we could use for this project will be analyzed.
         \end{abstract}     
     \end{singlespace}
 \end{titlepage}
@@ -81,13 +74,122 @@
 \clearpage
 
 % 8. now you write!
-\section{The First Section}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-Etiam elementum mi at magna imperdiet, sit amet feugiat ligula maximus. 
-Ut ultrices viverra est, ac condimentum massa scelerisque tincidunt. 
-Mauris lacus nunc, suscipit at risus sit amet, viverra bibendum dui. 
-Maecenas eu urna et lorem dapibus tincidunt quis sit amet neque. 
-Vivamus ac felis fermentum, blandit mauris in, posuere libero. \cite{r1}
+\section{Introduction}
+
+    When Tesla cars are totaled, Tesla doesn't want them back on the road. 
+    To accomplish this, Tesla will blacklist the cars and owners from any parts, information, or services normally provided to a Tesla owner, so that repairing and continuing to use the car will be extremely difficult.
+    Phil Sadow, our sponsor, has been able to reverse engineer various Tesla models, however customers of his repaired cars still don't have access to the services provided for a normal Tesla.
+    Our task will be to develop a web app to replace the official Tesla app so that people who do get their hands on repaired Teslas can still control their cars from their phones.
+    To do this, we will be making a website that includes a stylized, scripted front end for users to interact with, a database of cars that have been repaired by our sponsor, and a back end to handle user requests.
+    The site will pass on commands to the cars using the Tesla API over a VPN connection.
+    In this document, the aspects of database software, hosting locations, and UX research methods will be explored to partly explain how this project will be carried out.
+
+\section{Database Software}
+
+    We will be using a database for our project to store information about the repaired cars that can be used by our app.
+    Our sponsor is concerned about the scalability of the app as his business grows, and about security, since this app will allow people to control their cars.
+    For these reasons, speed and security are the two most important things we are looking for in a database platform.
+    
+    \subsection{MySQL}
+    
+        MySQL is the most popular open-source database management system and is developed by Oracle. 
+        It stores data in relational tables that are organized as physical files for optimal speed.
+        It works by allowing users to declare relationships between and rules about data fields, and enforcing those rules\cite{e2}.
+        Some of the pros of MySQL are that it is free, it's very fast and reliable, and it can work with other database systems such as DB2 and Oracle.
+        Some cons are that it is missing some functionalities present in other systems, such as automatic backups. Also even though its free, there is no free support offered\cite{e1}.
+    
+    \subsection{MongoDB}
+    
+        MongoDB is another free, open-source database management system.
+        It is a document database, meaning that entries in the database aren't stored in a set of tables with defined relationships and rules, but rather in individual documents\cite{e3}.
+        This will often result in performance enhancements, since large tables don't need to be read in and combined to perform queries, making this system more scalable\cite{e4}.
+        However, these benefits are most present when storing highly variable data. 
+        In highly structured databases MongoDB can end up with performance issues, as it will search and compile large amounts of documents that could have been better represented as a table\cite{e1}.
+        Document databases are also better suited for the cloud, since the data is much easier to split up.
+        It is also much faster to modify their structure, so they're good for applications that change frequently\cite{e4}.
+        
+    
+    \subsection{PostgreSQL}
+    
+        PostgreSQL is another free, open-source database management system. It is one of the oldest database platforms out there, and is known to be very reliable. It is also known to be particularly popular for web development\cite{e1}. It is designed to scale well and can handle huge quantities of data reliably. It is also one of the most universal database platforms, being available on most operating systems. It's also easy to modify with 3rd party addons, which can be written in many different programming languages.\cite{e5}.
+        However, it also has somewhat lacking documentation, is not as easy to use as other systems, and is relatively slow\cite{e1}.
+
+\section{Hosting}
+
+    As a website, this project will need to be stored on a server that users can access. We have several options at our disposal when decided which servers we will use. Main things we look for in a hosting platform is uptime (the amount of time the server is available to users), page loading speed, pricing, quality of tools, and security.
+
+    \subsection{BlueHost}
+    
+        BlueHost is one of the most popular web hosting platforms and is in use by 2 million websites worldwide. 
+        Among the top 33 hosting platforms they were number one in uptime at greater than 99.99\%, and number five in loading speeds with an average of 424 ms. 
+        They are also one of the cheapest web hosts out there, at \$2.75 per month. 
+        However, this is only the cost of a 36 month plan. 
+        They also charge for site migrations.
+        Because they are so established, they have a wide array of tools and plugins at our disposal should we need them\cite{e9}.
+    
+    \subsection{Sponsor Server}
+    
+        A unique option we have is our sponsor's own servers. 
+        This option would almost certainly be worse in terms of uptime and will likely require more maintenance than using a shared server, but it would come with some important benefits.
+        For one, not having to share servers with other websites would help maximize loading speeds.
+        We would also be guaranteed complete control over the project without limitation from 3rd party tools.
+        Also, very importantly, we would have complete control over the security of the server.
+        On a shared server, there is the possibility of other sites being vulnerable, putting the whole server at risk.
+        Since this site will allow people to control other people's cars, that's a huge issue\cite{e10}.
+    
+    \subsection{IBM Cloud Infrastructure}
+    
+        One way that's a middle ground between using a shared server service and using our own servers is renting dedicated server space.
+        One popular service to do this is the IBM cloud infrastructure.
+        They offer powerful dedicated servers that would improve upon most of the benefits of using our sponsor's servers, with more powerful computers, high-end security, and remove the need for any maintenance.
+        We would also still have access to the support and tools offered when using a 3rd party hosting service.
+        The one major drawback here is the price - IBM Cloud Infrastructure servers start at \$158 per month, which is far more than the previous options\cite{e11}.
+    
+        
+
+\section{UX Research Methods}
+
+    One of the main goals of this project is to achieve a high user experience, equal to the one achieved in the official Tesla app. To do this, we will need to carry out some sort of UX (User Experience) research to see what layouts users will find most attractive and intuitive. For our project, we're looking for a method that we can carry out without relatively few users and resources, since the user base for the website is currently only around one hundred people and we won't be working on the project for very long.
+    
+    \subsection{Card Sorting}
+    
+        Card sorting is a UX research method in which you basically let users organize the website. 
+        It works by providing participants with a set of cards that represent the content of the website, and allowing them to organize them into whatever categories they see fit. 
+        This can be done either in person or online\cite{e6}.
+        The benefits of this method is that it's simple, fast and intuitive for a participant, so it can avoid participant fatigue. 
+        However, there can also be wide variation between participant's responses, especially since participants may have different contexts in mind when they're sorting.
+        This can make analysis of card sorting results tricky and time consuming\cite{e7}
+    
+    \subsection{Clickstream Analysis}
+    
+        Clickstream analysis is the process of tracking the paths followed by users of your website, among other factors such as time spent on each page, and end status.
+        It's common to sort these streams by end status, such as the most common path that leads to a user leaving the site inconclusively, the common path for a user who bought something, etc.
+        By this method it's easy to tell if a user is finding the site intuitive or confusing.
+        One huge benefit of this method is that it can be done without participants, which results in much larger, likely more accurate data sets\cite{e8}.
+        However, this approach also requires a significantly more work than other methods, both to implement programs to capture this data, and devise a way to analyze and interpret it.
+    
+    \subsection{Surveys}
+    
+        One of the most intuitive ways to gather feedback on a website from users is by use of surveys. 
+        In this method, a set of questions are methodically put together and offered to users of the site. 
+        These offers can be random, universal, or targeted. 
+        Questions will usually ask the user to rate aspects of the site over a scale to achieve more quantitative data\cite{e8}. 
+        This approach is easy to implement, and depending on the quality of the questions, easy to analyze. 
+        However this can be one of the most taxing methods on the participants, especially if there are more than a few questions.
+        This method is also susceptible to participation bias, because often only people with strong feelings about a product are willing to answer a survey about it.
+        This method also requires a large data set to achieve statistically significant analysis.
+        
+\section{Conclusion}
+
+    When looking at database management systems, I suspect we will end up using MySQL.
+    This is because the data we will be storing will be a listing of cars that all have the same type of details, therefore the data will be very structured.
+    For this reason, using relational table makes the most sense, and MySQL is faster and better documented than PostgreSQL.
+    When looking at hosting, we will most likely end up using our sponsor's servers.
+    This is due mostly to security and practicality.
+    Security is a huge issue for this site, and having complete control over it ensure we can do our best to ensure vulnerabilities.
+    And though the goal is to scale the project in the future, we will currently only be having a small user base and huge servers won't really be necessary to ensure fast load speeds.
+    For UX design, I suspect we will be using clickstream analysis and surveys. 
+    Since we will be having a relatively small amount of functions on the website, doing card sorting wouldn't really make sense.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
