@@ -1,0 +1,135 @@
+\documentclass[onecolumn, draftclsnofoot,10pt, compsoc]{IEEEtran}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{setspace}
+\usepackage{cite}
+\usepackage{geometry}
+\geometry{textheight=9.5in, textwidth=7in}
+
+% 1. Fill in these details
+\def \CapstoneTeamNumber{		22}
+\def \GroupMemberOne{			Alexander Morefield}
+\def \GroupMemberTwo{			Brett Case}
+\def \GroupMemberThree{			Burton Jaursch}
+\def \GroupMemberFour{			Christopher Jansen}
+\def \GroupMemberFive{			James Zeng}
+\def \CapstoneProjectName{		Tesla Web App}
+\def \CapstoneSponsorCompany{	Ingineerix, Inc}
+\def \CapstoneSponsorPerson{	Phil Sadow}
+
+% 2. Uncomment the appropriate line below so that the document type works
+\def \DocType{		Problem Statement
+				%Requirements Document
+				%Technology Review
+				%Design Document
+				%Progress Report
+				}
+			
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil 	\makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill		\makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil		\makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill	\makebox[.75in][r]{Date}}}}
+% 3. If the document is not to be signed, uncomment the RENEWcommand below
+%\renewcommand{\NameSigPair}[1]{#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+    	%\includegraphics[height=4cm]{coe_v_spot1}
+        \hfill 
+        % 4. If you have a logo, use this includegraphics command to put it on the coversheet.
+        %\includegraphics[height=4cm]{CompanyLogo}   
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge CS Capstone \DocType \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge\CapstoneProjectName}\par
+            \vfill
+            {\large Prepared for}\par
+            \Huge \CapstoneSponsorCompany\par
+            \vspace{5pt}
+            {\Large\Name{\CapstoneSponsorPerson}\par}
+            {\large Prepared by }\par
+            %Group\CapstoneTeamNumber\par
+            % 5. comment out the line below this one if you do not wish to name your team
+            %\CapstoneTeamName\par 
+            \vspace{5pt}
+            {\Large
+                \Name{\GroupMemberOne}\par
+                \Name{\GroupMemberTwo}\par
+                \Name{\GroupMemberThree}\par
+                \Name{\GroupMemberFour}\par
+                \Name{\GroupMemberFive}\par
+            }
+            \vspace{20pt}
+        }
+        \begin{abstract}
+        % 6. Fill in your abstract    
+        	One thing that separates Teslas from most cars is that Tesla does not want their cars to be driven after they've been totaled, and doesn't provide
+			information, parts, or support needed to repair them. This has led to high insurance premiums for the cars and trouble with the law. Currently, the only 
+			solution to this issue is to reverse engineer the cars to learn how to repair them, and develop tools that allow users of repaired cars to interact with 
+			them without the manufacturer's support. Our sponsor has been reverse engineering and repairing salvaged Teslas. My team will be carrying out the latter 
+			by developing a website that connects our sponsor's database of repaired cars and the car's API to provide people a control panel for their "grey-market" 
+			Teslas.
+        \end{abstract}     
+    \end{singlespace}
+\end{titlepage}
+\newpage
+\pagenumbering{arabic}
+%\tableofcontents
+% 7. uncomment this (if applicable). Consider adding a page break.
+%\listoffigures
+%\listoftables
+%\clearpage
+
+% 8. now you write!
+\section{Problem Description}
+Our project starts with the Tesla's policy towards cars that have been in serious accidents. As described in Daniel Terdiman's article on our sponsor ``Meet the 
+Renegade Who's Teaching the World to Fix Totaled Teslas", Tesla does not want their cars to be repaired after they have been totaled. They aim to make it
+impossible by denying service, information, and parts. They do this, ostensibly, to avoid bad press should a Tesla repaired by a 3rd party mechanic get into an accident,
+however this has led to high insurance premiums on the cars, and violates ``Right to Repair" laws in states such as Massachusetts [1].
+
+Because of these issues, the only way to salvage a totaled Tesla was to reverse engineer it completely. Our sponsor, Phil Sadow, has been reverse engineering, repairing,
+and selling salvaged Teslas for some time now. However, there's a second part to this process. When Tesla is made aware that a car has been in a 
+catastrophic accident, the car is essentially blacklisted from all of the services normally provided to a Tesla owner, including the official Tesla App [1]. 
+This means that someone repairing 
+Teslas would ideally also have their own alternative to the Tesla app, that allows users to control and view information about their cars from their phones. Our sponsor has created a basic
+web application that carries out these functionalities by reverse engineering the Tesla API. However, it is still not on par with the experience a user of the 
+official Tesla app would receive. Tesla cars also have built in diagnostic features that are made inaccessible to 3rd parties, which is another big problem 
+for anyone wanting to work on their cars, totaled or not.
+
+\section{Proposed Solution}
+My team will be tackling this issue by developing a web app that will replace the app currently in place. We decided to keep it web-based, primarily because there 
+won't be a team to maintain the app on multiple platforms (iOS, Android, etc.), and HTML5 can do do everything needed to create the app we need. 
+
+The main goal with the new app is to improve upon the aesthetics and usability of the current app.
+For instance, the current app is made up mostly of buttons and drop-down menus on a single page, with no graphics to help display the information. It is also 
+completely static, and needs to be refreshed in order to view any changes in car information. Improving upon these things by adding GUI elements and dynamic updates
+to make a slick, responsive user experience is the primary objective of our project. 
+
+We will also be rebuilding the back end, which is connected to a database of cars our sponsor has repaired and the car API. We're doing 
+this both to get it onto a more updated platform (it's currently written in Perl), but also because we will need to tinker with the structure of the website to improve 
+the usability. We'll also need to tinker a bit with the database structure. For instance, it's currently only set to allow one car per user, and our sponsor has said
+that some users have fleets of vehicles. In these cases, logging in and out of several accounts to control multiple cars is cumbersome.
+
+Security is another major priority in the development of this app, as the app will give the user the ability to unlock, start up, and move the vehicle. 
+This is mostly handled by HTTPS encryption, but as we work on client-side scripting and transportation of login information, we will be taking every 
+precaution to avoid vulnerabilities. An unfortunate consequence of the need for security is that the code currently in use by the app can not be shared, which
+is one of the reasons we are completely rebuilding the app, rather than just tinkering with what already exists.
+
+\section{Performance Metrics}
+This project will be considered completed by our sponsor once we have achieved parity with the official Tesla App. That would require that we have all of the same functionalities as the app, including 
+temperature control, locking and unlocking, vehicle location, navigation control, media control, and summoning the car from a garage or parking space. Also, it will need 
+to have the additional diagnostic features our sponsor unlocked in the API. It will also need similarly effective GUIs. The Tesla App has graphics that show the car, 
+the car's status, and many other things. These graphics can also be interacted with by the user to manipulate the graphics and vehicle settings. Essentially, we want to 
+match that app in the quality of a users experience. We haven't made any concrete goals about the architecture of the app, so we can't make any more specific standards 
+yet.
+
+\section{Bibliography}
+[1] D. Terdiman, ``Meet the Renegade Who's Teaching the World to Fix Totaled Teslas", Fast Company, 16 August 2018
+
+\end{document}
