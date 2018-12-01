@@ -1,0 +1,194 @@
+\documentclass[onecolumn, draftclsnofoot,10pt, compsoc]{IEEEtran}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{setspace}
+\usepackage{cite}
+\usepackage{geometry}
+\usepackage{pgfgantt}
+\geometry{textheight=9.5in, textwidth=7in}
+% 1. Fill in these details
+\def \CapstoneTeamName{                 The Ingineers}
+\def \CapstoneTeamNumber{               22}
+\def \GroupMemberOne{                   Brett Case}
+\def \GroupMemberTwo{                   Alexander Morefield}
+\def \GroupMemberThree{                 James Zeng}
+\def \GroupMemberFour{                  Christopher Jansen}
+\def \GroupMemberFive{                  Burton Jaursch}
+\def \CapstoneProjectName{              Tesla Web Application}
+\def \CapstoneSponsorCompany{           Ingineerix, Inc}
+\def \CapstoneSponsorPerson{            Phil Sadow}
+
+% 2. Uncomment the appropriate line below so that the document type works
+\def \DocType{                  %Problem Statement
+                                %Requirements Document
+                                Technology Review
+                                %Design Document
+                                %Progress Report
+                                }
+
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil   \makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill            \makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil                \makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill  \makebox[.75in][r]{Date}}}}
+% 3. If the document is not to be signed, uncomment the RENEWcommand below
+\renewcommand{\NameSigPair}[1]{#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+        % \includegraphics[height=4cm]{coe_v_spot1}
+        \hfill
+        % 4. If you have a logo, use this includegraphics command to put it on the coversheet.
+        %\includegraphics[height=4cm]{CompanyLogo}
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge CS Capstone \DocType \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge\CapstoneProjectName}\par
+            \vfill
+
+▽
+            \vfill
+            {\large Prepared for}\par
+            \Huge \CapstoneSponsorCompany\par
+            \vspace{5pt}
+            {\Large\NameSigPair{\CapstoneSponsorPerson}\par}
+            {\large Prepared by }\par
+            % Group\CapstoneTeamNumber\par
+            % 5. comment out the line below this one if you do not wish to name your team
+            % \CapstoneTeamName\par
+            \vspace{5pt}
+            {\Large
+                \NameSigPair{\GroupMemberOne}\par
+                %\NameSigPair{\GroupMemberTwo}\par
+                %\NameSigPair{\GroupMemberThree}\par
+                %\NameSigPair{\GroupMemberFour}\par
+                %\NameSigPair{\GroupMemberFive}\par
+            }
+            \vspace{20pt}
+        }
+        \begin{abstract}
+        % 6. Fill in your abstract
+        This paper is going to cover some of the front-end technologies and server speed requirements that are currently being considered for our web application to control a Tesla car. The paper will touch on front end languages(HTML, Sass, JavaScript) and frameworks(React, Bootstrap, jQuery), different server hosts(Digital Ocean, AWS), and a way to improve server response times.
+        \end{abstract}
+    \end{singlespace}
+\end{titlepage}
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+% 7. uncomment this (if applicable). Consider adding a page break.
+%\listoffigures
+%\listoftables
+\clearpage
+
+% 8. now you write!
+\section{Introduction}
+This paper is going to cover some of the front-end technologies and server requirements that will be used to create a web application that controls Teslas.
+There are some choices between different frameworks that each have their pros and cons and will be given in their respective sections. 
+The languages that will be used in this project are pretty standard for a modern website and will probably not see much if any change and will be covered in its section. 
+The last section covers ways to reduce load times either through different server hosts with locations in many countries or through trying to optimize the code to reduce the need for larger more powerful servers.
+
+\section{Front-End Frameworks}
+This section will cover the front end frameworks that will be used to create the user interface for the application.
+The three options that we will be looking at are React, Bootstrap, and jQuery.
+Each are common web based frameworks which will solve our problem well.
+\subsection{React}
+React is one of the largest frameworks available for creating user interfaces. \cite{1}
+One of its key features is that it relies on a virtual DOM instead of a traditional one. \cite{1} 
+This means that all the code can be for a static page but the React renderer will only show what has been changed.
+Using this would let us create components for each element to better manage each section of the page.
+Breaking each piece down into its own individual part could help remove dependencies on other elements and provide an easy way to keep track and update components in the future.
+There is a drawback using React though.
+Since all of the data is kept in a virtual DOM with a regular one being visible on the web page, the data is duplicated taking up more space than necessary. \cite{2}
+Since web pages are normally pretty small this wouldn't be too much of an issue but if load times start to take to long then we would have to consider what is more important.
+\subsection{Bootstrap}
+While React has a large market share, Bootstrap has an even bigger one, being the most popular front end library in the world. \cite{3}
+There are many already pre-built elements that include styles that can be applied using classes. \cite{3}
+This gives us easy to use components that can be reused as easily as applying a class.
+Bootstrap also has a mobile first mentality which will apply well to our application since the primary device used will be a mobile one. \cite{3}
+Grids are used to layout everything on a page. \cite{3}
+When using Bootstrap, you specify how wide you want an element to be by giving it a number up to 12.
+This will then fill up n of the 12 grid slots with that element.
+Bootstrap is however a very hefty library and can again affect page load times since its very liberal use of classes and many lines of CSS and JavaScript. \cite{4}
+If load times are important and are affected then this library might need to be swapped out for something more lightweight.
+\subsection{jQuery}
+jQuery is one of the largest libraries for manipulating the DOM. \cite{5}
+It provides a very easy way to change DOM elements, do animations, and manage ajax calls. \cite{5}
+Using this library would make the page easy to be dynamic after the DOM has loaded letting buttons do more actions through integrating JavaScript.
+There are some cons to using jQuery.
+First, the use of jQuery can lead to the front-end code becoming DOM centric. \cite{6}
+This can make the code harder to read and harder to maintain.
+jQuery can also tend to bloat the main function through setting up listeners on desired elements. \cite{6}
+The advantages that this library offers however normally vastly outweighs the cons and it will find a place in this project.
+
+\section{Front-End Languages}
+This section will cover the languages that will be used to create the front end.
+Each of these languages are common in current websites and web applications and some have built in features to make our jobs easier.
+The three languages that will be covered are HTML, Sass, and JavaScript.
+\subsection{HTML}
+HTML is the defacto markup language to make web pages. \cite{7}
+This is a required part of the project since it is a web page.
+HTML will just give the skeleton of the page and since there will be styling applied with other sources, it can stay the same for both the desktop and mobile sites. 
+This can't be the only language used however as since it just produces all the elements with no styling.
+This language is normally used in conjunction with CSS (or one of its variants) and JavaScript to make a dynamic and attractive web page. \cite{7}
+HTML is very fast since it is just markup so there will be no worries about the speed it takes to render the page.
+However, the other languages that it relies on to make what we consider a web page today can slow the page down.
+\subsection{Sass}
+CSS is where we add the styling to the web page that HTML doesn't offer.
+CSS is typically applied to elements through their class names or their IDs.
+There are a few other versions of CSS that have started to make their debut: LESS and SASS are two of the bigger ones.
+We will be using Sass over just plain vanilla CSS because Sass offers cleaner code with variables we can reuse and an overall cleaner structure that will make maintenance easier. \cite{8}
+Sass does not directly replace CSS however. 
+Sass just serves as a preproccesor and any Sass code gets converted into CSS when it is compiled. \cite{8}
+This means that there is an extra step required when getting the web site running, but since the code is compiled down to plain CSS, there should not be a performance hit to the page.
+\subsection{JavaScript}
+JavaScript is where all the fun dynamic parts of a web page come to life.
+Many web frameworks are written using JavaScript making it one of the most crucial elements of a modern web page.
+Its this language that allows for events to take place after a web page has been loaded.
+Since JavaScript is used both in front-end and back-end development and is so widely used, there are many security concerns that need to be addressed.
+Since the browser will run whatever code is given to it with no hesitation, cross site scripting can be used to run malicious code in a browser. \cite{9}
+The browser takes some care to mitigate these security concerns by running JavaScript in a sandbox and not letting passwords be accessed from another site but this solution is not foolproof. \cite{9}
+Extra care needs to be taken with sensitive data since without proper design, that data could leak out.
+
+\section{Server Requirements}
+Since we are a web application and not running locally on one machine, the response times are going to be important. 
+Slower response times can make the application unusable and make its user's upset.
+This section will go over different hosts that offer packages that could give us a better chance of keeping response times down as well as how response times could be kept down just through optimizing the code.
+\subsection{Digital Ocean}
+Digital Ocean is a large server hosting company that offers many services in addition to just hosting.
+One of their advantages is being able to easily scale Virtual Machines called droplets. \cite{10}
+This lets us control exactly how much power we need to handle traffic for the web application.
+Digital Ocean also has built in load balancers which could help distribute the traffic  across multiple droplets to keep response time down and improve uptime if the site in case one droplet goes down. \cite{10}
+Having the ability to scale and distribute traffic across multiple servers would be a big help in keeping the response times of the web application as low as possible to provide the speed needed to give close to real time controls of the car.
+Digital Ocean also has hosting locations over the world so depending on where people are who are using the web application, there could be a server close enough to help keep response times down. \cite{10}
+Prices start at \$5 a month for a droplet. \cite{10}
+\subsection{Amazon Web Services (AWS)}
+AWS hosts many web applications currently running today.
+Even big name companies like Google take advantage of AWS.
+What they offer is a cheap way to host a web application with some basic features like static IP, some scalability, and servers all over the world. \cite{11}
+AWS offers many of the services that Digital Ocean does but at a slightly cheaper price.
+AWS has a solution called Lightsail that offers simple web hosting with load balancing, database management and easy backups of data. \cite{11}
+This seems about the scale that we would need to use for this application.
+However, by using Lightsail, we will be limited to the amount of servers an application can have which could cause problems if there are a lot of users scattered about the globe. \cite{11}
+There are some downsides to AWS however, first, is that there have been some high profile outages with them recently meaning our application would be completely unusable during that time and second, is that there is no support offered unless you go up to a higher payment tier. \cite{12}
+Prices for AWS start at \$3.50 a month \cite{13}
+\subsection{Page Optimization}
+Optimizing the web application can be even more useful than throwing more processing power at the problem.
+With this application especially, mobile optimization is going to be important. 
+Most mobile users will get frustrated and leave a page if it has not loaded within 10 seconds. \cite{14}
+A mobile site is going to have to be thought of with a different mentality than a desktop site and therefore will need to be optimized differently.
+This can be done by keeping the amount of calls the page has to make to external sources to a minimum. \cite{14}
+If there needs to be extra calls that can take a while to load, then make those the last to be called and ensure that anything the DOM needs to load gets priority.
+Reducing useless calls for information and ordering which data gets called first are two big steps that can help improve the load times and response times of a page. \cite{14}
+
+\section{Conclusion}
+For frameworks, React is the most likely to be used in this project given its ease of creating reusable and easily maintainable components. 
+All of the languages will see extensive use due to them being the foundation of a modern website.
+For handling load times there will be a mix of both desktop and mobile site page optimization and choosing a host that has many locations and can scale easily if the demand requires it to.
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}
