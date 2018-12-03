@@ -1,0 +1,95 @@
+\documentclass[draftclsnofoot, onecolumn, compsoc, 10pt]{IEEEtran}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{titling}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{setspace}
+\geometry{textheight=9.5in, textwidth=7in}
+\graphicspath{ {images/} }
+\linespread{1.0}
+\parindent=0.0in
+\parskip=0.2in
+
+
+
+\def \TeamNumber{		James Zeng	}
+\def \ProjectName{		Tesla Web App Tech Review }
+
+
+
+
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil 	\makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill		\makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil		\makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill	\makebox[.75in][r]{Date}}}}
+
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+        \hfill
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge Senior Capstone Fall 2018\par
+            November 2, 2018\\
+            \vspace{1in}
+            \textbf{\Huge\ProjectName}\par
+            \vspace{1in}
+            {\large Prepared by }\par
+            \TeamNumber\par
+            \vspace{5pt}
+            \vspace{20pt}
+        }
+
+        \vfill
+    \end{singlespace}
+\end{titlepage}
+\newpage
+\pagenumbering{arabic}
+\clearpage
+\pagebreak
+\section{Introduction}
+When a Tesla is totaled and fixed Tesla often blacklists these VINs which effectively removes certain functionality from these cars. Our primary focus is the loss of the use of Tesla’s iOS and android app. This app gives the user the ability to control their car with features like unlocking and locking the car. They are also able to summon the car and set the temperature inside. While our client Phil Sadow has created an app that has these features,it is dated and not a very pleasing site to look at. Our goal revamp this app so that it is more modern and resembles the native Tesla app as closely as possible. I will be looking at how to securely transfer data between the app and our back end, the UI design colors, and the Tesla API.
+\section{Security}
+With the sensitive information that comes with this app it is important that the information remains secure. Since users are able to unlock the car and actually drive it with the app it is important to ensure that only the proper users have access to the proper cars.
+\subsection{HTTPS}
+For our security options we took a look at the one that was already implemented by Phil. HTTPS is similar to HTTP where it serves as a framework to transfer data between the the users browser and the site itself. The way HTTPS keeps the information safe is by encrypting the data being sent. There are two options when using HTTPS. The data can be encrypted at the socket security layer(SSL) or the transport layer security(TLS). Both of these methods are asymmetric public key information. This means that there is a private and public key used when encrypting and decrypting data. The public key is held by everyone while the private key should only be in the hands of the specific user. HTTPS makes it so that only the users with the correct keys have access to the information. In our case when our program signals the car to unlock that message will be encrypted. No one else will be able to access that information and potentially gain access to those features of the car \cite{HTTPS}.
+
+\subsection{HTTP authentication}
+
+Now that the messages sent back and forth between the browser and the site are secure it is important to validate the user that is using the application.  HTTP authentication enforces that the user provides valid credentials before they are able to access the information or functions behind the site. From here we would be able to validate the identity of the user of our application. Essentially we would be setting up an account for each of our users in order for them to gain access to their car. For obvious reasons we only one each user to have access to the cars that are registered to their account. For this reason HTTP authentication would work perfectly for what we are trying to do. We do not want people to be able to access cars that are no theirs so putting this in place would help prevent that \cite{HTTPA}.
+ 
+ \subsection{Web Application Firewall}
+Another technology we could use to protect our web app is a web application firewall or WAF for short. A WAF checks both get and post functions from our site. The firewall will then apply certain rules to our site, for example filtering out attempts of cross site scripting and SQL injection. The WAF may also inspect the site URL to detect any suspicious activity. If something is detected the firewall may present the user with a CAPTCHA in order to determine whether or not they are human. If the CAPTCHA is failed the process requested by the user will be stopped right away. The firewall can also be adjusted based on how secure you want the site to be. This can be helpful since too much security may provide a bad user experience, while too little will leave sensitive information at risk\cite{WAF}.
+
+\section{Colors}
+When designing a user interface the colors used have a direct impact on the user experience. These colors also represent the brand of the designers and send a direct message to the users. Because of this it is important to choose a color scheme that pleases the user and represents the message behind the brand.
+\subsection{Tesla's Colors}
+Tesla uses a black and red color scheme for its application. The black often represents luxury, and sophistication, while the red represents youthfulness. These two colors represent the brand that Tesla is trying to create for itself. A young and high end vehicle. The app is primarily black however, which often gives the user an experience of elegance while using the app. I believe that this was Tesla’s goal when designing the app. They wanted their users to have a luxurious experience since their cars are all considered luxury cars\cite{color}. 
+\subsection{Phil Sadow's Colors}
+In the app developed by Phil Sadow, he uses a black blue and red color scheme. The primary color like Tesla’s app is black as well. I like this choice since it represents a luxurious experience just like Tesla’s. This fits the goal of this app to give grey market Tesla users the same experience that they would get if they were using the first party app. The blue however, I believe is so that users would be able to differentiate the difference between the buttons to click and the background. While blue is a very neutral color that represents peacefulness, I believe that it does not need to be included in the final application\cite{color}. 
+
+\subsection{Proposed Colors}
+Since we are trying to give the users the same experience they would have by using the first party application I think sticking to a luxurious black interface would be best. One thing that is different from the Tesla application I would use is incorporating more red into the user interface. While the native Tesla app really only uses the red for their log in screen, I would want to use the red as accents for text being highlighted. I believe that this will help users see when they are about to click something while instilling that sense of youthfulness the color brings. Another color I would want to incorporate is grey. The color is close to black and represents professionalism. The color can be used to help differentiate the buttons while showing that even though we are a third party Tesla app we are still professional and can provide the same luxurious experience that Tesla provides\cite{color}. 
+
+\section{Tesla API}
+The API we will use to build the functionality into our application would ideally be the same API Tesla uses for their applications. However, since Tesla has not made this information public this won’t necessarily be possible.
+
+\subsection{Tim Dorr API}
+Luckily Tim Dorr has developed an API that works almost exactly like the API that Tesla uses. This API gives all the functionality that would be expected from the Tesla application. This includes waking the car, summoning it, unlocking/locking, climate control, and more. The API also provides ways to check the status of the car such as is the door open or closed and how much charge the car has remaining. The API also has security features in order to authenticate the vehicle \cite{API}. 
+
+This API is probably going to be the best we can get. After searching around for other Tesla API’s I found that they all are using Dorr’s API at their core. Our client also provided this documentation when regards to the Tesla API. I believe that with this API we will be able to implement all of the functions necessary for our third party app. We can also use this API to provide information to a potential GUX similar to the ones they have in the first party Tesla app \cite{API}.
+\section{Conclusion}
+For security we are able to use a combination of all three technologies stated in this document. Using all of them will obviously provide the highest security, but I believe at a bare minimum we should use HTTPS and HTTP authentication. By combining these two technologies we ensure that the application is secure the whole way through. Users will only have access to their own cars and outside sources who try to read the signals sent from the browser to the site will only get encrypted data. This ensures that only those who are supposed to have access to the vehicle have it. For our colors I decided to go with the proposed option of a primarily black background with grey and red accents. This way we show our users that we are a professional brand providing the same premium experience Tesla provides. The API was more limited as we must of course use Tesla’s API. 
+\newpage
+\bibliographystyle{IEEEtran}
+\bibliography{References.bib}
+
+\end{document}

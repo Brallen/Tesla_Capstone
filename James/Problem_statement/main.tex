@@ -1,0 +1,92 @@
+\documentclass[draftclsnofoot, onecolumn, compsoc, 10pt]{IEEEtran}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{titling}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{setspace}
+\geometry{textheight=9.5in, textwidth=7in}
+\graphicspath{ {images/} }
+\linespread{1.0}
+\parindent=0.0in
+\parskip=0.2in
+
+
+
+\def \TeamNumber{		James Zeng	}
+\def \ProjectName{		Tesla Web App }
+
+
+
+
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil 	\makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill		\makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil		\makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill	\makebox[.75in][r]{Date}}}}
+
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+        \hfill
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge Senior Capstone Fall 2018\par
+            October 11, 2018\\
+            \vspace{1in}
+            \textbf{\Huge\ProjectName}\par
+            \vspace{1in}
+            {\large Prepared by }\par
+            \TeamNumber\par
+            \vspace{5pt}
+            \vspace{20pt}
+        }
+\begin{abstract}
+When a totaled Tesla is salvaged and rebuilt, they often lose support of the IOS or android application that Tesla provides. Therefore, the new owners of the salvaged Tesla lose a lot of functionality that comes with this app. Whether it is turning the car on or heating it from their phones. To combat this, Ingineerix has developed a very basic web app as a replacement for these grey market Teslas. Our goal in this project is to design and develop server side code that connects to the vehicle through an API. Then the application must provide an attractive easy to use interface that provides the same or similar functionality as the native Tesla apps.
+\end{abstract}
+        \vfill
+    \end{singlespace}
+\end{titlepage}
+\newpage
+\pagenumbering{arabic}
+\clearpage
+\pagebreak
+\section{Problem}
+When a Tesla is in a crash,Tesla has been known to blacklist the VIN’s of these vehicles. Tesla does not believe in repairing severely damaged cars and putting them back on the road. By being put on this blacklist owners of these vehicles lose access to many key features that make owning a tesla unique. One of these key features happens to be the ability to use Tesla’s IOS and android app. These applications allow users to remotely, summon their car, lock/unlock the car doors, honk the horn, and pre-heat or cool the vehicle. Another feature that the Tesla app offers is the status of the vehicle. Users can see which doors are open on the vehicle and approximately how much further the vehicle can travel on the charge it has.
+
+To combat this Phil Sadow has built and designed a web application that attempts to give some of this functionality back to the users. However, the application is somewhat dated in the fact every action on the page refreshes the site. The user interface is also very generic and not that appealing to the eye. While this application does give users some features like unlocking and locking their car, and summoning their car. However, features like vehicle status and range are still lacking from this application. 
+
+Another missing feature from this application is the ability for a user with multiple cars to switch between their vehicles. For example if one person owned two grey market teslas, they would need to have two different accounts to the web app designed by Phil. Each of these accounts would be tied to a different car, so switching cars requires you to log out and then log in with the other account. For obvious reasons this is inconvenient for owners of multiple vehicles and owners of stores who may own “fleets” of vehicles.  
+   
+ 
+ \section{Proposed Solution} 
+By talking to our client we learned that he reverse engineered Tesla’s API and then created his own server back end to trick the car into thinking it was Tesla. For our solution we are able to work off this to redesign and add more features to the application. For starters we would like to implement a dynamic page instead of the static one that is implemented now. Then we can work on making the site easier to look at and use by adding graphics and reorganizing where certain functions are located. A GUI can be designed for car status, showing the users which doors are open etc. In order to address the fleet issue, we think it might be best to redesign the database. This new database will be done in SQL instead of Perl, which is what it is implemented in now. Doing so will allow us to have multiple vehicles registered to one user. Then we can design the application to allow users to easily switch between their cars by just tapping the one they want to interact with. The application also provides things that the Tesla application does not. The application by Phil also provides diagnostic information of the vehicle.
+
+Our application should also be properly organized. This can be done by providing multiple tabs for the user. The home tab should display the status of the vehicle. Another tab should provide all the functionality of controlling the vehicle. A profile tab can display all the vehicles the user owns. Finally a diagnostic tab can house the information of the vehicle and its diagnostic snapshots.
+
+An important thing to keep in mind when implementing our solution is that at all points the vehicle and account information are secure. Since this application allows users to remotely access a vehicle and drive it without a key, we must make sure that only the owner of the car has access to it. To do so we can implement the web app using https and have it protected with http auth. This is especially important when working with companies or shops that have a fleet of vehicles. If someone could easily get into one of those accounts they can drive away with literally millions of dollars.
+ 
+
+\section{Performance Metrics}
+
+Our project will be considered done when our app parities the one made by Tesla. The project should include the main features such as locking and unlocking doors, summoning the vehicle, and remotely setting the temperature. Other features include vehicle status, and ability to switch between vehicles should also be included in the final product. These should be in the form of a GUI which would make it easier for the user to determine the status of their vehicle. Similar to tesla if the users car’s driver side door was open, the GUI would show an image of the car with that door open. 
+
+The overall look of the application should also look very modern and be easy to use. Functions should be organized in a way that they are easy to access and make sense to the user. The page should also have modern functionality, such as being a dynamic page as opposed to a static one. 
+
+	
+
+ 
+		
+		
+
+\newpage
+\bibliographystyle{IEEEtran}
+\bibliography{References.bib}
+
+\end{document}
