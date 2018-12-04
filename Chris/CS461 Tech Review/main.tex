@@ -1,0 +1,99 @@
+\documentclass[10pt,draftclsnofoot,onecolumn,journal,compsoc]{IEEEtran}
+
+\usepackage[margin=0.75in]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{amssymb}
+\usepackage{pgfgantt}
+\usepackage{amsmath}
+\graphicspath{ {./images/} }
+\renewcommand{\linespread}{1.0}
+
+
+\title{Tesla Mobile Application Technical Review}
+\author{
+  \IEEEauthorblockN{Christopher Jansen \\ Group 22 - Tesla Mobile App} \\
+  \IEEEauthorblockA{CS 461: Senior Capstone Fall 2018 \\ Oregon State University}
+}
+\date{}
+
+\IEEEtitleabstractindextext{
+  \begin{abstract}
+	This document is intended to identify 3 technical requirements regarding our groups project.  Each requirement has three options associated with it that contain pros and cons for each option pertaining to the project. This will allow for easier decision making later when it comes to deciding on an implementation that we want to follow.
+  \end{abstract}
+}
+\begin{document}
+\maketitle
+\IEEEdisplaynontitleabstractindextext
+\IEEEpeerreviewmaketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introduction}
+Our team has been assigned a project based on reconstructing the functionality of the Tesla mobile application for vehicles that are not able to connect with the official Tesla application. In this project we will be developing a server infrastructure that can connect to a database of Tesla vehicles that will be able to be controlled remotely via a web application. This gives owners of Tesla vehicles that have had their VIN (Vehicle Identification Number) blacklisted by Tesla Motors for whatever reason the ability to remotely control their vehicles over the internet and preserving the capabilities of the vehicle that they initially were delivered with. To deliver a proper complete software package we will consider three important aspects of the project including: The desktop layout design, the mobile layout design, and desktop/mobile app technologies.
+
+\section{Web App Layout Design}
+There are many desktop layout paradigms out there and available to draw from. The end goal when discussing layout design involves many factors including: Responsiveness, familiarity, navigability, structure, and many more. To solve the problem of how to choose an effective desktop layout we need to focus on the aspects of our web app that differ from a traditional website. Our web app needs to be interactive and provide all of the features available from the traditional Tesla mobile app while including additional features that users will be able to use to monitor their vehicle.
+
+\subsection{Fixed Sidebar}
+One of the options available to us is a sidebar design. This can be implemented either as a fixed sidebar that is persistent or a sidebar that can be hidden and revealed again with a button near the top. Some of the pros from going the route of the sidebar includes familiarity and structure. With a sidebar we can have a very structured website with many different options available for users to select for viewing. Items included in the sidebar would be a master list of all items the website offers. 
+
+Some cons of going with a fixed sidebar would include a lack navigability. Navigation via only a side bar could become cluttered and hard to read quickly and get information at a glance. These fixed sidebars are also difficult to implement in a mobile friendly design. The whole list of items will not be able to be seen at a glace of a mobile screen causing unnecessary scrolling.
+
+\subsection{Dynamic Sidebar}
+Another option available to with a dynamic sidebar along with a horizontal navigation header at the top. By including a horizontal navigation menu at the top of the website with main categories we can adjust the sidebar dynamically for options inside that category. This would maintain familiarity of a sidebar as well as preventing cluttering the sidebar. This would keep overall functionality of the web app and improve the ability to see at a glance where you are. The dynamic sidebar would also improve mobile usability. Keeping the sidebar free from clutter allows to view the majority of the sidebar contents on a single screen without scrolling, while a horizontal navigation header at the top would allow users to always see what main menu they are in as well as providing context for the options in the sidebar.
+
+Some issues with this design is that it can still be a bit difficult to implement properly with a mobile friendly layout. Navigation would also see an increased number of clicks and/or presses to get where you want to go, which would increase the time required to accomplish a specific task in the web app. Overall this seems to be the most solid option available to our group, allowing for a major improvement without many sacrifices.
+
+\subsection{Card Grid Layout}
+The final option to consider is a card grid system. This would enable a highly dynamic and modular interface capable of high amounts of customization. When dealing with cards the particular layout of them can be adjusted easily and saved according to user preferences. Other things card based layouts do well include familiarity, ease of recognition, and being a mobile friendly layout. With a card based layout each card includes a small image pertaining to the cards details. This provides a quick recognizable target for the user to interact with that doesn't require reading. Card based layouts are also highly mobile friendly, with them being able to be re-arranged in many different ways due to the nature of how modular the layout is.
+
+Unfortunately the card based system does have some drawbacks including a lack of structure and navigability. The problem of the lack of navigability stems primarily from structure. Because cards can be arranged in any order, there is no structured method of displaying them, such as they exist in lists and navigation menus. This prevents a user from deducing where an option may exist without further exploring the available cards manually. 
+
+\section{Mobile App Layout Design}
+When it comes to mobile app development of our project, there are 3 distinct styles we can use to determine the layout of our app. The same guidelines apply to our mobile app that apply to the web app which would be a focus on familiarity, responsiveness, navigability, and structure. These will all be taken into account when determining the best course of action for our layout that will be used on our mobile application. 
+
+\subsection{Tesla replica}
+The first option is to completely replicate the native Tesla Motors application UI. This would provide a large base of familiarity for users of our application that have most likely used the native Tesla application in the past. Because of the familiarity of the application users would be able to easily get to where they need to go. Unfortunately this option isn't very modular. Finding appropriate areas to add extra features that Tesla omits from their native application may be difficult to do and disrupt the already existing layout and flow of the application. 
+
+The native Tesla application includes a list that is navigable from the main menu when you open the application, and fortunately we could extend this list to include our extra features. Unfortunately using this method locks down user personalization and may cause extra scrolling required right when you open the application, determined by what device you use. Ultimately the amount of additions we can incorporate into the applications may be limited by the UI in terms of navigability and how cluttered it can become. 
+
+\subsection{Native Apple Design}
+Another option is to build the UI for the mobile app according to the iOS Human Interface Guidelines \cite{iosInterface}. The benefits to this would be that these would translate across the entire Apple iOS-based product line, and be extremely familiar to those that use iOS based devices. Because of the rigid guidelines and design decisions that Apple encourages on their products someone that is using other apps on an iOS based device would be able to quickly learn how to navigate and use our native application in a similar fashion. 
+
+Problems with following the Apple design guidelines involve the alienation of the existing user base of Tesla owners that use Google's Android based devices. Users that use an Android based operating systems may have different ideas of interface guidelines that run contrary to Apple's methods used on iOS based devices. This could create a divide between two users of the mobile application where switching devices may lead to a necessity to relearn how to use and navigate the mobile application. 
+
+\subsection{Material Design}
+A third option is to build the UI for the mobile app according to Material Design \cite{androidInterface} which was created by Google. This has the benefit of following the same design principles and guidelines set by Google and providing a familiar base from which a user can easily recognize. Because Android based devices account for more than 74\% of all devices worldwide as of October 2018 \cite{globalStats}, this would provide a large base of users that already have some form of Material Design based applications. Because of this, the Material Design language would be familiar to the largest portion of the worldwide market. 
+
+Unfortunately this would also involve the alienation of the existing user base of Tesla owners that use Apple's iOS based devices. Because Material Design based UIs are not very prevalent on iOS based devices it would lead to a certain amount of unfamiliarity and effort into learning how this UI operates. This too would create a divide between users of the mobile application where switching devices may lead to a necessity to relearn how to use and navigate the mobile application. 
+
+\section{Desktop/Mobile App Technologies}
+One of our stretch goals for this project is not only implementing a web app, but also introducing a native application to Apple and Google's respective devices. To do this quickly and efficiently we are looking at frameworks that utilize web technologies that we will be using on our web app to create native desktop and mobile applications. Choosing a framework that will be compatible with the languages we plan to use will be important to ensuring we can quickly bring the web app to many different platforms natively. Creating a native application for iOS and Android that is wholly separate from the web app will be too time consuming and difficult which necessitates a way to get the base of the web application to many different devices. 
+
+\subsection{Electron}
+The first option available to us is Electron \cite{electron}. Electron is a framework that allows you to build native applications for the desktop. Electron allows us to use HTML, CSS, and JavaScript to build apps for the desktop by combining the Chromium and Node.js runtime into an application. This allows us to quickly build a native application from our web app that will run directly on Apple's macOS, Microsoft Windows, or Linux devices. Building a native application for a user's computer OS of choice will allow users to quickly log into their account and manage their vehicles on that device without needing to open a web browser and go to a link. A native application on the desktop also ensures you can easily access it whenever you need as it will not get lost in a sea of tabs that a web browser may have open. 
+
+Unfortunately Electron cannot translate directly to an iOS or Android application. To create an Android and iOS application separately will be extremely time consuming. This seems to be the strongest option available to us with the most support behind the technologies if we are not going to pursue the stretch goal.
+
+\subsection{NW.js}
+NW.js \cite{NWjs} is similar to electron in that it also integrates web technologies such as HTML, CSS, and JavaScript to build apps for the desktop. It's different from electron mainly in that is uses an HTML window as the basis of the native application which then accesses a node.js context within. Apart from that these are largely the same with the only differences being in the API and other small details. 
+
+Like Electron, NW.js cannot translate directly to an iOS or Android application, this would again leave us creating an iOS or Android application natively on their respective platforms. 
+
+\subsection{Meteor}
+Meteor \cite{meteor} is an open source Node.js based framework for developing web applications that are fully reactive. The largest differences between the previous frameworks would be that Meteor allows us to develop a full stack application with one language: JavaScript. Meteor also provides a way to create native mobile applications for iOS and Android by integrating with Cordova Like other options, Cordova wraps a web browser that runs HTML, CSS, and JavaScript in a native application layer. 
+
+The downsides to this would be that the UI developed on the web view would not replicate a native UI for either iOS or Android. Instead we would be relying on a mobile version of a web app and would not be able to implement some features that are native to a platform. With the Cordova implementation this would be a solid option if we were to pursue a dedicated mobile app.
+
+\section{Conclusion}
+Deciding on what the best way to proceed with implementing each of these is instrumental to having a fully functioning web app with a wide reach to enable anyone to use it anywhere. When accessing your vehicle users will primarily be away from a traditional desktop computer thus necessitating a good mobile experience from either a web browser or a native application. Choosing the right UI style for this project is very important to allowing our users to access what they want to when they want to as quickly as possible. 
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{bib}
+
+
+\end{document}

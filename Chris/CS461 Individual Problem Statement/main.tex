@@ -1,0 +1,57 @@
+\documentclass[10pt,letterpaper,draftclsnofoot,onecolumn]{IEEEtran}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{setspace}
+\usepackage{url}
+\usepackage{cite}
+\usepackage[letterpaper,margin=0.75in]{geometry}
+
+\title{Integrated Tesla Web Application}
+\author{
+  \IEEEauthorblockN{Christopher Jansen}
+  \IEEEauthorblockA{CS 461: Senior Capstone Fall 2018 \\ Oregon State University \\ Group 22}
+}
+\date{}
+
+\IEEEtitleabstractindextext{
+  \begin{abstract}
+    Tesla vehicles on the road today qualify for service at a Tesla Service center, but vehicles that have been in collisions in which they have been marked for salvage are no longer supported by Tesla and do not benefit from Tesla's own iOS and Android apps. To solve this problem, this project intends to provide a well-designed UI that focuses on web-based functionality and usability to create a new interface that these vehicles can use to regain some of their lost features. Features include all the native Tesla iOS and Android app features, as well as a suite of diagnostics information and a way to manage multiple vehicles tied to one owner.
+  \end{abstract}
+}
+
+\begin{document}
+\maketitle
+\IEEEdisplaynontitleabstractindextext
+\newpage
+\tableofcontents
+\newpage
+\begin{singlespace}
+
+
+
+\section{Problem Definition}
+The problem that we seek to solve is to develop original software to interface with Tesla vehicles that have their VIN blacklisted by Tesla using a highly intuitive and easy to understand web interface. The current system in place has the bare-bones required for communication via an API and main server and does not have support for multiple vehicles per user or a highly secure method of authentication. The current Tesla vehicle owners that have their VINs blacklisted by Tesla motors cannot receive any support from Tesla themselves and essentially have features the vehicles were sold with removed from the vehicle. 
+\section{Proposed Solution}
+
+\subsection{Capabilities}
+Our solution is to develop a highly intuitive and easy to understand web suite for communication with the vehicle via an API. We are looking to have complete feature parity with the official Tesla mobile application for iOS and Android. Some of these features include things such as being able to remotely lock and unlock the vehicle, drive the vehicle without a key, and summon the vehicle to your location. On top of the existing official Tesla app features we intend to include additional capabilities such as diagnostic information, presented in an attractive and useful way to provide a user with a quick view of all they information they may need to see, and fleet support which will give users a way to manage multiple cars on the web enabled application.
+
+\subsection{Implementation}
+The current codebase for the existing server server-side is written in perl and communicates with the vehicle over a secure OpenVPN connection which then renders a simple webpage to allow owners to connect to their vehicles and regain the lost features of the car after their VIN is blacklisted. The front end is a basic bare-bones implementation of the Tesla API that allows the server to then communicate with the vehicle and send commands. We plan to redevelop the server-side as well as the user facing front-end to provide a more reliable and robust platform for which users can manage their vehicles from. The implementation of this project will happen in two phases.
+
+\subsubsection{Phase 1}
+The first phase of this project would involve redeveloping the server-side codebase. This would involve implementing a new API that could communicate with the vehicles in a secure way and would store data related to the vehicles in a secure SQL database. This would allow long term diagnosis and management of vehicles easier and more secure. By redeveloping the server-side code, we can have a properly engineered system that is made from the ground up and can support all of the security features we intend to include as well as allow for further expansion.
+
+\subsubsection{Phase 2}
+The second phase of the project involves the user facing features and implementation of the web-app which will authenticate users and provide them with an aesthetically pleasing user interface with access to all the features we intend to provide. The user facing app would connect to the server via a web-sockets connection and utilize JavaScript for the UI which will dynamically update and provide feedback in real time about what interactions are taking place and what commands are being sent to the vehicle. 
+
+\subsubsection{Stretch Goals}
+Because the user facing web app is going to be created using JavaScript, HTML, and CSS we have a unique opportunity to provide a stretch goal of the creation of an iOS and / or Android application. By focusing our development towards these technologies, we can utilize electron which is a framework for creating native applications using web technologies. As this is a stretch goal it is not a guaranteed deliverable and we will continuously gauge our progress to determine if it is feasible to develop within our timeline. 
+
+\section{Performance Metrics}
+The project will reach completion when we have a fully featured back end capable of managing multiple vehicles tied to a user and we reach feature parity with the official Tesla application, this includes the following features: Logging into the server as a user and being able to manage your vehicle, remotely locking and unlocking the vehicles doors, starting the vehicle, honking the horn, flashing the lights, implementation of the summon feature including the ability to move the vehicle in forward and reverse as well as stopping the vehicle during summon, view the vehicle’s location on a map, control the sunroof, control the radio, and providing a snapshot of diagnostic information. Information such as the current charging status and charge capacity, and the status of the vehicles locks should be included in the application in a way that is immediately recognizable and intuitive. Diagnostic information should be searchable by section as well as text and be laid out in a logical and meaningful way. Users should be able to add another vehicle to their user profile and be able to switch between multiple vehicles instantly and easily. Users should be able to log out of the application.
+
+\end{singlespace}
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}
