@@ -1,0 +1,243 @@
+\documentclass[onecolumn, draftclsnofoot,10pt, compsoc]{IEEEtran}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{setspace}
+\usepackage{cite}
+\usepackage{geometry}
+\usepackage{textcomp} %apostrophes
+\geometry{textheight=9.5in, textwidth=7in}
+% 1. Fill in these details
+\def \CapstoneTeamName{                 The Ingineers}
+\def \CapstoneTeamNumber{               22}
+\def \GroupMemberOne{                   Brett Case}
+\def \GroupMemberTwo{                   Alexander Morefield}
+\def \GroupMemberThree{                 James Zeng}
+\def \GroupMemberFour{                  Christopher Jansen}
+\def \GroupMemberFive{                  Burton Jaursch}
+\def \CapstoneProjectName{              Tesla Web Application}
+\def \CapstoneSponsorCompany{           Ingineerix, Inc}
+\def \CapstoneSponsorPerson{            Phil Sadow}
+
+% 2. Uncomment the appropriate line below so that the document type works
+\def \DocType{                  %Problem Statement
+                                %Requirements Document
+                                Technology Review
+                                %Design Document
+                                %Progress Report
+                                }
+
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil   \makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill            \makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil                \makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill  \makebox[.75in][r]{Date}}}}
+% 3. If the document is not to be signed, uncomment the RENEWcommand below
+\renewcommand{\NameSigPair}[1]{#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+        % \includegraphics[height=4cm]{coe_v_spot1}
+        \hfill
+        % 4. If you have a logo, use this includegraphics command to put it on the coversheet.
+        %\includegraphics[height=4cm]{CompanyLogo}
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge CS Capstone \DocType \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge\CapstoneProjectName}\par
+            \vfill
+
+▽
+            \vfill
+            {\large Prepared for}\par
+            \Huge \CapstoneSponsorCompany\par
+            \vspace{5pt}
+            {\Large\NameSigPair{\CapstoneSponsorPerson}\par}
+            {\large Prepared by }\par
+            % Group\CapstoneTeamNumber\par
+            % 5. comment out the line below this one if you do not wish to name your team
+             \CapstoneTeamName\par
+            \vspace{5pt}
+            {\Large
+                %\NameSigPair{\GroupMemberOne}\par
+                %\NameSigPair{\GroupMemberTwo}\par
+                %\NameSigPair{\GroupMemberThree}\par
+                %\NameSigPair{\GroupMemberFour}\par
+                \NameSigPair{\GroupMemberFive}\par
+            }
+            \vspace{20pt}
+        }
+        \begin{abstract}
+        % 6. Fill in your abstract
+        One thing that makes Tesla cars unique is that Tesla, their manufacturer, doesn't want their cars to be repaired after they have been totaled.
+        Because of this, Teslas that hold a salvage title do not get all the support that a new Tesla would get, including access to the Tesla app, which gives the user a control panel for their cars that they can use from their phones.
+        There has been some work done on an existing web application that can be used on these repaired Teslas.
+        This has been initiated by Ingineerix Inc., however, it requires an overhaul to the back-end to control the car through the vehicle API, and enhancements to the application to improve the user experience and usability.
+        \end{abstract}
+    \end{singlespace}
+\end{titlepage}
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+% 7. uncomment this (if applicable). Consider adding a page break.
+%\listoffigures
+%\listoftables
+\clearpage
+
+% 8. now you write!
+\section*{Introduction}
+At a high-level, the Tesla Web Application seeks to replace the official Tesla native iOS and Android application with a web-based application for owners of cars that have been blacklisted from Tesla due to the vehicle being totaled or considered by Tesla to be "beyond repair". These Teslas that have been repaired lose the ability to connect to the official Tesla app and cannot use the features the application once had. Phil Sadow has been working to bring these vehicles back to life, and has found a need for a better application than his current implementation of this app. Our job is to replace this application and provide similar usability and functionality as the official Tesla app. \\
+There are numerous steps to make this happen and pieces of technology we will need to consider in order for this project to really make an impact. First off is a complete redesign of the back-end of the application that provides the data that the application and vehicle need to communicate effectively. In this tech review we will examine some of the frameworks and languages of this back-end. Furthermore, we will also need to consider where this server will be stored for Phil and what possible decisions associated with the location we will need to make to ensure his long-term success with his business. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Back-End Frameworks}
+Back-end frameworks are the collection of tools and languages used in server-side programming. This is the core logic that the application uses and especially the information that is given and taken by an application \cite{tripathi_2018}. Within the Tesla Web Application, this will generally be the agent that will communicate with the Tesla API, server, and front-end. It will be important for this application to relay information regarding the car quickly and easily for the front-end to render the information for the user. Important criteria for picking a good back-end application could be as follows:
+\begin{itemize}
+    \item Learning Curve - How easy will it be for our team to learn how to develop with the framework?
+    \item Core Library - Is the framework more on the simple & constricting side or complicated yet open?
+    \item Vulnerability - Established frameworks with committed developers can have quick patches and present bug tracking.
+    \item Documentation - Is there help and guides with the framework when developers need it?
+    \item Hosting mode - If an application can be hosted on a dedicated server or shared, and how willing the framework is to support that choice. \textit{This will depend on Section 3, Location of Server!}
+\end{itemize}
+
+\subsection{Django}
+Django is a high-level Python web framework that is a great addition to database-focused web applications \cite{tripathi_2018}. This framework uses the Model-View-Template architecture specifically for reusability and seamless plugin ability. This architecture is pretty similar to a standard MVC pattern and uses clear paths for user navigation like url resolvers, middleware, and view processors. 
+
+\subsubsection{Pros of Django}
+The highly marketed part about this framework is the customizability of the framework, as virtually all components of the back-end tools can be swapped out like the template framework, Object-relational-mapping, and database. The framework is very popular and has a huge community for support \cite{malhotra_2018}. Finally, because of Python, Django is pretty secure against common attacks and providing admin access to developers. 
+
+\subsubsection{Cons of Django}
+Some of the issues faced by Django are speed and lack of convention. Django works poorly with static, 1-page applications. Though this does not mean it\textquotesingle s designed for a industrial scale, python is not the fastest language out there. To make up for this though, Django can benchmark itself and provide abilities to find areas of slowdown. Furthermore, there is a lot of need in Django for specific definitions, and its not always willing to accept what it is given. This can slow down development, but is common within Python-based frameworks. \cite{poczwardowski_2018}
+
+\subsection{Laravel}
+Laravel is a PHP framework specifically designed for extensive backend web application. Similar to Django, it follows the MVC pattern. This framework is fairly new, as it was introduced in 2011 and has become popular due to features like database migration, an intuitive interface, and blade template engine. 
+
+\subsubsection{Pros of Laravel}
+Especially compared to other frameworks, Laravel is known to be extremely easy to use. It’s use in the industry is pretty expansive and can be found in virtually all types of applications on the web. It also handles scale pretty well and can help develop small and enterprise-level applications.
+
+\subsubsection{Cons of Laravel}
+The issues with Laravel are pretty dispersed and context-dependant. Laravel has had known issues when being deployed on shared-hosting servers. This may become an issue if the application is deployed on a shared server. Furthermore, Laravel has a liberal use of database queries that can slow down performance, yet is not an issue as long as the traffic is minimal for the database. Finally, Laravel can struggle with mobile applications due to the amount of data Laravel sends on a full-page reload\cite{campbell_2017}. This definitely could become an issue as the webpage will be designed to be displayed on a phone.
+
+\subsection{Flask}
+Flask is very commonly considered the most popular Python web application framework that avoids using tools or libraries. Flask uses a RESTful request dispatch that provides inter-network interoperability. It is very common for the framework to be implemented on integrated devices due to the simplistic and light-weight design. \cite{malhotra_2018}
+
+\subsubsection{Pros of Flask}
+Lots of the perks of Flask come from the simple design and architecture of Flask. It is extremely flexible and has a small learning curve that some of the other frameworks explored don\textquotesingle t come near. The routing of URLs is very simple within Flask so it is very quick to help prototyping and starting small apps.
+
+\subsubsection{Cons of Flask}
+Like the perks, some of the downsides of Flask come from this lightweight approach. Specifically limited to the Tesla application\textquotesingle s goals, Flask is not friendly to asynchronous refresh, and does not have integrated support for databases and Object-relational-mapping. Ultimately, Flask lacks features due to not having any tools or libraries that it can use. \cite{dojo_2016}
+
+\begin{table}[ht]
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Framework}} & \multicolumn{1}{c|}{\textbf{Pros}}                                                              & \multicolumn{1}{c|}{\textbf{Cons}}                                                                                                                              \\ \hline
+Django                                   & \begin{tabular}[c]{@{}l@{}}Lots of support\\ Very customizable\end{tabular}                     & \begin{tabular}[c]{@{}l@{}}Issues w/ speed and conventions\\ Not good with small web apps\end{tabular}                                                          \\ \hline
+Laravel                                  & \begin{tabular}[c]{@{}l@{}}Extremely easy to learn\\ Handles scale well\\ Uses PHP\end{tabular} & \begin{tabular}[c]{@{}l@{}}Issues with shared server-space\\ Not good with mobile applications\end{tabular}                                                     \\ \hline
+Flask                                    & \begin{tabular}[c]{@{}l@{}}Simple design\\ Very quick to develop in\end{tabular}                & \begin{tabular}[c]{@{}l@{}}Very little support from the framework\\ Not good with advanced web features (ex: async refresh, database support, ORM)\end{tabular} \\ \hline
+\end{tabular}
+Table 1: Quick Analysis of Back-end Frameworks
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Back-End Languages}
+While languages are tightly coupled with frameworks, it is important to look at the individual languages and see how they stack up against each other in the context of the Tesla Web Application. Languages will almost always be an indicator of what to expect with certain frameworks as well as be the key piece in designing a proper back-end. Furthermore, understanding the pros and cons of certain languages will help our project go beyond even the extents of what a framework can help support. If there are features we want to add that a framework may not provide direct help with, we will have to hope that the language we\textquotesingle ve chosen can pick up the slack and easily guide us to creating what we imagine\cite{long_2016}. Criteria for these languages is similar to frameworks, but as follows: 
+\begin{itemize}
+    \item Learning Curve - Is the syntax easy to understand and read? Is it similar to other languages we know from experience or in class?
+    \item Support - Are there popular frameworks that use this language? Is there an active community that helps learners of the language?
+    \item Security - Is the language set up to provide or allow packages for extra security? Are there known issues with the language that can compromise our application\textquotesingle s data?
+    \item Speed - Is the language known to be quick in execution? Can the language support the application\textquotesingle s usability goals?
+\end{itemize}
+\subsection{PHP}
+Hypertext Preprocessor is an extremely common and popular server-side scripting language designed specifically for web development in 1994. It provides a close comparison to C without having some of the issues that C generally has when learning the language. Furthermore, it is designed to be concise, and this opens the door for a variety of flexibility. 
+
+\subsubsection{Pros of PHP}
+One of the greatest strengths of PHP is the ease of learning the language. PHP provides low barriers to entry and is quick to learn due to the extensive documentation and community support for those trying to learn the language. The lack of resource management seen in C allows for those interested in server-side coding to do as they please, and quickly. For dedicated developers in PHP, there is much more to explore due to plentiful libraries and extensions created by the community for virtually any feature imaginable. 
+
+\subsubsection{Cons of PHP}
+Lots of the strengths of PHP ultimately lead to the issues facing the language. One of the biggest issues with PHP is just how easy and welcoming the language can be to developers. This can cause a lot of bad PHP applications to be released and open for the public to use, and due to the number of people learning the language, these practices can spread quickly. Though PHP may be considered a pretty secure language, the low barriers to entry have caused a variety of easily hackable applications and low security expectations for the language. \cite{o'dell_2010}
+
+\subsection{Python}
+Python is another very common and popular language that has been with the server-side scripting language community since 1991. Python is highly-portable and has a multi-programming paradigm that heavily involves object-oriented programming throughout it’s design. It is very common for Python to be used in tandem with Java, and has the reputation for being able to get a job done with fewer lines of code.
+
+\subsubsection{Pros of Python}
+One of the biggest perks of Python is the easy syntax that makes understanding your code simple and quick. This allows debugging and error checking to move much faster relative to other languages. Python is generally considered to be faster than PHP as well as more secure. Yet like PHP, it has lots of libraries and community support with popular frameworks such as those listed above. Finally, due to the portability of Python, it can be used for mobile development easily, and can interact with numerous web features. 
+
+\subsubsection{Cons of Python}
+Though a gross overstatement, Python can be considered an opposite version of PHP. This is largely seen in the steep learning curve Python that can slow development when experience with the language is lacking. Python can be very memory-intensive compared to Java, and can create performance drops during run-time. While this is not a huge issue for the application, 3D graphics can take a hit if they were to be implemented in the Tesla Web App. \cite{intersog_2017}
+
+\subsection{NodeJS}
+NodeJS is a pure JavaScript approach to back-end development first released in 2009 by Ryan Dahl. This language was designed to be incredibly quick and dynamic in its development. One of the biggest features of NodeJS is the “single threaded event call back mechanism” which allows scripting languages to communicate with network programming. 
+
+\subsubsection{Pros of NodeJS}
+Out of the languages explored here, NodeJS is the fasted for sure, especially in its initial stages. It can handle common features in today\textquotesingle s web applications like data-streaming, queued inputs, and proxy quite well. NodeJS works well with organizing multi-core systems and responding to concurrent requests. Finally, the application is easy to deploy and monitor. 
+
+\subsubsection{Cons of NodeJS}
+One of the main issues with the language is the lack of coding standards for its parent, JavaScript. Without a strict style guide, NodeJS can break easily. The support IDE’s have with NodeJS is not necessarily great for features like Call-backs, debugging, error handling, and other maintenance features. \cite{intersog_2017}
+
+\begin{table}[ht]
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Language}} & \multicolumn{1}{c|}{\textbf{Pros}}                                                                                         & \multicolumn{1}{c|}{\textbf{Cons}}                                                                                    \\ \hline
+PHP                                     & \begin{tabular}[c]{@{}l@{}}Easy to learn\\ Variety of libraries \& extensions\end{tabular}                                 & \begin{tabular}[c]{@{}l@{}}Bad reputation for poor open-source code\\ Possible issues for security hacks\end{tabular} \\ \hline
+Python                                  & \begin{tabular}[c]{@{}l@{}}Simple syntax == quick debugging\\ Very portable\\ Good for mobile development\end{tabular}     & \begin{tabular}[c]{@{}l@{}}Steep learning curve\\ Memory-intensive\end{tabular}                                       \\ \hline
+NodeJS                                  & \begin{tabular}[c]{@{}l@{}}Fastest of listed languages\\ Adapted to current web app features\\ Easy to deploy\end{tabular} & \begin{tabular}[c]{@{}l@{}}Lacks coding standards\\ Supported IDE's not very powerful\end{tabular}                    \\ \hline
+\end{tabular}
+\\Table 2: Quick analysis of back-end languages
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Location of Server}
+By location of server, yes, we mean the physical location of our server that will host the Tesla Web Application. While websites and web applications are seemingly headed for the cloud, we believe this project is going to be pretty particularly focused on those within our client\textquotesingle s area, so the idea that the server should be sent to the cloud may not be necessary, and want to explore the other options. From a technical standpoint, as long as a site is hosted in the same country, there really isn\textquotesingle t much worry about slow connections. Especially with the use (or lack thereof) the server would have, there wouldn’t be a heavy load that would compound with the distance the server would be from its clients \cite{goran_2016}. Instead, this would be pragmatic reasoning, where the server could have maintenance and easy supervision or upgrades. The criteria of this search will be much more subjective and weigh the options in a less linear fashion. 
+
+\subsection{Amazon Web Services}
+AWS is a suite of cloud computing services that can provide a range of features for business and individuals alike. In the context of the Web Application, the database and other back-end resources would be stored using AWS services, making the web application completely in the cloud. AWS has been around since 2006, but is quickly becoming a leader in the cloud hosting industry. \cite{aws}
+
+\subsubsection{Pros of AWS}
+The main perks of using AWS is the amount of computing power and resources Amazon has through AWS. Especially considering the growth potential for our client\textquotesingle s business, scaling would be incredibly easy. Deploying new updates or changes to the back-end wouldn\textquotesingle t necessarily be difficult as lots of the work could be done by Amazon. By using cloud computing, we would be at the cutting-edge of technology and would set a precedent for using new technology within our client\textquotesingle s business. 
+
+\subsubsection{Cons of AWS}
+Some of the main drawbacks of AWS generally come from the scale of AWS as a whole. One of the biggest issues would be the possible threats from hackers who have had a history of trying to break into AWS. Another issue would be that the services would cost money.\cite{davis_2017} While our client would undoubtedly be willing to pay for a feature such as our application, he may not be interested in a continuous payment when other options might be free. 
+
+\subsection{Oregon State Servers}
+While far-reaching, we could potentially host the Tesla Web Application on Oregon State Engineering Servers. Our servers at Oregon State have had a great history of hosting a variety of projects. While many of these projects have been research-based, it could very well be an option to support a business associated with our capstone program.
+
+\subsubsection{Pros of Oregon State Servers}
+One of the main pros of having the application\textquotesingle s server located on-campus is that our team could quickly connect to the server and provide quick uploads or patches if need be. This shows the support of the University towards our client’s project and may foster a relationship with our client to continue providing projects for the capstone program
+
+\subsubsection{Cons of Oregon State Servers}
+The main issue with hosting the server on-campus, would be the extended stay the server would have and the problems that would come up in the event the server would want to be moved or changed in a drastic way. This could be used as leverage against our client in an event where there are disagreements either during our project or after. Our client may not be open to having his project potentially on display for students and faculty not involved in the project.
+
+\subsection{Client Server}
+Finally, we could host the back-end of our project on our client\textquotesingle s server, as it was in its first iteration. While we aren\textquotesingle t sure of the technical details regarding our client\textquotesingle s hardware, we can assume it should be able to host a similar load as it has been currently with new technology.
+
+\subsubsection{Pros of Client Server}
+Obviously the biggest positive to having the server with our client is so once the project is complete, he can continue maintenance easily and without worry about where his work will go once our team moves on. A big issue that will be raised is what will happen with maintenance on the web application once we are gone, but in this event, our client will easily be able to access our files and edit them as necessary. 
+
+\subsubsection{Cons of Client Server}
+The only downside we currently see as of now is that we will not be able to physically deploy the back-end on our client’s server and will need our client to do so whenever there is a patch or change that will go live on the server. While this is an issue, as long as communication is strong with our client we assume we can work past this.
+
+\begin{table}[ht]
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Server Location}} & \multicolumn{1}{c|}{\textbf{Pros}}                                                                               & \multicolumn{1}{c|}{\textbf{Cons}}                                                                                        \\ \hline
+AWS                                            & \begin{tabular}[c]{@{}l@{}}No issues with memory or processing power\\ Easy to scale\\ Cutting-edge\end{tabular} & \begin{tabular}[c]{@{}l@{}}Paid service\\ Possible target for attacks\end{tabular}                                        \\ \hline
+Oregon State                                   & \begin{tabular}[c]{@{}l@{}}Quick connection to team\\ Get support from University\end{tabular}                   & \begin{tabular}[c]{@{}l@{}}Possible "political" issues post-project dev\\ Client's privacy may feel violated\end{tabular} \\ \hline
+Client Server                                  & \begin{tabular}[c]{@{}l@{}}No "political" issues\\ Easy to maintain post-project\end{tabular}                    & Team cannot physically deploy changes                                                                                     \\ \hline
+\end{tabular}
+\\Table 3: Analysis of Server Location
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Conclusion}
+There are a variety of decisions we will need to make when it comes to the back-end of our project, and it goes beyond what is listed in this tech review. While some of these decisions have already been decided, it is important to look into the different possibilities our system could be designed with and understand if the choices we made are appropriate. From this tech review, we have made a couple recommendations and decisions regarding the back-end of our application and physical location of our server. 
+
+First off, our application’s server will remain with our client and his resources. This has been decided previously, but we felt it necessary to explore other options if they exceedingly outweighed keeping the server local to our client. Because of the dubious future of the project once our team has given over control back to our client, we decided it was best to keep the server in our client’s control throughout our tenure. 
+
+In regards to the back-end of our application, I recommend that we use the Django framework in our development. One of the main concerns we have is the security issues associated with PHP, and while it can be easy to develop in, we are worried that our lack of industry experience could result in security breaches. We want to develop in a safe manner and feel that Django as a framework has great built-in security features along with a rock-steady Python foundation. Further, speed is not necessarily a worry as the server at this time will not face huge issues with activity as only a few hundred people are currently using our client’s application, and there have been no reported performance issues. While other frameworks can still be considered, Django’s support also seems fairly helpful and can work with the learning curve we will need to be ready for.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}
