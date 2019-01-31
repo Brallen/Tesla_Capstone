@@ -74,3 +74,25 @@ body{
     margin: 2px 0;
     width: 100%;
 }
+
+@media only screen and (min-width: 375px){
+    .btn{
+        padding: 13px 15px;
+    }
+}
+
+@media only screen and (min-width: 766px){
+    .container--car_image img{
+        max-width: 450px;
+    }
+    .list--control_btn{
+        display: table;
+        width: 100%;
+        margin: 0;
+        table-layout: fixed;
+    }
+    .item--control_btn{
+        display: table-cell;
+        padding: 10px;
+    }
+}
