@@ -11,11 +11,11 @@
 body{
     margin: 0 15px 0 15px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: white;
-    background-color: rgb(28, 34, 34);
+    color: #ececec;
+    background-color: #232931;
 }
 .fas{
-    color: white;
+    color: #ececec;
 }
 .container--main_section{
     padding-top: 20px;
@@ -42,33 +42,34 @@ body{
     text-align: center;
 }
 .list--quick_action{
-    margin: auto;
-    width: 85%;
     display: flex;
     flex-wrap: wrap;
 }
 .item--quick_action{
-    flex: 49%;
+    flex: 50%;
     display: inline;
 }
 .btn{
     margin: 10px;
     padding: 10px 15px;
-    background-color: dodgerblue;
+    background-color: #07a298;
     border-radius: 3px;
     min-width: 100px;
-    color: white;
+    color: #ececec;
 }
 .btn:active{
-    background-color: rgb(1, 51, 102);
+    background-color: #006d66;
 }
-/* .container--control_btn{
+.container--control_btn{
     position: fixed;
     left: 0;
     bottom: 0;
-    width: 100%;
     text-align: center;
-} */
+    width: 100%;
+}
+.list--control_btn{
+    margin: 0 15px;
+}
 .btn--control_btn{
     margin: 2px 0;
     width: 100%;
