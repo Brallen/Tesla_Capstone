@@ -4,10 +4,10 @@ window.onload = function(){
     let controlModalClose = document.getElementById('modal--control_close');
 
     controlModalClose.onclick = function() {
-    controlModal.style.display = 'none';
+        controlModal.style.display = 'none';
     };
 
     controlModalOpen.onclick = function() {
-    controlModal.style.display = 'block';
+        controlModal.style.display = 'block';
     };
 }
