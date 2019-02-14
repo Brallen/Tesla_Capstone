@@ -1,0 +1,75 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+    list-style-type: none;
+}
+body{
+    margin: 0 15px 0 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    background-color: rgb(28, 34, 34);
+}
+.fas{
+    color: white;
+}
+.container--main_section{
+    padding-top: 20px;
+}
+.container--back_button{
+    float: left;
+    font-size: 24px;
+}
+.container--car_info{
+    margin: auto;
+    width: 50%;
+    text-align: center;
+}
+.container--car_info h1{
+    font-size: 24px;
+}
+.container--car_image{
+    text-align: center;
+}
+.container--car_image img{
+    max-width: 275px;
+}
+.container--quick_action{
+    text-align: center;
+}
+.list--quick_action{
+    margin: auto;
+    width: 85%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.item--quick_action{
+    flex: 49%;
+    display: inline;
+}
+.btn{
+    margin: 10px;
+    padding: 10px 15px;
+    background-color: dodgerblue;
+    border-radius: 3px;
+    min-width: 100px;
+    color: white;
+}
+.btn:active{
+    background-color: rgb(1, 51, 102);
+}
+/* .container--control_btn{
+ position: fixed;
+ left: 0;
+ bottom: 0;
+ width: 100%;
+ text-align: center;
+ } */
+.btn--control_btn{
+    margin: 2px 0;
+    width: 100%;
+}
