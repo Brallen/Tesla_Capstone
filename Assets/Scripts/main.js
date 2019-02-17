@@ -15,6 +15,8 @@ window.onload = function(){
     flashbutton.onclick = function(){
       $.ajax({
         url:"flashLights"
+      }).done(function(response){
+        alert(response);
       });
     }
 }

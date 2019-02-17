@@ -27,12 +27,12 @@ app.get('/', function(req, res) {
 });
 
 app.get('/flashLights', function(req, res){
-  console.log("Request to flash lights");
+  console.log("Requesting 'flash lights'");
   var promise =  teslajs.flashLightsAsync(options);
-  /*promise.catch(function(response){
-    console.log(response);
-  });*/
-  res.send("flashing lights");
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response)
+  });
 });
 
 // catch 404 and forward to error handler
