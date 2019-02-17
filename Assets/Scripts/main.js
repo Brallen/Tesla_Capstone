@@ -13,6 +13,8 @@ window.onload = function(){
     };
 
     flashbutton.onclick = function(){
-      
+      $.ajax({
+        url:"flashLights"
+      });
     }
 }

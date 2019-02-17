@@ -7,14 +7,32 @@ const teslajs = require('teslajs');
 
 let app = express();
 
+var options = {
+  authToken:"fakeTokenLaLaLa",
+  vehicleID:"vehicle1LaLaLa",
+  carIndex:0
+};
+
+//app.set('view engine', 'html');
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.static(__dirname + 'Assets'));
 app.use(express.static(path.join(__dirname, 'Assets')));
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
+});
+
+app.get('/flashLights', function(req, res){
+  console.log("Request to flash lights");
+  var promise =  teslajs.flashLightsAsync(options);
+  /*promise.catch(function(response){
+    console.log(response);
+  });*/
+  res.send("flashing lights");
 });
 
 // catch 404 and forward to error handler
