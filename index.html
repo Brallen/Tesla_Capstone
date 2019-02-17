@@ -5,66 +5,123 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Tesla Capstone</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="Styles/main.css" />
     <script src="Scripts/main.js"></script>
 </head>
 <body>
-    <!-- main section with cars -->
+    <header class="container--header">
+        <div class="container--car_info">
+            <h1>Car Title</h1>
+            <p>88% remaining</p>
+        </div>
+        <div class="container--logout_menu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+    
     <main class="container--main_section">
-        <!-- Take back to page to show available cars -->
-        <div class="container--back_button">
-            <a href=""><i class="fas fa-arrow-left"></i></a>
+        <div class="container--car_image">
+            <img src="Images/Tesla-model-3.png" alt="">
         </div>
 
-        <div class="container--car__control active">
-            <!-- car information -->
-            <div class="container--car_info">
-                <h1>Car Title</h1>
-                <p>88% remaining</p>
-            </div>
-            
-            <div class="container--car_image">
-                <img src="Images/Tesla-model-3.png" alt="">
-            </div>
-            
-            <!-- quick action buttons -->
-            <div class="container--quick_action">
-                <ul class="list--quick_action">
-                    <li class="item--quick_action"><button class="btn btn--quick_action">Lock</button></li>
-                    <li class="item--quick_action"><button class="btn btn--quick_action">Unlock</button></li>
-                    <li class="item--quick_action"><button class="btn btn--quick_action">Turn on</button></li>
-                    <li class="item--quick_action"><button class="btn btn--quick_action">Turn off</button></li>
-                </ul>
-            </div>
+        <!-- modal open buttons -->
+        <div class="container--control_btn">
+            <ul class="list--control_btn">
+                <li class="item--control_btn"><button id="modal--control_open" class="btn btn--control_btn">Controls</button></li>
+                <li class="item--control_btn"><button id="modal--media_open" class="btn btn--control_btn">Media</button></li>
+                <li class="item--control_btn"><button id="modal--climate_open" class="btn btn--control_btn">Climate</button></li>
+                <li class="item--control_btn"><button id="modal--charging_open" class="btn btn--control_btn">Charging</button></li>
+                <li class="item--control_btn"><button id="modal--summon_open" class="btn btn--control_btn">Summon</button></li>
+            </ul>
         </div>
-
-        <!-- Starting Popup Modals -->
+        
+<!--******** Starting Popup Modals *******-->
+        <!-- Control Modal -->
         <div class="modal container--modal_controls">
             <div class="modal-content">
                 <div class="modal--close">
                     <button id="modal--control_close" class="modal--close_button"><i class="fas fa-times"></i></button>
                 </div>
-                <ul class="list--control_btn">
-                    <li class="item--control_btn"><button class="btn btn--control_btn">Lock</button></li>
-                    <li class="item--control_btn"><button class="btn btn--control_btn">Unlock</button></li>
-                    <li class="item--control_btn"><button class="btn btn--control_btn">Honk Horn</button></li>
-                    <li class="item--control_btn"><button class="btn btn--control_btn">Flash Lights</button></li>
-                    <li class="item--control_btn"><button class="btn btn--control_btn">Volume +</button></li>
-                    <li class="item--control_btn"><button class="btn btn--control_btn">Volume -</button></li>
+                <ul class="list--modal_btn">
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn">Lock</button></li>
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn">Turn on</button></li>
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn">Honk Horn</button></li>
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn">Flash Lights</button></li>
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn">Open Frunk</button></li>
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn">Open Trunk</button></li>
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn">Open Sunroof</button></li>
                 </ul>
+            </div>
+        </div>
+        <!-- Media Modal -->
+        <div class="modal container--modal_media">
+            <div class="modal-content">
+                <div class="modal--close">
+                    <button id="modal--media_close" class="modal--close_button"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal--media_controls">
+                    <input type="range" min="0" max="100" value="50" id="media--volume_slider">
+                    <p id="media-volume_level">Volume: 50%</p>
+                    <a href="" class="media-back"><i class="fas fa-backward"></i></a>
+                    <a href="" class="media-play"><i class="fas fa-play-circle"></i></a>
+                    <a href="" class="media-pause hidden"><i class="fas fa-pause-circle"></i></a>
+                    <a href="" class="media-next"><i class="fas fa-forward"></i></a>
+                </div>
+            </div>
+        </div>
+        <!-- Climate Modal -->
+        <div class="modal container--modal_climate">
+            <div class="modal-content">
+                <div class="modal--close">
+                    <button id="modal--climate_close" class="modal--close_button"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal--climate_controls">
+                    <input type="range" min="40" max="85" value="70" id="climate--temp_slider">
+                    <p id="climate--temp_level">Climate: 70F</p>
+                    <button id="climate--heater" class="btn btn--modal_btn">Heater On</button>
+                    <button id="climate--ac" class="btn btn--modal_btn">AC On</button>
+                    <div class="climate--seat_warmers">
+                        <div class="climate--front_seats">
+                            <button id="climate--seat_fl" class="climate--seat_btn"><i class="fas fa-fire-alt"></i></button>
+                            <button id="climate--seat_fr" class="climate--seat_btn"><i class="fas fa-fire-alt"></i></button>
+                        </div>
+                        <div class="climate--back_seats">
+                            <button id="climate--seat_bl" class="climate--seat_btn"><i class="fas fa-fire-alt"></i></button>
+                            <button id="climate--seat_bm" class="climate--seat_btn"><i class="fas fa-fire-alt"></i></button>
+                            <button id="climate--seat_br" class="climate--seat_btn"><i class="fas fa-fire-alt"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Charging Modal -->
+        <div class="modal container--modal_charging">
+            <div class="modal-content">
+                <div class="modal--close">
+                    <button id="modal--charging_close" class="modal--close_button"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal--charging_controls">
+                    <input type="range" min="0" max="100" value="80" id="charging--charge_slider">
+                    <p id="charging--charge_level">Max Charge: 80%</p>
+                    <button id="charging--charge_port" class="btn btn--modal_btn">Open Charge Port</button>
+                </div>
+            </div>
+        </div>
+        <!-- Summon Modal -->
+        <div class="modal container--modal_summon">
+            <div class="modal-content">
+                <div class="modal--close">
+                    <button id="modal--summon_close" class="modal--close_button"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal--summon_controls">
+                    <button id="summon--move_forward"class="btn btn--modal_btn">Summon Forward</button>
+                    <button id="summon--move_backward"class="btn btn--modal_btn">Summon Backward</button>
+                </div>
             </div>
         </div>
     </main>
 
-    <!-- footer buttons -->
-    <footer class="container--control_btn">
-        <ul class="list--control_btn">
-            <li id="modal--control_open"class="item--control_btn"><button class="btn btn--control_btn">Controls</button></li>
-            <li id=""class="item--control_btn"><button class="btn btn--control_btn">Climate</button></li>
-            <li id=""class="item--control_btn"><button class="btn btn--control_btn">Summon</button></li>
-            <li id=""class="item--control_btn"><button class="btn btn--control_btn">Diagnostics</button></li>
-        </ul>
-    </footer>
 </body>
 </html>
