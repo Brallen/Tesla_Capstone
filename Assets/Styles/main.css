@@ -26,7 +26,7 @@ body {
   background-color: #07A298;
   border-radius: 3px;
   min-width: 100px;
-  color: #ececec;
+  color: #F8F9FA;
 }
 
 .btn:active {
@@ -49,6 +49,10 @@ body {
   text-align: center;
 }
 
+.container--car_info h1 {
+  font-size: 24px;
+}
+
 .container--logout_menu {
   position: absolute;
   top: 15px;
@@ -65,23 +69,23 @@ body {
 }
 
 .container--car_image img {
-  max-width: 275px;
+  max-width: 290px;
 }
 
 .container--control_btn {
   position: fixed;
   left: 0;
-  bottom: 0;
+  bottom: 10px;
   text-align: center;
   width: 100%;
 }
 
-.list--control_btn {
+.list--modal_btn {
   margin: 0 15px;
 }
 
-.btn--control_btn {
-  margin: 2px 0;
+.btn--modal_btn {
+  margin: 4px 0;
   width: 100%;
 }
 
@@ -110,33 +114,6 @@ body {
   margin: -5px 8px 0 0;
 }
 
-.modal-content .modal--close_button i:active {
-  color: #949494;
-}
-
 .modal-content .btn {
   margin: 10px 0;
-}
-
-@media only screen and (min-width: 375px) {
-  .btn {
-    padding: 13px 15px;
-  }
-}
-@media only screen and (min-width: 766px) {
-  .container--car_image img {
-    max-width: 450px;
-  }
-
-  .list--control_btn {
-    display: table;
-    width: 100%;
-    margin: 0;
-    table-layout: fixed;
-  }
-
-  .item--control_btn {
-    display: table-cell;
-    padding: 10px;
-  }
 }
