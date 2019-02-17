@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Tesla Capstone</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="Styles/main.css" />
+    <script src="Scripts/main.js"></script>
+</head>
+<body>
+    <!-- main section with cars -->
+    <main class="container--main_section">
+        <!-- Take back to page to show available cars -->
+        <div class="container--back_button">
+            <a href=""><i class="fas fa-arrow-left"></i></a>
+        </div>
+
+        <div class="container--car__control active">
+            <!-- car information -->
+            <div class="container--car_info">
+                <h1>Car Title</h1>
+                <p>88% remaining</p>
+            </div>
+            
+            <div class="container--car_image">
+                <img src="Images/Tesla-model-3.png" alt="">
+            </div>
+            
+            <!-- quick action buttons -->
+            <div class="container--quick_action">
+                <ul class="list--quick_action">
+                    <li class="item--quick_action"><button class="btn btn--quick_action">Lock</button></li>
+                    <li class="item--quick_action"><button class="btn btn--quick_action">Unlock</button></li>
+                    <li class="item--quick_action"><button class="btn btn--quick_action">Turn on</button></li>
+                    <li class="item--quick_action"><button class="btn btn--quick_action">Turn off</button></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Starting Popup Modals -->
+        <div class="modal container--modal_controls">
+            <div class="modal-content">
+                <div class="modal--close">
+                    <button id="modal--control_close" class="modal--close_button"><i class="fas fa-times"></i></button>
+                </div>
+                <ul class="list--control_btn">
+                    <li class="item--control_btn"><button class="btn btn--control_btn">Lock</button></li>
+                    <li class="item--control_btn"><button class="btn btn--control_btn">Unlock</button></li>
+                    <li class="item--control_btn"><button class="btn btn--control_btn">Honk Horn</button></li>
+                    <li class="item--control_btn"><button class="btn btn--control_btn">Flash Lights</button></li>
+                    <li class="item--control_btn"><button class="btn btn--control_btn">Volume +</button></li>
+                    <li class="item--control_btn"><button class="btn btn--control_btn">Volume -</button></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- footer buttons -->
+    <footer class="container--control_btn">
+        <ul class="list--control_btn">
+            <li id="modal--control_open"class="item--control_btn"><button class="btn btn--control_btn">Controls</button></li>
+            <li id=""class="item--control_btn"><button class="btn btn--control_btn">Climate</button></li>
+            <li id=""class="item--control_btn"><button class="btn btn--control_btn">Summon</button></li>
+            <li id=""class="item--control_btn"><button class="btn btn--control_btn">Diagnostics</button></li>
+        </ul>
+    </footer>
+</body>
+</html>
