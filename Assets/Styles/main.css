@@ -11,32 +11,53 @@
 
 body {
   margin: 0 15px 0 15px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: #ececec;
-  background-color: #232931;
+  font-family: "Muli", Geneva, Verdana, sans-serif;
+  color: #F8F9FA;
+  background-color: #33333C;
 }
 
 .fas {
+  color: #F8F9FA;
+}
+
+.btn {
+  margin: 10px;
+  padding: 10px 15px;
+  background-color: #07A298;
+  border-radius: 3px;
+  min-width: 100px;
   color: #ececec;
 }
 
-.container--main_section {
-  padding-top: 20px;
+.btn:active {
+  background-color: #006d66;
 }
 
-.container--back_button {
-  float: left;
-  font-size: 24px;
+.container--header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #2C3138;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 .container--car_info {
+  padding: 10px 0;
   margin: auto;
   width: 50%;
   text-align: center;
 }
 
-.container--car_info h1 {
-  font-size: 24px;
+.container--logout_menu {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 32px;
+}
+
+.container--main_section {
+  padding-top: 71px;
 }
 
 .container--car_image {
@@ -45,33 +66,6 @@ body {
 
 .container--car_image img {
   max-width: 275px;
-}
-
-.container--quick_action {
-  text-align: center;
-}
-
-.list--quick_action {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.item--quick_action {
-  flex: 50%;
-  display: inline;
-}
-
-.btn {
-  margin: 10px;
-  padding: 10px 15px;
-  background-color: #07a298;
-  border-radius: 3px;
-  min-width: 100px;
-  color: #ececec;
-}
-
-.btn:active {
-  background-color: #006d66;
 }
 
 .container--control_btn {
@@ -105,7 +99,7 @@ body {
 }
 
 .modal-content {
-  background-color: #232931;
+  background-color: #33333C;
   margin: 75px 20px 0 20px;
   padding: 10px 0;
   border-radius: 5px;

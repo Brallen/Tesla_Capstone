@@ -1,3 +1,13 @@
+$Fonts: 'Muli', Geneva, Verdana, sans-serif
+$FontColor: #F8F9FA
+$ButtonColor: #07A298
+$HeaderBackground: #2C3138
+$BackgroundColor: #33333C
+$BackgroundAccent: #37373F
+$RedAccent: #DA3738
+$GreenAccent: #77CEC9
+
+
 * 
     margin: 0
     padding: 0
@@ -8,30 +18,52 @@
     background: transparent
     list-style-type: none
 
-body 
-    
+body
     margin: 0 15px 0 15px
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
-    color: #ececec
-    background-color: #232931
+    font-family: $Fonts
+    color: $FontColor
+    background-color: $BackgroundColor
 
 .fas
+    color: $FontColor
+
+.btn
+    margin: 10px
+    padding: 10px 15px
+    background-color: $ButtonColor
+    border-radius: 3px
+    min-width: 100px
     color: #ececec
 
-.container--main_section
-    padding-top: 20px
+.btn:active
+    background-color: #006d66
 
-.container--back_button
-    float: left
-    font-size: 24px
+.container--header
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    background-color: $HeaderBackground
+    box-shadow: 0 3px 6px rgba(0,0,0,.3)
 
 .container--car_info
+    padding: 10px 0
     margin: auto
     width: 50%
     text-align: center
 
 .container--car_info h1
     font-size: 24px
+    
+.container--logout_menu
+    position: absolute
+    top: 15px
+    right: 15px
+    font-size: 32px
+
+.container--main_section
+    padding-top: 71px
+
 
 .container--car_image
     text-align: center
@@ -39,27 +71,9 @@ body
 .container--car_image img
     max-width: 275px
 
-.container--quick_action
-    text-align: center
 
-.list--quick_action
-    display: flex
-    flex-wrap: wrap
 
-.item--quick_action
-    flex: 50%
-    display: inline
 
-.btn
-    margin: 10px
-    padding: 10px 15px
-    background-color: #07a298
-    border-radius: 3px
-    min-width: 100px
-    color: #ececec
-
-.btn:active
-    background-color: #006d66
 
 .container--control_btn
     position: fixed
@@ -88,7 +102,7 @@ body
     background-color: rgba(0,0,0,0.4)
 
 .modal-content
-    background-color: #232931
+    background-color: $BackgroundColor
     margin: 75px 20px 0 20px
     padding: 10px 0
     border-radius: 5px
