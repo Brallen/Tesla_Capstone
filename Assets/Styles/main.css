@@ -188,6 +188,10 @@ body {
   padding: 20px 0 10px 0;
 }
 
+.climate--seat_btn_active i {
+  color: #DA3738;
+}
+
 .climate--front_seats button {
   margin: 0 12px 10px 12px;
 }
