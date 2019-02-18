@@ -7,6 +7,11 @@ window.onload = function(){
     let climateModal = document.getElementsByClassName('container--modal_climate')[0];
     let chargingModal = document.getElementsByClassName('container--modal_charging')[0];
     let summonModal = document.getElementsByClassName('container--modal_summon')[0];
+	
+	var isLocked = 0;
+	
+	if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
+	else document.getElementById('lock').innerHTML = "Unlock";
 
     document.getElementById('modal--control_open').onclick = function() {
         controlModal.style.display = 'block';
@@ -30,8 +35,33 @@ window.onload = function(){
     };
 	
 	lock.onclick = function() {
-		
-	};
+		if (isLocked == 0) {
+			$.ajax({
+				url:"lock"
+				}).done(function(response){
+					//alert(response);
+					isLocked = 1;
+					document.getElementById('lock').innerHTML = "Unlock";
+				});
+		}
+		else {
+			$.ajax({
+				url:"unlock"
+				}).done(function(response){
+					//alert(response);
+					isLocked = 0;
+					document.getElementById('lock').innerHTML = "Lock";
+				});
+		}
+	}
+	
+	honk.onclick = function() {
+		$.ajax({
+			url:"honk"
+			}).done(function(response){
+				//alert(response);
+			});
+	}
 
     document.getElementById('modal--charging_open').onclick = function() {
         chargingModal.style.display = 'block';
