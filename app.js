@@ -36,7 +36,7 @@ app.get('/lock', function(req, res){
 }); 
 
 app.get('/unlock', function(req, res){
-	console.log("lock command received");
+	console.log("unlock command received");
 	var promise = teslajs.doorUnlockAsync(options);
 	promise.catch(function(response){
 		console.log("Tesla Response: " + response);

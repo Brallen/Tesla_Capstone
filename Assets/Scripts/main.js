@@ -83,7 +83,7 @@ window.onload = function(){
       $.ajax({
         url:"flashLights"
       }).done(function(response){
-        alert(response);
+        //alert(response);
       });
     }
 
@@ -93,7 +93,7 @@ window.onload = function(){
         type: "POST",
         data: {which: "trunk"}
       }).done(function(response){
-        alert(response);
+        //alert(response);
       });
     }
 
@@ -103,7 +103,7 @@ window.onload = function(){
         type: "POST",
         data: {which: "frunk"}
       }).done(function(response){
-        alert(response);
+        //alert(response);
       });
     }
 }
