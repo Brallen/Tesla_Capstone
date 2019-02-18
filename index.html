@@ -2,13 +2,14 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">git 
     <title>Tesla Capstone</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="Styles/main.css" />
     <script src="Scripts/main.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
     <header class="container--header">
@@ -24,7 +25,7 @@
             <button class="btn logout-button">Logout</button>
         </div>
     </header>
-    
+
     <main class="container--main_section">
         <div class="container--car_image">
             <img src="Images/Tesla-model-3.png" alt="">
@@ -40,7 +41,7 @@
                 <li class="item--control_btn"><button id="modal--summon_open" class="btn btn--control_btn">Summon</button></li>
             </ul>
         </div>
-        
+
 <!--******** Starting Popup Modals *******-->
         <!-- Control Modal -->
         <div class="modal container--modal_controls">
@@ -48,15 +49,15 @@
                 <div class="modal--close">
                     <button id="modal--control_close" class="modal--close_button"><i class="fas fa-times"></i></button>
                 </div>
-                <div class="modal--controls_controls">
-                    <button class="btn btn--modal_btn">Lock</button>
-                    <button class="btn btn--modal_btn">Turn on</button>
-                    <button class="btn btn--modal_btn">Honk Horn</button>
-                    <button class="btn btn--modal_btn">Flash Lights</button>
-                    <button class="btn btn--modal_btn">Open Frunk</button>
-                    <button class="btn btn--modal_btn">Open Trunk</button>
-                    <button class="btn btn--modal_btn">Open Sunroof</button>
-                </div>
+                <ul class="list--modal_btn">
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn" id="lock"></button></li>
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn">Turn on</button></li>
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn" id="honk">Honk Horn</button></li>
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn" id="flashlights_btn">Flash Lights</button></li>
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn" id="openfrunk_btn">Open Frunk</button></li>
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn" id="opentrunk_btn">Open Trunk</button></li>
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn">Open Sunroof</button></li>
+                </ul>
             </div>
         </div>
         <!-- Media Modal -->
