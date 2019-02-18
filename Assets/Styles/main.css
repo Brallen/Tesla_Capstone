@@ -69,6 +69,22 @@ body {
   font-size: 32px;
 }
 
+.container--logout_button {
+  padding: 2px;
+  position: fixed;
+  right: 0px;
+  background-color: #F8F9FA;
+  border-radius: 8px;
+}
+
+.logout-button {
+  background-color: #DA3738;
+}
+
+.logout-button:active {
+  background-color: #391111;
+}
+
 .container--main_section {
   padding-top: 71px;
   max-width: 768px;
@@ -173,5 +189,5 @@ body {
 }
 
 .climate--front_seats button {
-  margin: 0 27px 10px 27px;
+  margin: 0 12px 10px 12px;
 }

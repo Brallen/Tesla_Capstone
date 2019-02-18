@@ -5,6 +5,8 @@ $HeaderBackground: #2C3138
 $BackgroundColor: #33333C
 $BackgroundAccent: #37373F
 $RedAccent: #DA3738
+$DarkRedAccent: #391111
+$DarkGreenAccent: #006d66
 $GreenAccent: #77CEC9
 $LightGreenAccent: #D1F2F0
 
@@ -44,7 +46,7 @@ body
     width: 75%
 
 .btn:active
-    background-color: #006d66
+    background-color: $DarkGreenAccent
 
 .container--header
     position: fixed
@@ -68,7 +70,19 @@ body
     top: 15px
     right: 15px
     font-size: 32px
+.container--logout_button
+    padding: 2px
+    position: fixed
+    right: 0px
+    background-color: $FontColor
+    border-radius: 8px
 
+.logout-button
+    background-color: $RedAccent
+
+.logout-button:active
+    background-color: $DarkRedAccent
+    
 .container--main_section
     padding-top: 71px
     max-width: 768px
