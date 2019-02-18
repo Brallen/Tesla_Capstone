@@ -8,10 +8,17 @@
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+<<<<<<< HEAD
     "express": "^4.16.4",
     "hbs": "^4.0.1",
     "http-errors": "^1.6.3",
     "morgan": "^1.9.1",
+=======
+    "express": "~4.16.0",
+    "hbs": "~4.0.1",
+    "http-errors": "~1.6.2",
+    "morgan": "~1.9.0",
+>>>>>>> 7ed428beb95a3e80b178ac0f5ebdfbf96f42f3ad
     "sass": "^1.17.0",
     "teslajs": "^4.2.6"
   }

@@ -2,11 +2,14 @@ window.onload = function(){
     let controlModal = document.getElementsByClassName('container--modal_controls')[0];
     let controlModalOpen = document.getElementById('modal--control_open');
     let controlModalClose = document.getElementById('modal--control_close');
-	let lock = document.getElementById('lock');
     let mediaModal = document.getElementsByClassName('container--modal_media')[0];
     let climateModal = document.getElementsByClassName('container--modal_climate')[0];
     let chargingModal = document.getElementsByClassName('container--modal_charging')[0];
     let summonModal = document.getElementsByClassName('container--modal_summon')[0];
+    let flashbutton = document.getElementById('flashlights_btn');
+    let trunkbutton = document.getElementById('opentrunk_btn');
+    let frunkbutton = document.getElementById('openfrunk_btn');
+
 
     document.getElementById('modal--control_open').onclick = function() {
         controlModal.style.display = 'block';
@@ -28,10 +31,6 @@ window.onload = function(){
     document.getElementById('modal--climate_close').onclick = function() {
         climateModal.style.display = 'none';
     };
-	
-	lock.onclick = function() {
-		
-	};
 
     document.getElementById('modal--charging_open').onclick = function() {
         chargingModal.style.display = 'block';
@@ -46,4 +45,32 @@ window.onload = function(){
     document.getElementById('modal--summon_close').onclick = function() {
         summonModal.style.display = 'none';
     };
+
+    flashbutton.onclick = function(){
+      $.ajax({
+        url:"flashLights"
+      }).done(function(response){
+        alert(response);
+      });
+    }
+
+    trunkbutton.onclick = function(){
+      $.ajax({
+        url:"openTrunk",
+        type: "POST",
+        data: {which: "trunk"}
+      }).done(function(response){
+        alert(response);
+      });
+    }
+
+    frunkbutton.onclick = function(){
+      $.ajax({
+        url:"openTrunk",
+        type: "POST",
+        data: {which: "frunk"}
+      }).done(function(response){
+        alert(response);
+      });
+    }
 }
