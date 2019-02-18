@@ -3,22 +3,23 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
-let teslajs = require('teslajs');
+const teslajs = require('teslajs');
 
 let app = express();
 
 var options = {
-	authToken:"oilyconnoily",
-	vehicleID:"heckinhonkin",
-	carIndex:0
+  authToken:"fakeTokenLaLaLa",
+  vehicleID:"vehicle1LaLaLa",
+  carIndex:0
 };
 
-var isLocked = 0;
+//app.set('view engine', 'html');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.static(__dirname + 'Assets'));
 app.use(express.static(path.join(__dirname, 'Assets')));
 
 app.get('/', function(req, res) {
@@ -51,6 +52,27 @@ app.get('/honk', function(req, res){
 		res.send("Tesla Response: " + response);
 	});
 }); 
+
+app.get('/flashLights', function(req, res){
+  console.log("Requesting 'flash lights'");
+  var promise =  teslajs.flashLightsAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response)
+  });
+});
+
+//for both trunk & frunk
+app.post('/openTrunk', function(req, res){
+  var which = req.body.which;
+  console.log("which: " + which);
+  console.log("Requesting 'open" + which + "'");
+  var promise =  teslajs.openTrunkAsync(options, which);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response)
+  });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
