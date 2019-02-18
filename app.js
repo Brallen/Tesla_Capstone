@@ -35,6 +35,18 @@ app.get('/flashLights', function(req, res){
   });
 });
 
+//for both trunk & frunk
+app.post('/openTrunk', function(req, res){
+  var which = req.body.which;
+  console.log("which: " + which);
+  console.log("Requesting 'open" + which + "'");
+  var promise =  teslajs.openTrunkAsync(options, which);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response)
+  });
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

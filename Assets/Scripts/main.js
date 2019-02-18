@@ -7,6 +7,8 @@ window.onload = function(){
     let chargingModal = document.getElementsByClassName('container--modal_charging')[0];
     let summonModal = document.getElementsByClassName('container--modal_summon')[0];
     let flashbutton = document.getElementById('flashlights_btn');
+    let trunkbutton = document.getElementById('opentrunk_btn');
+    let frunkbutton = document.getElementById('openfrunk_btn');
 
 
     document.getElementById('modal--control_open').onclick = function() {
@@ -51,4 +53,25 @@ window.onload = function(){
         alert(response);
       });
     }
+
+    trunkbutton.onclick = function(){
+      $.ajax({
+        url:"openTrunk",
+        type: "POST",
+        data: {which: "trunk"}
+      }).done(function(response){
+        alert(response);
+      });
+    }
+
+    frunkbutton.onclick = function(){
+      $.ajax({
+        url:"openTrunk",
+        type: "POST",
+        data: {which: "frunk"}
+      }).done(function(response){
+        alert(response);
+      });
+    }
+
 }
