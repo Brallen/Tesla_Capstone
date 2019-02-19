@@ -10,11 +10,13 @@ window.onload = function(){
     let trunkbutton = document.getElementById('opentrunk_btn');
     let frunkbutton = document.getElementById('openfrunk_btn');
     let enginebutton = document.getElementById('enginetoggle_btn');
+    let playbutton = document.getElementById('play_pause_btn');
 
-	var isLocked = 0;
+  	var isLocked = 0;
+    var musicPlaying = false;
 
-	if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
-	else document.getElementById('lock').innerHTML = "Unlock";
+  	if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
+  	else document.getElementById('lock').innerHTML = "Unlock";
 
     document.getElementById('modal--control_open').onclick = function() {
         controlModal.style.display = 'block';
@@ -37,35 +39,6 @@ window.onload = function(){
         climateModal.style.display = 'none';
     };
 
-	lock.onclick = function() {
-		if (isLocked == 0) {
-			$.ajax({
-				url:"lock"
-				}).done(function(response){
-					//alert(response);
-					isLocked = 1;
-					document.getElementById('lock').innerHTML = "Unlock";
-				});
-		}
-		else {
-			$.ajax({
-				url:"unlock"
-				}).done(function(response){
-					//alert(response);
-					isLocked = 0;
-					document.getElementById('lock').innerHTML = "Lock";
-				});
-		}
-	}
-
-	honk.onclick = function() {
-		$.ajax({
-			url:"honk"
-			}).done(function(response){
-				//alert(response);
-			});
-	}
-
     document.getElementById('modal--charging_open').onclick = function() {
         chargingModal.style.display = 'block';
     };
@@ -79,6 +52,35 @@ window.onload = function(){
     document.getElementById('modal--summon_close').onclick = function() {
         summonModal.style.display = 'none';
     };
+
+    lock.onclick = function() {
+      if (isLocked == 0) {
+        $.ajax({
+          url:"lock"
+          }).done(function(response){
+            //alert(response);
+            isLocked = 1;
+            document.getElementById('lock').innerHTML = "Unlock";
+          });
+      }
+      else {
+        $.ajax({
+          url:"unlock"
+          }).done(function(response){
+            //alert(response);
+            isLocked = 0;
+            document.getElementById('lock').innerHTML = "Lock";
+          });
+      }
+    }
+
+    honk.onclick = function() {
+      $.ajax({
+        url:"honk"
+        }).done(function(response){
+          //alert(response);
+        });
+    }
 
     flashbutton.onclick = function(){
       $.ajax({
@@ -113,8 +115,28 @@ window.onload = function(){
       $.ajax({
         url:"startEngine"
       }).done(function(response){
-
+        //alert(response);
       });
 
+    }
+
+    playbutton.onclick = function(){
+      $.ajax({
+        url: "toggleMusic"
+      }).done(function(response){
+        if(musicPlaying == false){
+          playbutton.classList.add("media-pause");
+          playbutton.classList.remove("media-play");
+          document.getElementById('play_pause_image').classList.add("fa-pause-circle");
+          document.getElementById('play_pause_image').classList.remove("fa-play-circle");
+          musicPlaying = true;
+        }else {
+          playbutton.classList.add("media-play");
+          playbutton.classList.remove("media-pause");
+          document.getElementById('play_pause_image').classList.add("fa-play-circle");
+          document.getElementById('play_pause_image').classList.remove("fa-pause-circle");
+          musicPlaying = false;
+        }
+      });
     }
 }

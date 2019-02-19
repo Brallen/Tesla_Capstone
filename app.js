@@ -72,6 +72,15 @@ app.get('/startEngine', function(req, res){
   })
 });
 
+app.get('/toggleMusic', function(req, res){
+  console.log("Toggling Music");
+  var promise = teslajs.mediaTogglePlaybackAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
+});
+
 //for both trunk & frunk
 app.post('/openTrunk', function(req, res){
   var which = req.body.which;
