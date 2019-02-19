@@ -62,6 +62,16 @@ app.get('/closesunroof', function(req, res){
 	});
 });
 
+app.post('/chargelimit', function(req, res){
+  var value = req.body.value;
+	console.log("Requesting 'set charge limit to " + value + "'");
+	var promise = teslajs.setChargeLimitAsync(options, value);
+	promise.catch(function(response){
+		console.log("Tesla Response: " + response);
+		res.send("Tesla Response: " + response);
+	});
+});
+
 app.get('/honk', function(req, res){
 	console.log("honk command received");
 	var promise = teslajs.honkHornAsync(options);

@@ -11,6 +11,7 @@ window.onload = function(){
     let lock = document.getElementById('lock');
     let honk = document.getElementById('honk');
     let sunroof = document.getElementById('sunroof');
+    let chargeLimitSlider = document.getElementById('charging--charge_slider');
 
     document.getElementById('modal--control_open').onclick = function() {
         controlModal.style.display = 'block';
@@ -46,36 +47,39 @@ window.onload = function(){
     };
 
     // Async requests
+
+    //Lock/Unlock
     var isLocked = 0;
 
     if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
     else document.getElementById('lock').innerHTML = "Unlock";
 
+  	lock.onclick = function() {
+          if (isLocked == 0) {
+              $.ajax({
+                  url:"lock"
+              }).done(function(response){
+                  //alert(response);
+                  isLocked = 1;
+                  document.getElementById('lock').innerHTML = "Unlock";
+  				});
+  		}
+  		else {
+  			$.ajax({
+  				url:"unlock"
+  				}).done(function(response){
+  					//alert(response);
+  					isLocked = 0;
+  					document.getElementById('lock').innerHTML = "Lock";
+  				});
+  		}
+  	}
+
+    //Sunroof Open/Close
     var sunRoofOpen = 0;
 
     if (sunRoofOpen == 0) document.getElementById('sunroof').innerHTML = "Open Sunroof";
     else document.getElementById('sunroof').innerHTML = "Close Sunroof";
-
-	lock.onclick = function() {
-        if (isLocked == 0) {
-            $.ajax({
-                url:"lock"
-            }).done(function(response){
-                //alert(response);
-                isLocked = 1;
-                document.getElementById('lock').innerHTML = "Unlock";
-				});
-		}
-		else {
-			$.ajax({
-				url:"unlock"
-				}).done(function(response){
-					//alert(response);
-					isLocked = 0;
-					document.getElementById('lock').innerHTML = "Lock";
-				});
-		}
-	}
 
     sunroof.onclick = function() {
         if (sunRoofOpen == 0) {
@@ -98,13 +102,32 @@ window.onload = function(){
 		    }
 	  }
 
-	honk.onclick = function() {
-		$.ajax({
-			url:"honk"
-			}).done(function(response){
-				//alert(response);
-			});
-	}
+    //Charge Limit
+
+    document.getElementById('charging--charge_level').innerHTML = "Max Charge: 80";
+
+    chargeLimitSlider.oninput = function() {
+      var message = "Max Charge: " + chargeLimitSlider.value
+      document.getElementById('charging--charge_level').innerHTML = message;
+      $.ajax({
+  			url:"chargelimit",
+        type: "POST",
+        data: {value: chargeLimitSlider.value}
+  			}).done(function(response){
+  				//alert(response);
+  		});
+
+    }
+
+    //Honk Horn
+
+  	honk.onclick = function() {
+  		$.ajax({
+  			url:"honk"
+  			}).done(function(response){
+  				//alert(response);
+  			});
+  	}
 
     flashbutton.onclick = function(){
       $.ajax({
