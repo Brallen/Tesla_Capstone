@@ -6,12 +6,13 @@ window.onload = function(){
     let climateModal = document.getElementsByClassName('container--modal_climate')[0];
     let chargingModal = document.getElementsByClassName('container--modal_charging')[0];
     let summonModal = document.getElementsByClassName('container--modal_summon')[0];
-	let flashbutton = document.getElementById('flashlights_btn');
+	  let flashbutton = document.getElementById('flashlights_btn');
     let trunkbutton = document.getElementById('opentrunk_btn');
     let frunkbutton = document.getElementById('openfrunk_btn');
-	
+    let enginebutton = document.getElementById('enginetoggle_btn');
+
 	var isLocked = 0;
-	
+
 	if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
 	else document.getElementById('lock').innerHTML = "Unlock";
 
@@ -35,7 +36,7 @@ window.onload = function(){
     document.getElementById('modal--climate_close').onclick = function() {
         climateModal.style.display = 'none';
     };
-	
+
 	lock.onclick = function() {
 		if (isLocked == 0) {
 			$.ajax({
@@ -56,7 +57,7 @@ window.onload = function(){
 				});
 		}
 	}
-	
+
 	honk.onclick = function() {
 		$.ajax({
 			url:"honk"
@@ -105,5 +106,15 @@ window.onload = function(){
       }).done(function(response){
         //alert(response);
       });
+    }
+
+    //just start the engine. Dont turn it off
+    enginebutton.onclick = function(){
+      $.ajax({
+        url:"startEngine"
+      }).done(function(response){
+
+      });
+
     }
 }
