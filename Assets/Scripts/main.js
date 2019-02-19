@@ -11,6 +11,8 @@ window.onload = function(){
     let frunkbutton = document.getElementById('openfrunk_btn');
     let enginebutton = document.getElementById('enginetoggle_btn');
     let playbutton = document.getElementById('play_pause_btn');
+    let nextbutton = document.getElementById('play_next_btn');
+    let prevbutton = document.getElementById('play_prev_btn');
 
   	var isLocked = 0;
     var musicPlaying = false;
@@ -139,4 +141,19 @@ window.onload = function(){
         }
       });
     }
+    nextbutton.onclick = function(){
+      $.ajax({
+        url: "nextSong"
+      }).done(function(response){
+        alert(response);
+      });
+    }
+    prevbutton.onclick = function(){
+      $.ajax({
+        url: "prevSong"
+      }).done(function(response){
+        alert(response);
+      });
+    }
+
 }
