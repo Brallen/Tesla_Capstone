@@ -99,6 +99,23 @@ app.get('/prevSong', function(req, res){
   });
 });
 
+app.get('/volumeUp', function(req,res){
+  console.log("Turning volume up");
+  var promise = teslajs.mediaVolumeUpAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
+});
+app.get('/volumeDown', function(req,res){
+  console.log("Turning volume down");
+  var promise = teslajs.mediaVolumeDownAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
+});
+
 //for both trunk & frunk
 app.post('/openTrunk', function(req, res){
   var which = req.body.which;
