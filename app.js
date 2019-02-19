@@ -33,7 +33,7 @@ app.get('/lock', function(req, res){
 		console.log("Tesla Response: " + response);
 		res.send("Tesla Response: " + response);
 	});
-}); 
+});
 
 app.get('/unlock', function(req, res){
 	console.log("unlock command received");
@@ -42,7 +42,25 @@ app.get('/unlock', function(req, res){
 		console.log("Tesla Response: " + response);
 		res.send("Tesla Response: " + response);
 	});
-}); 
+});
+
+app.get('/opensunroof', function(req, res){
+	console.log("Requesting 'open sunroof'");
+	var promise = teslajs.sunRoofControlAsync(options, "vent");
+	promise.catch(function(response){
+		console.log("Tesla Response: " + response);
+		res.send("Tesla Response: " + response);
+	});
+});
+
+app.get('/closesunroof', function(req, res){
+	console.log("Requesting 'close sunroof'");
+	var promise = teslajs.sunRoofControlAsync(options, "close");
+	promise.catch(function(response){
+		console.log("Tesla Response: " + response);
+		res.send("Tesla Response: " + response);
+	});
+});
 
 app.get('/honk', function(req, res){
 	console.log("honk command received");
@@ -51,7 +69,7 @@ app.get('/honk', function(req, res){
 		console.log("Tesla Response: " + response);
 		res.send("Tesla Response: " + response);
 	});
-}); 
+});
 
 app.get('/flashLights', function(req, res){
   console.log("Requesting 'flash lights'");

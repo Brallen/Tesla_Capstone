@@ -5,17 +5,20 @@ window.onload = function(){
     let climateModal = document.getElementsByClassName('container--modal_climate')[0];
     let chargingModal = document.getElementsByClassName('container--modal_charging')[0];
     let summonModal = document.getElementsByClassName('container--modal_summon')[0];
-	let flashbutton = document.getElementById('flashlights_btn');
+	  let flashbutton = document.getElementById('flashlights_btn');
     let trunkbutton = document.getElementById('opentrunk_btn');
     let frunkbutton = document.getElementById('openfrunk_btn');
-    
+    let lock = document.getElementById('lock');
+    let honk = document.getElementById('honk');
+    let sunroof = document.getElementById('sunroof');
+
     document.getElementById('modal--control_open').onclick = function() {
         controlModal.style.display = 'block';
     };
     document.getElementById('modal--control_close').onclick = function() {
         controlModal.style.display = 'none';
     };
-    
+
     document.getElementById('modal--media_open').onclick = function() {
         mediaModal.style.display = 'block';
     };
@@ -34,19 +37,24 @@ window.onload = function(){
     document.getElementById('modal--charging_close').onclick = function() {
         chargingModal.style.display = 'none';
     };
-    
+
     document.getElementById('modal--summon_open').onclick = function() {
         summonModal.style.display = 'block';
     };
     document.getElementById('modal--summon_close').onclick = function() {
         summonModal.style.display = 'none';
     };
-    
+
     // Async requests
     var isLocked = 0;
-    
+
     if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
     else document.getElementById('lock').innerHTML = "Unlock";
+
+    var sunRoofOpen = 0;
+
+    if (sunRoofOpen == 0) document.getElementById('sunroof').innerHTML = "Open Sunroof";
+    else document.getElementById('sunroof').innerHTML = "Close Sunroof";
 
 	lock.onclick = function() {
         if (isLocked == 0) {
@@ -68,7 +76,28 @@ window.onload = function(){
 				});
 		}
 	}
-	
+
+    sunroof.onclick = function() {
+        if (sunRoofOpen == 0) {
+            $.ajax({
+                url:"opensunroof"
+            }).done(function(response){
+                //alert(response);
+                sunRoofOpen = 1;
+                document.getElementById('sunroof').innerHTML = "Close Sunroof";
+				    });
+		    }
+		    else {
+			       $.ajax({
+				           url:"closesunroof"
+				     }).done(function(response){
+					          //alert(response);
+					          sunRoofOpen = 0;
+					          document.getElementById('sunroof').innerHTML = "Open Sunroof";
+				     });
+		    }
+	  }
+
 	honk.onclick = function() {
 		$.ajax({
 			url:"honk"
