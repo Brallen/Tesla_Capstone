@@ -33,7 +33,7 @@ app.get('/lock', function(req, res){
 		console.log("Tesla Response: " + response);
 		res.send("Tesla Response: " + response);
 	});
-}); 
+});
 
 app.get('/unlock', function(req, res){
 	console.log("unlock command received");
@@ -42,7 +42,7 @@ app.get('/unlock', function(req, res){
 		console.log("Tesla Response: " + response);
 		res.send("Tesla Response: " + response);
 	});
-}); 
+});
 
 app.get('/honk', function(req, res){
 	console.log("honk command received");
@@ -51,7 +51,7 @@ app.get('/honk', function(req, res){
 		console.log("Tesla Response: " + response);
 		res.send("Tesla Response: " + response);
 	});
-}); 
+});
 
 app.get('/flashLights', function(req, res){
   console.log("Requesting 'flash lights'");
@@ -61,6 +61,24 @@ app.get('/flashLights', function(req, res){
     res.send("Tesla Response: " + response)
   });
 });
+
+app.get('/climateOn', function(req, res){
+  console.log("Requesting 'climate control on'");
+  var promise =  teslajs.climateStartAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response)
+  });
+})
+
+app.get('/climateOff', function(req, res){
+  console.log("Requesting 'climate control off'");
+  var promise =  teslajs.climateStopAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response)
+  });
+})
 
 //for both trunk & frunk
 app.post('/openTrunk', function(req, res){

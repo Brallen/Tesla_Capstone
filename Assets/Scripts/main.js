@@ -9,9 +9,11 @@ window.onload = function(){
 	let flashbutton = document.getElementById('flashlights_btn');
     let trunkbutton = document.getElementById('opentrunk_btn');
     let frunkbutton = document.getElementById('openfrunk_btn');
-	
+    let climatebutton = document.getElementById('climate--control');
+
 	var isLocked = 0;
-	
+  var climateOn = false;
+
 	if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
 	else document.getElementById('lock').innerHTML = "Unlock";
 
@@ -35,7 +37,7 @@ window.onload = function(){
     document.getElementById('modal--climate_close').onclick = function() {
         climateModal.style.display = 'none';
     };
-	
+
 	lock.onclick = function() {
 		if (isLocked == 0) {
 			$.ajax({
@@ -56,7 +58,7 @@ window.onload = function(){
 				});
 		}
 	}
-	
+
 	honk.onclick = function() {
 		$.ajax({
 			url:"honk"
@@ -105,5 +107,27 @@ window.onload = function(){
       }).done(function(response){
         //alert(response);
       });
+    }
+
+    climatebutton.onclick = function(){
+      if (climateOn == true) {
+        $.ajax({
+          url:"climateOff"
+          }).done(function(response){
+            //alert(response);
+            climateOn = false;
+            climatebutton.innerHTML = "Turn Climate Control On";
+          });
+      }
+      else {
+        $.ajax({
+          url:"climateOn"
+          }).done(function(response){
+            //alert(response);
+            climateOn = true;
+            climatebutton.innerHTML = "Turn Climate Control Off";
+          });
+      }
+
     }
 }
