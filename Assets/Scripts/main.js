@@ -10,6 +10,7 @@ window.onload = function(){
     let trunkbutton = document.getElementById('opentrunk_btn');
     let frunkbutton = document.getElementById('openfrunk_btn');
     let climatebutton = document.getElementById('climate--control');
+    let tempSlider = document.getElementById('climate--temp_slider');
 
 	var isLocked = 0;
   var climateOn = false;
@@ -128,6 +129,22 @@ window.onload = function(){
             climatebutton.innerHTML = "Turn Climate Control Off";
           });
       }
+    }
 
+    //change what temp is being showed
+    tempSlider.oninput = function(){
+      document.getElementById('climate--temp_level').innerHTML = tempSlider.value;
+    }
+    //change actual temp when slider released
+    //Changing temp for both Driver & Passenger
+    tempSlider.onchange = function(){
+      $.ajax({
+        url:"setTemp",
+        type:"POST",
+        data:{temp: Math.round((tempSlider.value -32) * (5/9))} //converting to Celcius
+      }).done(function(response){
+        //in further developments, return set temp, and assign to text and slider
+        //alert(response);
+      });
     }
 }

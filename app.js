@@ -92,6 +92,18 @@ app.post('/openTrunk', function(req, res){
   });
 });
 
+app.post('/setTemp', function(req, res){
+  var tempC = req.body.temp;
+  console.log("Requesting 'temp set to " + tempC + "'");
+  //setting same temp for Driver & Passenger
+  var promise =  teslajs.setTempsAsync(options, tempC, tempC);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response + ", temp set to: " + Math.round(tempC * (9/5) + 32) + "F");
+    res.send("Tesla Response: " + response + ", temp set to: " + Math.round(tempC * (9/5) + 32) + "F");
+  });
+
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
