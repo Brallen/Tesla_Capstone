@@ -12,6 +12,7 @@ window.onload = function(){
     let honk = document.getElementById('honk');
     let sunroof = document.getElementById('sunroof');
     let chargeLimitSlider = document.getElementById('charging--charge_slider');
+    let chargePort = document.getElementById('charging--charge_port');
 
     document.getElementById('modal--control_open').onclick = function() {
         controlModal.style.display = 'block';
@@ -128,6 +129,34 @@ window.onload = function(){
   				//alert(response);
   			});
   	}
+
+    //Charge Port Open/Close
+
+    var chargePortOpen = 0;
+
+    if (chargePortOpen == 0) document.getElementById('charging--charge_port').innerHTML = "Open Charge Port";
+    else document.getElementById('charging--charge_port').innerHTML = "Close Charge Port";
+
+    chargePort.onclick = function() {
+        if (chargePortOpen == 0) {
+            $.ajax({
+                url:"openchargeport"
+            }).done(function(response){
+                //alert(response);
+                chargePortOpen = 1;
+                document.getElementById('charging--charge_port').innerHTML = "Close Charge Port";
+				    });
+		    }
+		    else {
+			       $.ajax({
+				           url:"closechargeport"
+				     }).done(function(response){
+					          //alert(response);
+					          chargePortOpen = 0;
+					          document.getElementById('charging--charge_port').innerHTML = "Open Charge Port";
+				     });
+		    }
+	  }
 
     flashbutton.onclick = function(){
       $.ajax({
