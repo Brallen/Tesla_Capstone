@@ -19,6 +19,10 @@
         </div>
         <div class="container--logout_menu">
             <i class="fas fa-bars"></i>
+            <i class="fas fa-times hidden"></i>
+        </div>
+        <div class="container--logout_button hidden">
+            <button class="btn logout-button">Logout</button>
         </div>
     </header>
 
@@ -52,7 +56,7 @@
                     <li class="item--modal_btn"><button class="btn btn--modal_btn" id="flashlights_btn">Flash Lights</button></li>
                     <li class="item--modal_btn"><button class="btn btn--modal_btn" id="openfrunk_btn">Open Frunk</button></li>
                     <li class="item--modal_btn"><button class="btn btn--modal_btn" id="opentrunk_btn">Open Trunk</button></li>
-                    <li class="item--modal_btn"><button class="btn btn--modal_btn">Open Sunroof</button></li>
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn" id="sunroof"></button></li>
                 </ul>
             </div>
         </div>
@@ -79,8 +83,8 @@
                     <button id="modal--climate_close" class="modal--close_button"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="modal--climate_controls">
-                    <input type="range" min="40" max="85" value="70" id="climate--temp_slider">
-                    <p id="climate--temp_level">Climate: 70F</p>
+                    <input type="range" min="40" max="85" value="70" id="climate--temp_slider" class="modal--slider">
+                    <p id="climate--temp_level" class="control-text">Climate: 70F</p>
                     <button id="climate--heater" class="btn btn--modal_btn">Heater On</button>
                     <button id="climate--ac" class="btn btn--modal_btn">AC On</button>
                     <div class="climate--seat_warmers">
@@ -104,9 +108,9 @@
                     <button id="modal--charging_close" class="modal--close_button"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="modal--charging_controls">
-                    <input type="range" min="0" max="100" value="80" id="charging--charge_slider">
-                    <p id="charging--charge_level">Max Charge: 80%</p>
-                    <button id="charging--charge_port" class="btn btn--modal_btn">Open Charge Port</button>
+                    <input type="range" min="0" max="100" value="80" id="charging--charge_slider" class="modal--slider">
+                    <p id="charging--charge_level" class="control-text"></p>
+                    <button id="charging--charge_port" class="btn btn--modal_btn"></button>
                 </div>
             </div>
         </div>
