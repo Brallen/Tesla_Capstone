@@ -4,7 +4,8 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 const teslajs = require('teslajs');
-
+let bodyParser = require('body-parser');
+let port = process.env.PORT || 5000;
 let app = express();
 
 var options = {
@@ -14,7 +15,7 @@ var options = {
 };
 
 //app.set('view engine', 'html');
-
+app.use(bodyParser.json());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -22,10 +23,19 @@ app.use(cookieParser());
 app.use(express.static(__dirname + 'Assets'));
 app.use(express.static(path.join(__dirname, 'Assets')));
 
-app.get('/', function(req, res) {
+/*app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
+});*/
+app.get('/api/hello', (req, res) => {
+  res.send({ express: 'Tesla Web App' });
 });
-
+app.post('/api/world', (req, res) => {
+  console.log(req.body.username);
+  console.log(req.body.password);
+  res.send(
+    `Username: ${req.body.username} Password: ${req.body.password}`,
+  );
+});
 app.get('/lock', function(req, res){
 	console.log("lock command received");
 	var promise = teslajs.doorLockAsync(options);
@@ -33,7 +43,7 @@ app.get('/lock', function(req, res){
 		console.log("Tesla Response: " + response);
 		res.send("Tesla Response: " + response);
 	});
-}); 
+});
 
 app.get('/unlock', function(req, res){
 	console.log("unlock command received");
@@ -42,7 +52,7 @@ app.get('/unlock', function(req, res){
 		console.log("Tesla Response: " + response);
 		res.send("Tesla Response: " + response);
 	});
-}); 
+});
 
 app.get('/honk', function(req, res){
 	console.log("honk command received");
@@ -51,7 +61,7 @@ app.get('/honk', function(req, res){
 		console.log("Tesla Response: " + response);
 		res.send("Tesla Response: " + response);
 	});
-}); 
+});
 
 app.get('/flashLights', function(req, res){
   console.log("Requesting 'flash lights'");
@@ -90,4 +100,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+app.listen(port, () => console.log(`Listening on port ${port}`));
