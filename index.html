@@ -19,6 +19,10 @@
         </div>
         <div class="container--logout_menu">
             <i class="fas fa-bars"></i>
+            <i class="fas fa-times hidden"></i>
+        </div>
+        <div class="container--logout_button hidden">
+            <button class="btn logout-button">Logout</button>
         </div>
     </header>
 
@@ -46,13 +50,13 @@
                     <button id="modal--control_close" class="modal--close_button"><i class="fas fa-times"></i></button>
                 </div>
                 <ul class="list--modal_btn">
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn" id="enginetoggle_btn">Start Engine</button></li>
                     <li class="item--modal_btn"><button class="btn btn--modal_btn" id="lock"></button></li>
-                    <li class="item--modal_btn"><button class="btn btn--modal_btn">Turn on</button></li>
                     <li class="item--modal_btn"><button class="btn btn--modal_btn" id="honk">Honk Horn</button></li>
                     <li class="item--modal_btn"><button class="btn btn--modal_btn" id="flashlights_btn">Flash Lights</button></li>
                     <li class="item--modal_btn"><button class="btn btn--modal_btn" id="openfrunk_btn">Open Frunk</button></li>
                     <li class="item--modal_btn"><button class="btn btn--modal_btn" id="opentrunk_btn">Open Trunk</button></li>
-                    <li class="item--modal_btn"><button class="btn btn--modal_btn">Open Sunroof</button></li>
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn" id="sunroof"></button></li>
                 </ul>
             </div>
         </div>
@@ -65,10 +69,10 @@
                 <div class="modal--media_controls">
                     <input type="range" min="0" max="100" value="50" id="media--volume_slider">
                     <p id="media-volume_level">Volume: 50%</p>
-                    <a href="" class="media-back"><i class="fas fa-backward"></i></a>
-                    <a href="" class="media-play"><i class="fas fa-play-circle"></i></a>
-                    <a href="" class="media-pause hidden"><i class="fas fa-pause-circle"></i></a>
-                    <a href="" class="media-next"><i class="fas fa-forward"></i></a>
+                    <a class="media-back" id="play_prev_btn"><i class="fas fa-backward"></i></a>
+                    <a class="media-play" id="play_pause_btn"><i id="play_pause_image" class="fas fa-play-circle"></i></a>
+                    <!--<a href="" class="media-pause hidden"><i class="fas fa-pause-circle"></i></a>-->
+                    <a class="media-next" id="play_next_btn"><i class="fas fa-forward"></i></a>
                 </div>
             </div>
         </div>
@@ -104,9 +108,9 @@
                     <button id="modal--charging_close" class="modal--close_button"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="modal--charging_controls">
-                    <input type="range" min="0" max="100" value="80" id="charging--charge_slider">
-                    <p id="charging--charge_level">Max Charge: 80%</p>
-                    <button id="charging--charge_port" class="btn btn--modal_btn">Open Charge Port</button>
+                    <input type="range" min="0" max="100" value="80" id="charging--charge_slider" class="modal--slider">
+                    <p id="charging--charge_level" class="control-text"></p>
+                    <button id="charging--charge_port" class="btn btn--modal_btn"></button>
                 </div>
             </div>
         </div>

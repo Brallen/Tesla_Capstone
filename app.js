@@ -12,6 +12,7 @@ var options = {
   vehicleID:"vehicle1LaLaLa",
   carIndex:0
 };
+var fakePassword = "password";
 
 //app.set('view engine', 'html');
 
@@ -27,7 +28,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/lock', function(req, res){
-	console.log("lock command received");
+	console.log("Requesting 'lock door'");
 	var promise = teslajs.doorLockAsync(options);
 	promise.catch(function(response){
 		console.log("Tesla Response: " + response);
@@ -36,7 +37,7 @@ app.get('/lock', function(req, res){
 });
 
 app.get('/unlock', function(req, res){
-	console.log("unlock command received");
+	console.log("Requesting 'unlock door'");
 	var promise = teslajs.doorUnlockAsync(options);
 	promise.catch(function(response){
 		console.log("Tesla Response: " + response);
@@ -44,9 +45,55 @@ app.get('/unlock', function(req, res){
 	});
 });
 
+app.get('/opensunroof', function(req, res){
+	console.log("Requesting 'open sunroof'");
+	var promise = teslajs.sunRoofControlAsync(options, "vent");
+	promise.catch(function(response){
+		console.log("Tesla Response: " + response);
+		res.send("Tesla Response: " + response);
+	});
+});
+
+app.get('/closesunroof', function(req, res){
+	console.log("Requesting 'close sunroof'");
+	var promise = teslajs.sunRoofControlAsync(options, "close");
+	promise.catch(function(response){
+		console.log("Tesla Response: " + response);
+		res.send("Tesla Response: " + response);
+	});
+});
+
+app.post('/chargelimit', function(req, res){
+  var value = req.body.value;
+	console.log("Requesting 'set charge limit to " + value + "'");
+	var promise = teslajs.setChargeLimitAsync(options, value);
+	promise.catch(function(response){
+		console.log("Tesla Response: " + response);
+		res.send("Tesla Response: " + response);
+	});
+});
+
 app.get('/honk', function(req, res){
-	console.log("honk command received");
+	console.log("Requesting 'honk horn'");
 	var promise = teslajs.honkHornAsync(options);
+	promise.catch(function(response){
+		console.log("Tesla Response: " + response);
+		res.send("Tesla Response: " + response);
+	});
+});
+
+app.get('/openchargeport', function(req, res){
+	console.log("Requesting 'open charge port'");
+	var promise = teslajs.openChargePortAsync(options);
+	promise.catch(function(response){
+		console.log("Tesla Response: " + response);
+		res.send("Tesla Response: " + response);
+	});
+});
+
+app.get('/closechargeport', function(req, res){
+	console.log("Requesting 'close charge port'");
+	var promise = teslajs.closeChargePortAsync(options);
 	promise.catch(function(response){
 		console.log("Tesla Response: " + response);
 		res.send("Tesla Response: " + response);
@@ -77,6 +124,56 @@ app.get('/climateOff', function(req, res){
   promise.catch(function(response){
     console.log("Tesla Response: " + response);
     res.send("Tesla Response: " + response)
+app.get('/startEngine', function(req, res){
+  console.log("Remotely starting engine");
+  var promise = teslajs.remoteStartAsync(options, fakePassword);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+		res.send("Tesla Response: " + response);
+  })
+});
+
+app.get('/toggleMusic', function(req, res){
+  console.log("Toggling Music");
+  var promise = teslajs.mediaTogglePlaybackAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
+});
+
+app.get('/nextSong', function(req, res){
+  console.log("Calling next song");
+  var promise = teslajs.mediaPlayNextAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
+});
+
+app.get('/prevSong', function(req, res){
+  console.log("Calling previous song");
+  var promise = teslajs.mediaPlayPreviousAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
+});
+
+app.get('/volumeUp', function(req,res){
+  console.log("Turning volume up");
+  var promise = teslajs.mediaVolumeUpAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
+});
+app.get('/volumeDown', function(req,res){
+  console.log("Turning volume down");
+  var promise = teslajs.mediaVolumeDownAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
   });
 });
 
