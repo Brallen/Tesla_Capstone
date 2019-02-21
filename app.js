@@ -23,9 +23,9 @@ app.use(cookieParser());
 app.use(express.static(__dirname + 'Assets'));
 app.use(express.static(path.join(__dirname, 'Assets')));
 
-/*app.get('/', function(req, res) {
+app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
-});*/
+});
 app.get('/api/hello', (req, res) => {
   res.send({ express: 'Tesla Web App' });
 });
