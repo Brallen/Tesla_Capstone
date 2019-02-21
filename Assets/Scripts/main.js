@@ -116,15 +116,17 @@ window.onload = function(){
     chargeLimitSlider.oninput = function() {
       var message = "Max Charge: " + chargeLimitSlider.value
       document.getElementById('charging--charge_level').innerHTML = message;
-      $.ajax({
-  			url:"chargelimit",
-        type: "POST",
-        data: {value: chargeLimitSlider.value}
-  			}).done(function(response){
-  				//alert(response);
-  		});
-
     }
+	
+	chargeLimitSlider.onchange = function() {
+		$.ajax({
+				url:"chargelimit",
+			type: "POST",
+			data: {value: chargeLimitSlider.value}
+				}).done(function(response){
+					//alert(response);
+			});
+	}
 
     //Honk Horn
 
