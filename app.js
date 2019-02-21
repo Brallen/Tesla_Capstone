@@ -69,7 +69,7 @@ app.get('/climateOn', function(req, res){
     console.log("Tesla Response: " + response);
     res.send("Tesla Response: " + response)
   });
-})
+});
 
 app.get('/climateOff', function(req, res){
   console.log("Requesting 'climate control off'");
@@ -78,7 +78,7 @@ app.get('/climateOff', function(req, res){
     console.log("Tesla Response: " + response);
     res.send("Tesla Response: " + response)
   });
-})
+});
 
 //for both trunk & frunk
 app.post('/openTrunk', function(req, res){
@@ -101,8 +101,20 @@ app.post('/setTemp', function(req, res){
     console.log("Tesla Response: " + response + ", temp set to: " + Math.round(tempC * (9/5) + 32) + "F");
     res.send("Tesla Response: " + response + ", temp set to: " + Math.round(tempC * (9/5) + 32) + "F");
   });
-
 });
+
+//setting seat heating temp for [seat] at [level]
+app.post('/seatHeating', function(req, res){
+  var seat = req.body.seat;
+  var level = req.body.level;
+  console.log("Requesting 'seat " + seat + " to be heated to level " + level + "'");
+  var promise =  teslajs.seatHeaterAsync(options, seat, level);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response)
+  });
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

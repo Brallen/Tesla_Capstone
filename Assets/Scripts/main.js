@@ -11,9 +11,18 @@ window.onload = function(){
     let frunkbutton = document.getElementById('openfrunk_btn');
     let climatebutton = document.getElementById('climate--control');
     let tempSlider = document.getElementById('climate--temp_slider');
+    let seatHeaterSelector = document.getElementById('climate--seat_warmers');
+
 
 	var isLocked = 0;
   var climateOn = false;
+  var seatHeating = {
+    0:false,
+    1:false,
+    2:false,
+    4:false,
+    5:false
+  }
 
 	if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
 	else document.getElementById('lock').innerHTML = "Unlock";
@@ -147,4 +156,47 @@ window.onload = function(){
         //alert(response);
       });
     }
+
+    seatHeaterSelector.onclick = function(e){
+      var seatHeaters = [].slice.call(document.querySelectorAll('.climate--seat_btn > .climate--img'), 0);
+      var index = seatHeaters.indexOf(e.target);
+      var apiIndex;
+      if(index !== -1){
+        //change index to TeslaAPI seat index
+        switch (index) {
+          case 3:
+            apiIndex = 4;
+            break;
+          case 4:
+            apiIndex = 5;
+            break;
+          default:
+            apiIndex = index;
+        }
+        //either turn seat heating on or off
+        var level, color;
+        if(seatHeating[apiIndex] == false){
+          //turn seat heating on for that seat
+          level = 2;
+          color = "red";
+          seatHeating[apiIndex] = true;
+        }else{
+          //turn seat heating off for that seat
+          level = 0;
+          color = "white";
+          seatHeating[apiIndex] = false;
+        }
+        $.ajax({
+          url:"seatHeating",
+          type: "POST",
+          data: {seat:apiIndex, level:level}
+        }).done(function(response){
+          //change image
+          var heater = seatHeaters[index];
+          heater.style.color = color;
+        });
+
+      }
+    }
+
 }
