@@ -5,9 +5,12 @@ window.onload = function(){
     let climateModal = document.getElementsByClassName('container--modal_climate')[0];
     let chargingModal = document.getElementsByClassName('container--modal_charging')[0];
     let summonModal = document.getElementsByClassName('container--modal_summon')[0];
-	let flashbutton = document.getElementById('flashlights_btn');
+	  let flashbutton = document.getElementById('flashlights_btn');
     let trunkbutton = document.getElementById('opentrunk_btn');
     let frunkbutton = document.getElementById('openfrunk_btn');
+    let climatebutton = document.getElementById('climate--control');
+    let tempSlider = document.getElementById('climate--temp_slider');
+    let seatHeaterSelector = document.getElementById('climate--seat_warmers');
     let enginebutton = document.getElementById('enginetoggle_btn');
     let playbutton = document.getElementById('play_pause_btn');
     let nextbutton = document.getElementById('play_next_btn');
@@ -17,8 +20,18 @@ window.onload = function(){
     let sunroof = document.getElementById('sunroof');
     let chargeLimitSlider = document.getElementById('charging--charge_slider');
     let chargePort = document.getElementById('charging--charge_port');
-  
-    var musicPlaying = false;
+
+  var climateOn = false;
+  var seatHeating = {
+    0:false,
+    1:false,
+    2:false,
+    4:false,
+    5:false
+  }
+  var musicPlaying = false;
+	if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
+	else document.getElementById('lock').innerHTML = "Unlock";
 
     document.getElementById('modal--control_open').onclick = function() {
         controlModal.style.display = 'block';
@@ -39,6 +52,7 @@ window.onload = function(){
     document.getElementById('modal--climate_close').onclick = function() {
         climateModal.style.display = 'none';
     };
+
     document.getElementById('modal--charging_open').onclick = function() {
         chargingModal.style.display = 'block';
     };
@@ -52,6 +66,8 @@ window.onload = function(){
     document.getElementById('modal--summon_close').onclick = function() {
         summonModal.style.display = 'none';
     };
+
+  
   
     // Async requests
 
@@ -128,7 +144,7 @@ window.onload = function(){
 			});
 	}
 
-    //Honk Horn
+    // Horn
 
   	honk.onclick = function() {
   		$.ajax({
@@ -193,6 +209,85 @@ window.onload = function(){
       });
     }
 
+    climatebutton.onclick = function(){
+      if (climateOn == true) {
+        $.ajax({
+          url:"climateOff"
+          }).done(function(response){
+            //alert(response);
+            climateOn = false;
+            climatebutton.innerHTML = "Turn Climate Control On";
+          });
+      }
+      else {
+        $.ajax({
+          url:"climateOn"
+          }).done(function(response){
+            //alert(response);
+            climateOn = true;
+            climatebutton.innerHTML = "Turn Climate Control Off";
+          });
+      }
+    }
+
+    //change what temp is being showed
+    tempSlider.oninput = function(){
+      document.getElementById('climate--temp_level').innerHTML = tempSlider.value;
+    }
+    //change actual temp when slider released
+    //Changing temp for both Driver & Passenger
+    tempSlider.onchange = function(){
+      $.ajax({
+        url:"setTemp",
+        type:"POST",
+        data:{temp: Math.round((tempSlider.value -32) * (5/9))} //converting to Celcius
+      }).done(function(response){
+        //in further developments, return set temp, and assign to text and slider
+        //alert(response);
+      });
+    }
+
+    seatHeaterSelector.onclick = function(e){
+      var seatHeaters = [].slice.call(document.querySelectorAll('.climate--seat_btn > .climate--img'), 0);
+      var index = seatHeaters.indexOf(e.target);
+      var apiIndex;
+      if(index !== -1){
+        //change index to TeslaAPI seat index
+        switch (index) {
+          case 3:
+            apiIndex = 4;
+            break;
+          case 4:
+            apiIndex = 5;
+            break;
+          default:
+            apiIndex = index;
+        }
+        //either turn seat heating on or off
+        var level, color;
+        if(seatHeating[apiIndex] == false){
+          //turn seat heating on for that seat
+          level = 2;
+          color = "red";
+          seatHeating[apiIndex] = true;
+        }else{
+          //turn seat heating off for that seat
+          level = 0;
+          color = "white";
+          seatHeating[apiIndex] = false;
+        }
+        $.ajax({
+          url:"seatHeating",
+          type: "POST",
+          data: {seat:apiIndex, level:level}
+        }).done(function(response){
+          //change image
+          var heater = seatHeaters[index];
+          heater.style.color = color;
+        });
+
+      }
+      
     //just start the engine. Dont turn it off
     enginebutton.onclick = function(){
       $.ajax({
