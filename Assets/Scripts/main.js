@@ -43,7 +43,13 @@ window.onload = function(){
     // Page update commands
     document.getElementById('climate--temp_slider').oninput = function() {
         document.getElementById('climate--temp_level').innerHTML = `Climate: ${this.value}F`;
-      }
+    }
+    document.getElementById('media--volume_slider').oninput = function() {
+        document.getElementById('media-volume_level').innerHTML = `Volume: ${this.value}%`;
+    }
+    document.getElementById('charging--charge_slider').oninput = function() {
+        document.getElementById('charging--charge_level').innerHTML = `Max Charge: ${this.value}%`;
+    }
 
     let seats = Array.from(document.getElementsByClassName('climate--seat_btn'));
     seats.forEach(seat => {
