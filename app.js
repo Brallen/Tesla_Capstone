@@ -123,14 +123,17 @@ app.get('/climateOff', function(req, res){
   var promise =  teslajs.climateStopAsync(options);
   promise.catch(function(response){
     console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response)
+    res.send("Tesla Response: " + response);
+  });
+});
+
 app.get('/startEngine', function(req, res){
   console.log("Remotely starting engine");
   var promise = teslajs.remoteStartAsync(options, fakePassword);
   promise.catch(function(response){
     console.log("Tesla Response: " + response);
 		res.send("Tesla Response: " + response);
-  })
+  });
 });
 
 app.get('/toggleMusic', function(req, res){

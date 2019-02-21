@@ -67,8 +67,8 @@ window.onload = function(){
         summonModal.style.display = 'none';
     };
 
-  
-  
+
+
     // Async requests
 
     //Lock/Unlock
@@ -129,11 +129,11 @@ window.onload = function(){
 
     document.getElementById('charging--charge_level').innerHTML = "Max Charge: 80";
 
-    chargeLimitSlider.oninput = function() {
-      var message = "Max Charge: " + chargeLimitSlider.value
-      document.getElementById('charging--charge_level').innerHTML = message;
-    }
-	
+  chargeLimitSlider.oninput = function() {
+    var message = "Max Charge: " + chargeLimitSlider.value
+    document.getElementById('charging--charge_level').innerHTML = message;
+  }
+
 	chargeLimitSlider.onchange = function() {
 		$.ajax({
 				url:"chargelimit",
@@ -287,7 +287,7 @@ window.onload = function(){
         });
 
       }
-      
+    }  
     //just start the engine. Dont turn it off
     enginebutton.onclick = function(){
       $.ajax({
