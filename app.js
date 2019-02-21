@@ -12,6 +12,7 @@ var options = {
   vehicleID:"vehicle1LaLaLa",
   carIndex:0
 };
+var fakePassword = "password";
 
 //app.set('view engine', 'html');
 
@@ -105,6 +106,59 @@ app.get('/flashLights', function(req, res){
   promise.catch(function(response){
     console.log("Tesla Response: " + response);
     res.send("Tesla Response: " + response)
+  });
+});
+
+app.get('/startEngine', function(req, res){
+  console.log("Remotely starting engine");
+  var promise = teslajs.remoteStartAsync(options, fakePassword);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+		res.send("Tesla Response: " + response);
+  })
+});
+
+app.get('/toggleMusic', function(req, res){
+  console.log("Toggling Music");
+  var promise = teslajs.mediaTogglePlaybackAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
+});
+
+app.get('/nextSong', function(req, res){
+  console.log("Calling next song");
+  var promise = teslajs.mediaPlayNextAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
+});
+
+app.get('/prevSong', function(req, res){
+  console.log("Calling previous song");
+  var promise = teslajs.mediaPlayPreviousAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
+});
+
+app.get('/volumeUp', function(req,res){
+  console.log("Turning volume up");
+  var promise = teslajs.mediaVolumeUpAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
+});
+app.get('/volumeDown', function(req,res){
+  console.log("Turning volume down");
+  var promise = teslajs.mediaVolumeDownAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
   });
 });
 

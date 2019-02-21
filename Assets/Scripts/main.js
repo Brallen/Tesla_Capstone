@@ -8,11 +8,21 @@ window.onload = function(){
 	  let flashbutton = document.getElementById('flashlights_btn');
     let trunkbutton = document.getElementById('opentrunk_btn');
     let frunkbutton = document.getElementById('openfrunk_btn');
+    let enginebutton = document.getElementById('enginetoggle_btn');
+    let playbutton = document.getElementById('play_pause_btn');
+    let nextbutton = document.getElementById('play_next_btn');
+    let prevbutton = document.getElementById('play_prev_btn');
     let lock = document.getElementById('lock');
     let honk = document.getElementById('honk');
     let sunroof = document.getElementById('sunroof');
     let chargeLimitSlider = document.getElementById('charging--charge_slider');
     let chargePort = document.getElementById('charging--charge_port');
+  
+    var isLocked = 0;
+    var musicPlaying = false;
+
+  	if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
+  	else document.getElementById('lock').innerHTML = "Unlock";
 
     document.getElementById('modal--control_open').onclick = function() {
         controlModal.style.display = 'block';
@@ -46,7 +56,7 @@ window.onload = function(){
     document.getElementById('modal--summon_close').onclick = function() {
         summonModal.style.display = 'none';
     };
-
+  
     // Async requests
 
     //Lock/Unlock
@@ -157,7 +167,6 @@ window.onload = function(){
 				     });
 		    }
 	  }
-
     flashbutton.onclick = function(){
       $.ajax({
         url:"flashLights"
@@ -185,4 +194,49 @@ window.onload = function(){
         //alert(response);
       });
     }
+
+    //just start the engine. Dont turn it off
+    enginebutton.onclick = function(){
+      $.ajax({
+        url:"startEngine"
+      }).done(function(response){
+        //alert(response);
+      });
+
+    }
+
+    playbutton.onclick = function(){
+      $.ajax({
+        url: "toggleMusic"
+      }).done(function(response){
+        if(musicPlaying == false){
+          playbutton.classList.add("media-pause");
+          playbutton.classList.remove("media-play");
+          document.getElementById('play_pause_image').classList.add("fa-pause-circle");
+          document.getElementById('play_pause_image').classList.remove("fa-play-circle");
+          musicPlaying = true;
+        }else {
+          playbutton.classList.add("media-play");
+          playbutton.classList.remove("media-pause");
+          document.getElementById('play_pause_image').classList.add("fa-play-circle");
+          document.getElementById('play_pause_image').classList.remove("fa-pause-circle");
+          musicPlaying = false;
+        }
+      });
+    }
+    nextbutton.onclick = function(){
+      $.ajax({
+        url: "nextSong"
+      }).done(function(response){
+        alert(response);
+      });
+    }
+    prevbutton.onclick = function(){
+      $.ajax({
+        url: "prevSong"
+      }).done(function(response){
+        alert(response);
+      });
+    }
+
 }
