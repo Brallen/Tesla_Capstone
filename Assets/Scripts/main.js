@@ -5,7 +5,7 @@ window.onload = function(){
     let climateModal = document.getElementsByClassName('container--modal_climate')[0];
     let chargingModal = document.getElementsByClassName('container--modal_charging')[0];
     let summonModal = document.getElementsByClassName('container--modal_summon')[0];
-	  let flashbutton = document.getElementById('flashlights_btn');
+	let flashbutton = document.getElementById('flashlights_btn');
     let trunkbutton = document.getElementById('opentrunk_btn');
     let frunkbutton = document.getElementById('openfrunk_btn');
     let enginebutton = document.getElementById('enginetoggle_btn');
@@ -18,11 +18,7 @@ window.onload = function(){
     let chargeLimitSlider = document.getElementById('charging--charge_slider');
     let chargePort = document.getElementById('charging--charge_port');
   
-    var isLocked = 0;
     var musicPlaying = false;
-
-  	if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
-  	else document.getElementById('lock').innerHTML = "Unlock";
 
     document.getElementById('modal--control_open').onclick = function() {
         controlModal.style.display = 'block';
