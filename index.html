@@ -68,7 +68,7 @@
                 </div>
                 <div class="modal--media_controls">
                     <input type="range" min="0" max="100" value="50" id="media--volume_slider">
-                    <p id="media-volume_level">Volume: 50%</p>
+                    <p id="media-volume_level" class="modal--level_text">Volume: 50%</p>
                     <button class="media-back" id="play_prev_btn"><i class="fas fa-backward"></i></button>
                     <button class="media-play" id="play_pause_btn"><i id="play_pause_image" class="fas fa-play-circle"></i></button>
                     <button class="media-pause hidden"><i class="fas fa-pause-circle"></i></button>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="modal--climate_controls">
                     <input type="range" min="40" max="85" value="70" id="climate--temp_slider" class="modal--slider">
-                    <p class="control-text">Climate: <span id="climate--temp_level">70</span>F</p>
+                    <p id="climate--temp_level" class="modal--level_text">Climate: 70F</p>
                     <button id="climate--control" class="btn btn--modal_btn">Turn Climate Control On</button>
                     <!--<button id="climate--ac" class="btn btn--modal_btn">AC On</button> -->
                     <div id="climate--seat_warmers" class="climate--seat_warmers">
@@ -109,7 +109,7 @@
                 </div>
                 <div class="modal--charging_controls">
                     <input type="range" min="0" max="100" value="80" id="charging--charge_slider" class="modal--slider">
-                    <p id="charging--charge_level" class="control-text"></p>
+                    <p id="charging--charge_level" class="modal--level_text">Max Charge: 80%</p>
                     <button id="charging--charge_port" class="btn btn--modal_btn"></button>
                 </div>
             </div>
