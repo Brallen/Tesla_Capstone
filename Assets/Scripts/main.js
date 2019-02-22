@@ -66,13 +66,13 @@ window.onload = function(){
     };
 
     // Page update commands
-    document.getElementById('climate--temp_slider').oninput = function() {
+    tempSlider.oninput = function() {
         document.getElementById('climate--temp_level').innerHTML = `Climate: ${this.value}F`;
     }
     document.getElementById('media--volume_slider').oninput = function() {
         document.getElementById('media-volume_level').innerHTML = `Volume: ${this.value}%`;
     }
-    document.getElementById('charging--charge_slider').oninput = function() {
+    chargeLimitSlider.oninput = function() {
         document.getElementById('charging--charge_level').innerHTML = `Max Charge: ${this.value}%`;
     }
 
@@ -139,15 +139,7 @@ window.onload = function(){
 		    }
 	  }
 
-    //Charge Limit
-
-    document.getElementById('charging--charge_level').innerHTML = "Max Charge: 80";
-
-  chargeLimitSlider.oninput = function() {
-    var message = "Max Charge: " + chargeLimitSlider.value
-    document.getElementById('charging--charge_level').innerHTML = message;
-  }
-
+  //Max charge info
 	chargeLimitSlider.onchange = function() {
 		$.ajax({
 				url:"chargelimit",
@@ -244,10 +236,6 @@ window.onload = function(){
       }
     }
 
-    //change what temp is being showed
-    tempSlider.oninput = function(){
-      document.getElementById('climate--temp_level').innerHTML = tempSlider.value;
-    }
     //change actual temp when slider released
     //Changing temp for both Driver & Passenger
     tempSlider.onchange = function(){
@@ -261,6 +249,8 @@ window.onload = function(){
       });
     }
 
+
+  
     seatHeaterSelector.onclick = function(e){
       var seatHeaters = [].slice.call(document.querySelectorAll('.climate--seat_btn > .climate--img'), 0);
       var index = seatHeaters.indexOf(e.target);
@@ -299,7 +289,6 @@ window.onload = function(){
           var heater = seatHeaters[index];
           heater.style.color = color;
         });
-
       }
     }  
     //just start the engine. Dont turn it off

@@ -4,7 +4,8 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 const teslajs = require('teslajs');
-
+let bodyParser = require('body-parser');
+let port = process.env.PORT || 5000;
 let app = express();
 
 var options = {
@@ -15,7 +16,7 @@ var options = {
 var fakePassword = "password";
 
 //app.set('view engine', 'html');
-
+app.use(bodyParser.json());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -26,7 +27,16 @@ app.use(express.static(path.join(__dirname, 'Assets')));
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
-
+app.get('/api/hello', (req, res) => {
+  res.send({ express: 'Tesla Web App' });
+});
+app.post('/api/world', (req, res) => {
+  console.log(req.body.username);
+  console.log(req.body.password);
+  res.send(
+    `Username: ${req.body.username} Password: ${req.body.password}`,
+  );
+});
 app.get('/lock', function(req, res){
 	console.log("Requesting 'lock door'");
 	var promise = teslajs.doorLockAsync(options);
@@ -231,5 +241,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.listen(port, () => console.log(`Listening on port ${port}`));
 
 module.exports = app;
