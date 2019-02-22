@@ -39,7 +39,6 @@ window.onload = function(){
     document.getElementById('modal--control_close').onclick = function() {
         controlModal.style.display = 'none';
     };
-
     document.getElementById('modal--media_open').onclick = function() {
         mediaModal.style.display = 'block';
     };
@@ -59,7 +58,6 @@ window.onload = function(){
     document.getElementById('modal--charging_close').onclick = function() {
         chargingModal.style.display = 'none';
     };
-
     document.getElementById('modal--summon_open').onclick = function() {
         summonModal.style.display = 'block';
     };
@@ -67,8 +65,24 @@ window.onload = function(){
         summonModal.style.display = 'none';
     };
 
+    // Page update commands
+    document.getElementById('climate--temp_slider').oninput = function() {
+        document.getElementById('climate--temp_level').innerHTML = `Climate: ${this.value}F`;
+    }
+    document.getElementById('media--volume_slider').oninput = function() {
+        document.getElementById('media-volume_level').innerHTML = `Volume: ${this.value}%`;
+    }
+    document.getElementById('charging--charge_slider').oninput = function() {
+        document.getElementById('charging--charge_level').innerHTML = `Max Charge: ${this.value}%`;
+    }
 
-
+    let seats = Array.from(document.getElementsByClassName('climate--seat_btn'));
+    seats.forEach(seat => {
+        seat.onclick = function(){
+            this.classList.toggle('climate--seat_btn_active');
+        }
+    });
+    
     // Async requests
 
     //Lock/Unlock
