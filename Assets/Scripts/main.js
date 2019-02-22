@@ -5,6 +5,9 @@ window.onload = function(){
     let climateModal = document.getElementsByClassName('container--modal_climate')[0];
     let chargingModal = document.getElementsByClassName('container--modal_charging')[0];
     let summonModal = document.getElementsByClassName('container--modal_summon')[0];
+    let logoutModal = document.getElementsByClassName('container--logout_button')[0];
+    let logoutOpen = document.getElementById('modal--logout_open');
+    let logoutClose = document.getElementById('modal--logout_close');
 	  let flashbutton = document.getElementById('flashlights_btn');
     let trunkbutton = document.getElementById('opentrunk_btn');
     let frunkbutton = document.getElementById('openfrunk_btn');
@@ -62,8 +65,18 @@ window.onload = function(){
         summonModal.style.display = 'block';
     };
     document.getElementById('modal--summon_close').onclick = function() {
-        summonModal.style.display = 'none';
+      summonModal.style.display = 'none';
     };
+    logoutOpen.onclick = () => {
+      logoutModal.classList.toggle('hidden');
+      logoutOpen.classList.toggle('hidden');
+      logoutClose.classList.toggle('hidden');
+    }
+    logoutClose.onclick = () => {
+      logoutModal.classList.toggle('hidden');
+      logoutClose.classList.toggle('hidden');
+      logoutOpen.classList.toggle('hidden');
+    }
 
     // Page update commands
     tempSlider.oninput = function() {
