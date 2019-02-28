@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Tesla Capstone</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+        crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="Styles/main.css" />
     <script src="Scripts/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
+
 <body>
     <header class="container--header">
         <div class="container--car_info">
@@ -18,8 +21,8 @@
             <p>88% remaining</p>
         </div>
         <div class="container--logout_menu">
-            <i class="fas fa-bars"></i>
-            <i class="fas fa-times hidden"></i>
+            <i id="modal--logout_open" class="fas fa-bars"></i>
+            <i id="modal--logout_close" class="fas fa-times hidden"></i>
         </div>
         <div class="container--logout_button hidden">
             <button class="btn logout-button">Logout</button>
@@ -42,7 +45,7 @@
             </ul>
         </div>
 
-<!--******** Starting Popup Modals *******-->
+        <!--******** Starting Popup Modals *******-->
         <!-- Control Modal -->
         <div class="modal container--modal_controls">
             <div class="modal-content">
@@ -56,7 +59,7 @@
                     <li class="item--modal_btn"><button class="btn btn--modal_btn" id="flashlights_btn">Flash Lights</button></li>
                     <li class="item--modal_btn"><button class="btn btn--modal_btn" id="openfrunk_btn">Open Frunk</button></li>
                     <li class="item--modal_btn"><button class="btn btn--modal_btn" id="opentrunk_btn">Open Trunk</button></li>
-                    <li class="item--modal_btn"><button class="btn btn--modal_btn" id="sunroof"></button></li>
+                    <li class="item--modal_btn"><button class="btn btn--modal_btn" id="sunroof">Open Sunroof</button></li>
                 </ul>
             </div>
         </div>
@@ -67,12 +70,12 @@
                     <button id="modal--media_close" class="modal--close_button"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="modal--media_controls">
-                    <input type="range" min="0" max="100" value="50" id="media--volume_slider">
-                    <p id="media-volume_level">Volume: 50%</p>
-                    <a class="media-back" id="play_prev_btn"><i class="fas fa-backward"></i></a>
-                    <a class="media-play" id="play_pause_btn"><i id="play_pause_image" class="fas fa-play-circle"></i></a>
-                    <!--<a href="" class="media-pause hidden"><i class="fas fa-pause-circle"></i></a>-->
-                    <a class="media-next" id="play_next_btn"><i class="fas fa-forward"></i></a>
+                    <button class="media-volume_up btn btn--modal_btn">Volume Up</button>
+                    <button class="media-Volume_down btn btn--modal_btn">Volume Down</button>
+                    <p id="media-volume_level" class="control-text">Volume: 50%</p>
+                    <button class="media-control_button media-back"><i class="fas fa-backward"></i></button>
+                    <button class="media-control_button media-play"><i class="fas fa-play-circle"></i></button>
+                    <button class="media-control_button media-next"><i class="fas fa-forward"></i></button>
                 </div>
             </div>
         </div>
@@ -84,7 +87,7 @@
                 </div>
                 <div class="modal--climate_controls">
                     <input type="range" min="40" max="85" value="70" id="climate--temp_slider" class="modal--slider">
-                    <p class="control-text">Climate: <span id="climate--temp_level">70</span>F</p>
+                    <p id="climate--temp_level" class="modal--level_text">Climate: 70F</p>
                     <button id="climate--control" class="btn btn--modal_btn">Turn Climate Control On</button>
                     <!--<button id="climate--ac" class="btn btn--modal_btn">AC On</button> -->
                     <div id="climate--seat_warmers" class="climate--seat_warmers">
@@ -109,7 +112,7 @@
                 </div>
                 <div class="modal--charging_controls">
                     <input type="range" min="0" max="100" value="80" id="charging--charge_slider" class="modal--slider">
-                    <p id="charging--charge_level" class="control-text"></p>
+                    <p id="charging--charge_level" class="modal--level_text">Max Charge: 80%</p>
                     <button id="charging--charge_port" class="btn btn--modal_btn"></button>
                 </div>
             </div>
@@ -121,12 +124,13 @@
                     <button id="modal--summon_close" class="modal--close_button"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="modal--summon_controls">
-                    <button id="summon--move_forward"class="btn btn--modal_btn">Summon Forward</button>
-                    <button id="summon--move_backward"class="btn btn--modal_btn">Summon Backward</button>
+                    <button id="summon--move_forward" class="btn btn--modal_btn">Summon Forward</button>
+                    <button id="summon--move_backward" class="btn btn--modal_btn">Summon Backward</button>
                 </div>
             </div>
         </div>
     </main>
 
 </body>
+
 </html>
