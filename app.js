@@ -150,6 +150,26 @@ app.get('/startEngine', function (req, res) {
   });
 });
 
+app.post('/volumeUp', function(req, res){
+  var options = req.body.auth;
+  console.log("Requesting volume up");
+  var promise = teslajs.mediaVolumeUpAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
+});
+
+app.post('/volumeDown', function(req, res){
+  var options = req.body.auth;
+  console.log("Requesting volume down");
+  var promise = teslajs.mediaVolumeDownAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
+});
+
 app.get('/toggleMusic', function (req, res) {
   console.log("Toggling Music");
   var promise = teslajs.mediaTogglePlaybackAsync(options);
