@@ -100,8 +100,24 @@ window.onload = function(){
       type: "POST",
       data: { email: email,
               password: password}
-      }).done(function(response){
-        alert(response);
+      }).done(function(result){
+        alert(result);
+        localOptions = JSON.stringify(result);
+        //update information with given authToken
+        $.ajax({
+          url:"vehicleData",
+          type:"POST",
+          data: {auth: JSON.stringify(localOptions)}
+        }).done(function(vehicleData){
+          //update gui information
+          if(vehicleData){
+            //update battery %
+            if(vehicleData.charge_state){
+              var chargeState = vehicleData.charge_state;
+              document.getElementById('battery_lvl').innerHTML = chargeState.battery_level;
+            }
+          }
+        });
       });
 
       //alert(authToken);

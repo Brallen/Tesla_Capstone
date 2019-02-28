@@ -251,7 +251,7 @@ app.post('/login', function(req,res){
   promise.catch(function(response){
     console.log("Tesla Response: " + response);
     //console.log("Returned Token: " + authToken);
-    res.send("Tesla Response: " + response);
+    res.send(response); //should hold the authToken
   });
 });
 
