@@ -24,12 +24,12 @@ window.onload = function(){
 
 
   var climateOn = false;
-  var seatHeating = { //change to id name & use level instead of bool
-    "climate--seat_fl":false,
-    "climate--seat_fr":false,
-    "climate--seat_bl":false,
-    "climate--seat_bm":false,
-    "climate--seat_br":false
+  var seatHeating = {
+    "climate--seat_fl":0,
+    "climate--seat_fr":0,
+    "climate--seat_bl":0,
+    "climate--seat_bm":0,
+    "climate--seat_br":0
   }
   const seatIndex = {
     "climate--seat_fl": 0,
@@ -266,11 +266,11 @@ window.onload = function(){
     //use this function instead of below
     seats.forEach(seat => {
         seat.onclick = function(){
-            this.classList.toggle('climate--seat_btn_active');
+            //this.classList.toggle('climate--seat_btn_active');
             var apiIndex = seatIndex[this.id];
             //either turn seat heating on or off
             var level, color;
-            if(seatHeating[apiIndex] == false){
+            /*if(seatHeating[apiIndex] == false){
               //turn seat heating on for that seat
               level = 2;
               color = "red";
@@ -280,14 +280,33 @@ window.onload = function(){
               level = 0;
               color = "white";
               seatHeating[apiIndex] = false;
-            }
+            }*/
+
+            switch (seatHeating[this.id]) {
+              case 0:
+              case 1:
+              case 2:
+                seatHeating[this.id]++;
+                console.log(this.classList);
+                this.classList.add('climate--seat_btn_level_' + seatHeating[this.id]);
+                this.classList.remove('climate--seat_btn_level_' + (seatHeating[this.id]-1));
+                console.log(this.classList);
+                break;
+              case 3:
+              default:
+                seatHeating[this.id] = 0;
+                this.classList.add('climate--seat_btn_level_0');
+                this.classList.remove('climate--seat_btn_level_3');
+                break;
+            }level = seatHeating[this.id];
+
             $.ajax({
               url:"seatHeating",
               type: "POST",
               data: {seat:apiIndex, level:level}
             }).done(function(response){
               //change image
-              seat.style.color = color;
+              //seat.style.color = color;
             });
         }
     });

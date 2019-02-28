@@ -192,6 +192,22 @@ body {
   color: #DA3738;
 }
 
+.climate--seat_btn_level_0 i {
+  color: #FFFFFF;
+}
+
+.climate--seat_btn_level_1 i {
+  color: #da9e37;
+}
+
+.climate--seat_btn_level_2 i {
+  color: #da6a37;
+}
+
+.climate--seat_btn_level_3 i {
+  color: #DA3738;
+}
+
 .climate--front_seats button {
   margin: 0 12px 10px 12px;
 }
