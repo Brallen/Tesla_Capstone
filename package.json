@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "sass --no-source-map Assets/Styles/Sass/main.sass Assets/Styles/main.css && node ./bin/www",
@@ -21,5 +21,9 @@
   },
   "devDependencies": {
     "concurrently": "^4.0.1"
+  }
+  "engines": {
+    "node": "8.9.1",
+    "npm": "6.3.0"
   }
 }
