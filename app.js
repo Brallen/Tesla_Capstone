@@ -242,6 +242,17 @@ app.post('/seatHeating', function(req, res){
   });
 });
 
+/**** Getting State Calls ****/
+app.post('/vehicleData', function(req, res){
+  var options = req.body.auth;
+  console.log("Requesting full vehicle state");
+  var promise = teslajs.vehicleDataAsync(options);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    res.send(JSON.stringify(response));
+  });
+})
+
 app.post('/login', function(req,res){
   var email = req.body.email;
   var password = req.body.password;
