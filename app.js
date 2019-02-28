@@ -5,7 +5,7 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 const teslajs = require('teslajs');
 let bodyParser = require('body-parser');
-let port = process.env.PORT || 5000;
+// let port = process.env.PORT || 5000;
 let app = express();
 
 var options = {
