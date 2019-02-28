@@ -174,7 +174,7 @@ body {
   margin: 15px 0;
 }
 
-.modal--media_controls button {
+.modal--media_controls .media-control_button {
   font-size: 35px;
   padding: 0 15px;
 }
