@@ -24,7 +24,11 @@ app.use(cookieParser());
 app.use(express.static(__dirname + 'Assets'));
 app.use(express.static(path.join(__dirname, 'Assets')));
 
-app.get('/', function(req, res) {
+app.get('/', function(req,res) {
+  res.sendFile(path.join(__dirname + '/login.html'));
+});
+
+app.get('/main', function(req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 app.get('/api/hello', (req, res) => {
@@ -198,7 +202,7 @@ app.post('/openTrunk', function(req, res){
   var promise =  teslajs.openTrunkAsync(options, which);
   promise.catch(function(response){
     console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response)
+    res.send("Tesla Response: " + response);
   });
 });
 
@@ -221,7 +225,20 @@ app.post('/seatHeating', function(req, res){
   var promise =  teslajs.seatHeaterAsync(options, seat, level);
   promise.catch(function(response){
     console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response)
+    res.send("Tesla Response: " + response);
+  });
+});
+
+app.post('/login', function(req,res){
+  var email = req.body.email;
+  var password = req.body.password;
+  console.log("Requesting 'login to " + email + "'s account'");
+  console.log(password);
+  var promise =  teslajs.loginAsync(email, password);
+  promise.catch(function(response){
+    console.log("Tesla Response: " + response);
+    //console.log("Returned Token: " + authToken);
+    res.send("Tesla Response: " + response);
   });
 });
 

@@ -21,17 +21,22 @@ window.onload = function(){
     let chargeLimitSlider = document.getElementById('charging--charge_slider');
     let chargePort = document.getElementById('charging--charge_port');
 
-  var climateOn = false;
-  var seatHeating = {
-    0:false,
-    1:false,
-    2:false,
-    4:false,
-    5:false
-  }
-  var musicPlaying = false;
-	if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
-	else document.getElementById('lock').innerHTML = "Unlock";
+    var email = getQueryVariable("email");
+    var password = getQueryVariable("password");
+    var authToken;
+    var vehicleID;
+    var carIndex;
+    var climateOn = false;
+    var seatHeating = {
+      0:false,
+      1:false,
+      2:false,
+      4:false,
+      5:false
+    }
+    var musicPlaying = false;
+  	if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
+  	else document.getElementById('lock').innerHTML = "Unlock";
 
     document.getElementById('modal--control_open').onclick = function() {
         controlModal.style.display = 'block';
@@ -82,7 +87,19 @@ window.onload = function(){
             this.classList.toggle('climate--seat_btn_active');
         }
     });
-    
+
+    //Initial Login Attempt
+    $.ajax({
+      url:"login",
+      type: "POST",
+      data: { email: email,
+              password: password}
+      }).done(function(response){
+        alert(response);
+      });
+
+      //alert(authToken);
+
     // Async requests
 
     //Lock/Unlock
@@ -290,7 +307,7 @@ window.onload = function(){
           heater.style.color = color;
         });
       }
-    }  
+    }
     //just start the engine. Dont turn it off
     enginebutton.onclick = function(){
       $.ajax({
@@ -334,5 +351,15 @@ window.onload = function(){
         alert(response);
       });
     }
-
 }
+
+function getQueryVariable(variable)
+{
+   var query = window.location.search.substring(1);
+   var vars = query.split("&");
+   for (var i=0;i<vars.length;i++) {
+           var pair = vars[i].split("=");
+           if(pair[0] == variable){return pair[1];}
+   }
+   return(false);
+ }
