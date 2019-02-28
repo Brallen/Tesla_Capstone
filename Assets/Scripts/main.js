@@ -15,7 +15,7 @@ window.onload = function () {
     let tempSlider = document.getElementById('climate--temp_slider');
     let seatHeaterSelector = document.getElementById('climate--seat_warmers');
     let enginebutton = document.getElementById('enginetoggle_btn');
-    let playbutton = document.getElementById('play_pause_btn');
+    let playbutton = document.getElementsByClassName('media-play')[0];
     let nextbutton = document.getElementById('play_next_btn');
     let prevbutton = document.getElementById('play_prev_btn');
     let lock = document.getElementById('lock');
@@ -81,9 +81,6 @@ window.onload = function () {
     // Page update commands
     tempSlider.oninput = function () {
         document.getElementById('climate--temp_level').innerHTML = `Climate: ${this.value}F`;
-    }
-    document.getElementById('media--volume_slider').oninput = function () {
-        document.getElementById('media-volume_level').innerHTML = `Volume: ${this.value}%`;
     }
     chargeLimitSlider.oninput = function () {
         document.getElementById('charging--charge_level').innerHTML = `Max Charge: ${this.value}%`;
@@ -324,16 +321,12 @@ window.onload = function () {
             url: "toggleMusic"
         }).done(function (response) {
             if (musicPlaying == false) {
-                playbutton.classList.add("media-pause");
-                playbutton.classList.remove("media-play");
-                document.getElementById('play_pause_image').classList.add("fa-pause-circle");
-                document.getElementById('play_pause_image').classList.remove("fa-play-circle");
+                playbutton.getElementsByClassName("fa-play-circle")[0].classList.add("fa-pause-circle");
+                playbutton.getElementsByClassName("fa-play-circle")[0].classList.remove("fa-play-circle");
                 musicPlaying = true;
             } else {
-                playbutton.classList.add("media-play");
-                playbutton.classList.remove("media-pause");
-                document.getElementById('play_pause_image').classList.add("fa-play-circle");
-                document.getElementById('play_pause_image').classList.remove("fa-pause-circle");
+                playbutton.getElementsByClassName("fa-pause-circle")[0].classList.add("fa-play-circle");
+                playbutton.getElementsByClassName("fa-pause-circle")[0].classList.remove("fa-pause-circle");
                 musicPlaying = false;
             }
         });
