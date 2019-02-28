@@ -1,4 +1,4 @@
-window.onload = function(){
+window.onload = function () {
     // Modal code
     let controlModal = document.getElementsByClassName('container--modal_controls')[0];
     let mediaModal = document.getElementsByClassName('container--modal_media')[0];
@@ -8,7 +8,7 @@ window.onload = function(){
     let logoutModal = document.getElementsByClassName('container--logout_button')[0];
     let logoutOpen = document.getElementById('modal--logout_open');
     let logoutClose = document.getElementById('modal--logout_close');
-	  let flashbutton = document.getElementById('flashlights_btn');
+    let flashbutton = document.getElementById('flashlights_btn');
     let trunkbutton = document.getElementById('opentrunk_btn');
     let frunkbutton = document.getElementById('openfrunk_btn');
     let climatebutton = document.getElementById('climate--control');
@@ -24,78 +24,78 @@ window.onload = function(){
     let chargeLimitSlider = document.getElementById('charging--charge_slider');
     let chargePort = document.getElementById('charging--charge_port');
 
-  var climateOn = false;
-  var seatHeating = {
-    0:false,
-    1:false,
-    2:false,
-    4:false,
-    5:false
-  }
-  var musicPlaying = false;
-	if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
-	else document.getElementById('lock').innerHTML = "Unlock";
+    var climateOn = false;
+    var seatHeating = {
+        0: false,
+        1: false,
+        2: false,
+        4: false,
+        5: false
+    }
+    var musicPlaying = false;
+    if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
+    else document.getElementById('lock').innerHTML = "Unlock";
 
-    document.getElementById('modal--control_open').onclick = function() {
+    document.getElementById('modal--control_open').onclick = function () {
         controlModal.style.display = 'block';
     };
-    document.getElementById('modal--control_close').onclick = function() {
+    document.getElementById('modal--control_close').onclick = function () {
         controlModal.style.display = 'none';
     };
-    document.getElementById('modal--media_open').onclick = function() {
+    document.getElementById('modal--media_open').onclick = function () {
         mediaModal.style.display = 'block';
     };
-    document.getElementById('modal--media_close').onclick = function() {
+    document.getElementById('modal--media_close').onclick = function () {
         mediaModal.style.display = 'none';
     };
-    document.getElementById('modal--climate_open').onclick = function() {
+    document.getElementById('modal--climate_open').onclick = function () {
         climateModal.style.display = 'block';
     };
-    document.getElementById('modal--climate_close').onclick = function() {
+    document.getElementById('modal--climate_close').onclick = function () {
         climateModal.style.display = 'none';
     };
 
-    document.getElementById('modal--charging_open').onclick = function() {
+    document.getElementById('modal--charging_open').onclick = function () {
         chargingModal.style.display = 'block';
     };
-    document.getElementById('modal--charging_close').onclick = function() {
+    document.getElementById('modal--charging_close').onclick = function () {
         chargingModal.style.display = 'none';
     };
-    document.getElementById('modal--summon_open').onclick = function() {
+    document.getElementById('modal--summon_open').onclick = function () {
         summonModal.style.display = 'block';
     };
-    document.getElementById('modal--summon_close').onclick = function() {
-      summonModal.style.display = 'none';
+    document.getElementById('modal--summon_close').onclick = function () {
+        summonModal.style.display = 'none';
     };
     logoutOpen.onclick = () => {
-      logoutModal.classList.toggle('hidden');
-      logoutOpen.classList.toggle('hidden');
-      logoutClose.classList.toggle('hidden');
+        logoutModal.classList.toggle('hidden');
+        logoutOpen.classList.toggle('hidden');
+        logoutClose.classList.toggle('hidden');
     }
     logoutClose.onclick = () => {
-      logoutModal.classList.toggle('hidden');
-      logoutClose.classList.toggle('hidden');
-      logoutOpen.classList.toggle('hidden');
+        logoutModal.classList.toggle('hidden');
+        logoutClose.classList.toggle('hidden');
+        logoutOpen.classList.toggle('hidden');
     }
 
     // Page update commands
-    tempSlider.oninput = function() {
+    tempSlider.oninput = function () {
         document.getElementById('climate--temp_level').innerHTML = `Climate: ${this.value}F`;
     }
-    document.getElementById('media--volume_slider').oninput = function() {
+    document.getElementById('media--volume_slider').oninput = function () {
         document.getElementById('media-volume_level').innerHTML = `Volume: ${this.value}%`;
     }
-    chargeLimitSlider.oninput = function() {
+    chargeLimitSlider.oninput = function () {
         document.getElementById('charging--charge_level').innerHTML = `Max Charge: ${this.value}%`;
     }
 
     let seats = Array.from(document.getElementsByClassName('climate--seat_btn'));
     seats.forEach(seat => {
-        seat.onclick = function(){
+        seat.onclick = function () {
             this.classList.toggle('climate--seat_btn_active');
         }
     });
-    
+
     // Async requests
 
     //Lock/Unlock
@@ -104,26 +104,25 @@ window.onload = function(){
     if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
     else document.getElementById('lock').innerHTML = "Unlock";
 
-  	lock.onclick = function() {
-          if (isLocked == 0) {
-              $.ajax({
-                  url:"lock"
-              }).done(function(response){
-                  //alert(response);
-                  isLocked = 1;
-                  document.getElementById('lock').innerHTML = "Unlock";
-  				});
-  		}
-  		else {
-  			$.ajax({
-  				url:"unlock"
-  				}).done(function(response){
-  					//alert(response);
-  					isLocked = 0;
-  					document.getElementById('lock').innerHTML = "Lock";
-  				});
-  		}
-  	}
+    lock.onclick = function () {
+        if (isLocked == 0) {
+            $.ajax({
+                url: "lock"
+            }).done(function (response) {
+                //alert(response);
+                isLocked = 1;
+                document.getElementById('lock').innerHTML = "Unlock";
+            });
+        } else {
+            $.ajax({
+                url: "unlock"
+            }).done(function (response) {
+                //alert(response);
+                isLocked = 0;
+                document.getElementById('lock').innerHTML = "Lock";
+            });
+        }
+    }
 
     //Sunroof Open/Close
     var sunRoofOpen = 0;
@@ -131,47 +130,48 @@ window.onload = function(){
     if (sunRoofOpen == 0) document.getElementById('sunroof').innerHTML = "Open Sunroof";
     else document.getElementById('sunroof').innerHTML = "Close Sunroof";
 
-    sunroof.onclick = function() {
+    sunroof.onclick = function () {
         if (sunRoofOpen == 0) {
             $.ajax({
-                url:"opensunroof"
-            }).done(function(response){
+                url: "opensunroof"
+            }).done(function (response) {
                 //alert(response);
                 sunRoofOpen = 1;
                 document.getElementById('sunroof').innerHTML = "Close Sunroof";
-				    });
-		    }
-		    else {
-			       $.ajax({
-				           url:"closesunroof"
-				     }).done(function(response){
-					          //alert(response);
-					          sunRoofOpen = 0;
-					          document.getElementById('sunroof').innerHTML = "Open Sunroof";
-				     });
-		    }
-	  }
+            });
+        } else {
+            $.ajax({
+                url: "closesunroof"
+            }).done(function (response) {
+                //alert(response);
+                sunRoofOpen = 0;
+                document.getElementById('sunroof').innerHTML = "Open Sunroof";
+            });
+        }
+    }
 
-  //Max charge info
-	chargeLimitSlider.onchange = function() {
-		$.ajax({
-				url:"chargelimit",
-			type: "POST",
-			data: {value: chargeLimitSlider.value}
-				}).done(function(response){
-					//alert(response);
-			});
-	}
+    //Max charge info
+    chargeLimitSlider.onchange = function () {
+        $.ajax({
+            url: "chargelimit",
+            type: "POST",
+            data: {
+                value: chargeLimitSlider.value
+            }
+        }).done(function (response) {
+            //alert(response);
+        });
+    }
 
     // Horn
 
-  	honk.onclick = function() {
-  		$.ajax({
-  			url:"honk"
-  			}).done(function(response){
-  				//alert(response);
-  			});
-  	}
+    honk.onclick = function () {
+        $.ajax({
+            url: "honk"
+        }).done(function (response) {
+            //alert(response);
+        });
+    }
 
     //Charge Port Open/Close
 
@@ -180,172 +180,177 @@ window.onload = function(){
     if (chargePortOpen == 0) document.getElementById('charging--charge_port').innerHTML = "Open Charge Port";
     else document.getElementById('charging--charge_port').innerHTML = "Close Charge Port";
 
-    chargePort.onclick = function() {
+    chargePort.onclick = function () {
         if (chargePortOpen == 0) {
             $.ajax({
-                url:"openchargeport"
-            }).done(function(response){
+                url: "openchargeport"
+            }).done(function (response) {
                 //alert(response);
                 chargePortOpen = 1;
                 document.getElementById('charging--charge_port').innerHTML = "Close Charge Port";
-				    });
-		    }
-		    else {
-			       $.ajax({
-				           url:"closechargeport"
-				     }).done(function(response){
-					          //alert(response);
-					          chargePortOpen = 0;
-					          document.getElementById('charging--charge_port').innerHTML = "Open Charge Port";
-				     });
-		    }
-	  }
-    flashbutton.onclick = function(){
-      $.ajax({
-        url:"flashLights"
-      }).done(function(response){
-        //alert(response);
-      });
+            });
+        } else {
+            $.ajax({
+                url: "closechargeport"
+            }).done(function (response) {
+                //alert(response);
+                chargePortOpen = 0;
+                document.getElementById('charging--charge_port').innerHTML = "Open Charge Port";
+            });
+        }
     }
-
-    trunkbutton.onclick = function(){
-      $.ajax({
-        url:"openTrunk",
-        type: "POST",
-        data: {which: "trunk"}
-      }).done(function(response){
-        //alert(response);
-      });
-    }
-
-    frunkbutton.onclick = function(){
-      $.ajax({
-        url:"openTrunk",
-        type: "POST",
-        data: {which: "frunk"}
-      }).done(function(response){
-        //alert(response);
-      });
-    }
-
-    climatebutton.onclick = function(){
-      if (climateOn == true) {
+    flashbutton.onclick = function () {
         $.ajax({
-          url:"climateOff"
-          }).done(function(response){
+            url: "flashLights"
+        }).done(function (response) {
             //alert(response);
-            climateOn = false;
-            climatebutton.innerHTML = "Turn Climate Control On";
-          });
-      }
-      else {
+        });
+    }
+
+    trunkbutton.onclick = function () {
         $.ajax({
-          url:"climateOn"
-          }).done(function(response){
+            url: "openTrunk",
+            type: "POST",
+            data: {
+                which: "trunk"
+            }
+        }).done(function (response) {
             //alert(response);
-            climateOn = true;
-            climatebutton.innerHTML = "Turn Climate Control Off";
-          });
-      }
+        });
+    }
+
+    frunkbutton.onclick = function () {
+        $.ajax({
+            url: "openTrunk",
+            type: "POST",
+            data: {
+                which: "frunk"
+            }
+        }).done(function (response) {
+            //alert(response);
+        });
+    }
+
+    climatebutton.onclick = function () {
+        if (climateOn == true) {
+            $.ajax({
+                url: "climateOff"
+            }).done(function (response) {
+                //alert(response);
+                climateOn = false;
+                climatebutton.innerHTML = "Turn Climate Control On";
+            });
+        } else {
+            $.ajax({
+                url: "climateOn"
+            }).done(function (response) {
+                //alert(response);
+                climateOn = true;
+                climatebutton.innerHTML = "Turn Climate Control Off";
+            });
+        }
     }
 
     //change actual temp when slider released
     //Changing temp for both Driver & Passenger
-    tempSlider.onchange = function(){
-      $.ajax({
-        url:"setTemp",
-        type:"POST",
-        data:{temp: Math.round((tempSlider.value -32) * (5/9))} //converting to Celcius
-      }).done(function(response){
-        //in further developments, return set temp, and assign to text and slider
-        //alert(response);
-      });
-    }
-
-
-  
-    seatHeaterSelector.onclick = function(e){
-      var seatHeaters = [].slice.call(document.querySelectorAll('.climate--seat_btn > .climate--img'), 0);
-      var index = seatHeaters.indexOf(e.target);
-      var apiIndex;
-      if(index !== -1){
-        //change index to TeslaAPI seat index
-        switch (index) {
-          case 3:
-            apiIndex = 4;
-            break;
-          case 4:
-            apiIndex = 5;
-            break;
-          default:
-            apiIndex = index;
-        }
-        //either turn seat heating on or off
-        var level, color;
-        if(seatHeating[apiIndex] == false){
-          //turn seat heating on for that seat
-          level = 2;
-          color = "red";
-          seatHeating[apiIndex] = true;
-        }else{
-          //turn seat heating off for that seat
-          level = 0;
-          color = "white";
-          seatHeating[apiIndex] = false;
-        }
+    tempSlider.onchange = function () {
         $.ajax({
-          url:"seatHeating",
-          type: "POST",
-          data: {seat:apiIndex, level:level}
-        }).done(function(response){
-          //change image
-          var heater = seatHeaters[index];
-          heater.style.color = color;
+            url: "setTemp",
+            type: "POST",
+            data: {
+                temp: Math.round((tempSlider.value - 32) * (5 / 9))
+            } //converting to Celcius
+        }).done(function (response) {
+            //in further developments, return set temp, and assign to text and slider
+            //alert(response);
         });
-      }
-    }  
-    //just start the engine. Dont turn it off
-    enginebutton.onclick = function(){
-      $.ajax({
-        url:"startEngine"
-      }).done(function(response){
-        //alert(response);
-      });
-
     }
 
-    playbutton.onclick = function(){
-      $.ajax({
-        url: "toggleMusic"
-      }).done(function(response){
-        if(musicPlaying == false){
-          playbutton.classList.add("media-pause");
-          playbutton.classList.remove("media-play");
-          document.getElementById('play_pause_image').classList.add("fa-pause-circle");
-          document.getElementById('play_pause_image').classList.remove("fa-play-circle");
-          musicPlaying = true;
-        }else {
-          playbutton.classList.add("media-play");
-          playbutton.classList.remove("media-pause");
-          document.getElementById('play_pause_image').classList.add("fa-play-circle");
-          document.getElementById('play_pause_image').classList.remove("fa-pause-circle");
-          musicPlaying = false;
+    seatHeaterSelector.onclick = function (e) {
+        var seatHeaters = [].slice.call(document.querySelectorAll('.climate--seat_btn > .climate--img'), 0);
+        var index = seatHeaters.indexOf(e.target);
+        var apiIndex;
+        if (index !== -1) {
+            //change index to TeslaAPI seat index
+            switch (index) {
+                case 3:
+                    apiIndex = 4;
+                    break;
+                case 4:
+                    apiIndex = 5;
+                    break;
+                default:
+                    apiIndex = index;
+            }
+            //either turn seat heating on or off
+            var level, color;
+            if (seatHeating[apiIndex] == false) {
+                //turn seat heating on for that seat
+                level = 2;
+                color = "red";
+                seatHeating[apiIndex] = true;
+            } else {
+                //turn seat heating off for that seat
+                level = 0;
+                color = "white";
+                seatHeating[apiIndex] = false;
+            }
+            $.ajax({
+                url: "seatHeating",
+                type: "POST",
+                data: {
+                    seat: apiIndex,
+                    level: level
+                }
+            }).done(function (response) {
+                //change image
+                var heater = seatHeaters[index];
+                heater.style.color = color;
+            });
         }
-      });
     }
-    nextbutton.onclick = function(){
-      $.ajax({
-        url: "nextSong"
-      }).done(function(response){
-        alert(response);
-      });
+    //just start the engine. Dont turn it off
+    enginebutton.onclick = function () {
+        $.ajax({
+            url: "startEngine"
+        }).done(function (response) {
+            //alert(response);
+        });
+
     }
-    prevbutton.onclick = function(){
-      $.ajax({
-        url: "prevSong"
-      }).done(function(response){
-        alert(response);
-      });
+
+    playbutton.onclick = function () {
+        $.ajax({
+            url: "toggleMusic"
+        }).done(function (response) {
+            if (musicPlaying == false) {
+                playbutton.classList.add("media-pause");
+                playbutton.classList.remove("media-play");
+                document.getElementById('play_pause_image').classList.add("fa-pause-circle");
+                document.getElementById('play_pause_image').classList.remove("fa-play-circle");
+                musicPlaying = true;
+            } else {
+                playbutton.classList.add("media-play");
+                playbutton.classList.remove("media-pause");
+                document.getElementById('play_pause_image').classList.add("fa-play-circle");
+                document.getElementById('play_pause_image').classList.remove("fa-pause-circle");
+                musicPlaying = false;
+            }
+        });
+    }
+    nextbutton.onclick = function () {
+        $.ajax({
+            url: "nextSong"
+        }).done(function (response) {
+            alert(response);
+        });
+    }
+    prevbutton.onclick = function () {
+        $.ajax({
+            url: "prevSong"
+        }).done(function (response) {
+            alert(response);
+        });
     }
 
 }
