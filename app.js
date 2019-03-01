@@ -25,10 +25,6 @@ app.use(express.static(__dirname + 'Assets'));
 app.use(express.static(path.join(__dirname, 'Assets')));
 
 app.get('/', function(req,res) {
-  res.sendFile(path.join(__dirname + '/login.html'));
-});
-
-app.get('/main', function(req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 

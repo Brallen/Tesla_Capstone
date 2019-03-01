@@ -5,7 +5,8 @@ window.onload = function(){
     let climateModal = document.getElementsByClassName('container--modal_climate')[0];
     let chargingModal = document.getElementsByClassName('container--modal_charging')[0];
     let summonModal = document.getElementsByClassName('container--modal_summon')[0];
-	  let flashbutton = document.getElementById('flashlights_btn');
+    let loginModal = document.getElementsByClassName('modal container--modal_login')[0];
+	let flashbutton = document.getElementById('flashlights_btn');
     let trunkbutton = document.getElementById('opentrunk_btn');
     let frunkbutton = document.getElementById('openfrunk_btn');
     let climatebutton = document.getElementById('climate--control');
@@ -20,6 +21,7 @@ window.onload = function(){
     let sunroof = document.getElementById('sunroof');
     let chargeLimitSlider = document.getElementById('charging--charge_slider');
     let chargePort = document.getElementById('charging--charge_port');
+    let login = document.getElementById('login');
 
     var localOptions = {
       authToken:"fakeTokenLaLaLa",
@@ -27,8 +29,8 @@ window.onload = function(){
       carIndex:0
     };
 
-    var email = getQueryVariable("email");
-    var password = getQueryVariable("password");
+    var email;
+    var password;
     var authToken;
     var vehicleID;
     var carIndex;
@@ -44,6 +46,7 @@ window.onload = function(){
   	if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
   	else document.getElementById('lock').innerHTML = "Unlock";
 
+    loginModal.style.display = 'block';
     document.getElementById('modal--control_open').onclick = function() {
         controlModal.style.display = 'block';
     };
@@ -62,7 +65,6 @@ window.onload = function(){
     document.getElementById('modal--climate_close').onclick = function() {
         climateModal.style.display = 'none';
     };
-
     document.getElementById('modal--charging_open').onclick = function() {
         chargingModal.style.display = 'block';
     };
@@ -95,26 +97,34 @@ window.onload = function(){
     });
 
     //Initial Login Attempt
-    $.ajax({
-    	url:"login",
-    	type: "POST",
-    	async: false,
-    	data: { email: email,
-              password: password}
-  	}).done(function(response){
-  		alert(response);
-  		localOptions.authToken = response;
-  	});
+    login.onclick = function() {
 
-    $.ajax({
-      url: "vehicleID",
-      type: "POST",
-      async: false,
-      data: {authToken: authToken}
-    }).done(function(response){
-      alert(response);
-      localOptions.vehicleID = response;
-    });
+        email = document.getElementById('email').value;
+        password = document.getElementById('password').value;
+
+        $.ajax({
+        	url:"login",
+        	type: "POST",
+        	async: false,
+        	data: { email: email,
+                    password: password}
+      	}).done(function(response){
+      		alert(response);
+      		localOptions.authToken = response;
+      	});
+
+        $.ajax({
+            url: "vehicleID",
+            type: "POST",
+            async: false,
+            data: {authToken: authToken}
+        }).done(function(response){
+            alert(response);
+            localOptions.vehicleID = response;
+        });
+
+        loginModal.style.display = 'none';
+    }
 
     // Async requests
 
