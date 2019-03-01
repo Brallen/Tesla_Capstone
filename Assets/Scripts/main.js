@@ -44,7 +44,7 @@ window.onload = function () {
     var musicPlaying = false;
   	if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
   	else document.getElementById('lock').innerHTML = "Unlock";
-  
+
 	var climateOn = false;
 	var seatHeating = {
 		"climate--seat_fl":0,
@@ -64,9 +64,9 @@ window.onload = function () {
 	if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
 	else document.getElementById('lock').innerHTML = "Unlock";
 
-	
+
 	loginModal.style.display = 'block';
-	
+
     document.getElementById('modal--control_open').onclick = function () {
         controlModal.style.display = 'block';
     };
@@ -154,7 +154,7 @@ window.onload = function () {
 
             loginModal.style.display = 'none';
         }
-		
+
 		else {document.getElementById('login-error').innerHTML = "Both fields required"};
     }
 
@@ -380,7 +380,7 @@ window.onload = function () {
             });
         }
     });
-	
+
     //just start the engine. Dont turn it off
     enginebutton.onclick = function(){
       $.ajax({
@@ -393,7 +393,7 @@ window.onload = function () {
       });
 
     }
-  
+
     volUpbutton.onclick = function () {
       $.ajax({
         url: "volumeUp",
@@ -416,7 +416,9 @@ window.onload = function () {
 
     playbutton.onclick = function () {
         $.ajax({
-            url: "toggleMusic"
+            url: "toggleMusic",
+            type: "POST",
+            data: {auth: JSON.stringify(localOptions)}
         }).done(function (response) {
             if (musicPlaying == false) {
                 playbutton.getElementsByClassName("fa-play-circle")[0].classList.add("fa-pause-circle");
@@ -431,7 +433,9 @@ window.onload = function () {
     }
     nextbutton.onclick = function () {
         $.ajax({
-            url: "nextSong"
+            url: "nextSong",
+            type: "POST",
+            data: {auth: JSON.stringify(localOptions)}
         }).done(function (response) {
             //alert(response);
             //If music was off at the time, let user know music now playing
@@ -445,7 +449,9 @@ window.onload = function () {
     }
     prevbutton.onclick = function () {
         $.ajax({
-            url: "prevSong"
+            url: "prevSong",
+            type: "POST",
+            data: {auth: JSON.stringify(localOptions)}
         }).done(function (response) {
             //alert(response);
             //If music was off at the time, let user know music now playing
