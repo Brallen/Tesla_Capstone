@@ -225,7 +225,7 @@ app.post('/login', function(req,res){
   console.log("Requesting 'login to " + email + "'s account'");
   console.log(password);
   var promise =  teslajs.loginAsync(email, password);
-  promise.catch(function(response){
+  promise.catch(function(  ){
     console.log("Tesla Response: " + response);
     //console.log("Returned Token: " + authToken);
     res.send("Tesla Response: " + response);
