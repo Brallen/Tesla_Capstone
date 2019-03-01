@@ -90,15 +90,18 @@ window.onload = function(){
 
     //Initial Login Attempt
     $.ajax({
-      url:"login",
-      type: "POST",
-      data: { email: email,
-              password: password}
-      }).done(function(response){
-        alert(response);
-      });
+		
+	url:"login",
+	type: "POST",
+	async: false,
+	data: { email: email,
+        password: password}
+	}).done(function(response){
+		alert(response);
+		authToken = response;
+	});
 
-      //alert(authToken);
+    alert(authToken);
 
     // Async requests
 

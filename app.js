@@ -230,15 +230,44 @@ app.post('/seatHeating', function(req, res){
 });
 
 app.post('/login', function(req,res){
+	
   var email = req.body.email;
   var password = req.body.password;
+  
   console.log("Requesting 'login to " + email + "'s account'");
   console.log(password);
-  var promise =  teslajs.loginAsync(email, password);
+  
+  //Should be using Async request, but async request won't catch.
+  /*var promise = teslajs.loginAsync(email, password);
   promise.catch(function(response){
-    console.log("Tesla Response: " + response);
-    //console.log("Returned Token: " + authToken);
-    res.send("Tesla Response: " + response);
+		console.log("AAAAA");
+		console.log("Tesla Repsonse: " + response.response);
+		if (typeof response.authToken === 'undefined') {
+			console.log("Invalid credentials, entering test mode");
+			res.send("faketoken");
+		}
+		else {
+			console.log("Login successful");
+			res.send(authToken);
+		}  
+  });*/
+  
+  teslajs.login(email, password, function(err, result) {
+		if (result.error) {
+			console.log(JSON.stringify(result.error));
+			process.exit(1);
+		}
+	  
+		console.log("Tesla Response: " + result.response.statusCode + ": " + result.body.response);
+		
+		if (typeof result.authToken === 'undefined') {
+			console.log("Invalid credentials, entering test mode");
+			res.send("faketoken");
+		}
+		else {
+			console.log("Login successful");
+			res.send(result.authToken);
+		}
   });
 });
 
