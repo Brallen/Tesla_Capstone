@@ -21,6 +21,12 @@ window.onload = function(){
     let chargeLimitSlider = document.getElementById('charging--charge_slider');
     let chargePort = document.getElementById('charging--charge_port');
 
+    var localOptions = {
+      authToken:"fakeTokenLaLaLa",
+      vehicleID:"vehicle1LaLaLa",
+      carIndex:0
+    };
+
     var email = getQueryVariable("email");
     var password = getQueryVariable("password");
     var authToken;
@@ -114,7 +120,10 @@ window.onload = function(){
   	lock.onclick = function() {
           if (isLocked == 0) {
               $.ajax({
-                  url:"lock"
+                  url:"lock",
+                  type: "POST",
+                  data: {me:"Burt", auth: JSON.stringify(localOptions)}
+
               }).done(function(response){
                   //alert(response);
                   isLocked = 1;
@@ -123,7 +132,9 @@ window.onload = function(){
   		}
   		else {
   			$.ajax({
-  				url:"unlock"
+  				    url:"unlock",
+              type: "POST",
+              data: {auth: JSON.stringify(localOptions)}
   				}).done(function(response){
   					//alert(response);
   					isLocked = 0;
@@ -141,7 +152,9 @@ window.onload = function(){
     sunroof.onclick = function() {
         if (sunRoofOpen == 0) {
             $.ajax({
-                url:"opensunroof"
+                url:"opensunroof",
+                type: "POST",
+                data: {auth:JSON.stringify(localOptions)}
             }).done(function(response){
                 //alert(response);
                 sunRoofOpen = 1;
@@ -150,7 +163,9 @@ window.onload = function(){
 		    }
 		    else {
 			       $.ajax({
-				           url:"closesunroof"
+				           url:"closesunroof",
+                   type:"POST",
+                   data:{auth:JSON.stringify(localOptions)}
 				     }).done(function(response){
 					          //alert(response);
 					          sunRoofOpen = 0;
@@ -163,9 +178,9 @@ window.onload = function(){
 	chargeLimitSlider.onchange = function() {
 		$.ajax({
 				url:"chargelimit",
-			type: "POST",
-			data: {value: chargeLimitSlider.value}
-				}).done(function(response){
+  			type: "POST",
+  			data: {auth:JSON.stringify(localOptions), value: chargeLimitSlider.value}
+			}).done(function(response){
 					//alert(response);
 			});
 	}
@@ -174,7 +189,9 @@ window.onload = function(){
 
   	honk.onclick = function() {
   		$.ajax({
-  			url:"honk"
+  			   url:"honk",
+           type:"POST",
+           data:{auth:JSON.stringify(localOptions)}
   			}).done(function(response){
   				//alert(response);
   			});
@@ -190,7 +207,9 @@ window.onload = function(){
     chargePort.onclick = function() {
         if (chargePortOpen == 0) {
             $.ajax({
-                url:"openchargeport"
+                url:"openchargeport",
+                type: "POST",
+                data: {auth: JSON.stringify(localOptions)}
             }).done(function(response){
                 //alert(response);
                 chargePortOpen = 1;
@@ -199,7 +218,9 @@ window.onload = function(){
 		    }
 		    else {
 			       $.ajax({
-				           url:"closechargeport"
+				           url:"closechargeport",
+                   type: "POST",
+                   data: {auth: JSON.stringify(localOptions)}
 				     }).done(function(response){
 					          //alert(response);
 					          chargePortOpen = 0;
@@ -209,7 +230,9 @@ window.onload = function(){
 	  }
     flashbutton.onclick = function(){
       $.ajax({
-        url:"flashLights"
+        url:"flashLights",
+        type: "POST",
+        data: {auth: JSON.stringify(localOptions)}
       }).done(function(response){
         //alert(response);
       });
@@ -219,7 +242,7 @@ window.onload = function(){
       $.ajax({
         url:"openTrunk",
         type: "POST",
-        data: {which: "trunk"}
+        data: {auth: JSON.stringify(localOptions), which: "trunk"}
       }).done(function(response){
         //alert(response);
       });
@@ -229,7 +252,7 @@ window.onload = function(){
       $.ajax({
         url:"openTrunk",
         type: "POST",
-        data: {which: "frunk"}
+        data: {auth:JSON.stringify(localOptions), which: "frunk"}
       }).done(function(response){
         //alert(response);
       });
@@ -238,7 +261,9 @@ window.onload = function(){
     climatebutton.onclick = function(){
       if (climateOn == true) {
         $.ajax({
-          url:"climateOff"
+          url:"climateOff",
+          type: "POST",
+          data: {auth: JSON.stringify(localOptions)}
           }).done(function(response){
             //alert(response);
             climateOn = false;
@@ -247,7 +272,9 @@ window.onload = function(){
       }
       else {
         $.ajax({
-          url:"climateOn"
+          url:"climateOn",
+          type: "POST",
+          data: {auth: JSON.stringify(localOptions)}
           }).done(function(response){
             //alert(response);
             climateOn = true;
@@ -262,7 +289,7 @@ window.onload = function(){
       $.ajax({
         url:"setTemp",
         type:"POST",
-        data:{temp: Math.round((tempSlider.value -32) * (5/9))} //converting to Celcius
+        data:{auth: JSON.stringify(localOptions), temp: Math.round((tempSlider.value -32) * (5/9))} //converting to Celcius
       }).done(function(response){
         //in further developments, return set temp, and assign to text and slider
         //alert(response);
@@ -303,7 +330,7 @@ window.onload = function(){
         $.ajax({
           url:"seatHeating",
           type: "POST",
-          data: {seat:apiIndex, level:level}
+          data: {auth: JSON.stringify(localOptions), seat:apiIndex, level:level}
         }).done(function(response){
           //change image
           var heater = seatHeaters[index];
@@ -314,7 +341,9 @@ window.onload = function(){
     //just start the engine. Dont turn it off
     enginebutton.onclick = function(){
       $.ajax({
-        url:"startEngine"
+        url:"startEngine",
+        type: "POST",
+        data: {auth: JSON.stringify(localOptions)}
       }).done(function(response){
         //alert(response);
       });
@@ -323,7 +352,9 @@ window.onload = function(){
 
     playbutton.onclick = function(){
       $.ajax({
-        url: "toggleMusic"
+        url: "toggleMusic",
+        type: "POST",
+        data: {auth: JSON.stringify(localOptions)}
       }).done(function(response){
         if(musicPlaying == false){
           playbutton.classList.add("media-pause");
@@ -342,14 +373,18 @@ window.onload = function(){
     }
     nextbutton.onclick = function(){
       $.ajax({
-        url: "nextSong"
+        url: "nextSong",
+        type: "POST",
+        data: {auth: JSON.stringify(localOptions)}
       }).done(function(response){
         alert(response);
       });
     }
     prevbutton.onclick = function(){
       $.ajax({
-        url: "prevSong"
+        url: "prevSong",
+        type: "POST",
+        data: {auth: JSON.stringify(localOptions)}
       }).done(function(response){
         alert(response);
       });

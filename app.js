@@ -8,11 +8,11 @@ let bodyParser = require('body-parser');
 let port = process.env.PORT || 5000;
 let app = express();
 
-var options = {
+/*/var options= {
   authToken:"fakeTokenLaLaLa",
   vehicleID:"vehicle1LaLaLa",
   carIndex:0
-};
+};/*/
 var fakePassword = "password";
 
 //app.set('view engine', 'html');
@@ -31,17 +31,9 @@ app.get('/', function(req,res) {
 app.get('/main', function(req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
-app.get('/api/hello', (req, res) => {
-  res.send({ express: 'Tesla Web App' });
-});
-app.post('/api/world', (req, res) => {
-  console.log(req.body.username);
-  console.log(req.body.password);
-  res.send(
-    `Username: ${req.body.username} Password: ${req.body.password}`,
-  );
-});
-app.get('/lock', function(req, res){
+
+app.post('/lock', function(req, res){
+  var options = req.body.auth;
 	console.log("Requesting 'lock door'");
 	var promise = teslajs.doorLockAsync(options);
 	promise.catch(function(response){
@@ -50,7 +42,8 @@ app.get('/lock', function(req, res){
 	});
 });
 
-app.get('/unlock', function(req, res){
+app.post('/unlock', function(req, res){
+  var options = req.body.auth;
 	console.log("Requesting 'unlock door'");
 	var promise = teslajs.doorUnlockAsync(options);
 	promise.catch(function(response){
@@ -59,8 +52,9 @@ app.get('/unlock', function(req, res){
 	});
 });
 
-app.get('/opensunroof', function(req, res){
-	console.log("Requesting 'open sunroof'");
+app.post('/opensunroof', function(req, res){
+  var options = req.body.auth;
+  console.log("Requesting 'open sunroof'");
 	var promise = teslajs.sunRoofControlAsync(options, "vent");
 	promise.catch(function(response){
 		console.log("Tesla Response: " + response);
@@ -68,7 +62,8 @@ app.get('/opensunroof', function(req, res){
 	});
 });
 
-app.get('/closesunroof', function(req, res){
+app.post('/closesunroof', function(req, res){
+  var options = req.body.auth;
 	console.log("Requesting 'close sunroof'");
 	var promise = teslajs.sunRoofControlAsync(options, "close");
 	promise.catch(function(response){
@@ -78,6 +73,7 @@ app.get('/closesunroof', function(req, res){
 });
 
 app.post('/chargelimit', function(req, res){
+  var options = req.body.auth;
   var value = req.body.value;
 	console.log("Requesting 'set charge limit to " + value + "'");
 	var promise = teslajs.setChargeLimitAsync(options, value);
@@ -87,7 +83,8 @@ app.post('/chargelimit', function(req, res){
 	});
 });
 
-app.get('/honk', function(req, res){
+app.post('/honk', function(req, res){
+  var options = req.body.auth;
 	console.log("Requesting 'honk horn'");
 	var promise = teslajs.honkHornAsync(options);
 	promise.catch(function(response){
@@ -96,7 +93,8 @@ app.get('/honk', function(req, res){
 	});
 });
 
-app.get('/openchargeport', function(req, res){
+app.post('/openchargeport', function(req, res){
+  var options = req.body.auth;
 	console.log("Requesting 'open charge port'");
 	var promise = teslajs.openChargePortAsync(options);
 	promise.catch(function(response){
@@ -105,7 +103,8 @@ app.get('/openchargeport', function(req, res){
 	});
 });
 
-app.get('/closechargeport', function(req, res){
+app.post('/closechargeport', function(req, res){
+  var options = req.body.auth;
 	console.log("Requesting 'close charge port'");
 	var promise = teslajs.closeChargePortAsync(options);
 	promise.catch(function(response){
@@ -114,7 +113,8 @@ app.get('/closechargeport', function(req, res){
 	});
 });
 
-app.get('/flashLights', function(req, res){
+app.post('/flashLights', function(req, res){
+  var options = req.body.auth;
   console.log("Requesting 'flash lights'");
   var promise =  teslajs.flashLightsAsync(options);
   promise.catch(function(response){
@@ -123,7 +123,8 @@ app.get('/flashLights', function(req, res){
   });
 });
 
-app.get('/climateOn', function(req, res){
+app.post('/climateOn', function(req, res){
+  var options = req.body.auth;
   console.log("Requesting 'climate control on'");
   var promise =  teslajs.climateStartAsync(options);
   promise.catch(function(response){
@@ -132,7 +133,8 @@ app.get('/climateOn', function(req, res){
   });
 });
 
-app.get('/climateOff', function(req, res){
+app.post('/climateOff', function(req, res){
+  var options = req.body.auth;
   console.log("Requesting 'climate control off'");
   var promise =  teslajs.climateStopAsync(options);
   promise.catch(function(response){
@@ -141,7 +143,8 @@ app.get('/climateOff', function(req, res){
   });
 });
 
-app.get('/startEngine', function(req, res){
+app.post('/startEngine', function(req, res){
+  var options = req.body.auth;
   console.log("Remotely starting engine");
   var promise = teslajs.remoteStartAsync(options, fakePassword);
   promise.catch(function(response){
@@ -150,7 +153,8 @@ app.get('/startEngine', function(req, res){
   });
 });
 
-app.get('/toggleMusic', function(req, res){
+app.post('/toggleMusic', function(req, res){
+  var options = req.body.auth;
   console.log("Toggling Music");
   var promise = teslajs.mediaTogglePlaybackAsync(options);
   promise.catch(function(response){
@@ -159,7 +163,8 @@ app.get('/toggleMusic', function(req, res){
   });
 });
 
-app.get('/nextSong', function(req, res){
+app.post('/nextSong', function(req, res){
+  var options = req.body.auth;
   console.log("Calling next song");
   var promise = teslajs.mediaPlayNextAsync(options);
   promise.catch(function(response){
@@ -168,7 +173,8 @@ app.get('/nextSong', function(req, res){
   });
 });
 
-app.get('/prevSong', function(req, res){
+app.post('/prevSong', function(req, res){
+  var options = req.body.auth;
   console.log("Calling previous song");
   var promise = teslajs.mediaPlayPreviousAsync(options);
   promise.catch(function(response){
@@ -177,7 +183,8 @@ app.get('/prevSong', function(req, res){
   });
 });
 
-app.get('/volumeUp', function(req,res){
+app.post('/volumeUp', function(req,res){
+  var options = req.body.auth;
   console.log("Turning volume up");
   var promise = teslajs.mediaVolumeUpAsync(options);
   promise.catch(function(response){
@@ -185,7 +192,8 @@ app.get('/volumeUp', function(req,res){
     res.send("Tesla Response: " + response);
   });
 });
-app.get('/volumeDown', function(req,res){
+app.post('/volumeDown', function(req,res){
+  var options = req.body.auth;
   console.log("Turning volume down");
   var promise = teslajs.mediaVolumeDownAsync(options);
   promise.catch(function(response){
@@ -196,6 +204,7 @@ app.get('/volumeDown', function(req,res){
 
 //for both trunk & frunk
 app.post('/openTrunk', function(req, res){
+  var options = req.body.auth;
   var which = req.body.which;
   console.log("which: " + which);
   console.log("Requesting 'open" + which + "'");
@@ -207,6 +216,7 @@ app.post('/openTrunk', function(req, res){
 });
 
 app.post('/setTemp', function(req, res){
+  var options = req.body.auth;
   var tempC = req.body.temp;
   console.log("Requesting 'temp set to " + tempC + "'");
   //setting same temp for Driver & Passenger
@@ -219,6 +229,7 @@ app.post('/setTemp', function(req, res){
 
 //setting seat heating temp for [seat] at [level]
 app.post('/seatHeating', function(req, res){
+  var options = req.body.auth;
   var seat = req.body.seat;
   var level = req.body.level;
   console.log("Requesting 'seat " + seat + " to be heated to level " + level + "'");
