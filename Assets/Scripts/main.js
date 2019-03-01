@@ -119,7 +119,7 @@ window.onload = function(){
                 url: "vehicleID",
                 type: "POST",
                 async: false,
-                data: {authToken: authToken}
+                data: {authToken: localOptions.authToken}
             }).done(function(response){
                 alert(response);
                 localOptions.vehicleID = response;
@@ -127,6 +127,8 @@ window.onload = function(){
 
             loginModal.style.display = 'none';
         }
+		
+		else {document.getElementById('login-error').innerHTML = "Both fields required"};
     }
 
     // Async requests
