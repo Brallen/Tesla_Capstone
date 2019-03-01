@@ -5,8 +5,12 @@
   "dependencies": {
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
+<<<<<<< HEAD
     "react-scripts": "2.1.5",
     "yarn": "^1.13.0"
+=======
+    "react-scripts": "2.1.5"
+>>>>>>> 8647c029d5b82640cd780989977cccd5d28acf7d
   },
   "scripts": {
     "start": "react-scripts start",
