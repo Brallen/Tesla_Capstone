@@ -9,6 +9,8 @@ window.onload = function () {
     let logoutModal = document.getElementsByClassName('container--logout_button')[0];
     let logoutOpen = document.getElementById('modal--logout_open');
     let logoutClose = document.getElementById('modal--logout_close');
+
+    //buttons
     let flashbutton = document.getElementById('flashlights_btn');
     let trunkbutton = document.getElementById('opentrunk_btn');
     let frunkbutton = document.getElementById('openfrunk_btn');
@@ -16,9 +18,11 @@ window.onload = function () {
     let tempSlider = document.getElementById('climate--temp_slider');
     let seatHeaterSelector = document.getElementById('climate--seat_warmers');
     let enginebutton = document.getElementById('enginetoggle_btn');
+    let volUpbutton = document.getElementsByClassName('media-volume_up')[0];
+    let volDownbutton = document.getElementsByClassName('media-volume_down')[0];
     let playbutton = document.getElementsByClassName('media-play')[0];
-    let nextbutton = document.getElementById('play_next_btn');
-    let prevbutton = document.getElementById('play_prev_btn');
+    let nextbutton = document.getElementsByClassName('media-next')[0];
+    let prevbutton = document.getElementsByClassName('media-back')[0];
     let lock = document.getElementById('lock');
     let honk = document.getElementById('honk');
     let sunroof = document.getElementById('sunroof');
@@ -31,7 +35,6 @@ window.onload = function () {
       vehicleID:"vehicle1LaLaLa",
       carIndex:0
     };
-
     var email;
     var password;
     var authToken;
@@ -41,7 +44,7 @@ window.onload = function () {
     var musicPlaying = false;
   	if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
   	else document.getElementById('lock').innerHTML = "Unlock";
-
+  
 	var climateOn = false;
 	var seatHeating = {
 		"climate--seat_fl":0,
@@ -390,45 +393,69 @@ window.onload = function () {
       });
 
     }
+  
+    volUpbutton.onclick = function () {
+      $.ajax({
+        url: "volumeUp",
+        type: "POST",
+        data: {auth: JSON.stringify(localOptions)}
+      }).done(function(response){
+        //alert(response)
+      });
+    }
 
-    playbutton.onclick = function(){
+    volDownbutton.onclick = function () {
       $.ajax({
-        url: "toggleMusic",
+        url: "volumeDown",
         type: "POST",
         data: {auth: JSON.stringify(localOptions)}
       }).done(function(response){
-        if(musicPlaying == false){
-          playbutton.classList.add("media-pause");
-          playbutton.classList.remove("media-play");
-          document.getElementById('play_pause_image').classList.add("fa-pause-circle");
-          document.getElementById('play_pause_image').classList.remove("fa-play-circle");
-          musicPlaying = true;
-        }else {
-          playbutton.classList.add("media-play");
-          playbutton.classList.remove("media-pause");
-          document.getElementById('play_pause_image').classList.add("fa-play-circle");
-          document.getElementById('play_pause_image').classList.remove("fa-pause-circle");
-          musicPlaying = false;
-        }
+        //alert(response)
       });
     }
-    nextbutton.onclick = function(){
-      $.ajax({
-        url: "nextSong",
-        type: "POST",
-        data: {auth: JSON.stringify(localOptions)}
-      }).done(function(response){
-        alert(response);
-      });
+
+    playbutton.onclick = function () {
+        $.ajax({
+            url: "toggleMusic"
+        }).done(function (response) {
+            if (musicPlaying == false) {
+                playbutton.getElementsByClassName("fa-play-circle")[0].classList.add("fa-pause-circle");
+                playbutton.getElementsByClassName("fa-play-circle")[0].classList.remove("fa-play-circle");
+                musicPlaying = true;
+            } else {
+                playbutton.getElementsByClassName("fa-pause-circle")[0].classList.add("fa-play-circle");
+                playbutton.getElementsByClassName("fa-pause-circle")[0].classList.remove("fa-pause-circle");
+                musicPlaying = false;
+            }
+        });
     }
-    prevbutton.onclick = function(){
-      $.ajax({
-        url: "prevSong",
-        type: "POST",
-        data: {auth: JSON.stringify(localOptions)}
-      }).done(function(response){
-        alert(response);
-      });
+    nextbutton.onclick = function () {
+        $.ajax({
+            url: "nextSong"
+        }).done(function (response) {
+            //alert(response);
+            //If music was off at the time, let user know music now playing
+            if (musicPlaying == false) {
+                playbutton.getElementsByClassName("fa-play-circle")[0].classList.add("fa-pause-circle");
+                playbutton.getElementsByClassName("fa-play-circle")[0].classList.remove("fa-play-circle");
+                musicPlaying = true;
+            }//Do we need to call for music to start as well?
+
+        });
+    }
+    prevbutton.onclick = function () {
+        $.ajax({
+            url: "prevSong"
+        }).done(function (response) {
+            //alert(response);
+            //If music was off at the time, let user know music now playing
+            if (musicPlaying == false) {
+                playbutton.getElementsByClassName("fa-play-circle")[0].classList.add("fa-pause-circle");
+                playbutton.getElementsByClassName("fa-play-circle")[0].classList.remove("fa-play-circle");
+                musicPlaying = true;
+            }//Do we need to call for music to start as well?
+        });
+
     }
 }
 
