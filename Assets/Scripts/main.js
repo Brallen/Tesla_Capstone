@@ -96,18 +96,25 @@ window.onload = function(){
 
     //Initial Login Attempt
     $.ajax({
-		
-	url:"login",
-	type: "POST",
-	async: false,
-	data: { email: email,
-        password: password}
-	}).done(function(response){
-		alert(response);
-		authToken = response;
-	});
+    	url:"login",
+    	type: "POST",
+    	async: false,
+    	data: { email: email,
+              password: password}
+  	}).done(function(response){
+  		alert(response);
+  		localOptions.authToken = response;
+  	});
 
-    alert(authToken);
+    $.ajax({
+      url: "vehicleID",
+      type: "POST",
+      async: false,
+      data: {authToken: authToken}
+    }).done(function(response){
+      alert(response);
+      localOptions.vehicleID = response;
+    });
 
     // Async requests
 
@@ -122,7 +129,7 @@ window.onload = function(){
               $.ajax({
                   url:"lock",
                   type: "POST",
-                  data: {me:"Burt", auth: JSON.stringify(localOptions)}
+                  data: {auth: JSON.stringify(localOptions)}
 
               }).done(function(response){
                   //alert(response);
@@ -297,7 +304,7 @@ window.onload = function(){
     }
 
 
-  
+
     seatHeaterSelector.onclick = function(e){
       var seatHeaters = [].slice.call(document.querySelectorAll('.climate--seat_btn > .climate--img'), 0);
       var index = seatHeaters.indexOf(e.target);

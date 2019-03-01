@@ -241,21 +241,15 @@ app.post('/seatHeating', function(req, res){
 });
 
 app.post('/login', function(req,res){
-	
+
   var email = req.body.email;
   var password = req.body.password;
-  
+
   console.log("Requesting 'login to " + email + "'s account'");
   console.log(password);
-<<<<<<< HEAD
-  var promise =  teslajs.loginAsync(email, password);
-  promise.catch(function(  ){
-    console.log("Tesla Response: " + response);
-    //console.log("Returned Token: " + authToken);
-    res.send("Tesla Response: " + response);
-=======
-  
-  //Should be using Async request, but async request won't catch.
+
+  //Should be using Async request as below, but async request won't catch.
+
   /*var promise = teslajs.loginAsync(email, password);
   promise.catch(function(response){
 		console.log("AAAAA");
@@ -267,17 +261,17 @@ app.post('/login', function(req,res){
 		else {
 			console.log("Login successful");
 			res.send(authToken);
-		}  
+		}
   });*/
-  
+
   teslajs.login(email, password, function(err, result) {
 		if (result.error) {
 			console.log(JSON.stringify(result.error));
 			process.exit(1);
 		}
-	  
+
 		console.log("Tesla Response: " + result.response.statusCode + ": " + result.body.response);
-		
+
 		if (typeof result.authToken === 'undefined') {
 			console.log("Invalid credentials, entering test mode");
 			res.send("faketoken");
@@ -286,7 +280,16 @@ app.post('/login', function(req,res){
 			console.log("Login successful");
 			res.send(result.authToken);
 		}
->>>>>>> b1ad9e312461804afc8022b0faa80fb2089d120e
+  });
+});
+
+app.post('/vehicleID', function(req,res){
+  var options = { authToken: req.body.authToken }
+  console.log("Requesting 'vehicle' with token " + options.authToken);
+  teslajs.vehicle(options, function (err, vehicle) {
+    console.log(JSON.stringify(vehicle));
+    if (vehicle === null) res.send("fakeID");
+    else res.send(vehicle.id_s);
   });
 });
 
