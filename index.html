@@ -45,7 +45,21 @@
             </ul>
         </div>
 
-        <!--******** Starting Popup Modals *******-->
+<!--******** Starting Popup Modals *******-->
+        <!-- Login Modal -->
+        <div class="modal container--modal_login">
+            <div class="modal-content">
+					<p id='login-error'></p>
+			
+                    <label for="email"><b>Email</b></label>
+                    <input type="text" placeholder="Enter Tesla Email" name="email" required id="email">
+
+                    <label for="password"><b>Password</b></label>
+                    <input type="text" placeholder="Enter Tesla Password" name="password" required id="password">
+
+                    <button type="submit" class="btn btn--modal_btn" id="login">Login</button>
+            </div>
+        </div>
         <!-- Control Modal -->
         <div class="modal container--modal_controls">
             <div class="modal-content">
@@ -73,9 +87,9 @@
                     <button class="media-volume_up btn btn--modal_btn">Volume Up</button>
                     <button class="media-Volume_down btn btn--modal_btn">Volume Down</button>
                     <p id="media-volume_level" class="control-text">Volume: 50%</p>
-                    <button class="media-control_button media-back"><i class="fas fa-backward"></i></button>
+                    <button class="media-control_button media-back" id="play_prev_btn"><i class="fas fa-backward"></i></button>
                     <button class="media-control_button media-play"><i class="fas fa-play-circle"></i></button>
-                    <button class="media-control_button media-next"><i class="fas fa-forward"></i></button>
+                    <button class="media-control_button media-next" id="play_next_btn"><i class="fas fa-forward"></i></button>
                 </div>
             </div>
         </div>
