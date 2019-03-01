@@ -102,28 +102,31 @@ window.onload = function(){
         email = document.getElementById('email').value;
         password = document.getElementById('password').value;
 
-        $.ajax({
-        	url:"login",
-        	type: "POST",
-        	async: false,
-        	data: { email: email,
-                    password: password}
-      	}).done(function(response){
-      		alert(response);
-      		localOptions.authToken = response;
-      	});
+        if (email !== "" && password !== "") {
 
-        $.ajax({
-            url: "vehicleID",
-            type: "POST",
-            async: false,
-            data: {authToken: authToken}
-        }).done(function(response){
-            alert(response);
-            localOptions.vehicleID = response;
-        });
+            $.ajax({
+            	url:"login",
+            	type: "POST",
+            	async: false,
+            	data: { email: email,
+                        password: password}
+          	}).done(function(response){
+          		alert(response);
+          		localOptions.authToken = response;
+          	});
 
-        loginModal.style.display = 'none';
+            $.ajax({
+                url: "vehicleID",
+                type: "POST",
+                async: false,
+                data: {authToken: authToken}
+            }).done(function(response){
+                alert(response);
+                localOptions.vehicleID = response;
+            });
+
+            loginModal.style.display = 'none';
+        }
     }
 
     // Async requests
