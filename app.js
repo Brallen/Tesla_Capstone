@@ -89,21 +89,27 @@ app.post('/honk', function (req, res) {
 app.post('/openchargeport', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'open charge port'");
-  var promise = teslajs.openChargePortAsync(JSON.parse(options));
-  promise.catch(function (response) {
+  teslajs.openChargePortAsync(JSON.parse(options)).done(function (result) {
+    console.log("got response" + result);
+    res.send(result);
+  });
+  /*promise.catch(function (response) {
     console.log("Tesla Response: " + response);
     res.send("Tesla Response: " + response);
-  });
+  });*/
 });
 
 app.post('/closechargeport', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'close charge port'");
-  var promise = teslajs.closeChargePortAsync(JSON.parse(options));
-  promise.catch(function (response) {
+  teslajs.closeChargePortAsync(JSON.parse(options)).done(function (result) {
+    console.log("got response" + result);
+    res.send(result);
+  });
+  /*promise.catch(function (response) {
     console.log("Tesla Response: " + response);
     res.send("Tesla Response: " + response);
-  });
+  });*/
 });
 
 app.post('/flashLights', function (req, res) {
