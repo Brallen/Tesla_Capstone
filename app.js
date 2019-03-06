@@ -9,12 +9,6 @@ let bodyParser = require('body-parser');
 //let port = process.env.PORT || 5000;
 let app = express();
 
-/*/var options= {
-  authToken:"fakeTokenLaLaLa",
-  vehicleID:"vehicle1LaLaLa",
-  carIndex:0
-};/*/
-
 //app.set('view engine', 'html');
 app.use(bodyParser.json());
 app.use(logger('dev'));
@@ -26,102 +20,104 @@ app.use(cookieParser());
 app.use(express.static(__dirname + 'Assets'));
 app.use(express.static(path.join(__dirname, 'Assets')));
 
-app.get('/', function(req,res) {
+app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-app.post('/lock', function(req, res){
+app.post('/lock', function (req, res) {
   var options = req.body.auth;
-	console.log("Requesting 'lock door'");
-	var promise = teslajs.doorLockAsync(options);
-	promise.catch(function(response){
-		console.log("Tesla Response: " + response);
-		res.send("Tesla Response: " + response);
-	});
+  console.log("Requesting 'lock door'");
+  console.log("options: " + options);
+  var promise = teslajs.doorLockAsync(options);
+  promise.catch(function (response) {
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
 });
 
-app.post('/unlock', function(req, res){
+app.post('/unlock', function (req, res) {
   var options = req.body.auth;
-	console.log("Requesting 'unlock door'");
-	var promise = teslajs.doorUnlockAsync(options);
-	promise.catch(function(response){
-		console.log("Tesla Response: " + response);
-		res.send("Tesla Response: " + response);
-	});
+  console.log("Requesting 'unlock door'");
+  var promise = teslajs.doorUnlockAsync(options);
+  promise.catch(function (response) {
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
 });
 
-app.post('/opensunroof', function(req, res){
+app.post('/opensunroof', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'open sunroof'");
-	var promise = teslajs.sunRoofControlAsync(options, "vent");
-	promise.catch(function(response){
-		console.log("Tesla Response: " + response);
-		res.send("Tesla Response: " + response);
-	});
+  var promise = teslajs.sunRoofControlAsync(options, "vent");
+  promise.catch(function (response) {
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
 });
 
-app.post('/closesunroof', function(req, res){
+app.post('/closesunroof', function (req, res) {
   var options = req.body.auth;
-	console.log("Requesting 'close sunroof'");
-	var promise = teslajs.sunRoofControlAsync(options, "close");
-	promise.catch(function(response){
-		console.log("Tesla Response: " + response);
-		res.send("Tesla Response: " + response);
-	});
+  console.log("Requesting 'close sunroof'");
+  var promise = teslajs.sunRoofControlAsync(options, "close");
+  promise.catch(function (response) {
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
 });
 
-app.post('/chargelimit', function(req, res){
+app.post('/chargelimit', function (req, res) {
   var options = req.body.auth;
   var value = req.body.value;
-	console.log("Requesting 'set charge limit to " + value + "'");
-	var promise = teslajs.setChargeLimitAsync(options, value);
-	promise.catch(function(response){
-		console.log("Tesla Response: " + response);
-		res.send("Tesla Response: " + response);
-	});
+  console.log("Requesting 'set charge limit to " + value + "'");
+  var promise = teslajs.setChargeLimitAsync(options, value);
+  promise.catch(function (response) {
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
 });
 
-app.post('/honk', function(req, res){
+app.post('/honk', function (req, res) {
   var options = req.body.auth;
-	console.log("Requesting 'honk horn'");
-	var promise = teslajs.honkHornAsync(options);
-	promise.catch(function(response){
-		console.log("Tesla Response: " + response);
-		res.send("Tesla Response: " + response);
-	});
+  console.log("Requesting 'honk horn'");
+  var promise = teslajs.honkHornAsync(JSON.parse(options));
+  promise.catch(function (response) {
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
 });
 
-app.post('/openchargeport', function(req, res){
+app.post('/openchargeport', function (req, res) {
   var options = req.body.auth;
-	console.log("Requesting 'open charge port'");
-	var promise = teslajs.openChargePortAsync(options);
-	promise.catch(function(response){
-		console.log("Tesla Response: " + response);
-		res.send("Tesla Response: " + response);
-	});
+  console.log("Requesting 'open charge port'");
+  var promise = teslajs.openChargePortAsync(JSON.parse(options));
+  promise.catch(function (response) {
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
 });
 
-app.post('/closechargeport', function(req, res){
+app.post('/closechargeport', function (req, res) {
   var options = req.body.auth;
-	console.log("Requesting 'close charge port'");
-	var promise = teslajs.closeChargePortAsync(options);
-	promise.catch(function(response){
-		console.log("Tesla Response: " + response);
-		res.send("Tesla Response: " + response);
-	});
+  console.log("Requesting 'close charge port'");
+  var promise = teslajs.closeChargePortAsync(JSON.parse(options));
+  promise.catch(function (response) {
+    console.log("Tesla Response: " + response);
+    res.send("Tesla Response: " + response);
+  });
 });
 
-app.post('/flashLights', function(req, res){
+app.post('/flashLights', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'flash lights'");
-  var promise = teslajs.flashLightsAsync(options);
+  console.log("options: " + JSON.stringify(options));
+  var promise = teslajs.flashLightsAsync(JSON.parse(options));
   promise.catch(function (response) {
     console.log("Tesla Response: " + response);
     res.send("Tesla Response: " + response)
   });
 });
 
-app.post('/climateOn', function(req, res){
+app.post('/climateOn', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'climate control on'");
   var promise = teslajs.climateStartAsync(options);
@@ -131,7 +127,7 @@ app.post('/climateOn', function(req, res){
   });
 });
 
-app.post('/climateOff', function(req, res){
+app.post('/climateOff', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'climate control off'");
   var promise = teslajs.climateStopAsync(options);
@@ -141,7 +137,7 @@ app.post('/climateOff', function(req, res){
   });
 });
 
-app.post('/startEngine', function(req, res){
+app.post('/startEngine', function (req, res) {
   var options = req.body.auth;
   var password = req.body.pass;
   console.log("Remotely starting engine");
@@ -152,27 +148,27 @@ app.post('/startEngine', function(req, res){
   });
 });
 
-app.post('/volumeUp', function(req, res){
+app.post('/volumeUp', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting volume up");
-  var promise = teslajs.mediaVolumeUpAsync(options);
-  promise.catch(function(response){
+  var promise = teslajs.mediaVolumeUpAsync(JSON.parse(options));
+  promise.catch(function (response) {
     console.log("Tesla Response: " + response);
     res.send("Tesla Response: " + response);
   });
 });
 
-app.post('/volumeDown', function(req, res){
+app.post('/volumeDown', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting volume down");
-  var promise = teslajs.mediaVolumeDownAsync(options);
-  promise.catch(function(response){
+  var promise = teslajs.mediaVolumeDownAsync(JSON.parse(options));
+  promise.catch(function (response) {
     console.log("Tesla Response: " + response);
     res.send("Tesla Response: " + response);
   });
 });
 
-app.post('/toggleMusic', function(req, res){
+app.post('/toggleMusic', function (req, res) {
   var options = req.body.auth;
   console.log("Toggling Music");
   var promise = teslajs.mediaTogglePlaybackAsync(options);
@@ -182,7 +178,7 @@ app.post('/toggleMusic', function(req, res){
   });
 });
 
-app.post('/nextSong', function(req, res){
+app.post('/nextSong', function (req, res) {
   var options = req.body.auth;
   console.log("Calling next song");
   var promise = teslajs.mediaPlayNextAsync(options);
@@ -192,7 +188,7 @@ app.post('/nextSong', function(req, res){
   });
 });
 
-app.post('/prevSong', function(req, res){
+app.post('/prevSong', function (req, res) {
   var options = req.body.auth;
   console.log("Calling previous song");
   var promise = teslajs.mediaPlayPreviousAsync(options);
@@ -202,7 +198,7 @@ app.post('/prevSong', function(req, res){
   });
 });
 
-app.post('/volumeUp', function(req,res){
+app.post('/volumeUp', function (req, res) {
   var options = req.body.auth;
   console.log("Turning volume up");
   var promise = teslajs.mediaVolumeUpAsync(options);
@@ -212,7 +208,7 @@ app.post('/volumeUp', function(req,res){
   });
 });
 
-app.post('/volumeDown', function(req,res){
+app.post('/volumeDown', function (req, res) {
   var options = req.body.auth;
   console.log("Turning volume down");
   var promise = teslajs.mediaVolumeDownAsync(options);
@@ -223,19 +219,19 @@ app.post('/volumeDown', function(req,res){
 });
 
 //for both trunk & frunk
-app.post('/openTrunk', function(req, res){
+app.post('/openTrunk', function (req, res) {
   var options = req.body.auth;
   var which = req.body.which;
   console.log("which: " + which);
   console.log("Requesting 'open" + which + "'");
-  var promise = teslajs.openTrunkAsync(options, which);
+  var promise = teslajs.openTrunkAsync(JSON.parse(options), which);
   promise.catch(function (response) {
     console.log("Tesla Response: " + response);
     res.send("Tesla Response: " + response);
   });
 });
 
-app.post('/setTemp', function(req, res){
+app.post('/setTemp', function (req, res) {
   var options = req.body.auth;
   var tempC = req.body.temp;
   console.log("Requesting 'temp set to " + tempC + "'");
@@ -248,7 +244,7 @@ app.post('/setTemp', function(req, res){
 });
 
 //setting seat heating temp for [seat] at [level]
-app.post('/seatHeating', function(req, res){
+app.post('/seatHeating', function (req, res) {
   var options = req.body.auth;
   var seat = req.body.seat;
   var level = req.body.level;
@@ -260,7 +256,7 @@ app.post('/seatHeating', function(req, res){
   });
 });
 
-app.post('/login', function(req,res){
+app.post('/login', function (req, res) {
 
   var email = req.body.email;
   var password = req.body.password;
@@ -284,32 +280,35 @@ app.post('/login', function(req,res){
 		}
   });*/
 
-  teslajs.login(email, password, function(err, result) {
-		if (result.error) {
-			console.log(JSON.stringify(result.error));
-			process.exit(1);
-		}
+  teslajs.login(email, password, function (err, result) {
+    if (result.error) {
+      console.log(JSON.stringify(result.error));
+      process.exit(1);
+    }
 
-		console.log("Tesla Response: " + result.response.statusCode + ": " + result.body.response);
+    console.log("Tesla Response: " + result.response.statusCode + ": " + result.body.response);
 
-		if (typeof result.authToken === 'undefined') {
-			console.log("Invalid credentials, entering test mode");
-			res.send("faketoken");
-		}
-		else {
-			console.log("Login successful");
-			res.send(result.authToken);
-		}
+    if (typeof result.authToken === 'undefined') {
+      console.log("Invalid credentials, entering test mode");
+      res.send("faketoken");
+    } else {
+      console.log("Login successful");
+      res.send(result.authToken);
+    }
   });
 });
 
-app.post('/vehicleID', function(req,res){
-  var options = { authToken: req.body.authToken }
+app.post('/vehicleID', function (req, res) {
+  var options = {
+    authToken: req.body.authToken
+  }
   console.log("Requesting 'vehicle' with token " + options.authToken);
   teslajs.vehicle(options, function (err, vehicle) {
     console.log(JSON.stringify(vehicle));
     if (vehicle === null) res.send("fakeID");
-    else res.send(vehicle.id_s);
+    else {
+      res.send(vehicle);
+    }
   });
 });
 
