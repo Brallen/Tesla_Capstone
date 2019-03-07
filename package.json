@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "sass --no-source-map Assets/Styles/Sass/main.sass Assets/Styles/main.css && node ./bin/www",
-    "client": "cd login && npm run start",
+    "client": "cd TeslaClient && npm run start",
     "server": "nodemon app.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
