@@ -156,6 +156,7 @@ body
     color: $Black
     background-color: $White
     border-radius: 2px
+    margin: 6px 0
 
 .container--modal_login #login-error
     color: $RedAccent
@@ -172,7 +173,8 @@ body
 
 .modal-content .modal--close
     text-align: right
-    margin: -5px 8px 0 0
+    margin: -9px 8px 0 0
+    font-size: 25px
 
 .modal--slider
     -webkit-appearance: none
@@ -234,6 +236,19 @@ body
 .climate--front_seats button
     margin: 0 12px 10px 12px
 
+@media only screen and (min-width: 375px)
+    .modal-content
+        width: 355px
+    .btn--modal_btn
+        margin: 6px auto
+
+@media only screen and (min-width: 800px)
+    .modal-content
+        width: 550px
+    .btn
+        padding: 15px 15px
+    .btn--modal_btn
+        margin: 8px auto
 // Commenting out for now until we can get the battery percentage
 // #charging--charge_slider
 //     height: 15px
