@@ -1,0 +1,220 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+  list-style-type: none;
+}
+
+body {
+  margin: 0;
+  font-family: "Muli", Geneva, Verdana, sans-serif;
+  color: #F8F9FA;
+  background-color: #33333C;
+}
+
+.hidden {
+  display: none;
+}
+
+.fas {
+  color: #F8F9FA;
+}
+
+.btn {
+  margin: 5px;
+  padding: 10px 15px;
+  background-color: #07A298;
+  border-radius: 3px;
+  min-width: 100px;
+  color: #F8F9FA;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.btn--control_btn {
+  width: 75%;
+}
+
+.btn:active {
+  background-color: #006d66;
+}
+
+.container--header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #2C3138;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.container--car_info {
+  padding: 10px 0;
+  margin: auto;
+  width: 50%;
+  text-align: center;
+}
+
+.container--car_info h1 {
+  font-size: 24px;
+}
+
+.container--logout_menu {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 32px;
+  cursor: pointer;
+}
+
+.container--logout_button {
+  padding: 2px;
+  position: fixed;
+  right: 0px;
+  background-color: #F8F9FA;
+  border-radius: 8px;
+}
+
+.logout-button {
+  background-color: #DA3738;
+}
+
+.logout-button:active {
+  background-color: #391111;
+}
+
+.container--main_section {
+  padding-top: 71px;
+  max-width: 768px;
+  margin: auto;
+}
+
+.container--car_image {
+  text-align: center;
+  background-color: #37373F;
+  box-shadow: 1px 0 6px rgba(0, 0, 0, 0.3);
+  height: calc(100vh - 71px);
+}
+
+.container--car_image img {
+  max-width: 100%;
+}
+
+.container--control_btn {
+  position: fixed;
+  bottom: 10px;
+  text-align: center;
+  width: 100%;
+  max-width: 768px;
+  margin: auto;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  overflow: auto;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #33333C;
+  width: 310px;
+  margin: auto;
+  margin-top: 75px;
+  padding: 10px 0;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.btn--modal_btn {
+  margin: 4px auto;
+  width: 80%;
+}
+
+.modal-content .modal--close {
+  text-align: right;
+  margin: -5px 8px 0 0;
+}
+
+.modal--slider {
+  -webkit-appearance: none;
+  width: 80%;
+  height: 7px;
+  border-radius: 3px;
+  background: #D1F2F0;
+  margin: 20px;
+}
+
+.modal--slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #07A298;
+  cursor: pointer;
+}
+
+.modal--slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #07A298;
+  cursor: pointer;
+}
+
+.modal--media_controls {
+  margin: 15px 0;
+}
+
+.modal--media_controls .media-control_button {
+  font-size: 35px;
+  padding: 0 15px;
+}
+
+.modal--media_controls #media-volume_level {
+  padding: 10px 0 15px 0;
+}
+
+.modal--level_text {
+  padding: 5px 0 5px 0;
+}
+
+.climate--seat_warmers {
+  font-size: 47px;
+  padding: 20px 0 10px 0;
+}
+
+.climate--seat_btn_active i {
+  color: #DA3738;
+}
+
+.climate--seat_btn_level_0 i {
+  color: #FFFFFF;
+}
+
+.climate--seat_btn_level_1 i {
+  color: #da9e37;
+}
+
+.climate--seat_btn_level_2 i {
+  color: #da6a37;
+}
+
+.climate--seat_btn_level_3 i {
+  color: #DA3738;
+}
+
+.climate--front_seats button {
+  margin: 0 12px 10px 12px;
+}
