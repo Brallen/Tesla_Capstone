@@ -107,6 +107,20 @@ window.onload = function () {
     logoutOpen.classList.toggle('hidden');
   }
 
+  window.onclick = function (event) {
+    if (event.target == controlModal) {
+      controlModal.style.display = "none";
+    } else if (event.target == mediaModal) {
+      mediaModal.style.display = "none";
+    } else if (event.target == climateModal) {
+      climateModal.style.display = "none";
+    } else if (event.target == chargingModal) {
+      chargingModal.style.display = "none";
+    } else if (event.target == summonModal) {
+      summonModal.style.display = "none";
+    }
+  }
+
   // Page update commands
   tempSlider.oninput = function () {
     document.getElementById('climate--temp_level').innerHTML = `Climate: ${this.value}F`;
