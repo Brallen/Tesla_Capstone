@@ -45,19 +45,25 @@
             </ul>
         </div>
 
-<!--******** Starting Popup Modals *******-->
+        <!--******** Starting Popup Modals *******-->
         <!-- Login Modal -->
         <div class="modal container--modal_login">
+            <div class="container--header">
+                <div class="container--car_info">
+                    <h1>Remote Login</h1>
+                </div>
+            </div>
             <div class="modal-content">
-					<p id='login-error'></p>
-
-                    <label for="email"><b>Email</b></label>
+                <p id='login-error'></p>
+                <div class="login-form-text">
+                    <label for="email">Email:</label>
                     <input type="text" placeholder="Enter Tesla Email" name="email" required id="email">
 
-                    <label for="password"><b>Password</b></label>
+                    <label for="password">Password:</label>
                     <input type="text" placeholder="Enter Tesla Password" name="password" required id="password">
+                </div>
 
-                    <button type="submit" class="btn btn--modal_btn" id="login">Login</button>
+                <button type="submit" class="btn btn--modal_btn" id="login">Login</button>
             </div>
         </div>
         <!-- Wake-Up Modal -->
