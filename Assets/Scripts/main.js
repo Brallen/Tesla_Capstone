@@ -9,6 +9,7 @@ window.onload = function () {
   let logoutModal = document.getElementsByClassName('container--logout_button')[0];
   let logoutOpen = document.getElementById('modal--logout_open');
   let logoutClose = document.getElementById('modal--logout_close');
+  let wakeUpPopUp = document.getElementsByClassName("modal container--modal_wake-up")[0];
 
   //buttons
   let flashbutton = document.getElementById('flashlights_btn');
@@ -30,21 +31,24 @@ window.onload = function () {
   let chargePort = document.getElementById('charging--charge_port');
   let login = document.getElementById('login');
 
+  //Authentication Vars
   var localOptions = {
-    authToken: "fakeTokenLaLaLa",
-    vehicleID: "vehicle1LaLaLa",
+    authToken: "",
+    vehicleID: "",
     vehicle_id: "",
     tokens: []
   }
-  var authToken;
-  var vehicleID;
-  var carIndex;
-  var climateOn = false;
-  var musicPlaying = false;
-  if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
-  else document.getElementById('lock').innerHTML = "Unlock";
 
-  var climateOn = false;
+  //State Vars
+  var chargingState;
+  var batteryLevel;
+  var chargeLimit;
+  var climateOn;
+  var musicPlaying;
+  var sunRoofOpen;
+  var isLocked;
+  var carTitle;
+  var awake;
   var seatHeating = {
     "climate--seat_fl": 0,
     "climate--seat_fr": 0,
@@ -59,12 +63,10 @@ window.onload = function () {
     "climate--seat_bm": 4,
     "climate--seat_br": 5
   }
-  var musicPlaying = false;
-  if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
-  else document.getElementById('lock').innerHTML = "Unlock";
-
 
   loginModal.style.display = 'block';
+
+  wakeUpPopUp.style.display = 'none';
 
   document.getElementById('modal--control_open').onclick = function () {
     controlModal.style.display = 'block';
@@ -141,23 +143,24 @@ window.onload = function () {
       }).done(function (response) {
         alert(response);
         localOptions.authToken = response;
+
+        $.ajax({
+          url: "vehicleID",
+          type: "POST",
+          async: false,
+          data: {
+            authToken: localOptions.authToken
+          }
+        }).done(function (response) {
+          alert(JSON.stringify(response));
+          localOptions.vehicleID = response.id_s;
+          localOptions.vehicle_id = response.vehicle_id;
+          localOptions.tokens = response.tokens;
+          loginModal.style.display = 'none';
+          updateState();
+        });
       });
 
-      $.ajax({
-        url: "vehicleID",
-        type: "POST",
-        async: false,
-        data: {
-          authToken: localOptions.authToken
-        }
-      }).done(function (response) {
-        alert(JSON.stringify(response));
-        localOptions.vehicleID = response.id_s;
-        localOptions.vehicle_id = response.vehicle_id;
-        localOptions.tokens = response.tokens;
-      });
-
-      loginModal.style.display = 'none';
     } else {
       document.getElementById('login-error').innerHTML = "Both fields required"
     };
@@ -166,13 +169,8 @@ window.onload = function () {
   // Async requests
 
   //Lock/Unlock
-  var isLocked = 0;
-
-  if (isLocked == 0) document.getElementById('lock').innerHTML = "Lock";
-  else document.getElementById('lock').innerHTML = "Unlock";
-
   lock.onclick = function () {
-    if (isLocked == 0) {
+    if (isLocked == false) {
       $.ajax({
         url: "lock",
         type: "POST",
@@ -181,8 +179,7 @@ window.onload = function () {
         }
 
       }).done(function (response) {
-        //alert(response);
-        isLocked = 1;
+        isLocked = true;
         document.getElementById('lock').innerHTML = "Unlock";
       });
     } else {
@@ -193,21 +190,15 @@ window.onload = function () {
           auth: JSON.stringify(localOptions)
         }
       }).done(function (response) {
-        //alert(response);
-        isLocked = 0;
+        isLocked = false;
         document.getElementById('lock').innerHTML = "Lock";
       });
     }
   }
 
   //Sunroof Open/Close
-  var sunRoofOpen = 0;
-
-  if (sunRoofOpen == 0) document.getElementById('sunroof').innerHTML = "Open Sunroof";
-  else document.getElementById('sunroof').innerHTML = "Close Sunroof";
-
   sunroof.onclick = function () {
-    if (sunRoofOpen == 0) {
+    if (sunRoofOpen == false) {
       $.ajax({
         url: "opensunroof",
         type: "POST",
@@ -215,8 +206,7 @@ window.onload = function () {
           auth: JSON.stringify(localOptions)
         }
       }).done(function (response) {
-        //alert(response);
-        sunRoofOpen = 1;
+        sunRoofOpen = true;
         document.getElementById('sunroof').innerHTML = "Close Sunroof";
       });
     } else {
@@ -227,8 +217,7 @@ window.onload = function () {
           auth: JSON.stringify(localOptions)
         }
       }).done(function (response) {
-        //alert(response);
-        sunRoofOpen = 0;
+        sunRoofOpen = false;
         document.getElementById('sunroof').innerHTML = "Open Sunroof";
       });
     }
@@ -244,12 +233,10 @@ window.onload = function () {
         value: chargeLimitSlider.value
       }
     }).done(function (response) {
-      //alert(response);
     });
   }
 
   // Horn
-
   honk.onclick = function () {
     $.ajax({
       url: "honk",
@@ -258,17 +245,10 @@ window.onload = function () {
         auth: JSON.stringify(localOptions)
       }
     }).done(function (response) {
-      //alert(response);
     });
   }
 
   //Charge Port Open/Close
-
-  var chargePortOpen = 0;
-
-  if (chargePortOpen == 0) document.getElementById('charging--charge_port').innerHTML = "Open Charge Port";
-  else document.getElementById('charging--charge_port').innerHTML = "Close Charge Port";
-
   chargePort.onclick = function () {
     if (chargePortOpen == 0) {
       $.ajax({
@@ -278,7 +258,6 @@ window.onload = function () {
           auth: JSON.stringify(localOptions)
         }
       }).done(function (response) {
-        //alert(response);
         chargePortOpen = 1;
         document.getElementById('charging--charge_port').innerHTML = "Close Charge Port";
       });
@@ -290,12 +269,12 @@ window.onload = function () {
           auth: JSON.stringify(localOptions)
         }
       }).done(function (response) {
-        //alert(response);
         chargePortOpen = 0;
         document.getElementById('charging--charge_port').innerHTML = "Open Charge Port";
       });
     }
   }
+
   flashbutton.onclick = function () {
     console.log(localOptions);
     $.ajax({
@@ -318,7 +297,6 @@ window.onload = function () {
         which: "trunk"
       }
     }).done(function (response) {
-      //alert(response);
     });
   }
 
@@ -331,7 +309,6 @@ window.onload = function () {
         which: "frunk"
       }
     }).done(function (response) {
-      //alert(response);
     });
   }
 
@@ -347,12 +324,11 @@ window.onload = function () {
       } //converting to Celcius
     }).done(function (response) {
       //in further developments, return set temp, and assign to text and slider
-      //alert(response);
     });
   }
 
   climatebutton.onclick = function () {
-    if (climateOn == true) {
+    if (climateOn) {
       $.ajax({
         url: "climateOff",
         type: "POST",
@@ -513,16 +489,70 @@ window.onload = function () {
     });
 
   }
-}
 
-function getQueryVariable(variable) {
-  var query = window.location.search.substring(1);
-  var vars = query.split("&");
-  for (var i = 0; i < vars.length; i++) {
-    var pair = vars[i].split("=");
-    if (pair[0] == variable) {
-      return pair[1];
-    }
+  function updateState() {
+      $.ajax({
+          url: "vehicleData",
+          type: "POST",
+          data: {
+              auth: JSON.stringify(localOptions)
+          }
+      }).done(function(response) {
+          if (response === "I_got_nothin") {
+              chargingState = "Disconnected";
+              batteryLevel = 80;
+              chargeLimit = 80;
+              climateOn = false;
+              musicPlaying = false;
+              sunRoofOpen = false;
+              isLocked = false;
+              chargePortOpen = false;
+              carTitle = "Barnaby";
+              awake = "alseep";
+          }
+          else {
+              chargingState = response.charge_state.charging_state;
+              batteryLevel = response.charge_state.battery_level;
+              chargeLimit = response.charge_state.charge_limit_soc;
+              climateOn = response.climate_state.is_climate_on;
+              musicPlaying = false;
+              sunRoofOpen = response.vehicle_state.sun_roof_percent_open;
+              isLocked = response.vehicle_state.locked;
+              chargePortOpen = response.charge_state.charge_port_door_open;
+              carTitle = response.response.display_name;
+              awake = response.response.state;
+          }
+          document.getElementById("battery_lvl").innerHTML = batteryLevel;
+
+          document.getElementById("charging--charge_level").innerHTML = "Max Charge: " + chargeLimit.toString() + "%";
+
+          document.getElementById("charging--charge_slider").value = chargeLimit.toString();
+
+          if (isLocked) document.getElementById("lock").innerHTML = "Unlock";
+          else document.getElementById("lock").innerHTML = "Lock";
+
+          if (chargePortOpen) document.getElementById("charging--charge_port").innerHTML = "Close Charge Port";
+          else document.getElementById("charging--charge_port").innerHTML = "Open Charge Port";
+
+          if (climateOn) document.getElementById("climate--control").innerHTML = "Turn Climate Control Off";
+          else document.getElementById("climate--control").innerHTML = "Turn Climate Control On";
+
+          document.getElementById("car_title").innerHTML = carTitle;
+
+          if (awake === "alseep") {
+              wakeUpPopUp.style.display = 'block';
+              $.ajax({
+                  url: "wakeup",
+                  type: "POST",
+                  async: false,
+                  data: {
+                      auth: JSON.stringify(localOptions)
+                  }
+              }).done(function(response) {
+                  wakeUpPopUp.style.display = 'none';
+                  awake = "online";
+              });
+          }
+      });
   }
-  return (false);
 }
