@@ -136,6 +136,47 @@ body {
   text-align: center;
 }
 
+.container--modal_login {
+  background-color: #33333C;
+  width: 100%;
+  height: 100%;
+}
+
+.container--modal_login .modal-content {
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  width: 310px;
+  margin-top: -25%;
+  text-align: center;
+}
+
+.container--modal_login .login-form-text {
+  text-align: right;
+  padding: 10px 15px 10px 0;
+}
+
+.container--modal_login input {
+  color: #000000;
+  background-color: #FFFFFF;
+  border-radius: 2px;
+  margin: 6px 0;
+}
+
+.container--modal_login #login-error {
+  color: #DA3738;
+}
+
+.container--modal_login .container--header {
+  height: 71px;
+}
+
+.container--modal_login .container--car_info h1 {
+  padding-top: 10px;
+}
+
 .btn--modal_btn {
   margin: 4px auto;
   width: 80%;
@@ -143,7 +184,8 @@ body {
 
 .modal-content .modal--close {
   text-align: right;
-  margin: -5px 8px 0 0;
+  margin: -9px 8px 0 0;
+  font-size: 25px;
 }
 
 .modal--slider {
@@ -217,4 +259,27 @@ body {
 
 .climate--front_seats button {
   margin: 0 12px 10px 12px;
+}
+
+@media only screen and (min-width: 375px) {
+  .modal-content {
+    width: 355px;
+  }
+
+  .btn--modal_btn {
+    margin: 6px auto;
+  }
+}
+@media only screen and (min-width: 800px) {
+  .modal-content {
+    width: 550px;
+  }
+
+  .btn {
+    padding: 15px 15px;
+  }
+
+  .btn--modal_btn {
+    margin: 8px auto;
+  }
 }
