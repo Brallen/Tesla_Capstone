@@ -110,6 +110,7 @@ window.onload = function () {
   }
 
   // Page update commands
+
   tempSlider.oninput = function () {
     document.getElementById('climate--temp_level').innerHTML = `Climate: ${this.value}F`;
   }
@@ -158,6 +159,7 @@ window.onload = function () {
           localOptions.tokens = response.tokens;
           loginModal.style.display = 'none';
           updateState();
+          setInterval(updateState, 10000);
         });
       });
 
@@ -508,7 +510,7 @@ window.onload = function () {
               isLocked = false;
               chargePortOpen = false;
               carTitle = "Barnaby";
-              awake = "alseep";
+              awake = "online";
           }
           else {
               chargingState = response.charge_state.charging_state;
