@@ -44,6 +44,7 @@ window.onload = function () {
   var batteryLevel;
   var chargeLimit;
   var climateOn;
+  var tempSet;
   var musicPlaying;
   var sunRoofOpen;
   var isLocked;
@@ -108,7 +109,7 @@ window.onload = function () {
     logoutClose.classList.toggle('hidden');
     logoutOpen.classList.toggle('hidden');
   }
-  
+
   window.onclick = function (event) {
       if (event.target == controlModal) {
         controlModal.style.display = "none";
@@ -197,6 +198,8 @@ window.onload = function () {
       }).done(function (response) {
         isLocked = true;
         document.getElementById('lock').innerHTML = "Unlock";
+      }).catch(function(err){
+        alert(err.responseText + " - " + err.statusText);
       });
     } else {
       $.ajax({
@@ -208,6 +211,8 @@ window.onload = function () {
       }).done(function (response) {
         isLocked = false;
         document.getElementById('lock').innerHTML = "Lock";
+      }).catch(function(err){
+        alert(err.responseText + " - " + err.statusText);
       });
     }
   }
@@ -224,6 +229,8 @@ window.onload = function () {
       }).done(function (response) {
         sunRoofOpen = true;
         document.getElementById('sunroof').innerHTML = "Close Sunroof";
+      }).catch(function(err){
+        alert(err.responseText + " - " + err.statusText);
       });
     } else {
       $.ajax({
@@ -235,6 +242,8 @@ window.onload = function () {
       }).done(function (response) {
         sunRoofOpen = false;
         document.getElementById('sunroof').innerHTML = "Open Sunroof";
+      }).catch(function(err){
+        alert(err.responseText + " - " + err.statusText);
       });
     }
   }
@@ -249,6 +258,13 @@ window.onload = function () {
         value: chargeLimitSlider.value
       }
     }).done(function (response) {
+      //nothing for now
+    }).catch(function(err){
+      alert(err.responseText + " - " + err.statusText);
+      //returning slider to previous value
+      chargeLimitSlider.value = chargeLimit;
+      document.getElementById('charging--charge_level').innerHTML = `Max Charge: ${chargeLimit}%`;
+
     });
   }
 
@@ -261,6 +277,9 @@ window.onload = function () {
         auth: JSON.stringify(localOptions)
       }
     }).done(function (response) {
+      //nothing for now
+    }).catch(function(err){
+      alert(err.responseText + " - " + err.statusText);
     });
   }
 
@@ -276,6 +295,8 @@ window.onload = function () {
       }).done(function (response) {
         chargePortOpen = 1;
         document.getElementById('charging--charge_port').innerHTML = "Close Charge Port";
+      }).catch(function(err){
+        alert(err.responseText + " - " + err.statusText);
       });
     } else {
       $.ajax({
@@ -287,6 +308,8 @@ window.onload = function () {
       }).done(function (response) {
         chargePortOpen = 0;
         document.getElementById('charging--charge_port').innerHTML = "Open Charge Port";
+      }).catch(function(err){
+        alert(err.responseText + " - " + err.statusText);
       });
     }
   }
@@ -301,6 +324,8 @@ window.onload = function () {
       }
     }).done(function (response) {
       alert(response);
+    }).catch(function(err){
+      alert(err.responseText + " - " + err.statusText);
     });
   }
 
@@ -313,6 +338,9 @@ window.onload = function () {
         which: "trunk"
       }
     }).done(function (response) {
+      //nothing for now
+    }).catch(function(err){
+      alert(err.responseText + " - " + err.statusText);
     });
   }
 
@@ -325,6 +353,9 @@ window.onload = function () {
         which: "frunk"
       }
     }).done(function (response) {
+      //nothing for now
+    }).catch(function(err){
+      alert(err.responseText + " - " + err.statusText);
     });
   }
 
@@ -339,7 +370,13 @@ window.onload = function () {
         temp: Math.round((tempSlider.value - 32) * (5 / 9))
       } //converting to Celcius
     }).done(function (response) {
+      tempSet = tempSlider.value;
       //in further developments, return set temp, and assign to text and slider
+    }).catch(function(err){
+      alert(err.responseText + " - " + err.statusText);
+      //returning slider to previous value
+      tempSlider.value = tempSet;
+      document.getElementById('climate--temp_level').innerHTML = `Climate: ${tempSet}F`;
     });
   }
 
@@ -355,6 +392,8 @@ window.onload = function () {
         //alert(response);
         climateOn = false;
         climatebutton.innerHTML = "Turn Climate Control On";
+      }).catch(function(err){
+        alert(err.responseText + " - " + err.statusText);
       });
     } else {
       $.ajax({
@@ -367,6 +406,8 @@ window.onload = function () {
         //alert(response);
         climateOn = true;
         climatebutton.innerHTML = "Turn Climate Control Off";
+      }).catch(function(err){
+        alert(err.responseText + " - " + err.statusText);
       });
     }
   }
@@ -379,6 +420,8 @@ window.onload = function () {
       //either turn seat heating on or off
       var level, color;
 
+      //will need this to only change if status is successful
+      //move temp up if not at level three, otherwise drop it back to 0
       switch (seatHeating[this.id]) {
         case 0:
         case 1:
@@ -407,6 +450,8 @@ window.onload = function () {
         }
       }).done(function (response) {
 
+      }).catch(function(err){
+        alert(err.responseText + " - " + err.statusText);
       });
     }
   });
@@ -422,6 +467,8 @@ window.onload = function () {
       }
     }).done(function (response) {
       //alert(response);
+    }).catch(function(err){
+      alert(err.responseText + " - " + err.statusText);
     });
 
   }
@@ -435,6 +482,8 @@ window.onload = function () {
       }
     }).done(function (response) {
       //alert(response)
+    }).catch(function(err){
+      alert(err.responseText + " - " + err.statusText);
     });
   }
 
@@ -447,6 +496,8 @@ window.onload = function () {
       }
     }).done(function (response) {
       //alert(response)
+    }).catch(function(err){
+      alert(err.responseText + " - " + err.statusText);
     });
   }
 
@@ -467,6 +518,8 @@ window.onload = function () {
         playbutton.getElementsByClassName("fa-pause-circle")[0].classList.remove("fa-pause-circle");
         musicPlaying = false;
       }
+    }).catch(function(err){
+      alert(err.responseText + " - " + err.statusText);
     });
   }
   nextbutton.onclick = function () {
@@ -485,6 +538,8 @@ window.onload = function () {
         musicPlaying = true;
       } //Do we need to call for music to start as well?
 
+    }).catch(function(err){
+      alert(err.responseText + " - " + err.statusText);
     });
   }
   prevbutton.onclick = function () {
@@ -502,6 +557,8 @@ window.onload = function () {
         playbutton.getElementsByClassName("fa-play-circle")[0].classList.remove("fa-play-circle");
         musicPlaying = true;
       } //Do we need to call for music to start as well?
+    }).catch(function(err){
+      alert(err.responseText + " - " + err.statusText);
     });
 
   }
@@ -519,6 +576,7 @@ window.onload = function () {
               batteryLevel = 80;
               chargeLimit = 80;
               climateOn = false;
+              tempSet = 70;
               musicPlaying = false;
               sunRoofOpen = false;
               isLocked = false;
@@ -567,8 +625,12 @@ window.onload = function () {
               }).done(function(response) {
                   wakeUpPopUp.style.display = 'none';
                   awake = "online";
+              }).catch(function(err){
+                console.log("Waking car: " + err.responseText + " - " + err.statusText);
               });
           }
+      }).catch(function(err){
+        console.log("Updating state: " + err.responseText + " - " + err.statusText);
       });
   }
 }

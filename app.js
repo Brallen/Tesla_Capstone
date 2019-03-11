@@ -284,9 +284,9 @@ app.post('/openTrunk', function (req, res) {
   console.log("which: " + which);
   console.log("Requesting 'open" + which + "'");
   if (which.toUpperCase() == "FRUNK") {
-      which = tjs.FRUNK;
+      which = teslajs.FRUNK;
   } else {
-      which = tjs.TRUNK;
+      which = teslajs.TRUNK;
   }
   var promise = teslajs.openTrunkAsync(JSON.parse(options), which);
   promise.then(function (result) { //success
