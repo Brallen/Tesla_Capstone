@@ -27,11 +27,13 @@ app.get('/', function (req, res) {
 app.post('/lock', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'lock door'");
-  console.log("options: " + options);
   var promise = teslajs.doorLockAsync(options);
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -39,9 +41,12 @@ app.post('/unlock', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'unlock door'");
   var promise = teslajs.doorUnlockAsync(options);
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -49,9 +54,12 @@ app.post('/opensunroof', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'open sunroof'");
   var promise = teslajs.sunRoofControlAsync(options, "vent");
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -59,9 +67,12 @@ app.post('/closesunroof', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'close sunroof'");
   var promise = teslajs.sunRoofControlAsync(options, "close");
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -70,9 +81,12 @@ app.post('/chargelimit', function (req, res) {
   var value = req.body.value;
   console.log("Requesting 'set charge limit to " + value + "'");
   var promise = teslajs.setChargeLimitAsync(options, value);
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -80,23 +94,26 @@ app.post('/honk', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'honk horn'");
   var promise = teslajs.honkHornAsync(JSON.parse(options));
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
 app.post('/openchargeport', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'open charge port'");
-  teslajs.openChargePortAsync(JSON.parse(options)).done(function (result) {
-    console.log("got response" + result);
-    res.send(result);
+  var promise = teslajs.openChargePortAsync(JSON.parse(options));
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
-  /*promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
-  });*/
 });
 
 app.post('/closechargeport', function (req, res) {
@@ -106,10 +123,13 @@ app.post('/closechargeport', function (req, res) {
     console.log("got response" + result);
     res.send(result);
   });
-  /*promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
-  });*/
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
+  });
 });
 
 app.post('/flashLights', function (req, res) {
@@ -117,9 +137,12 @@ app.post('/flashLights', function (req, res) {
   console.log("Requesting 'flash lights'");
   console.log("options: " + JSON.stringify(options));
   var promise = teslajs.flashLightsAsync(JSON.parse(options));
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response)
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -127,9 +150,12 @@ app.post('/climateOn', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'climate control on'");
   var promise = teslajs.climateStartAsync(options);
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response)
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -137,9 +163,12 @@ app.post('/climateOff', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'climate control off'");
   var promise = teslajs.climateStopAsync(options);
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -148,9 +177,12 @@ app.post('/startEngine', function (req, res) {
   var password = req.body.pass;
   console.log("Remotely starting engine");
   var promise = teslajs.remoteStartAsync(options, password);
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -158,9 +190,12 @@ app.post('/volumeUp', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting volume up");
   var promise = teslajs.mediaVolumeUpAsync(JSON.parse(options));
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -168,9 +203,12 @@ app.post('/volumeDown', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting volume down");
   var promise = teslajs.mediaVolumeDownAsync(JSON.parse(options));
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -178,9 +216,12 @@ app.post('/toggleMusic', function (req, res) {
   var options = req.body.auth;
   console.log("Toggling Music");
   var promise = teslajs.mediaTogglePlaybackAsync(options);
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -188,9 +229,12 @@ app.post('/nextSong', function (req, res) {
   var options = req.body.auth;
   console.log("Calling next song");
   var promise = teslajs.mediaPlayNextAsync(options);
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -198,9 +242,12 @@ app.post('/prevSong', function (req, res) {
   var options = req.body.auth;
   console.log("Calling previous song");
   var promise = teslajs.mediaPlayPreviousAsync(options);
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -208,9 +255,12 @@ app.post('/volumeUp', function (req, res) {
   var options = req.body.auth;
   console.log("Turning volume up");
   var promise = teslajs.mediaVolumeUpAsync(options);
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -218,9 +268,12 @@ app.post('/volumeDown', function (req, res) {
   var options = req.body.auth;
   console.log("Turning volume down");
   var promise = teslajs.mediaVolumeDownAsync(options);
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -230,10 +283,18 @@ app.post('/openTrunk', function (req, res) {
   var which = req.body.which;
   console.log("which: " + which);
   console.log("Requesting 'open" + which + "'");
+  if (which.toUpperCase() == "FRUNK") {
+      which = tjs.FRUNK;
+  } else {
+      which = tjs.TRUNK;
+  }
   var promise = teslajs.openTrunkAsync(JSON.parse(options), which);
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
@@ -243,10 +304,15 @@ app.post('/setTemp', function (req, res) {
   console.log("Requesting 'temp set to " + tempC + "'");
   //setting same temp for Driver & Passenger
   var promise = teslajs.setTempsAsync(options, tempC, tempC);
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response + ", temp set to: " + Math.round(tempC * (9 / 5) + 32) + "F");
-    res.send("Tesla Response: " + response + ", temp set to: " + Math.round(tempC * (9 / 5) + 32) + "F");
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      console.log("Temp set to: " + Math.round(tempC * (9 / 5) + 32) + "F");
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
+
 });
 
 //setting seat heating temp for [seat] at [level]
@@ -256,9 +322,12 @@ app.post('/seatHeating', function (req, res) {
   var level = req.body.level;
   console.log("Requesting 'seat " + seat + " to be heated to level " + level + "'");
   var promise = teslajs.seatHeaterAsync(options, seat, level);
-  promise.catch(function (response) {
-    console.log("Tesla Response: " + response);
-    res.send("Tesla Response: " + response);
+  promise.then(function (result) { //success
+      console.log("Successful Response: " + result);
+      res.status(200).send(result);
+  }).catch(function(err){ //error
+      console.log("Error: " + err);
+      res.status(400).send(err);
   });
 });
 
