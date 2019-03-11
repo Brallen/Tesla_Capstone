@@ -331,15 +331,55 @@ app.post('/seatHeating', function (req, res) {
   });
 });
 
-app.post('/login', function (req, res) {
+/**** Getting State Calls ****/
+app.post('/vehicleData', function(req, res){
+    var options = req.body.auth;
+    console.log("Requesting full vehicle state");
+    teslajs.vehicleDataAsync(JSON.parse(options))
+        .then(function(vehicleData) {
+            console.log("Vehicle data received");
+            res.send(vehicleData);
+        }).catch(function(err) {
+            console.log("Tesla Response: " + err);
+            res.send("I_got_nothin");
+        });
+});
+
+app.post('/wakeup', function(req, res) {
+    var options = req.body.auth;
+    console.log("Requesting vehicle wake-up");
+
+    //Async request won't catch
+
+    /*teslajs.wakeUpAsync(JSON.parse(options))
+        .then(function(response) {
+            console.log("Tesla Response: " + response);
+            res.send("Tesla Response: " + response);
+        }).catch(function(err) {
+            console.log("Tesla Response: " + response);
+            res.send("Tesla Response: " + response);
+        });*/
+
+    teslajs.wakeUp(JSON.parse(options), function(err, result){
+        if (err) {
+            console.log("Tesla Response: " + err);
+            res.send("Tesla Response: " + err);
+        }
+        else {
+            console.log("Tesla Response: " + result);
+            res.send("Tesla Response: " + result);
+        }
+    });
+});
+
+app.post('/login', function(req,res){
 
   var email = req.body.email;
   var password = req.body.password;
 
   console.log("Requesting 'login to " + email + "'s account'");
-  console.log(password);
 
-  //Should be using Async request as below, but async request won't catch.
+  //Async request won't catch.
 
   /*var promise = teslajs.loginAsync(email, password);
   promise.catch(function(response){
