@@ -30,6 +30,8 @@ body
     font-family: $Fonts
     color: $FontColor
     background-color: $BackgroundColor
+    position: relative
+    overflow-x: hidden
 
 .hidden
     display: none
@@ -91,7 +93,7 @@ body
     background-color: $DarkRedAccent
 
 .container--main_section
-    padding-top: 71px
+    padding-top: 25px
     max-width: 768px
     margin: auto
 
@@ -173,6 +175,7 @@ body
 .btn--modal_btn
     margin: 4px auto
     width: 80%
+    display: block
 
 .modal-content .modal--close
     text-align: right
@@ -246,12 +249,17 @@ body
         margin: 6px auto
 
 @media only screen and (min-width: 800px)
+    .container--main_section
+        padding-top: 71px
     .modal-content
         width: 550px
     .btn
         padding: 15px 15px
     .btn--modal_btn
         margin: 8px auto
+    .container--car_image img
+        width: 530px
+
 // Commenting out for now until we can get the battery percentage
 // #charging--charge_slider
 //     height: 15px
