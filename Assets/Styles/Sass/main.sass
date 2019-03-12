@@ -32,6 +32,7 @@ body
     background-color: $BackgroundColor
     position: relative
     overflow-x: hidden
+    overflow-y: hidden
 
 .hidden
     display: none
@@ -101,7 +102,7 @@ body
     text-align: center
     background-color: $BackgroundAccent
     box-shadow: 1px 0 6px rgb(0,0,0,0.3)
-    height: calc(100vh - 71px)
+    height: calc(100vh - 25px)
 
 .container--car_image img
     max-width: 100%
@@ -251,6 +252,8 @@ body
 @media only screen and (min-width: 800px)
     .container--main_section
         padding-top: 71px
+    .container--car_image
+        height: calc(100vh - 71px)    
     .modal-content
         width: 550px
     .btn
