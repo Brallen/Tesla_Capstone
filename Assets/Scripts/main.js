@@ -448,7 +448,8 @@ window.onload = function () {
         type: "POST",
         data: {
           seat: apiIndex,
-          level: level
+          level: level,
+          auth: JSON.stringify(localOptions);
         }
       }).done(function (response) {
 

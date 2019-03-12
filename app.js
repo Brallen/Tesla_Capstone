@@ -27,7 +27,7 @@ app.get('/', function (req, res) {
 app.post('/lock', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'lock door'");
-  var promise = teslajs.doorLockAsync(options);
+  var promise = teslajs.doorLockAsync(JSON.parse(options));
   promise.then(function (result) { //success
       console.log("Successful Response: " + result);
       res.status(200).send(result);
@@ -40,7 +40,7 @@ app.post('/lock', function (req, res) {
 app.post('/unlock', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'unlock door'");
-  var promise = teslajs.doorUnlockAsync(options);
+  var promise = teslajs.doorUnlockAsync(JSON.parse(options));
   promise.then(function (result) { //success
       console.log("Successful Response: " + result);
       res.status(200).send(result);
@@ -53,7 +53,7 @@ app.post('/unlock', function (req, res) {
 app.post('/opensunroof', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'open sunroof'");
-  var promise = teslajs.sunRoofControlAsync(options, "vent");
+  var promise = teslajs.sunRoofControlAsync(JSON.parse(options), "vent");
   promise.then(function (result) { //success
       console.log("Successful Response: " + result);
       res.status(200).send(result);
@@ -66,7 +66,7 @@ app.post('/opensunroof', function (req, res) {
 app.post('/closesunroof', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'close sunroof'");
-  var promise = teslajs.sunRoofControlAsync(options, "close");
+  var promise = teslajs.sunRoofControlAsync(JSON.parse(options), "close");
   promise.then(function (result) { //success
       console.log("Successful Response: " + result);
       res.status(200).send(result);
@@ -80,7 +80,7 @@ app.post('/chargelimit', function (req, res) {
   var options = req.body.auth;
   var value = req.body.value;
   console.log("Requesting 'set charge limit to " + value + "'");
-  var promise = teslajs.setChargeLimitAsync(options, value);
+  var promise = teslajs.setChargeLimitAsync(JSON.parse(options), value);
   promise.then(function (result) { //success
       console.log("Successful Response: " + result);
       res.status(200).send(result);
@@ -149,7 +149,7 @@ app.post('/flashLights', function (req, res) {
 app.post('/climateOn', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'climate control on'");
-  var promise = teslajs.climateStartAsync(options);
+  var promise = teslajs.climateStartAsync(JSON.parse(options));
   promise.then(function (result) { //success
       console.log("Successful Response: " + result);
       res.status(200).send(result);
@@ -162,7 +162,7 @@ app.post('/climateOn', function (req, res) {
 app.post('/climateOff', function (req, res) {
   var options = req.body.auth;
   console.log("Requesting 'climate control off'");
-  var promise = teslajs.climateStopAsync(options);
+  var promise = teslajs.climateStopAsync(JSON.parse(options));
   promise.then(function (result) { //success
       console.log("Successful Response: " + result);
       res.status(200).send(result);
@@ -176,7 +176,7 @@ app.post('/startEngine', function (req, res) {
   var options = req.body.auth;
   var password = req.body.pass;
   console.log("Remotely starting engine");
-  var promise = teslajs.remoteStartAsync(options, password);
+  var promise = teslajs.remoteStartAsync(JSON.parse(options), password);
   promise.then(function (result) { //success
       console.log("Successful Response: " + result);
       res.status(200).send(result);
@@ -215,7 +215,7 @@ app.post('/volumeDown', function (req, res) {
 app.post('/toggleMusic', function (req, res) {
   var options = req.body.auth;
   console.log("Toggling Music");
-  var promise = teslajs.mediaTogglePlaybackAsync(options);
+  var promise = teslajs.mediaTogglePlaybackAsync(JSON.parse(options));
   promise.then(function (result) { //success
       console.log("Successful Response: " + result);
       res.status(200).send(result);
@@ -228,7 +228,7 @@ app.post('/toggleMusic', function (req, res) {
 app.post('/nextSong', function (req, res) {
   var options = req.body.auth;
   console.log("Calling next song");
-  var promise = teslajs.mediaPlayNextAsync(options);
+  var promise = teslajs.mediaPlayNextAsync(JSON.parse(options));
   promise.then(function (result) { //success
       console.log("Successful Response: " + result);
       res.status(200).send(result);
@@ -241,7 +241,7 @@ app.post('/nextSong', function (req, res) {
 app.post('/prevSong', function (req, res) {
   var options = req.body.auth;
   console.log("Calling previous song");
-  var promise = teslajs.mediaPlayPreviousAsync(options);
+  var promise = teslajs.mediaPlayPreviousAsync(JSON.parse(options));
   promise.then(function (result) { //success
       console.log("Successful Response: " + result);
       res.status(200).send(result);
@@ -254,7 +254,7 @@ app.post('/prevSong', function (req, res) {
 app.post('/volumeUp', function (req, res) {
   var options = req.body.auth;
   console.log("Turning volume up");
-  var promise = teslajs.mediaVolumeUpAsync(options);
+  var promise = teslajs.mediaVolumeUpAsync(JSON.parse(options));
   promise.then(function (result) { //success
       console.log("Successful Response: " + result);
       res.status(200).send(result);
@@ -267,7 +267,7 @@ app.post('/volumeUp', function (req, res) {
 app.post('/volumeDown', function (req, res) {
   var options = req.body.auth;
   console.log("Turning volume down");
-  var promise = teslajs.mediaVolumeDownAsync(options);
+  var promise = teslajs.mediaVolumeDownAsync(JSON.parse(options));
   promise.then(function (result) { //success
       console.log("Successful Response: " + result);
       res.status(200).send(result);
@@ -321,7 +321,7 @@ app.post('/seatHeating', function (req, res) {
   var seat = req.body.seat;
   var level = req.body.level;
   console.log("Requesting 'seat " + seat + " to be heated to level " + level + "'");
-  var promise = teslajs.seatHeaterAsync(options, seat, level);
+  var promise = teslajs.seatHeaterAsync(JSON.parse(options), seat, level);
   promise.then(function (result) { //success
       console.log("Successful Response: " + result);
       res.status(200).send(result);
