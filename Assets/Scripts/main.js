@@ -449,7 +449,7 @@ window.onload = function () {
         data: {
           seat: apiIndex,
           level: level,
-          auth: JSON.stringify(localOptions);
+          auth: JSON.stringify(localOptions)
         }
       }).done(function (response) {
 
