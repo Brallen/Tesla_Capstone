@@ -49,6 +49,7 @@ window.onload = function () {
   var isLocked;
   var carTitle;
   var awake;
+  var carTemp;
   var seatHeating = {
     "climate--seat_fl": 0,
     "climate--seat_fr": 0,
@@ -108,7 +109,7 @@ window.onload = function () {
     logoutClose.classList.toggle('hidden');
     logoutOpen.classList.toggle('hidden');
   }
-  
+
   window.onclick = function (event) {
       if (event.target == controlModal) {
         controlModal.style.display = "none";
@@ -122,22 +123,6 @@ window.onload = function () {
         summonModal.style.display = "none";
       }
     }
-
-  // Page update commands
-
-  tempSlider.oninput = function () {
-    document.getElementById('climate--temp_level').innerHTML = `Climate: ${this.value}F`;
-  }
-  chargeLimitSlider.oninput = function () {
-    document.getElementById('charging--charge_level').innerHTML = `Max Charge: ${this.value}%`;
-  }
-
-  let seats = Array.from(document.getElementsByClassName('climate--seat_btn'));
-  seats.forEach(seat => {
-    seat.onclick = function () {
-      this.classList.toggle('climate--seat_btn_active');
-    }
-  });
 
   //Initial Login Attempt
   login.onclick = function () {
@@ -181,6 +166,22 @@ window.onload = function () {
       document.getElementById('login-error').innerHTML = "Both fields required"
     };
   }
+
+  // Page update commands
+
+  tempSlider.oninput = function () {
+    document.getElementById('climate--temp_level').innerHTML = `Climate: ${this.value}F`;
+  }
+  chargeLimitSlider.oninput = function () {
+    document.getElementById('charging--charge_level').innerHTML = `Max Charge: ${this.value}%`;
+  }
+
+  let seats = Array.from(document.getElementsByClassName('climate--seat_btn'));
+  seats.forEach(seat => {
+    seat.onclick = function () {
+      this.classList.toggle('climate--seat_btn_active');
+    }
+  });
 
   // Async requests
 
@@ -340,6 +341,7 @@ window.onload = function () {
       } //converting to Celcius
     }).done(function (response) {
       //in further developments, return set temp, and assign to text and slider
+      carTemp = tempSlider.value;
     });
   }
 
@@ -525,6 +527,12 @@ window.onload = function () {
               chargePortOpen = false;
               carTitle = "Barnaby";
               awake = "online";
+              carTemp = 70;
+              seatHeating[0] = 0;
+              seatHeating[1] = 0;
+              seatHeating[2] = 0;
+              seatHeating[3] = 0;
+              seatHeating[4] = 0;
           }
           else {
               chargingState = response.charge_state.charging_state;
@@ -537,15 +545,22 @@ window.onload = function () {
               chargePortOpen = response.charge_state.charge_port_door_open;
               carTitle = response.response.display_name;
               awake = response.response.state;
+              carTemp = (response.climate_state.driver_temp_setting * 1.8) + 32;
+              //seatHeating[0] = response.climate_state.seat_heater_left
+              //seatHeating[1] = response.climate_state.seat_heater_right;
+              //seatHeating[2] = response.climate_state.seat_heater_rear_left;
+              //seatHeating[3] = response.climate_state.seat_heater_rear_center;
+              //seatHeating[4] = response.climate_state.seat_heater_rear_right;
+              //Not sure what return value to expect here, just experimenting for now.
+              console.log(response.climate_state.seat_heater_left);
           }
           document.getElementById("battery_lvl").innerHTML = batteryLevel;
 
           document.getElementById("charging--charge_level").innerHTML = "Max Charge: " + chargeLimit.toString() + "%";
-
           document.getElementById("charging--charge_slider").value = chargeLimit.toString();
 
-          if (isLocked) document.getElementById("lock").innerHTML = "Unlock";
-          else document.getElementById("lock").innerHTML = "Lock";
+          if (isLocked) lock.innerHTML = "Unlock";
+          else lock.innerHTML = "Lock";
 
           if (chargePortOpen) document.getElementById("charging--charge_port").innerHTML = "Close Charge Port";
           else document.getElementById("charging--charge_port").innerHTML = "Open Charge Port";
@@ -554,6 +569,37 @@ window.onload = function () {
           else document.getElementById("climate--control").innerHTML = "Turn Climate Control On";
 
           document.getElementById("car_title").innerHTML = carTitle;
+
+          tempSlider.value = carTemp;
+          document.getElementById("climate--temp_level").innerHTML = "Climate: " + carTemp + "F";
+
+          for (var i = 0; i < 5; i++) {
+              var seat;
+              if (i === 0) seat = document.getElementById("climate--seat_fl");
+              else if (i === 1) seat = document.getElementById("climate--seat_fr");
+              else if (i === 2) seat = document.getElementById("climate--seat_bl");
+              else if (i === 3) seat = document.getElementById("climate--seat_bm");
+              else seat = document.getElementById("climate--seat_br");
+              switch (seatHeating[i]) {
+                case 0:
+                    seat.classList.add('climate--seat_btn_level_0');
+                    seat.classList.remove('climate--seat_btn_level_3');
+                    break;
+                case 1:
+                    seat.classList.add('climate--seat_btn_level_1');
+                    seat.classList.remove('climate--seat_btn_level_0');
+                    break;
+                case 2:
+                    seat.classList.add('climate--seat_btn_level_2');
+                    seat.classList.remove('climate--seat_btn_level_3');
+                    break;
+                case 3:
+                default:
+                    seat.classList.add('climate--seat_btn_level_3');
+                    seat.classList.remove('climate--seat_btn_level_0');
+                    break;
+              }
+          }
 
           if (awake === "alseep") {
               wakeUpPopUp.style.display = 'block';
