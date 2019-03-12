@@ -88,7 +88,7 @@ body {
 }
 
 .container--main_section {
-  padding-top: 71px;
+  padding-top: 25px;
   max-width: 768px;
   margin: auto;
 }
@@ -184,6 +184,7 @@ body {
 .btn--modal_btn {
   margin: 4px auto;
   width: 80%;
+  display: block;
 }
 
 .modal-content .modal--close {
@@ -275,6 +276,10 @@ body {
   }
 }
 @media only screen and (min-width: 800px) {
+  .container--main_section {
+    padding-top: 71px;
+  }
+
   .modal-content {
     width: 550px;
   }
@@ -285,5 +290,9 @@ body {
 
   .btn--modal_btn {
     margin: 8px auto;
+  }
+
+  .container--car_image img {
+    width: 530px;
   }
 }
