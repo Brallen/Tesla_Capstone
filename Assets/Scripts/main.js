@@ -424,6 +424,8 @@ window.onload = function () {
             if (level >= 4) {
                 level = 0;
             }
+            var thisseat = this;
+            console.log(thisseat);
 
             $.ajax({
                 url: "seatHeating",
@@ -435,21 +437,22 @@ window.onload = function () {
                 }
             }).done(function (response) {
                 //move temp up if not at level three, otherwise drop it back to 0
-                switch (seatHeating[this.id]) {
+                switch (seatHeating[thisseat.id]) {
                     case 0:
                     case 1:
                     case 2:
-                        seatHeating[this.id]++;
-                        console.log(this.classList);
-                        this.classList.add('climate--seat_btn_level_' + seatHeating[this.id]);
-                        this.classList.remove('climate--seat_btn_level_' + (seatHeating[this.id] - 1));
-                        console.log(this.classList);
+                        seatHeating[thisseat.id]++;
+                        console.log(thisseat.classList);
+                        thisseat.classList.add('climate--seat_btn_level_' + seatHeating[thisseat.id]);
+                        thisseat.classList.remove('climate--seat_btn_level_' + (seatHeating[thisseat.id] - 1));
+                        console.log(thisseat.classList);
                         break;
                     case 3:
                     default:
-                        seatHeating[this.id] = 0;
-                        this.classList.add('climate--seat_btn_level_0');
-                        this.classList.remove('climate--seat_btn_level_3');
+                        console.log("sheesh");
+                        seatHeating[thisseat.id] = 0;
+                        thisseat.classList.add('climate--seat_btn_level_0');
+                        thisseat.classList.remove('climate--seat_btn_level_3');
                         break;
                 }
 
