@@ -119,17 +119,14 @@ app.post('/openchargeport', function (req, res) {
 app.post('/closechargeport', function (req, res) {
     var options = req.body.auth;
     console.log("Requesting 'close charge port'");
-    teslajs.closeChargePortAsync(JSON.parse(options)).done(function (result) {
-        console.log("got response" + result);
-        res.send(result);
-    });
-    promise.then(function (result) { //success
-        console.log("Successful Response: " + result);
-        res.status(200).send(result);
-    }).catch(function (err) { //error
-        console.log("Error: " + err);
-        res.status(400).send(err);
-    });
+    teslajs.closeChargePortAsync(JSON.parse(options))
+        .then(function (result) { //success
+            console.log("Successful Response: " + result);
+            res.status(200).send(result);
+        }).catch(function (err) { //error
+            console.log("Error: " + err);
+            res.status(400).send(err);
+        });
 });
 
 app.post('/flashLights', function (req, res) {
