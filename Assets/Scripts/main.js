@@ -41,6 +41,7 @@ window.onload = function () {
 
     //State Vars
     var chargingState;
+    var chargePortOpen;
     var batteryLevel;
     var chargeLimit;
     var climateOn;
@@ -157,9 +158,9 @@ window.onload = function () {
                     localOptions.vehicleID = response.id_s;
                     localOptions.vehicle_id = response.vehicle_id;
                     localOptions.tokens = response.tokens;
-                    loginModal.style.display = 'none';
                     updateState();
                     setInterval(updateState, 10000);
+                    loginModal.style.display = 'none';
                 });
             });
 
@@ -286,7 +287,7 @@ window.onload = function () {
 
     //Charge Port Open/Close
     chargePort.onclick = function () {
-        if (chargePortOpen == 0) {
+        if (!chargePortOpen) {
             $.ajax({
                 url: "openchargeport",
                 type: "POST",
@@ -294,7 +295,7 @@ window.onload = function () {
                     auth: JSON.stringify(localOptions)
                 }
             }).done(function (response) {
-                chargePortOpen = 1;
+                chargePortOpen = true;
                 document.getElementById('charging--charge_port').innerHTML = "Close Charge Port";
             }).catch(function (err) {
                 alert(err.responseText + " - " + err.statusText);
@@ -307,7 +308,7 @@ window.onload = function () {
                     auth: JSON.stringify(localOptions)
                 }
             }).done(function (response) {
-                chargePortOpen = 0;
+                chargePortOpen = false;
                 document.getElementById('charging--charge_port').innerHTML = "Open Charge Port";
             }).catch(function (err) {
                 alert(err.responseText + " - " + err.statusText);
@@ -660,8 +661,7 @@ window.onload = function () {
                 }
             }
 
-            if ((awake === "asleep") == true) {
-                console.log("I'm sleeping");
+            if (awake === "asleep") {
                 wakeUpPopUp.style.display = 'block';
                 $.ajax({
                     url: "wakeup",
