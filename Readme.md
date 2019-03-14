@@ -13,3 +13,4 @@ account with no way to switch.
 - Spamming API requests makes it stop after 9 occurences.
 - Setting charge limit doesn't succeed.
 - Potential timing issues with seat heating.
+- Summoning not implemented
