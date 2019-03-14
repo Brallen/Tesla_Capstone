@@ -478,48 +478,51 @@ window.onload = function () {
         });
 
     }
-  }
 
-  //use this function instead of below
-  seats.forEach(seat => {
-    seat.onclick = function () {
-      //get the API index for selected seat
-      var apiIndex = seatIndex[this.id];
-      //either turn seat heating on or off
-      var level = seatHeating[this.id] + 1;
-      if(level >= 4){
-        level = 0;
-      }
 
-      $.ajax({
-        url: "seatHeating",
-        type: "POST",
-        data: {
-          seat: apiIndex,
-          level: level, //attempting to raise level
-          auth: JSON.stringify(localOptions)
+    //use this function instead of below
+    seats.forEach(seat => {
+        seat.onclick = function () {
+            //get the API index for selected seat
+            var apiIndex = seatIndex[this.id];
+            //either turn seat heating on or off
+            var level = seatHeating[this.id] + 1;
+            if (level >= 4) {
+                level = 0;
+            }
+
+            $.ajax({
+                url: "seatHeating",
+                type: "POST",
+                data: {
+                    seat: apiIndex,
+                    level: level, //attempting to raise level
+                    auth: JSON.stringify(localOptions)
+                }
+            }).done(function (response) {
+                //move temp up if not at level three, otherwise drop it back to 0
+                switch (seatHeating[this.id]) {
+                    case 0:
+                    case 1:
+                    case 2:
+                        seatHeating[this.id]++;
+                        console.log(this.classList);
+                        this.classList.add('climate--seat_btn_level_' + seatHeating[this.id]);
+                        this.classList.remove('climate--seat_btn_level_' + (seatHeating[this.id] - 1));
+                        console.log(this.classList);
+                        break;
+                    case 3:
+                        seatHeating[this.id] = 0;
+                        this.classList.add('climate--seat_btn_level_0');
+                        this.classList.remove('climate--seat_btn_level_3');
+                        break;
+                    default:
+                        console.log("Seat Heating error - error processing seatHeating");
+                        break;
+                }
+            });
         }
-      }).done(function (response) {
-        //move temp up if not at level three, otherwise drop it back to 0
-        switch (seatHeating[this.id]) {
-          case 0:
-          case 1:
-          case 2:
-            seatHeating[this.id]++;
-            console.log(this.classList);
-            this.classList.add('climate--seat_btn_level_' + seatHeating[this.id]);
-            this.classList.remove('climate--seat_btn_level_' + (seatHeating[this.id] - 1));
-            console.log(this.classList);
-            break;
-          case 3:
-            seatHeating[this.id] = 0;
-            this.classList.add('climate--seat_btn_level_0');
-            this.classList.remove('climate--seat_btn_level_3');
-            break;
-          default:
-            console.log("Seat Heating error - error processing seatHeating");
-            break;
-        }
+    });
 
     volUpbutton.onclick = function () {
         $.ajax({
