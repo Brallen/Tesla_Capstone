@@ -7,6 +7,7 @@ window.onload = function () {
     let summonModal = document.getElementsByClassName('container--modal_summon')[0];
     let loginModal = document.getElementsByClassName('modal container--modal_login')[0];
     let logoutModal = document.getElementsByClassName('container--logout_button')[0];
+    let confirmModal = document.getElementsByClassName('container--modal_confirm')[0];
     let logoutOpen = document.getElementById('modal--logout_open');
     let logoutClose = document.getElementById('modal--logout_close');
     let wakeUpPopUp = document.getElementsByClassName("modal container--modal_wake-up")[0];
@@ -24,6 +25,8 @@ window.onload = function () {
     let playbutton = document.getElementsByClassName('media-play')[0];
     let nextbutton = document.getElementsByClassName('media-next')[0];
     let prevbutton = document.getElementsByClassName('media-back')[0];
+    let confirmbutton = document.getElementById('confirm--make_confirmation');
+    let rejectbutton = document.getElementById('confirm--reject_confirmation');
     let lock = document.getElementById('lock');
     let honk = document.getElementById('honk');
     let sunroof = document.getElementById('sunroof');
@@ -99,6 +102,9 @@ window.onload = function () {
     };
     document.getElementById('modal--summon_close').onclick = function () {
         summonModal.style.display = 'none';
+    };
+    document.getElementById('modal--confirm_close').onclick = function () {
+        confirmModal.style.display = 'none';
     };
     logoutOpen.onclick = () => {
         logoutModal.classList.toggle('hidden');
@@ -188,6 +194,10 @@ window.onload = function () {
 
     //Lock/Unlock
     lock.onclick = function () {
+        confirmModal.style.display = 'block';
+        confirmbutton.onclick = function (){
+          console.log("Modal opened!");
+        }
         if (isLocked == false) {
             $.ajax({
                 url: "lock",
@@ -448,11 +458,12 @@ window.onload = function () {
                         console.log(thisseat.classList);
                         break;
                     case 3:
+                        seatHeating[this.id] = 0;
+                        this.classList.add('climate--seat_btn_level_0');
+                        this.classList.remove('climate--seat_btn_level_3');
+                        break;
                     default:
-                        console.log("sheesh");
-                        seatHeating[thisseat.id] = 0;
-                        thisseat.classList.add('climate--seat_btn_level_0');
-                        thisseat.classList.remove('climate--seat_btn_level_3');
+                        console.log("Seat Heating error - error processing seatHeating");
                         break;
                 }
 
@@ -478,50 +489,8 @@ window.onload = function () {
         });
 
     }
-  }
 
-  //use this function instead of below
-  seats.forEach(seat => {
-    seat.onclick = function () {
-      //get the API index for selected seat
-      var apiIndex = seatIndex[this.id];
-      //either turn seat heating on or off
-      var level = seatHeating[this.id] + 1;
-      if(level >= 4){
-        level = 0;
-      }
-
-      $.ajax({
-        url: "seatHeating",
-        type: "POST",
-        data: {
-          seat: apiIndex,
-          level: level, //attempting to raise level
-          auth: JSON.stringify(localOptions)
-        }
-      }).done(function (response) {
-        //move temp up if not at level three, otherwise drop it back to 0
-        switch (seatHeating[this.id]) {
-          case 0:
-          case 1:
-          case 2:
-            seatHeating[this.id]++;
-            console.log(this.classList);
-            this.classList.add('climate--seat_btn_level_' + seatHeating[this.id]);
-            this.classList.remove('climate--seat_btn_level_' + (seatHeating[this.id] - 1));
-            console.log(this.classList);
-            break;
-          case 3:
-            seatHeating[this.id] = 0;
-            this.classList.add('climate--seat_btn_level_0');
-            this.classList.remove('climate--seat_btn_level_3');
-            break;
-          default:
-            console.log("Seat Heating error - error processing seatHeating");
-            break;
-        }
-
-    volUpbutton.onclick = function () {
+  volUpbutton.onclick = function () {
         $.ajax({
             url: "volumeUp",
             type: "POST",
@@ -609,7 +578,7 @@ window.onload = function () {
             alert(err.responseText + " - " + err.statusText);
         });
 
-    }
+    };
 
     function updateState() {
         $.ajax({
@@ -723,4 +692,4 @@ window.onload = function () {
             console.log("Updating state: " + err.responseText + " - " + err.statusText);
         });
     }
-}
+  }
