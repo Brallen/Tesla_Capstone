@@ -128,6 +128,8 @@ window.onload = function () {
             chargingModal.style.display = "none";
         } else if (event.target == summonModal) {
             summonModal.style.display = "none";
+        } else if (event.target == confirmModal) {
+            confirmModal.style.display = "none";
         }
     }
 
@@ -196,35 +198,36 @@ window.onload = function () {
     lock.onclick = function () {
         confirmModal.style.display = 'block';
         confirmbutton.onclick = function (){
-          console.log("Modal opened!");
-        }
-        if (isLocked == false) {
-            $.ajax({
-                url: "lock",
-                type: "POST",
-                data: {
-                    auth: JSON.stringify(localOptions)
-                }
+          if (isLocked == false) {
+              $.ajax({
+                  url: "lock",
+                  type: "POST",
+                  data: {
+                      auth: JSON.stringify(localOptions)
+                  }
 
-            }).done(function (response) {
-                isLocked = true;
-                document.getElementById('lock').innerHTML = "Unlock";
-            }).catch(function (err) {
-                alert(err.responseText + " - " + err.statusText);
-            });
-        } else {
-            $.ajax({
-                url: "unlock",
-                type: "POST",
-                data: {
-                    auth: JSON.stringify(localOptions)
-                }
-            }).done(function (response) {
-                isLocked = false;
-                document.getElementById('lock').innerHTML = "Lock";
-            }).catch(function (err) {
-                alert(err.responseText + " - " + err.statusText);
-            });
+              }).done(function (response) {
+                  isLocked = true;
+                  document.getElementById('lock').innerHTML = "Unlock";
+              }).catch(function (err) {
+                  alert(err.responseText + " - " + err.statusText);
+              });
+              confirmModal.style.display = 'none';
+          } else {
+              $.ajax({
+                  url: "unlock",
+                  type: "POST",
+                  data: {
+                      auth: JSON.stringify(localOptions)
+                  }
+              }).done(function (response) {
+                  isLocked = false;
+                  document.getElementById('lock').innerHTML = "Lock";
+              }).catch(function (err) {
+                  alert(err.responseText + " - " + err.statusText);
+              });
+              confirmModal.style.display = 'none';
+          }
         }
     }
 
