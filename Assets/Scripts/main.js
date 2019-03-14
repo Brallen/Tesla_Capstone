@@ -446,10 +446,12 @@ window.onload = function () {
             console.log(this.classList);
             break;
           case 3:
-          default:
             seatHeating[this.id] = 0;
             this.classList.add('climate--seat_btn_level_0');
             this.classList.remove('climate--seat_btn_level_3');
+            break;
+          default:
+            console.log("Seat Heating error - error processing seatHeating");
             break;
         }
 
