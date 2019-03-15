@@ -26,7 +26,6 @@ window.onload = function () {
     let nextbutton = document.getElementsByClassName('media-next')[0];
     let prevbutton = document.getElementsByClassName('media-back')[0];
     let confirmbutton = document.getElementById('confirm--make_confirmation');
-    let rejectbutton = document.getElementById('confirm--reject_confirmation');
     let lock = document.getElementById('lock');
     let honk = document.getElementById('honk');
     let sunroof = document.getElementById('sunroof');
@@ -196,6 +195,11 @@ window.onload = function () {
 
     //Lock/Unlock
     lock.onclick = function () {
+        var confirmText;
+        if(isLocked == true){
+          confirmText = "Unlock"
+        }else confirmText = "Lock"
+        document.getElementById('confirm--text_type').innerHTML = confirmText;
         confirmModal.style.display = 'block';
         confirmbutton.onclick = function (){
           if (isLocked == false) {
@@ -344,6 +348,10 @@ window.onload = function () {
     }
 
     trunkbutton.onclick = function () {
+      var confirmText = "open trunk";
+      document.getElementById('confirm--text_type').innerHTML = confirmText;
+      confirmModal.style.display = 'block';
+      confirmbutton.onclick = function () {
         $.ajax({
             url: "openTrunk",
             type: "POST",
@@ -356,10 +364,15 @@ window.onload = function () {
         }).catch(function (err) {
             alert(err.responseText + " - " + err.statusText);
         });
+      }
     }
 
     frunkbutton.onclick = function () {
-        $.ajax({
+      var confirmText = "open frunk";
+      document.getElementById('confirm--text_type').innerHTML = confirmText;
+      confirmModal.style.display = 'block';
+      confirmbutton.onclick = function () {
+            $.ajax({
             url: "openTrunk",
             type: "POST",
             data: {
@@ -371,6 +384,7 @@ window.onload = function () {
         }).catch(function (err) {
             alert(err.responseText + " - " + err.statusText);
         });
+      }
     }
 
     //change actual temp when slider released
