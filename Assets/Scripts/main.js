@@ -158,6 +158,7 @@ window.onload = function () {
                     localOptions.vehicleID = response.id_s;
                     localOptions.vehicle_id = response.vehicle_id;
                     localOptions.tokens = response.tokens;
+                    if (localOptions.authToken !== "faketoken" && response.state === "asleep") wakeUp();
                     updateState();
                     setInterval(updateState, 10000);
                     loginModal.style.display = 'none';
@@ -615,15 +616,64 @@ window.onload = function () {
 
     }
 
+    //wakeUp() requests the server make the wakeUp API call and
+    //queries basic vehicle data until it appears to have taken affect.
+    function wakeUp() {
+        var done = false;
+
+        wakeUpPopUp.style.display = 'block';
+
+        $.ajax({
+            url: "wakeup",
+            type: "POST",
+            async: false,
+            data: {
+                auth: JSON.stringify(localOptions)
+            }
+        }).done(function (response) {
+            while (done === false) {
+                $.ajax({
+                    url: "vehicleID",
+                    type: "POST",
+                    async: false,
+                    data: {
+                        authToken: localOptions.authToken
+                    }
+                }).done(function (response) {
+                    if (response.state === "online") {
+                        done = true;
+                        wakeUpPopUp.style.display = 'none';
+                    }
+                });
+            }
+        }).catch(function (err) {
+            console.log("Waking car: " + err.responseText + " - " + err.statusText);
+        });
+    }
+
+    //   updateState() refreshes all state variables with information from the Tesla servers.
     function updateState() {
+        //Querying basic car data to make sure the car is still awake.
+        $.ajax({
+            url: "vehicleID",
+            type: "POST",
+            async: false,
+            data: {
+                authToken: localOptions.authToken
+            }
+        }).done(function (response) {
+            if (response.state === "asleep") wakeUp();
+        });
+        //Requesting the server make the vehicleData API call and return the full JSON object.
         $.ajax({
             url: "vehicleData",
             type: "POST",
             data: {
                 auth: JSON.stringify(localOptions)
             }
+        //Refresh all of the state variables
         }).done(function (response) {
-            if (response === "I_got_nothin") {
+            if (response === "I_got_nothin") { //These are just test values for invalid input
                 chargingState = "Disconnected";
                 batteryLevel = 80;
                 chargeLimit = 80;
@@ -634,7 +684,6 @@ window.onload = function () {
                 isLocked = false;
                 chargePortOpen = false;
                 carTitle = "Barnaby";
-                awake = "awake";
                 carTemp = 70;
                 seatHeating[0] = 0;
                 seatHeating[1] = 0;
@@ -651,7 +700,6 @@ window.onload = function () {
                 isLocked = response.vehicle_state.locked;
                 chargePortOpen = response.charge_state.charge_port_door_open;
                 carTitle = response.display_name;
-                awake = response.state;
                 carTemp = (response.climate_state.driver_temp_setting * 1.8) + 32;
                 seatHeating[0] = response.climate_state.seat_heater_left
                 seatHeating[1] = response.climate_state.seat_heater_right;
@@ -659,6 +707,8 @@ window.onload = function () {
                 seatHeating[3] = response.climate_state.seat_heater_rear_center;
                 seatHeating[4] = response.climate_state.seat_heater_rear_right;
             }
+
+            //Update HTML elements with accurate information.
             document.getElementById("battery_lvl").innerHTML = batteryLevel;
 
             document.getElementById("charging--charge_level").innerHTML = "Max Charge: " + chargeLimit.toString() + "%";
@@ -704,23 +754,6 @@ window.onload = function () {
                         seat.classList.remove('climate--seat_btn_level_0');
                         break;
                 }
-            }
-
-            if (awake === "asleep") {
-                wakeUpPopUp.style.display = 'block';
-                $.ajax({
-                    url: "wakeup",
-                    type: "POST",
-                    async: false,
-                    data: {
-                        auth: JSON.stringify(localOptions)
-                    }
-                }).done(function (response) {
-                    wakeUpPopUp.style.display = 'none';
-                    awake = "online";
-                }).catch(function (err) {
-                    console.log("Waking car: " + err.responseText + " - " + err.statusText);
-                });
             }
         }).catch(function (err) {
             console.log("Updating state: " + err.responseText + " - " + err.statusText);
