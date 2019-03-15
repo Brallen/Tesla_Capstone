@@ -10,6 +10,7 @@ window.onload = function () {
     let logoutOpen = document.getElementById('modal--logout_open');
     let logoutClose = document.getElementById('modal--logout_close');
     let wakeUpPopUp = document.getElementsByClassName("modal container--modal_wake-up")[0];
+    let mobileAccessModal = document.getElementsByClassName("modal container--modal_mobile-access")[0];
 
     //buttons
     let flashbutton = document.getElementById('flashlights_btn');
@@ -30,6 +31,8 @@ window.onload = function () {
     let chargeLimitSlider = document.getElementById('charging--charge_slider');
     let chargePort = document.getElementById('charging--charge_port');
     let login = document.getElementById('login');
+    let tryAgain = document.getElementById('tryAgain');
+    let loginAgain = document.getElementById('loginAgain');
 
     //Authentication Vars
     var localOptions = {
@@ -40,6 +43,7 @@ window.onload = function () {
     }
 
     //State Vars
+    var mobileAccess;
     var chargingState;
     var chargePortOpen;
     var batteryLevel;
@@ -50,7 +54,6 @@ window.onload = function () {
     var sunRoofOpen;
     var isLocked;
     var carTitle;
-    var awake;
     var carTemp;
     var seatHeating = {
         "climate--seat_fl": 0,
@@ -67,9 +70,13 @@ window.onload = function () {
         "climate--seat_br": 5
     }
 
+    var updates;
+
     loginModal.style.display = 'block';
 
     wakeUpPopUp.style.display = 'none';
+
+    mobileAccessModal.style.display = 'none';
 
     document.getElementById('modal--control_open').onclick = function () {
         controlModal.style.display = 'block';
@@ -158,16 +165,16 @@ window.onload = function () {
                     localOptions.vehicleID = response.id_s;
                     localOptions.vehicle_id = response.vehicle_id;
                     localOptions.tokens = response.tokens;
-                    if (localOptions.authToken !== "faketoken" && response.state === "asleep") wakeUp();
+
+                    updates = setInterval(updateState, 10000);
                     updateState();
-                    setInterval(updateState, 10000);
                     loginModal.style.display = 'none';
                 });
             });
 
         } else {
-            document.getElementById('login-error').innerHTML = "Both fields required"
-        };
+            document.getElementById('login-error').innerHTML = "Both fields required";
+        }
     }
 
     // Page update commands
@@ -615,6 +622,18 @@ window.onload = function () {
         });
 
     }
+    
+    tryAgain.onclick = function() {
+        updates = setInterval(updateState, 10000);
+        updateState();
+    }
+
+    loginAgain.onclick = function() {
+        mobileAccessModal.style.display = "none";
+        loginModal.style.display = "block";
+        document.getElementById('email').value = "";
+        document.getElementById('password').value = "";
+    }
 
     //wakeUp() requests the server make the wakeUp API call and
     //queries basic vehicle data until it appears to have taken affect.
@@ -653,6 +672,23 @@ window.onload = function () {
 
     //   updateState() refreshes all state variables with information from the Tesla servers.
     function updateState() {
+        //Checking mobile Access
+        $.ajax({
+            url: "mobileAccess",
+            type: "POST",
+            async: false,
+            data: {
+                auth: JSON.stringify(localOptions)
+            }
+        }).done(function (response) {
+            if (response === false) {
+                clearInterval(updates);
+                loginModal.style.display = 'none';
+                mobileAccessModal.style.display = 'block';
+            }
+            else mobileAccessModal.style.display = 'none';
+        });
+        if (mobileAccessModal.style.display === 'block') return;
         //Querying basic car data to make sure the car is still awake.
         $.ajax({
             url: "vehicleID",
@@ -663,6 +699,8 @@ window.onload = function () {
             }
         }).done(function (response) {
             if (response.state === "asleep") wakeUp();
+        }).catch(function (err) {
+            console.log("Checking if awake: " + err.responseText + " - " + err.statusText);
         });
         //Requesting the server make the vehicleData API call and return the full JSON object.
         $.ajax({

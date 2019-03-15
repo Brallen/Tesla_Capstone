@@ -343,6 +343,19 @@ app.post('/vehicleData', function (req, res) {
         });
 });
 
+app.post('/mobileAccess', function(req, res) {
+    var options = req.body.auth;
+    console.log("Checking mobile access");
+    teslajs.mobileEnabledAsync(JSON.parse(options))
+        .then(function (result) {
+            console.log("Tesla Response: " + result);
+            res.send(result);
+        }).catch(function(err) {
+            console.log("Tesla Response: " + err);
+            res.send(true);
+        });
+});
+
 app.post('/wakeup', function (req, res) {
     var options = req.body.auth;
     console.log("Requesting vehicle wake-up");
