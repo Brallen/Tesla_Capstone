@@ -9,10 +9,33 @@ import {store} from './store/index.js';
 import {connect} from 'react-redux';
 
 class Main extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+    };
+  }
 
-  testFunc(){
+  alertStoreFunc(){
     alert(JSON.stringify(store.getState()));
   }
+
+  testFunc(){
+    var newStore = store.getState();
+    newStore.state.vehicleDataObject.vehicle_state.locked = false;
+    newStore.state.vehicleDataObject.display_name = 'turdman';
+    //alert(JSON.stringify(newStore.state.vehicleDataObject));
+    /*
+      you cannot dispatch a whole new state object as it will cause everything to fall
+      out of scope that is reading the state.
+    */
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        vehicleDataObject: newStore.state.vehicleDataObject
+      }
+    })
+  }
+
 
   render(){
     return(
@@ -26,7 +49,8 @@ class Main extends Component{
             <ul className="list--control_btn" id="modal--charging_open"><ChargingModal/></ul>  
             <ul className="list--control_btn" id="modal--do_what_i_want">
               <li className="item--control_btn">
-                <button onClick={this.testFunc} id="modal--media_open" className="btn btn--control_btn">GIVE ME THE STORE</button>
+                <button onClick={this.alertStoreFunc} id="modal--store" className="btn btn--control_btn">Get State</button>
+                <button onClick={this.testFunc} id="modal--test" className="btn btn--control_btn">Test Button</button>
               </li>
             </ul>  
           </div>
@@ -41,9 +65,11 @@ const mapStateToProps = (state) => {
   return {
     accountName: state.state.accountName,
     accountPass: state.state.accountPass,
-    accountToken: state.state.accountToken
-    //examplePropThree: state.state.examplePropThree
+    accountToken: state.state.accountToken,
+    vehicleDataName: state.state.vehicleDataObject.display_name
   }
 }
+
+
 
 export default connect(mapStateToProps)(Main);

@@ -56,7 +56,7 @@ class LoginModal extends Component {
     })
     .then(function (response) {
         store.dispatch({
-            type: 'ENTER_ACCOUNT_INFO',
+            type: 'LOGIN',
             payload: {
                 accountName: self.state.email,
                 accountPass: self.state.password,

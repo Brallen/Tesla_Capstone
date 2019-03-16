@@ -316,9 +316,15 @@ app.post('/vehicleID', function (req, res) {
           tokens: ["abcdef1234567890", "1234567890abcdef"],
           state: "online",
           id_s: "12345678901234567",
+          climate_state: {
+            is_climate_on: false
+          },
           charge_state: {
             usable_battery_level: 73,
             charge_rate: 0
+          },
+          vehicle_state: {
+            locked: true
           }
     });
     else {

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {store} from './store/index.js';
+import { connect } from 'react-redux';
 
 class ClimateModal extends Component{
   constructor(props) {
@@ -22,6 +24,18 @@ class ClimateModal extends Component{
     this.setState({ value: evt.target.value });
   }
 
+  climateOnButton(){
+    /* make api call here */
+    var newStore = store.getState();
+    newStore.state.vehicleDataObject.climate_state.is_climate_on = !newStore.state.vehicleDataObject.climate_state.is_climate_on;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        vehicleDataObject: newStore.state.vehicleDataObject
+      }
+    })
+  }
+
   render(){
     return(
       <div>
@@ -33,7 +47,7 @@ class ClimateModal extends Component{
             <div className="modal--climate_controls">
               <p id="climate--temp_level" className="modal--level_text">Climate: {this.state.value}F</p>
               <input type="range" min="40" max="85" value={this.state.value} onChange={this.handleClimateChange} id="climate--temp_slider" className="modal--slider"/>
-              <button id="climate--control" className="btn btn--modal_btn">Turn Climate Control On</button>
+              <button id="climate--control" className="btn btn--modal_btn" onClick={this.climateOnButton}>Turn Climate Control {this.props.vehicleClimate ? 'Off' : 'On'}</button>
               <div id="climate--seat_warmers" className="climate--seat_warmers">
                 <div className="climate--seats climate--front_seats">
                     <button id="climate--seat_fl" className="climate--seat_btn"><i className="climate--img fas fa-fire-alt"></i></button>
@@ -67,4 +81,9 @@ const Modal = ({ handleClose, show, children }) => {
     );
   };
 
-export default (ClimateModal);
+  const mapStateToProps = (state) => {
+    return {
+      vehicleClimate: state.state.vehicleDataObject.climate_state.is_climate_on
+    }
+  }
+export default connect(mapStateToProps)(ClimateModal);
