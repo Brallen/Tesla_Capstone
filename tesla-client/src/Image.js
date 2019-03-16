@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import CarImage from './Assets/Images/Tesla-model-3.png';
-import {store} from './store/index.js';
 
 class Image extends Component{
   render(){

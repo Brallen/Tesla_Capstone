@@ -40,26 +40,6 @@ const reducers = (state = defaultState, action) => {
             ...action.payload
         }
 
-        case 'UPDATE_LOCK_BUTTON':
-        if(action.payload == true){
-            var lockedString = 'Unlock';
-        }else{
-            var lockedString = 'Lock';
-        }
-        return {
-            ...state,
-            lockString: lockedString,
-            vehicleDataObject: {
-                ...state.vehicleDataObject,
-                charge_state: {
-                    ...state.vehicleDataObject.charge_state,
-                },
-                vehicle_state: {
-                    ...state.vehicleDataObject.vehicle_state,
-                    locked: action.payload
-                }       
-            }
-        }
         
         default: return state;
     }

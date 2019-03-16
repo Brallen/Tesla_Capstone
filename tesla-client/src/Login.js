@@ -89,7 +89,7 @@ class LoginModal extends Component {
                 </div>
                 <div className="modal-content">
                     <p id='login-error'></p>
-                    <div class="login-form-text">
+                    <div className="login-form-text">
                         <label htmlFor="email">Email: </label>
                         <input type="text" placeholder="Enter Tesla Email" name="email" required id="email" onChange={this.handleEmailChange}/>
                         <br />
