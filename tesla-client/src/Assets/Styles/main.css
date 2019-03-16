@@ -14,6 +14,9 @@ body {
   font-family: "Muli", Geneva, Verdana, sans-serif;
   color: #F8F9FA;
   background-color: #33333C;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .hidden {
@@ -88,7 +91,7 @@ body {
 }
 
 .container--main_section {
-  padding-top: 71px;
+  padding-top: 25px;
   max-width: 768px;
   margin: auto;
 }
@@ -97,7 +100,7 @@ body {
   text-align: center;
   background-color: #37373F;
   box-shadow: 1px 0 6px rgba(0, 0, 0, 0.3);
-  height: calc(100vh - 71px);
+  height: calc(100vh - 25px);
 }
 
 .container--car_image img {
@@ -114,6 +117,7 @@ body {
 }
 
 .modal {
+  display: none;
   position: fixed;
   width: 100%;
   height: 100%;
@@ -124,17 +128,7 @@ body {
   background-color: black;
   background-color: rgba(0, 0, 0, 0.4);
 }
-.modal .modal-main {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  overflow: auto;
-  background-color: black;
-  background-color: rgba(0, 0, 0, 0.4)
-}
+
 .modal-content {
   background-color: #33333C;
   width: 310px;
@@ -145,14 +139,61 @@ body {
   text-align: center;
 }
 
+.container--modal_login {
+  background-color: #33333C;
+  width: 100%;
+  height: 100%;
+}
+
+.container--modal_login .modal-content {
+  padding: 0;
+  position: absolute;
+  top: 25%;
+  left: 0;
+  right: 0;
+  width: 310px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.container--modal_login .login-form-text {
+  text-align: right;
+  padding: 10px 15px 10px 0;
+}
+
+.container--modal_login input {
+  color: #000000;
+  background-color: #FFFFFF;
+  border-radius: 2px;
+  margin: 6px 0;
+}
+
+.container--modal_login #login-error {
+  color: #DA3738;
+}
+
+.container--modal_login .container--header {
+  height: 71px;
+}
+
+.container--modal_login .container--car_info {
+  width: 100%;
+}
+
+.container--modal_login .container--car_info h1 {
+  padding-top: 10px;
+}
+
 .btn--modal_btn {
   margin: 4px auto;
   width: 80%;
+  display: block;
 }
 
 .modal-content .modal--close {
   text-align: right;
-  margin: -5px 8px 0 0;
+  margin: -9px 8px 0 0;
+  font-size: 25px;
 }
 
 .modal--slider {
@@ -227,10 +268,38 @@ body {
 .climate--front_seats button {
   margin: 0 12px 10px 12px;
 }
-.display-block {
-  display: block;
-}
 
-.display-none {
-  display: none;
+@media only screen and (min-width: 375px) {
+  .modal-content {
+    width: 355px;
+  }
+
+  .btn--modal_btn {
+    margin: 6px auto;
+  }
+}
+@media only screen and (min-width: 800px) {
+  .container--main_section {
+    padding-top: 71px;
+  }
+
+  .container--car_image {
+    height: calc(100vh - 71px);
+  }
+
+  .modal-content {
+    width: 550px;
+  }
+
+  .btn {
+    padding: 15px 15px;
+  }
+
+  .btn--modal_btn {
+    margin: 8px auto;
+  }
+
+  .container--car_image img {
+    width: 530px;
+  }
 }

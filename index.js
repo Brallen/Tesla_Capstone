@@ -308,7 +308,6 @@ app.post('/vehicleID', function (req, res) {
   teslajs.vehicle(options, function (err, vehicle) {
     console.log(JSON.stringify(vehicle));
     if (vehicle === null) res.send({
-        response: {
           id: 12345678901234567,
           user_id: 123,
           vehicle_id: 1234567890,
@@ -316,7 +315,11 @@ app.post('/vehicleID', function (req, res) {
           display_name: "Nikola 2.0",
           tokens: ["abcdef1234567890", "1234567890abcdef"],
           state: "online",
-          id_s: "12345678901234567"}
+          id_s: "12345678901234567",
+          charge_state: {
+            usable_battery_level: 73,
+            charge_rate: 0
+          }
     });
     else {
       res.send(vehicle);
