@@ -7,7 +7,7 @@ class ChargingModal extends Component{
     super(props);
     this.state = {
       showCharge: false,
-      value: this.props.vehicleCharge
+      maxCharge: this.props.vehicleCharge
     };
     this.handleChargeChange = this.handleChargeChange.bind(this);
   }
@@ -20,19 +20,31 @@ class ChargingModal extends Component{
     this.setState({ showCharge: false });
   }
 
+  /*
+    this runs every time the slider is moved
+    this is because in order for the view to be updated client side we need to 
+    update the corresponding data. This means if we call the API in this function
+    we are going to be flooding the server with API commands
+  */
   handleChargeChange (evt) {
     var newStore = store.getState();
-    newStore.state.vehicleDataObject.charge_state.charge_limit_soc = this.state.value;
+    newStore.state.vehicleDataObject.charge_state.charge_limit_soc = this.state.maxCharge;
     store.dispatch({
       type: 'UPDATE_OBJECT',
       payload: {
         vehicleDataObject: newStore.state.vehicleDataObject
       }
     })
-    this.setState({ value: evt.target.value });
-
-    //api call here? Maybe delay the call every time handleClimateChange is called and call it a few seconds afterwards
+    this.setState({ maxCharge: parseFloat(evt.target.value) });
   }
+
+  applyChargeSettings(){
+    //make API call here to send the max charge setting
+    //see comment above handleChargeChange()
+    alert('temp - applying max charge setting')
+  }
+
+
 
   chargePortButton(){
     /* make api call here */
@@ -56,17 +68,19 @@ class ChargingModal extends Component{
               </div>
               <div className="modal--charging_controls">
                 <p id="charging--charge_level" className="modal--level_text">Max Charge: {this.props.vehicleCharge}%</p>
-
                   <input type="range" 
                     min={this.props.vehicleChargeMin} 
                     max={this.props.vehicleChargeMax} 
                     value={this.props.vehicleCharge} 
                     onChange={this.handleChargeChange} 
+                    step={0.1}
                     id="charging--charge_slider" 
                     className="modal--slider"/>
-
                   <button onClick={this.chargePortButton} id="charging--charge_port" className="btn btn--modal_btn">
                     {this.props.vehicleChargeDoor ? 'Close Charge Port' : 'Open Charge Port'}
+                  </button>
+                  <button onClick={this.applyChargeSettings} id="charging--apply_settings" className="btn btn--modal_btn">
+                    Apply Settings
                   </button>
               </div>
             </div>

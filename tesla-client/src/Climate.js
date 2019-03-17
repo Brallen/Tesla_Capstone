@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import {store} from './store/index.js';
 import { connect } from 'react-redux';
+import Slider from 'react-rangeslider';
+import 'react-rangeslider/lib/index.css';
 
 class ClimateModal extends Component{
   constructor(props) {
     super(props);
     this.state = {
       show: false,
-      value: this.props.vehicleClimateNum,
+      temperature: this.props.vehicleClimateNum,
+      unitDecider: true,
       multiplier: 1,
       frontLeft: this.props.seatLeft,
       frontRight: this.props.seatRight,
@@ -16,6 +19,7 @@ class ClimateModal extends Component{
       rearRight: this.props.seatRightRear
     };
     this.handleClimateChange = this.handleClimateChange.bind(this);
+    this.pushClimateChangeValues = this.pushClimateChangeValues.bind(this);
     this.frontLeftHeater = this.frontLeftHeater.bind(this);
     this.frontRightHeater = this.frontRightHeater.bind(this);
     this.rearRightHeater = this.rearRightHeater.bind(this);
@@ -25,24 +29,51 @@ class ClimateModal extends Component{
 
   showClimateModal = () => {
     this.setState({ showClimate: true });
+    if(this.props.vehicleClimateUnit == 'F'){
+      this.setState({ unitDecider: false });
+    }
+    if(this.props.vehicleClimateUnit == 'C'){
+      this.setState({ unitDecider: true });
+    }
   }
 
   hideClimateModal = () => {
     this.setState({ showClimate: false });
   }
 
-  handleClimateChange (evt) {
+  /*
+    this runs every time the slider is moved
+    this is because in order for the view to be updated client side we need to 
+    update the corresponding data. This means if we call the API in this function
+    we are going to be flooding the server with API commands
+  */
+  handleClimateChange = (value) => {
     var newStore = store.getState();
-    newStore.state.vehicleDataObject.climate_state.driver_temp_setting = this.state.value;
+    this.setState({ 
+      temperature: parseFloat(value)
+    });
+    newStore.state.vehicleDataObject.climate_state.driver_temp_setting = parseFloat(this.state.temperature);
+    newStore.state.vehicleDataObject.climate_state.passenger_temp_setting = parseFloat(this.state.temperature);
+
     store.dispatch({
       type: 'UPDATE_OBJECT',
       payload: {
         vehicleDataObject: newStore.state.vehicleDataObject
       }
     })
-    this.setState({ value: evt.target.value });
+  }
 
-    //api call here? Maybe delay the call every time handleClimateChange is called and call it a few seconds afterwards
+  applyClimateSettings(){
+    //make API call here to send the temperature setting
+    //see comment above handleClimateChange()
+    alert('temp - Applying climate setting')
+  }
+
+
+  
+
+  pushClimateChangeValues(evt){
+    alert(evt.target.value);
   }
 
   climateOnButton(){
@@ -204,15 +235,21 @@ class ClimateModal extends Component{
               <button onClick={this.hideClimateModal} id="modal--climate_close" className="modal--close_button"><i className="fas fa-times"></i></button>
             </div>
             <div className="modal--climate_controls">
-              <p id="climate--temp_level" className="modal--level_text">Climate: {this.props.vehicleClimateNum}{this.props.vehicleClimateUnit}</p>
-
-              <input type="range" 
-                min={this.props.vehicleClimateMin} //these are in celsius
-                max={this.props.vehicleClimateMax} 
-                value={this.props.vehicleClimateNum} 
-                onChange={this.handleClimateChange} 
-                id="climate--temp_slider" 
-                className="modal--slider"/>
+              <p id="climate--temp_level" className="modal--level_text">
+                Climate: {this.state.unitDecider ? parseFloat(this.props.vehicleClimateNum).toFixed(1) : parseFloat(this.props.vehicleClimateNum*(9/5)+32).toFixed(1)}{this.props.vehicleClimateUnit}
+              </p>
+                <div className='modal--slider'>
+                  <Slider
+                    value={this.props.vehicleClimateNum}
+                    min={this.props.vehicleClimateMin} //these are in celsius
+                    max={this.props.vehicleClimateMax} 
+                    onChange={this.handleClimateChange}
+                    onChangeComplete={this.applyClimateSettings}
+                    tooltip={false}
+                    step={0.1}
+                  />
+                </div>
+              
 
               <button id="climate--control" className="btn btn--modal_btn" onClick={this.climateOnButton}>Turn Climate Control {this.props.vehicleClimate ? 'Off' : 'On'}</button>
               <div id="climate--seat_warmers" className="climate--seat_warmers">
@@ -259,6 +296,7 @@ const mapStateToProps = (state) => {
     return {
       vehicleClimate: state.state.vehicleDataObject.climate_state.is_climate_on,
       vehicleClimateNum: state.state.vehicleDataObject.climate_state.driver_temp_setting,
+      vehicleClimateNum2: state.state.vehicleDataObject.climate_state.passenger_temp_setting,
       vehicleClimateMax: state.state.vehicleDataObject.climate_state.max_avail_temp,
       vehicleClimateMin: state.state.vehicleDataObject.climate_state.min_avail_temp,
       vehicleClimateUnit: state.state.vehicleDataObject.gui_settings.gui_temperature_units,

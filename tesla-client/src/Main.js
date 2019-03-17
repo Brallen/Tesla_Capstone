@@ -21,7 +21,7 @@ class Main extends Component{
 
   testFunc(){
     var newStore = store.getState();
-    newStore.state.vehicleDataObject.vehicle_state.locked = false;
+    newStore.state.vehicleDataObject.gui_settings.gui_temperature_units = 'F';
     newStore.state.vehicleDataObject.display_name = 'turdman';
     //alert(JSON.stringify(newStore.state.vehicleDataObject));
     /*
