@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {store} from './store/index.js';
+import { connect } from 'react-redux';
 
 class MediaModal extends Component{
   constructor(props) {
@@ -16,6 +18,31 @@ class MediaModal extends Component{
     this.setState({ showMedia: false });
   }
 
+  volumeUp(){
+    /* api call here */
+    alert("temp - volume up");
+  }
+
+  volumeDown(){
+    /* api call here */
+    alert("temp - volume down");
+  }
+
+  trackForward(){
+    /* api call here */
+    alert("temp - track forward");
+  }
+
+  trackBackward(){
+    /* api call here */
+    alert("temp - track backward");
+  }
+
+  trackPlayPause(){
+    /* api call here */
+    alert("temp - play / paused");
+  }
+
   render(){
     return(
       <div>
@@ -25,11 +52,11 @@ class MediaModal extends Component{
                 <button id="modal--media_close" onClick={this.hideMediaModal} className="modal--close_button"><i className="fas fa-times"></i></button>
               </div>
               <div className="modal--media_controls">
-                <button className="media-volume_up btn btn--modal_btn">Volume Up</button>
-                <button className="media-volume_down btn btn--modal_btn">Volume Down</button>
-                <button className="media-control_button media-back" id="play_prev_btn"><i className="fas fa-backward"></i></button>
-                <button className="media-control_button media-play"><i className="fas fa-play-circle"></i></button>
-                <button className="media-control_button media-next" id="play_next_btn"><i className="fas fa-forward"></i></button>
+                <button className="media-volume_up btn btn--modal_btn" onClick={this.volumeUp}>Volume Up</button>
+                <button className="media-volume_down btn btn--modal_btn" onClick={this.volumeDown}>Volume Down</button>
+                <button className="media-control_button media-back" id="play_prev_btn" onClick={this.trackBackward}><i className="fas fa-backward"></i></button>
+                <button className="media-control_button media-play" onClick={this.trackPlayPause}><i className="fas fa-play-circle"></i></button>
+                <button className="media-control_button media-next" id="play_next_btn" onClick={this.trackForward}><i className="fas fa-forward"></i></button>
               </div>
             </div>
           </Modal>

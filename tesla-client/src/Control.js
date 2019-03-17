@@ -10,6 +10,12 @@ class ControlModal extends Component{
     };
   }
 
+
+  startEngineButton(){
+    /* api call here */
+    alert("temp - engine started");
+  }
+
   lockButton(){
     /* api call here */
     var newStore = store.getState();
@@ -21,6 +27,35 @@ class ControlModal extends Component{
       }
     })
   }
+
+  honkHornButton(){
+    /* api call here */
+    alert("temp - horn honked");
+  }
+
+  flashLightsButton(){
+    /* api call here */
+    alert("temp - lights flashed");
+  }
+
+  openFrunkButton(){
+    /* api call here */
+    alert("temp - frunk opened");
+  }
+
+  openTrunkButton(){
+    /* api call here */
+    alert("temp - trunk opened");
+  }
+
+  openSunroofButton(){
+    /* api call here */
+    alert("temp - sunroof opened");
+  }
+
+
+
+
 
   showControlModal = () => {
     this.setState({ showControl: true });
@@ -39,13 +74,13 @@ class ControlModal extends Component{
                       <button onClick={this.hideControlModal}id="modal--control_close" className="modal--close_button"><i className="fas fa-times"></i></button>
                   </div>
                   <ul className="list--modal_btn">
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" id="enginetoggle_btn">Start Engine</button></li>
+                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.startEngineButton} id="enginetoggle_btn">Start Engine</button></li>
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.lockButton} id="lock">{this.props.vehicleLocked ? 'Unlock' : 'Lock'}</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" id="honk">Honk Horn</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" id="flashlights_btn">Flash Lights</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" id="openfrunk_btn">Open Frunk</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" id="opentrunk_btn">Open Trunk</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" id="sunroof">Open Sunroof</button></li>
+                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.honkHornButton} id="honk">Honk Horn</button></li>
+                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.flashLightsButton} id="flashlights_btn">Flash Lights</button></li>
+                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openFrunkButton} id="openfrunk_btn">Open Frunk</button></li>
+                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openTrunkButton} id="opentrunk_btn">Open Trunk</button></li>
+                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openSunroofButton} id="sunroof">Open Sunroof</button></li>
                   </ul>
               </div>
           </Modal>
@@ -61,9 +96,6 @@ const Modal = ({ handleClose, show, children }) => {
     return (
         <div className='modal' style={{display: showHideClassName}}>
         {children}
-        <button onClick={handleClose}>
-          Close
-        </button>
     </div>
     );
   };
