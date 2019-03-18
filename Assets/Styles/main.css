@@ -303,3 +303,6 @@ body {
     width: 530px;
   }
 }
+#confirm--password {
+  display: inline;
+}

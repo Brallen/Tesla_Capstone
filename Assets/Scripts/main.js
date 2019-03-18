@@ -104,6 +104,7 @@ window.onload = function () {
     };
     document.getElementById('modal--confirm_close').onclick = function () {
         confirmModal.style.display = 'none';
+        document.getElementsByClassName('confirm--password')[0].style.display = 'none';
     };
     logoutOpen.onclick = () => {
         logoutModal.classList.toggle('hidden');
@@ -129,6 +130,7 @@ window.onload = function () {
             summonModal.style.display = "none";
         } else if (event.target == confirmModal) {
             confirmModal.style.display = "none";
+            document.getElementsByClassName('confirm--password')[0].style.display = 'none';
         }
     }
 
@@ -492,20 +494,32 @@ window.onload = function () {
 
     //just start the engine. Dont turn it off
     enginebutton.onclick = function () {
-        $.ajax({
-            url: "startEngine",
-            type: "POST",
-            data: {
-                auth: JSON.stringify(localOptions),
-                pass: password
-            }
-        }).done(function (response) {
-            //alert(response);
-        }).catch(function (err) {
-            alert(err.responseText + " - " + err.statusText);
-        });
-
+      var confirmText = "start the engine";
+      document.getElementById('confirm--text_type').innerHTML = confirmText;
+      document.getElementsByClassName('confirm--password')[0].style.display = 'inline';
+      confirmModal.style.display = 'block';
+      confirmbutton.onclick = function () {
+        var password_input = document.getElementById('confirm--password');
+        if(password_input.value){
+          $.ajax({
+              url: "startEngine",
+              type: "POST",
+              data: {
+                  auth: JSON.stringify(localOptions),
+                  pass: password_input.value
+              }
+          }).done(function (response) {
+              //alert(response);
+          }).catch(function (err) {
+              alert(err.responseText + " - " + err.statusText);
+          });
+          document.getElementsByClassName('confirm--password')[0].style.display = 'none';
+          confirmModal.style.display = 'none';
+        }else{
+          alert("Please enter your MyTesla Password");
+        }
     }
+  }
 
   volUpbutton.onclick = function () {
         $.ajax({
