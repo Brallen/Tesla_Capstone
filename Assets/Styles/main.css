@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   margin: 0;
   padding: 0;
@@ -229,11 +230,35 @@ body {
 
 .modal--media_controls .media-control_button {
   font-size: 35px;
-  padding: 0 15px;
+  padding: 0 30px;
 }
 
 .modal--media_controls #media-volume_level {
   padding: 10px 0 15px 0;
+}
+
+.modal--media_controls .media_actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px 0 20px 0;
+}
+
+.modal--media_controls .media-play {
+  background: #f8f9fa;
+  border-radius: 50px;
+  padding: 11px 5px;
+  font-size: 21px;
+}
+
+.fa-playpause::before {
+  content: "";
+  color: #33333C;
+}
+
+.fa-playpause::after {
+  content: "";
+  color: #33333C;
 }
 
 .modal--level_text {

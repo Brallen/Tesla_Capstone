@@ -60,7 +60,7 @@
                     <input type="text" placeholder="Enter Tesla Email" name="email" required id="email">
 
                     <label for="password">Password:</label>
-                    <input type="text" placeholder="Enter Tesla Password" name="password" required id="password">
+                    <input type="password" placeholder="Enter Tesla Password" name="password" required id="password">
                 </div>
 
                 <button type="submit" class="btn btn--modal_btn" id="login">Login</button>
@@ -82,7 +82,7 @@
         <!-- Wake-Up Modal -->
         <div class="modal container--modal_wake-up">
             <div class="modal-content">
-					<p id='waking-up'>Waking up car...</p>
+                <p id='waking-up'>Waking up car...</p>
             </div>
         </div>
         <!-- Control Modal -->
@@ -111,9 +111,11 @@
                 <div class="modal--media_controls">
                     <button class="media-volume_up btn btn--modal_btn">Volume Up</button>
                     <button class="media-volume_down btn btn--modal_btn">Volume Down</button>
-                    <button class="media-control_button media-back" id="play_prev_btn"><i class="fas fa-backward"></i></button>
-                    <button class="media-control_button media-play"><i class="fas fa-play-circle"></i></button>
-                    <button class="media-control_button media-next" id="play_next_btn"><i class="fas fa-forward"></i></button>
+                    <div class="media_actions">
+                        <button class="media-control_button media-back" id="play_prev_btn"><i class="fas fa-backward"></i></button>
+                        <button class="media-control_button media-play"><span class="fas fa-playpause"></span></button>
+                        <button class="media-control_button media-next" id="play_next_btn"><i class="fas fa-forward"></i></button>
+                    </div>
                 </div>
             </div>
         </div>
