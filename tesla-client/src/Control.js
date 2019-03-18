@@ -6,17 +6,41 @@ class ControlModal extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      showControl: false
+      showControl: false,
     };
+    this.refreshGlobalTimerWhenAction = this.refreshGlobalTimerWhenAction.bind(this);
+    this.startEngineButton = this.startEngineButton.bind(this);
+    this.lockButton = this.lockButton.bind(this);
+    this.honkHornButton = this.honkHornButton.bind(this);
+    this.flashLightsButton = this.flashLightsButton.bind(this);
+    this.openFrunkButton = this.openFrunkButton.bind(this);
+    this.openTrunkButton = this.openTrunkButton.bind(this);
+    this.openSunroofButton = this.openSunroofButton.bind(this);
+  }
+
+  //call this function inside every control
+  refreshGlobalTimerWhenAction(){
+    var newStore = store.getState();
+    newStore.state.refreshTime = this.props.globalTimerInterval;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        refreshTime: newStore.state.refreshTime
+      }
+    })
   }
 
 
   startEngineButton(){
+    //so the timer doesnt refresh directly after an async api call
+    this.refreshGlobalTimerWhenAction();
     /* api call here */
     alert("temp - engine started");
   }
 
   lockButton(){
+    //so the timer doesnt refresh directly after an async api call
+    this.refreshGlobalTimerWhenAction();
     /* api call here */
     var newStore = store.getState();
     newStore.state.vehicleDataObject.vehicle_state.locked = !newStore.state.vehicleDataObject.vehicle_state.locked;
@@ -29,26 +53,36 @@ class ControlModal extends Component{
   }
 
   honkHornButton(){
+    //so the timer doesnt refresh directly after an async api call
+    this.refreshGlobalTimerWhenAction();
     /* api call here */
     alert("temp - horn honked");
   }
 
   flashLightsButton(){
+    //so the timer doesnt refresh directly after an async api call
+    this.refreshGlobalTimerWhenAction();
     /* api call here */
     alert("temp - lights flashed");
   }
 
   openFrunkButton(){
+    //so the timer doesnt refresh directly after an async api call
+    this.refreshGlobalTimerWhenAction();
     /* api call here */
     alert("temp - frunk opened");
   }
 
   openTrunkButton(){
+    //so the timer doesnt refresh directly after an async api call
+    this.refreshGlobalTimerWhenAction();
     /* api call here */
     alert("temp - trunk opened");
   }
 
   openSunroofButton(){
+    //so the timer doesnt refresh directly after an async api call
+    this.refreshGlobalTimerWhenAction();
     /* api call here */
     alert("temp - sunroof opened");
   }
@@ -102,7 +136,8 @@ const Modal = ({ handleClose, show, children }) => {
 
   const mapStateToProps = (state) => {
     return {
-      vehicleLocked: state.state.vehicleDataObject.vehicle_state.locked
+      vehicleLocked: state.state.vehicleDataObject.vehicle_state.locked,
+      globalTimerInterval: state.state.refreshInterval
     }
   }
 

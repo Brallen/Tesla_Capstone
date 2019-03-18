@@ -18,13 +18,27 @@ class ClimateModal extends Component{
       rearCenter: this.props.seatMidRear,
       rearRight: this.props.seatRightRear
     };
+    this.refreshGlobalTimerWhenAction = this.refreshGlobalTimerWhenAction.bind(this);
+    this.climateOnButton = this.climateOnButton.bind(this);
+    this.applyClimateSettings = this.applyClimateSettings.bind(this);
     this.handleClimateChange = this.handleClimateChange.bind(this);
-    this.pushClimateChangeValues = this.pushClimateChangeValues.bind(this);
     this.frontLeftHeater = this.frontLeftHeater.bind(this);
     this.frontRightHeater = this.frontRightHeater.bind(this);
     this.rearRightHeater = this.rearRightHeater.bind(this);
     this.rearLeftHeater = this.rearLeftHeater.bind(this);
     this.rearMidHeater = this.rearMidHeater.bind(this);
+  }
+
+  //call this function inside every control
+  refreshGlobalTimerWhenAction(){
+    var newStore = store.getState();
+    newStore.state.refreshTime = this.props.globalTimerInterval;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        refreshTime: newStore.state.refreshTime
+      }
+    })
   }
 
   showClimateModal = () => {
@@ -48,6 +62,7 @@ class ClimateModal extends Component{
     we are going to be flooding the server with API commands
   */
   handleClimateChange = (value) => {
+    this.refreshGlobalTimerWhenAction();
     var newStore = store.getState();
     this.setState({ 
       temperature: parseFloat(value)
@@ -64,19 +79,14 @@ class ClimateModal extends Component{
   }
 
   applyClimateSettings(){
+    this.refreshGlobalTimerWhenAction();
     //make API call here to send the temperature setting
     //see comment above handleClimateChange()
     alert('temp - Applying climate setting')
   }
 
-
-  
-
-  pushClimateChangeValues(evt){
-    alert(evt.target.value);
-  }
-
   climateOnButton(){
+    this.refreshGlobalTimerWhenAction();
     /* make api call here */
     var newStore = store.getState();
     newStore.state.vehicleDataObject.climate_state.is_climate_on = !newStore.state.vehicleDataObject.climate_state.is_climate_on;
@@ -93,6 +103,7 @@ class ClimateModal extends Component{
       *************** Front left heater button **************
   */
   frontLeftHeater(){
+    this.refreshGlobalTimerWhenAction();
     switch(this.state.frontLeft){
       case 0:
       case 1:
@@ -121,6 +132,7 @@ class ClimateModal extends Component{
         *************** Front right heater button **************
     */
   frontRightHeater(){
+    this.refreshGlobalTimerWhenAction();
     switch(this.state.frontRight){
       case 0:
       case 1:
@@ -149,6 +161,7 @@ class ClimateModal extends Component{
       *************** Rear right heater button **************
   */
   rearRightHeater(){
+    this.refreshGlobalTimerWhenAction();
     switch(this.state.rearRight){
       case 0:
       case 1:
@@ -176,6 +189,7 @@ class ClimateModal extends Component{
       *************** Rear left heater button **************
   */
  rearLeftHeater(){
+  this.refreshGlobalTimerWhenAction();
   switch(this.state.rearLeft){
     case 0:
     case 1:
@@ -203,6 +217,7 @@ class ClimateModal extends Component{
       *************** Rear middle heater button **************
   */
  rearMidHeater(){
+  this.refreshGlobalTimerWhenAction();
   switch(this.state.rearMid){
     case 0:
     case 1:
@@ -246,8 +261,7 @@ class ClimateModal extends Component{
                     onChange={this.handleClimateChange}
                     onChangeComplete={this.applyClimateSettings}
                     tooltip={false}
-                    step={0.1}
-                  />
+                    step={0.1}/>
                 </div>
               
 
@@ -304,7 +318,8 @@ const mapStateToProps = (state) => {
       seatRight: state.state.vehicleDataObject.climate_state.seat_heater_right,
       seatLeftRear: state.state.vehicleDataObject.climate_state.seat_heater_rear_left,
       seatMidRear: state.state.vehicleDataObject.climate_state.seat_heater_rear_center,
-      seatRightRear: state.state.vehicleDataObject.climate_state.seat_heater_rear_right
+      seatRightRear: state.state.vehicleDataObject.climate_state.seat_heater_rear_right,
+      globalTimerInterval: state.state.refreshInterval
     }
   }
 

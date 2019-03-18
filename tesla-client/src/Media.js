@@ -8,6 +8,24 @@ class MediaModal extends Component{
     this.state = {
       showMedia: false
     };
+    this.refreshGlobalTimerWhenAction = this.refreshGlobalTimerWhenAction.bind(this);
+    this.volumeDown = this.volumeDown.bind(this);
+    this.volumeUp = this.volumeUp.bind(this);
+    this.trackForward = this.trackForward.bind(this);
+    this.trackBackward = this.trackBackward.bind(this);
+    this.trackPlayPause = this.trackPlayPause.bind(this);
+  }
+
+  //call this function inside every control
+  refreshGlobalTimerWhenAction(){
+    var newStore = store.getState();
+    newStore.state.refreshTime = this.props.globalTimerInterval;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        refreshTime: newStore.state.refreshTime
+      }
+    })
   }
 
   showMediaModal = () => {
@@ -19,26 +37,31 @@ class MediaModal extends Component{
   }
 
   volumeUp(){
+    this.refreshGlobalTimerWhenAction();
     /* api call here */
     alert("temp - volume up");
   }
 
   volumeDown(){
+    this.refreshGlobalTimerWhenAction();
     /* api call here */
     alert("temp - volume down");
   }
 
   trackForward(){
+    this.refreshGlobalTimerWhenAction();
     /* api call here */
     alert("temp - track forward");
   }
 
   trackBackward(){
+    this.refreshGlobalTimerWhenAction();
     /* api call here */
     alert("temp - track backward");
   }
 
   trackPlayPause(){
+    this.refreshGlobalTimerWhenAction();
     /* api call here */
     alert("temp - play / paused");
   }
@@ -79,4 +102,10 @@ const Modal = ({ handleClose, show, children }) => {
     );
   };
 
-export default (MediaModal);
+  const mapStateToProps = (state) => {
+    return {
+      globalTimerInterval: state.state.refreshInterval
+    }
+  }
+
+export default connect(mapStateToProps)(MediaModal);

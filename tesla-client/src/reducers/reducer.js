@@ -3,6 +3,8 @@ let defaultState = {
     accountName: '',
     accountPass: '',
     accountToken: '',
+    refreshTime: 10,
+    refreshInterval: 10,
     vehicleDataObject: { 
         id: 0,
         user_id: 0,

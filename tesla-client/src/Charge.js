@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {store} from './store/index.js';
+import Slider from 'react-rangeslider';
+import 'react-rangeslider/lib/index.css';
 
 class ChargingModal extends Component{
   constructor(props) {
@@ -9,7 +11,22 @@ class ChargingModal extends Component{
       showCharge: false,
       maxCharge: this.props.vehicleCharge
     };
+    this.refreshGlobalTimerWhenAction = this.refreshGlobalTimerWhenAction.bind(this);
     this.handleChargeChange = this.handleChargeChange.bind(this);
+    this.applyChargeSettings = this.applyChargeSettings.bind(this);
+    this.chargePortButton = this.chargePortButton.bind(this);
+  }
+
+  //call this function inside every control
+  refreshGlobalTimerWhenAction(){
+    var newStore = store.getState();
+    newStore.state.refreshTime = this.props.globalTimerInterval;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        refreshTime: newStore.state.refreshTime
+      }
+    })
   }
 
   showChargeModal = () => {
@@ -26,19 +43,23 @@ class ChargingModal extends Component{
     update the corresponding data. This means if we call the API in this function
     we are going to be flooding the server with API commands
   */
-  handleChargeChange (evt) {
+  handleChargeChange (value) {
+    this.refreshGlobalTimerWhenAction();
     var newStore = store.getState();
-    newStore.state.vehicleDataObject.charge_state.charge_limit_soc = this.state.maxCharge;
+    this.setState({ 
+      maxCharge: parseFloat(value) 
+    });
+    newStore.state.vehicleDataObject.charge_state.charge_limit_soc = parseFloat(this.state.maxCharge);
     store.dispatch({
       type: 'UPDATE_OBJECT',
       payload: {
         vehicleDataObject: newStore.state.vehicleDataObject
       }
     })
-    this.setState({ maxCharge: parseFloat(evt.target.value) });
   }
 
   applyChargeSettings(){
+    this.refreshGlobalTimerWhenAction();
     //make API call here to send the max charge setting
     //see comment above handleChargeChange()
     alert('temp - applying max charge setting')
@@ -47,6 +68,7 @@ class ChargingModal extends Component{
 
 
   chargePortButton(){
+    this.refreshGlobalTimerWhenAction();
     /* make api call here */
     var newStore = store.getState();
     newStore.state.vehicleDataObject.charge_state.charge_port_door_open = !newStore.state.vehicleDataObject.charge_state.charge_port_door_open;
@@ -67,20 +89,20 @@ class ChargingModal extends Component{
                 <button onClick={this.hideChargeModal}id="modal--charging_close" className="modal--close_button"><i className="fas fa-times"></i></button>
               </div>
               <div className="modal--charging_controls">
-                <p id="charging--charge_level" className="modal--level_text">Max Charge: {this.props.vehicleCharge}%</p>
-                  <input type="range" 
-                    min={this.props.vehicleChargeMin} 
-                    max={this.props.vehicleChargeMax} 
-                    value={this.props.vehicleCharge} 
-                    onChange={this.handleChargeChange} 
-                    step={0.1}
-                    id="charging--charge_slider" 
-                    className="modal--slider"/>
+                <p id="charging--charge_level" className="modal--level_text">Max Charge: {parseFloat(this.props.vehicleCharge).toFixed(1)}%</p>
+                  <div className="modal--slider">
+                    <Slider
+                        value={this.props.vehicleCharge}
+                        min={this.props.vehicleChargeMin} //these are in celsius
+                        max={this.props.vehicleChargeMax} 
+                        onChange={this.handleChargeChange}
+                        onChangeComplete={this.applyChargeSettings}
+                        tooltip={false}
+                        step={0.1}/>
+                  </div>
+                  
                   <button onClick={this.chargePortButton} id="charging--charge_port" className="btn btn--modal_btn">
                     {this.props.vehicleChargeDoor ? 'Close Charge Port' : 'Open Charge Port'}
-                  </button>
-                  <button onClick={this.applyChargeSettings} id="charging--apply_settings" className="btn btn--modal_btn">
-                    Apply Settings
                   </button>
               </div>
             </div>
@@ -105,7 +127,8 @@ const mapStateToProps = (state) => {
       vehicleChargeDoor: state.state.vehicleDataObject.charge_state.charge_port_door_open,
       vehicleChargeMax: state.state.vehicleDataObject.charge_state.charge_limit_soc_max,
       vehicleChargeMin: state.state.vehicleDataObject.charge_state.charge_limit_soc_min,
-      vehicleCharge: state.state.vehicleDataObject.charge_state.charge_limit_soc
+      vehicleCharge: state.state.vehicleDataObject.charge_state.charge_limit_soc,
+      globalTimerInterval: state.state.refreshInterval
     }
   }
 export default connect(mapStateToProps)(ChargingModal);

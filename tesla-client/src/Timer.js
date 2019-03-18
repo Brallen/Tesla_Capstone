@@ -1,62 +1,60 @@
 import React, { Component } from 'react';
 import {store} from './store/index.js';
+import { connect } from 'react-redux';
 
 class Timer extends React.Component {
-  constructor() {
-    super();
-    this.timeReset = 10;
-    this.state = { time: {}, seconds: this.timeReset };
+  constructor(props) {
+    super(props);
+    this.state = { 
+    };
     this.timer = 0;
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);
+    this.refreshVehicleData = this.refreshVehicleData.bind(this);
     this.startTimer();
   }
 
-  secondsToTime(secs){
-    let hours = Math.floor(secs / (60 * 60));
-    let divisor_for_minutes = secs % (60 * 60);
-    let minutes = Math.floor(divisor_for_minutes / 60);
-    let divisor_for_seconds = divisor_for_minutes % 60;
-    let seconds = Math.ceil(divisor_for_seconds);
-
-    let obj = {
-      "h": hours,
-      "m": minutes,
-      "s": seconds
-    };
-    return obj;
-  }
-
-  componentDidMount() {
-    //let timeLeftVar = this.secondsToTime(this.state.seconds);
-    this.setState({ time: this.secondsToTime(this.state.seconds) });
-  }
-
   startTimer() {
-    if (this.timer == 0 && this.state.seconds > 0) {
-      this.timer = setInterval(this.countDown, 1000);
-    }
+    this.timer = setInterval(this.countDown, 1000);
+  }
+
+  refreshVehicleData(){
+    /*api call goes here to refresh vehicle data
+      inside the .then we get the store and replace the vehicleObjectData
+      with the new vehicleObjectData and then dispatch our action
+      to update the store */
+      var newStore = store.getState();
+      
+      store.dispatch({
+        type: 'UPDATE_OBJECT',
+        payload: {
+          vehicleDataObject: newStore.state.vehicleDataObject
+        }
+      })
+
   }
 
   countDown() {
     // Remove one second, set state so a re-render happens.
-    let seconds = this.state.seconds - 1;
-    this.setState({
-      time: this.secondsToTime(seconds),
-      seconds: seconds
-    });
-    
+    var seconds = parseInt(this.props.globalTimer-1);
+    var newStore = store.getState();
+    newStore.state.refreshTime = seconds;
+    //for showing time as the vehicle name
+      //newStore.state.vehicleDataObject.display_name = seconds;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        refreshTime: newStore.state.refreshTime
+      }
+    })
     // Check if we're at zero.
-    if (seconds == 0) { 
-      //set the local state of this component to 15 seconds
-      this.setState((state, props) => {
-        return {seconds: this.timeReset};
-      });
-      //dispatch examplePropOne and Two to the global store
+    if (seconds <= 0) { 
+      this.refreshVehicleData();
+      newStore.state.refreshTime = this.props.globalTimerInterval;
       store.dispatch({
-        type: 'EXAMPLE-THREE',
+        type: 'UPDATE_OBJECT',
         payload: {
-          
+          refreshTime: newStore.state.refreshTime,
         }
       })
     }
@@ -65,10 +63,18 @@ class Timer extends React.Component {
   render() {
     return(
       <div>
-        Resetting global states in: {this.state.time.s} seconds
+        
       </div>
     );
   }
 }
 
-export default (Timer);
+const mapStateToProps = (state) => {
+  return {
+    globalTimer: state.state.refreshTime,
+    globalTimerInterval: state.state.refreshInterval,
+    vehicleDataName: state.state.vehicleDataObject.display_name
+  }
+}
+
+export default connect(mapStateToProps)(Timer);
