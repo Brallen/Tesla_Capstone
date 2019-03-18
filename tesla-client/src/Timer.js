@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {store} from './store/index.js';
 import { connect } from 'react-redux';
 
-class Timer extends React.Component {
+class Timer extends Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -24,7 +24,7 @@ class Timer extends React.Component {
       with the new vehicleObjectData and then dispatch our action
       to update the store */
       var newStore = store.getState();
-      
+      //newStore.state.vehicleDataObject.display_name = 'REFRESHED';
       store.dispatch({
         type: 'UPDATE_OBJECT',
         payload: {

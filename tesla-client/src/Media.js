@@ -78,7 +78,7 @@ class MediaModal extends Component{
                 <button className="media-volume_up btn btn--modal_btn" onClick={this.volumeUp}>Volume Up</button>
                 <button className="media-volume_down btn btn--modal_btn" onClick={this.volumeDown}>Volume Down</button>
                 <button className="media-control_button media-back" id="play_prev_btn" onClick={this.trackBackward}><i className="fas fa-backward"></i></button>
-                <button className="media-control_button media-play" onClick={this.trackPlayPause}><i className="fas fa-play-circle"></i></button>
+                <button className="media-control_button media-play" onClick={this.trackPlayPause}><i className="fas fa-playpause"></i></button>
                 <button className="media-control_button media-next" id="play_next_btn" onClick={this.trackForward}><i className="fas fa-forward"></i></button>
               </div>
             </div>

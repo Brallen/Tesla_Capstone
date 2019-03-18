@@ -43,10 +43,10 @@ class ClimateModal extends Component{
 
   showClimateModal = () => {
     this.setState({ showClimate: true });
-    if(this.props.vehicleClimateUnit == 'F'){
+    if(this.props.vehicleClimateUnit === 'F'){
       this.setState({ unitDecider: false });
     }
-    if(this.props.vehicleClimateUnit == 'C'){
+    if(this.props.vehicleClimateUnit === 'C'){
       this.setState({ unitDecider: true });
     }
   }
