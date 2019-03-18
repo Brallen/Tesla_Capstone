@@ -2,6 +2,12 @@
 let defaultState = {
     accountName: '',
     accountPass: '',
+    localOptions: {
+        authToken: '',
+        vehicleID: '',
+        vehicle_id: '',
+        tokens: []
+    },
     accountToken: '',
     refreshTime: 10,
     refreshInterval: 10,

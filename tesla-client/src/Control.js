@@ -7,6 +7,7 @@ class ControlModal extends Component{
     super(props);
     this.state = {
       showControl: false,
+      localOptions: {}
     };
     this.refreshGlobalTimerWhenAction = this.refreshGlobalTimerWhenAction.bind(this);
     this.startEngineButton = this.startEngineButton.bind(this);
@@ -17,7 +18,14 @@ class ControlModal extends Component{
     this.openTrunkButton = this.openTrunkButton.bind(this);
     this.openSunroofButton = this.openSunroofButton.bind(this);
   }
-
+  
+  componentDidMount(){
+    this.setState({ 
+      localOptions: this.props.localOptionsProp
+    });
+    //alert(JSON.stringify(this.state.localOptions))
+  }
+  
   //call this function inside every control
   refreshGlobalTimerWhenAction(){
     var newStore = store.getState();
@@ -29,6 +37,8 @@ class ControlModal extends Component{
       }
     })
   }
+
+  
 
 
   startEngineButton(){
@@ -137,7 +147,8 @@ const Modal = ({ handleClose, show, children }) => {
   const mapStateToProps = (state) => {
     return {
       vehicleLocked: state.state.vehicleDataObject.vehicle_state.locked,
-      globalTimerInterval: state.state.refreshInterval
+      globalTimerInterval: state.state.refreshInterval,
+      localOptionsProp: state.state.localOptions
     }
   }
 

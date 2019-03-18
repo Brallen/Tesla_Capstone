@@ -6,7 +6,8 @@ class MediaModal extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      showMedia: false
+      showMedia: false,
+      localOptions: {}
     };
     this.refreshGlobalTimerWhenAction = this.refreshGlobalTimerWhenAction.bind(this);
     this.volumeDown = this.volumeDown.bind(this);
@@ -14,6 +15,13 @@ class MediaModal extends Component{
     this.trackForward = this.trackForward.bind(this);
     this.trackBackward = this.trackBackward.bind(this);
     this.trackPlayPause = this.trackPlayPause.bind(this);
+  }
+
+  componentDidMount(){
+    this.setState({ 
+      localOptions: this.props.localOptionsProp
+    });
+    //alert(JSON.stringify(this.state.localOptions))
   }
 
   //call this function inside every control
@@ -104,7 +112,8 @@ const Modal = ({ handleClose, show, children }) => {
 
   const mapStateToProps = (state) => {
     return {
-      globalTimerInterval: state.state.refreshInterval
+      globalTimerInterval: state.state.refreshInterval,
+      localOptionsProp: state.state.localOptions
     }
   }
 

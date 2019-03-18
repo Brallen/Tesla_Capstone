@@ -16,7 +16,8 @@ class ClimateModal extends Component{
       frontRight: this.props.seatRight,
       rearLeft: this.props.seatLeftRear,
       rearCenter: this.props.seatMidRear,
-      rearRight: this.props.seatRightRear
+      rearRight: this.props.seatRightRear,
+      localOptions: {}
     };
     this.refreshGlobalTimerWhenAction = this.refreshGlobalTimerWhenAction.bind(this);
     this.climateOnButton = this.climateOnButton.bind(this);
@@ -27,6 +28,13 @@ class ClimateModal extends Component{
     this.rearRightHeater = this.rearRightHeater.bind(this);
     this.rearLeftHeater = this.rearLeftHeater.bind(this);
     this.rearMidHeater = this.rearMidHeater.bind(this);
+  }
+
+  componentDidMount(){
+    this.setState({ 
+      localOptions: this.props.localOptionsProp
+    });
+    //alert(JSON.stringify(this.state.localOptions))
   }
 
   //call this function inside every control
@@ -319,7 +327,8 @@ const mapStateToProps = (state) => {
       seatLeftRear: state.state.vehicleDataObject.climate_state.seat_heater_rear_left,
       seatMidRear: state.state.vehicleDataObject.climate_state.seat_heater_rear_center,
       seatRightRear: state.state.vehicleDataObject.climate_state.seat_heater_rear_right,
-      globalTimerInterval: state.state.refreshInterval
+      globalTimerInterval: state.state.refreshInterval,
+      localOptionsProp: state.state.localOptions
     }
   }
 

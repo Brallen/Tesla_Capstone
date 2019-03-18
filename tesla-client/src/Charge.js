@@ -9,12 +9,19 @@ class ChargingModal extends Component{
     super(props);
     this.state = {
       showCharge: false,
-      maxCharge: this.props.vehicleCharge
+      localOptions: {}
     };
     this.refreshGlobalTimerWhenAction = this.refreshGlobalTimerWhenAction.bind(this);
     this.handleChargeChange = this.handleChargeChange.bind(this);
     this.applyChargeSettings = this.applyChargeSettings.bind(this);
     this.chargePortButton = this.chargePortButton.bind(this);
+  }
+
+  componentDidMount(){
+    this.setState({ 
+      localOptions: this.props.localOptionsProp
+    });
+    //alert(JSON.stringify(this.state.localOptions))
   }
 
   //call this function inside every control
@@ -62,7 +69,7 @@ class ChargingModal extends Component{
     this.refreshGlobalTimerWhenAction();
     //make API call here to send the max charge setting
     //see comment above handleChargeChange()
-    alert('temp - applying max charge setting')
+    alert('temp - applying max charge setting');
   }
 
 
@@ -128,7 +135,8 @@ const mapStateToProps = (state) => {
       vehicleChargeMax: state.state.vehicleDataObject.charge_state.charge_limit_soc_max,
       vehicleChargeMin: state.state.vehicleDataObject.charge_state.charge_limit_soc_min,
       vehicleCharge: state.state.vehicleDataObject.charge_state.charge_limit_soc,
-      globalTimerInterval: state.state.refreshInterval
+      globalTimerInterval: state.state.refreshInterval,
+      localOptionsProp: state.state.localOptions
     }
   }
 export default connect(mapStateToProps)(ChargingModal);

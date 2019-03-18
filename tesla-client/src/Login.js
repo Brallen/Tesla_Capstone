@@ -11,10 +11,12 @@ class LoginModal extends Component {
       show: true,
       email: '',
       password: '',
-      authToken: ''
+      authToken: '',
+      localVehicleObject: {}
     };
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.setLocalOptions = this.setLocalOptions.bind(this);
   }
 
   handleEmailChange (evt) {
@@ -55,19 +57,38 @@ class LoginModal extends Component {
       authToken: self.state.authToken
     })
     .then(function (response) {
+        self.setState({ 
+          localVehicleObject: response.data 
+        });
         store.dispatch({
             type: 'LOGIN',
             payload: {
                 accountName: self.state.email,
+               //remove password field in the future 
                 accountPass: self.state.password,
                 accountToken: self.state.authToken,
                 vehicleDataObject: response.data
             }
         })
+        self.setLocalOptions();
     })
     .catch(function (error) {
       console.log(error);
     });
+  }
+
+  setLocalOptions(){
+    var newStore = store.getState();
+    newStore.state.localOptions.authToken = this.state.authToken;
+    newStore.state.localOptions.vehicleID = this.state.localVehicleObject.id_s;
+    newStore.state.localOptions.vehicle_id = this.state.localVehicleObject.vehicle_id;
+    newStore.state.localOptions.tokens = this.state.localVehicleObject.tokens;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        localOptions: newStore.state.localOptions
+      }
+    })
   }
 
   /*
