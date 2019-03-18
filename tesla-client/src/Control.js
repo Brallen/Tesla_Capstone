@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import {store} from './store/index.js';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 class ControlModal extends Component{
   constructor(props) {
     super(props);
     this.state = {
       showControl: false,
+      sunroofCheck: false,
       localOptions: {}
     };
     this.refreshGlobalTimerWhenAction = this.refreshGlobalTimerWhenAction.bind(this);
@@ -45,56 +47,177 @@ class ControlModal extends Component{
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
     /* api call here */
-    alert("temp - engine started");
+    axios.post('/startEngine', {
+      auth: JSON.stringify(this.state.localOptions),
+      pass: 'nope'
+    })
+    .then(function (response) {
+      
+    })
+    .catch(function (error) {
+      //alert(JSON.stringify(error))
+      alert(error.response.data + ' - ' + error.response.statusText);
+    });
   }
 
   lockButton(){
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
-    /* api call here */
-    var newStore = store.getState();
-    newStore.state.vehicleDataObject.vehicle_state.locked = !newStore.state.vehicleDataObject.vehicle_state.locked;
-    store.dispatch({
-      type: 'UPDATE_OBJECT',
-      payload: {
-        vehicleDataObject: newStore.state.vehicleDataObject
-      }
-    })
+
+    //if it is locked, pass unlock
+    if(this.props.vehicleLocked == true){
+      axios.post('/unlock', {
+        auth: JSON.stringify(this.state.localOptions)
+      })
+      .then(function (response) {
+        //if it's a good response, update local state
+        var newStore = store.getState();
+        newStore.state.vehicleDataObject.vehicle_state.locked = !newStore.state.vehicleDataObject.vehicle_state.locked;
+        store.dispatch({
+          type: 'UPDATE_OBJECT',
+          payload: {
+          vehicleDataObject: newStore.state.vehicleDataObject
+          }
+        })
+      })
+      .catch(function (error) {
+        //alert(JSON.stringify(error))
+        alert(error.response.data + ' - ' + error.response.statusText);
+      });
+    }
+    if(this.props.vehicleLocked == false){
+      axios.post('/lock', {
+        auth: JSON.stringify(this.state.localOptions)
+      })
+      .then(function (response) {
+        //if it's a good response, update local state
+        var newStore = store.getState();
+        newStore.state.vehicleDataObject.vehicle_state.locked = !newStore.state.vehicleDataObject.vehicle_state.locked;
+        store.dispatch({
+          type: 'UPDATE_OBJECT',
+          payload: {
+          vehicleDataObject: newStore.state.vehicleDataObject
+          }
+        })
+      })
+      .catch(function (error) {
+        //alert(JSON.stringify(error))
+        alert(error.response.data + ' - ' + error.response.statusText);
+      });
+    }
   }
 
   honkHornButton(){
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
     /* api call here */
-    alert("temp - horn honked");
+    axios.post('/honk', {
+      auth: JSON.stringify(this.state.localOptions)
+    })
+    .then(function (response) {
+      //if it's a good response, update local state
+      alert("Vehicle Honked");
+    })
+    .catch(function (error) {
+      //alert(JSON.stringify(error))
+      alert(error.response.data + ' - ' + error.response.statusText);
+    });
   }
 
   flashLightsButton(){
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
     /* api call here */
-    alert("temp - lights flashed");
+    axios.post('/flashLights', {
+      auth: JSON.stringify(this.state.localOptions)
+    })
+    .then(function (response) {
+      //if it's a good response, update local state
+      alert("Lights Flashed");
+    })
+    .catch(function (error) {
+      //alert(JSON.stringify(error))
+      alert(error.response.data + ' - ' + error.response.statusText);
+    });
   }
 
   openFrunkButton(){
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
     /* api call here */
-    alert("temp - frunk opened");
+    axios.post('/openTrunk', {
+      auth: JSON.stringify(this.state.localOptions),
+      which: "frunk"
+    })
+    .then(function (response) {
+      //if it's a good response, update local state
+      alert("Frunk Opened");
+    })
+    .catch(function (error) {
+      //alert(JSON.stringify(error))
+      alert(error.response.data + ' - ' + error.response.statusText);
+    });
   }
 
   openTrunkButton(){
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
     /* api call here */
-    alert("temp - trunk opened");
+    axios.post('/openTrunk', {
+      auth: JSON.stringify(this.state.localOptions),
+      which: "trunk"
+    })
+    .then(function (response) {
+      //if it's a good response, update local state
+      alert("Trunk Opened");
+    })
+    .catch(function (error) {
+      //alert(JSON.stringify(error))
+      alert(error.response.data + ' - ' + error.response.statusText);
+    });
   }
 
   openSunroofButton(){
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
-    /* api call here */
-    alert("temp - sunroof opened");
+
+    //check to make sure the sunroof is present and not null
+    if(this.props.sunroofPercent != null){
+      //if the sunroof is open at all then we send a close command
+      if(this.props.sunroofPercent > 0){
+        axios.post('/closeSunroof', {
+          auth: JSON.stringify(this.state.localOptions)
+        })
+        .then(function (response) {
+          //if it's a good response, update local state
+          this.setState({ 
+            sunroofCheck: false 
+          });
+          alert("Sunroof has been closed");
+        })
+        .catch(function (error) {
+          alert(error.response.data + ' - ' + error.response.statusText);
+        });
+      }else{
+        //if its not open then send an open command
+        axios.post('/openSunroof', {
+          auth: JSON.stringify(this.state.localOptions)
+        })
+        .then(function (response) {
+          //if it's a good response, update local state
+          this.setState({ 
+            sunroofCheck: true
+          });
+          alert("Sunroof has been opened");
+        })
+        .catch(function (error) {
+          //alert(JSON.stringify(error))
+          alert(error.response.data + ' - ' + error.response.statusText);
+        });
+      }
+    }else{
+      alert("Uh oh, this vehicle has no sunroof!");
+    }
   }
 
 
@@ -124,7 +247,7 @@ class ControlModal extends Component{
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.flashLightsButton} id="flashlights_btn">Flash Lights</button></li>
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openFrunkButton} id="openfrunk_btn">Open Frunk</button></li>
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openTrunkButton} id="opentrunk_btn">Open Trunk</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openSunroofButton} id="sunroof">Open Sunroof</button></li>
+                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openSunroofButton} id="sunroof">{this.state.sunroofCheck ? 'Close' : 'Open'} Sunroof</button></li>
                   </ul>
               </div>
           </Modal>
@@ -148,6 +271,7 @@ const Modal = ({ handleClose, show, children }) => {
     return {
       vehicleLocked: state.state.vehicleDataObject.vehicle_state.locked,
       globalTimerInterval: state.state.refreshInterval,
+      sunroofPercent: state.state.vehicleDataObject.vehicle_state.sun_roof_percent_open,
       localOptionsProp: state.state.localOptions
     }
   }

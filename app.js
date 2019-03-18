@@ -44,7 +44,7 @@ app.post('/unlock', function (req, res) {
     });
 });
 
-app.post('/opensunroof', function (req, res) {
+app.post('/openSunroof', function (req, res) {
     var options = req.body.auth;
     console.log("Requesting 'open sunroof'");
     var promise = teslajs.sunRoofControlAsync(JSON.parse(options), "vent");
@@ -57,7 +57,7 @@ app.post('/opensunroof', function (req, res) {
     });
 });
 
-app.post('/closesunroof', function (req, res) {
+app.post('/closeSunroof', function (req, res) {
     var options = req.body.auth;
     console.log("Requesting 'close sunroof'");
     var promise = teslajs.sunRoofControlAsync(JSON.parse(options), "close");
@@ -97,7 +97,7 @@ app.post('/honk', function (req, res) {
     });
 });
 
-app.post('/openchargeport', function (req, res) {
+app.post('/openChargePort', function (req, res) {
     var options = req.body.auth;
     console.log("Requesting 'open charge port'");
     var promise = teslajs.openChargePortAsync(JSON.parse(options));
@@ -110,7 +110,7 @@ app.post('/openchargeport', function (req, res) {
     });
 });
 
-app.post('/closechargeport', function (req, res) {
+app.post('/closeChargePort', function (req, res) {
     var options = req.body.auth;
     console.log("Requesting 'close charge port'");
     teslajs.closeChargePortAsync(JSON.parse(options))

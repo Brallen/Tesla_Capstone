@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {store} from './store/index.js';
 import Slider from 'react-rangeslider';
+import axios from 'axios';
 import 'react-rangeslider/lib/index.css';
 
 class ChargingModal extends Component{
@@ -9,6 +10,7 @@ class ChargingModal extends Component{
     super(props);
     this.state = {
       showCharge: false,
+      maxCharge: 50,
       localOptions: {}
     };
     this.refreshGlobalTimerWhenAction = this.refreshGlobalTimerWhenAction.bind(this);
@@ -69,22 +71,67 @@ class ChargingModal extends Component{
     this.refreshGlobalTimerWhenAction();
     //make API call here to send the max charge setting
     //see comment above handleChargeChange()
-    alert('temp - applying max charge setting');
+    axios.post('/chargeLimit', {
+      auth: JSON.stringify(this.state.localOptions),
+      value: parseFloat(this.state.maxCharge)
+    })
+    .then(function (response) {
+      //if it's a good response, update local state
+      alert("charge limit changed");
+    })
+    .catch(function (error) {
+      //alert(JSON.stringify(error))
+      alert(error.response.data + ' - ' + error.response.statusText);
+    });
   }
 
 
 
   chargePortButton(){
     this.refreshGlobalTimerWhenAction();
-    /* make api call here */
-    var newStore = store.getState();
-    newStore.state.vehicleDataObject.charge_state.charge_port_door_open = !newStore.state.vehicleDataObject.charge_state.charge_port_door_open;
-    store.dispatch({
-      type: 'UPDATE_OBJECT',
-      payload: {
-        vehicleDataObject: newStore.state.vehicleDataObject
-      }
-    })
+    
+    //if the charge door is open then send close command
+    if(this.props.vehicleChargeDoor == true){
+      axios.post('/closeChargePort', {
+        auth: JSON.stringify(this.state.localOptions)
+      })
+      .then(function (response) {
+        //if it's a good response, update local state
+        var newStore = store.getState();
+        newStore.state.vehicleDataObject.charge_state.charge_port_door_open = false;
+        store.dispatch({
+          type: 'UPDATE_OBJECT',
+          payload: {
+            vehicleDataObject: newStore.state.vehicleDataObject
+          }
+        })
+      })
+      .catch(function (error) {
+        //alert(JSON.stringify(error))
+        alert(error.response.data + ' - ' + error.response.statusText);
+      });
+    }
+    //if the charge port door is closed then send open command
+    if(this.props.vehicleChargeDoor == false){
+      axios.post('/openChargePort', {
+        auth: JSON.stringify(this.state.localOptions)
+      })
+      .then(function (response) {
+        //if it's a good response, update local state
+        var newStore = store.getState();
+        newStore.state.vehicleDataObject.charge_state.charge_port_door_open = true;
+        store.dispatch({
+          type: 'UPDATE_OBJECT',
+          payload: {
+            vehicleDataObject: newStore.state.vehicleDataObject
+          }
+        })
+      })
+      .catch(function (error) {
+        //alert(JSON.stringify(error))
+        alert(error.response.data + ' - ' + error.response.statusText);
+      });
+    }
   }
 
   render(){

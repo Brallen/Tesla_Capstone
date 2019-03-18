@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {store} from './store/index.js';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 class MediaModal extends Component{
   constructor(props) {
@@ -47,31 +48,81 @@ class MediaModal extends Component{
   volumeUp(){
     this.refreshGlobalTimerWhenAction();
     /* api call here */
-    alert("temp - volume up");
+    axios.post('/volumeUp', {
+      auth: JSON.stringify(this.state.localOptions)
+    })
+    .then(function (response) {
+      //if it's a good response, update local state
+      alert("Volume up pressed");
+    })
+    .catch(function (error) {
+      //alert(JSON.stringify(error))
+      alert(error.response.data + ' - ' + error.response.statusText);
+    });
   }
 
   volumeDown(){
     this.refreshGlobalTimerWhenAction();
     /* api call here */
-    alert("temp - volume down");
+    axios.post('/volumeDown', {
+      auth: JSON.stringify(this.state.localOptions)
+    })
+    .then(function (response) {
+      //if it's a good response, update local state
+      alert("Volume up pressed");
+    })
+    .catch(function (error) {
+      //alert(JSON.stringify(error))
+      alert(error.response.data + ' - ' + error.response.statusText);
+    });
   }
 
   trackForward(){
     this.refreshGlobalTimerWhenAction();
     /* api call here */
-    alert("temp - track forward");
+    axios.post('/nextSong', {
+      auth: JSON.stringify(this.state.localOptions)
+    })
+    .then(function (response) {
+      //if it's a good response, update local state
+      alert("Next song pressed");
+    })
+    .catch(function (error) {
+      //alert(JSON.stringify(error))
+      alert(error.response.data + ' - ' + error.response.statusText);
+    });
   }
 
   trackBackward(){
     this.refreshGlobalTimerWhenAction();
     /* api call here */
-    alert("temp - track backward");
+    axios.post('/prevSong', {
+      auth: JSON.stringify(this.state.localOptions)
+    })
+    .then(function (response) {
+      //if it's a good response, update local state
+      alert("Previous song pressed");
+    })
+    .catch(function (error) {
+      //alert(JSON.stringify(error))
+      alert(error.response.data + ' - ' + error.response.statusText);
+    });
   }
 
   trackPlayPause(){
     this.refreshGlobalTimerWhenAction();
     /* api call here */
-    alert("temp - play / paused");
+    axios.post('/toggleMusic', {
+      auth: JSON.stringify(this.state.localOptions)
+    })
+    .then(function (response) {
+      //if it's a good response, update local state
+      alert("Play/Pause pressed");
+    })
+    .catch(function (error) {
+      //alert(JSON.stringify(error))
+      alert(error.response.data + ' - ' + error.response.statusText);
+    });
   }
 
   render(){
