@@ -418,7 +418,7 @@ app.post('/login', function (req, res) {
             res.send("faketoken");
         } else {
             console.log("Login successful");
-            res.send(result.authToken);
+            res.send(result);
         }
     });
 });
@@ -430,11 +430,24 @@ app.post('/vehicleID', function (req, res) {
     console.log("Requesting 'vehicle' with token " + options.authToken);
     teslajs.vehicle(options, function (err, vehicle) {
         console.log(JSON.stringify(vehicle));
-        if (vehicle === null) res.send("fakeID");
+        if (vehicle === null) res.status(400).send("fakeID");
         else {
-            res.send(vehicle);
+            res.status(200).send(vehicle);
         }
     });
+});
+
+app.post('/refreshToken', function (req, res) {
+    var refreshToken = req.body.refreshToken;
+    console.log("Requesting 'refresh token' with refresh token " + refreshToken);
+    teslajs.refreshTokenAsync(refreshToken)
+        .then(function (result) {
+            console.log("Tesla Response: " + result);
+            res.status(200).send(result);
+        }).catch(function(err) {
+            console.log("Tesla Response: " + err);
+            res.status(400).send(true);
+        });
 });
 
 

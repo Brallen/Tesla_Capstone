@@ -72,8 +72,6 @@ window.onload = function () {
 
     var updates;
 
-    loginModal.style.display = 'block';
-
     wakeUpPopUp.style.display = 'none';
 
     mobileAccessModal.style.display = 'none';
@@ -134,6 +132,55 @@ window.onload = function () {
     }
 
     //Initial Login Attempt
+
+    //First we check for the cookies
+    localOptions.authToken = getCookie("authToken");
+    var refresh = getCookie("refreshToken");
+    if (localOptions.authToken != "" && refresh != "") {
+        //If they're present, we try and use them
+        alert(localOptions.authToken);
+        $.ajax({
+            url: "vehicleID",
+            type: "POST",
+            async: false,
+            data: {
+                authToken: localOptions.authToken
+            }
+        }).done(function (response) {
+            alert(JSON.stringify(response));
+            localOptions.vehicleID = response.id_s;
+            localOptions.vehicle_id = response.vehicle_id;
+            localOptions.tokens = response.tokens;
+            //We then try to refresh the token
+            $.ajax({
+                url: "refreshToken",
+                type: "POST",
+                async: false,
+                data: {
+                    refreshToken: refresh
+                }
+            }).done(function(response) {
+                localOptions.authToken = response.authToken;
+                setCookie("authToken", response.authToken, 45);
+                setCookie("refreshToken", response.refreshToken, 45);
+
+                updates = setInterval(updateState, 10000);
+                updateState();
+                loginModal.style.display = 'none';
+            }).catch(function(err) {//If it fails, oh well, we can still log in
+                updates = setInterval(updateState, 10000);
+                updateState();
+                loginModal.style.display = 'none';
+            })
+        }).catch(function(err) {//If this fails, we go back to normal login screen
+            alert(err);
+            loginModal.style.display = 'block';
+        });
+    }
+    else loginModal.style.display = 'block';
+
+
+
     login.onclick = function () {
 
         email = document.getElementById('email').value;
@@ -151,7 +198,10 @@ window.onload = function () {
                 }
             }).done(function (response) {
                 alert(response);
-                localOptions.authToken = response;
+                localOptions.authToken = response.authToken;
+
+                setCookie("authToken", response.authToken, 45);
+                setCookie("refreshToken", response.refreshToken, 45);
 
                 $.ajax({
                     url: "vehicleID",
@@ -166,6 +216,10 @@ window.onload = function () {
                     localOptions.vehicle_id = response.vehicle_id;
                     localOptions.tokens = response.tokens;
 
+                    updates = setInterval(updateState, 10000);
+                    updateState();
+                    loginModal.style.display = 'none';
+                }).catch(function(err) {
                     updates = setInterval(updateState, 10000);
                     updateState();
                     loginModal.style.display = 'none';
@@ -622,7 +676,7 @@ window.onload = function () {
         });
 
     }
-    
+
     tryAgain.onclick = function() {
         updates = setInterval(updateState, 10000);
         updateState();
@@ -796,5 +850,27 @@ window.onload = function () {
         }).catch(function (err) {
             console.log("Updating state: " + err.responseText + " - " + err.statusText);
         });
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+      var expires = "expires="+d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
     }
 }
