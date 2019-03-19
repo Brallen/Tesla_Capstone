@@ -10,6 +10,7 @@ window.onload = function () {
     let logoutOpen = document.getElementById('modal--logout_open');
     let logoutClose = document.getElementById('modal--logout_close');
     let wakeUpPopUp = document.getElementsByClassName("modal container--modal_wake-up")[0];
+    let mobileAccessModal = document.getElementsByClassName("modal container--modal_mobile-access")[0];
 
     //buttons
     let flashbutton = document.getElementById('flashlights_btn');
@@ -30,6 +31,8 @@ window.onload = function () {
     let chargeLimitSlider = document.getElementById('charging--charge_slider');
     let chargePort = document.getElementById('charging--charge_port');
     let login = document.getElementById('login');
+    let tryAgain = document.getElementById('tryAgain');
+    let loginAgain = document.getElementById('loginAgain');
 
     //Authentication Vars
     var localOptions = {
@@ -40,6 +43,7 @@ window.onload = function () {
     }
 
     //State Vars
+    var mobileAccess;
     var chargingState;
     var chargePortOpen;
     var batteryLevel;
@@ -50,7 +54,6 @@ window.onload = function () {
     var sunRoofOpen;
     var isLocked;
     var carTitle;
-    var awake;
     var carTemp;
     var seatHeating = {
         "climate--seat_fl": 0,
@@ -67,9 +70,11 @@ window.onload = function () {
         "climate--seat_br": 5
     }
 
-    loginModal.style.display = 'block';
+    var updates;
 
     wakeUpPopUp.style.display = 'none';
+
+    mobileAccessModal.style.display = 'none';
 
     document.getElementById('modal--control_open').onclick = function () {
         controlModal.style.display = 'block';
@@ -127,6 +132,55 @@ window.onload = function () {
     }
 
     //Initial Login Attempt
+
+    //First we check for the cookies
+    localOptions.authToken = getCookie("authToken");
+    var refresh = getCookie("refreshToken");
+    if (localOptions.authToken != "" && refresh != "") {
+        //If they're present, we try and use them
+        alert(localOptions.authToken);
+        $.ajax({
+            url: "vehicleID",
+            type: "POST",
+            async: false,
+            data: {
+                authToken: localOptions.authToken
+            }
+        }).done(function (response) {
+            alert(JSON.stringify(response));
+            localOptions.vehicleID = response.id_s;
+            localOptions.vehicle_id = response.vehicle_id;
+            localOptions.tokens = response.tokens;
+            //We then try to refresh the token
+            $.ajax({
+                url: "refreshToken",
+                type: "POST",
+                async: false,
+                data: {
+                    refreshToken: refresh
+                }
+            }).done(function(response) {
+                localOptions.authToken = response.authToken;
+                setCookie("authToken", response.authToken, 45);
+                setCookie("refreshToken", response.refreshToken, 45);
+
+                updates = setInterval(updateState, 10000);
+                updateState();
+                loginModal.style.display = 'none';
+            }).catch(function(err) {//If it fails, oh well, we can still log in
+                updates = setInterval(updateState, 10000);
+                updateState();
+                loginModal.style.display = 'none';
+            })
+        }).catch(function(err) {//If this fails, we go back to normal login screen
+            alert(err);
+            loginModal.style.display = 'block';
+        });
+    }
+    else loginModal.style.display = 'block';
+
+
+
     login.onclick = function () {
 
         email = document.getElementById('email').value;
@@ -144,7 +198,10 @@ window.onload = function () {
                 }
             }).done(function (response) {
                 alert(response);
-                localOptions.authToken = response;
+                localOptions.authToken = response.authToken;
+
+                setCookie("authToken", response.authToken, 45);
+                setCookie("refreshToken", response.refreshToken, 45);
 
                 $.ajax({
                     url: "vehicleID",
@@ -158,15 +215,20 @@ window.onload = function () {
                     localOptions.vehicleID = response.id_s;
                     localOptions.vehicle_id = response.vehicle_id;
                     localOptions.tokens = response.tokens;
+
+                    updates = setInterval(updateState, 10000);
                     updateState();
-                    setInterval(updateState, 10000);
+                    loginModal.style.display = 'none';
+                }).catch(function(err) {
+                    updates = setInterval(updateState, 10000);
+                    updateState();
                     loginModal.style.display = 'none';
                 });
             });
 
         } else {
-            document.getElementById('login-error').innerHTML = "Both fields required"
-        };
+            document.getElementById('login-error').innerHTML = "Both fields required";
+        }
     }
 
     // Page update commands
@@ -615,15 +677,95 @@ window.onload = function () {
 
     }
 
+    tryAgain.onclick = function() {
+        updates = setInterval(updateState, 10000);
+        updateState();
+    }
+
+    loginAgain.onclick = function() {
+        mobileAccessModal.style.display = "none";
+        loginModal.style.display = "block";
+        document.getElementById('email').value = "";
+        document.getElementById('password').value = "";
+    }
+
+    //wakeUp() requests the server make the wakeUp API call and
+    //queries basic vehicle data until it appears to have taken affect.
+    function wakeUp() {
+        var done = false;
+
+        wakeUpPopUp.style.display = 'block';
+
+        $.ajax({
+            url: "wakeup",
+            type: "POST",
+            async: false,
+            data: {
+                auth: JSON.stringify(localOptions)
+            }
+        }).done(function (response) {
+            while (done === false) {
+                $.ajax({
+                    url: "vehicleID",
+                    type: "POST",
+                    async: false,
+                    data: {
+                        authToken: localOptions.authToken
+                    }
+                }).done(function (response) {
+                    if (response.state === "online") {
+                        done = true;
+                        wakeUpPopUp.style.display = 'none';
+                    }
+                });
+            }
+        }).catch(function (err) {
+            console.log("Waking car: " + err.responseText + " - " + err.statusText);
+        });
+    }
+
+    //   updateState() refreshes all state variables with information from the Tesla servers.
     function updateState() {
+        //Checking mobile Access
+        $.ajax({
+            url: "mobileAccess",
+            type: "POST",
+            async: false,
+            data: {
+                auth: JSON.stringify(localOptions)
+            }
+        }).done(function (response) {
+            if (response === false) {
+                clearInterval(updates);
+                loginModal.style.display = 'none';
+                mobileAccessModal.style.display = 'block';
+            }
+            else mobileAccessModal.style.display = 'none';
+        });
+        if (mobileAccessModal.style.display === 'block') return;
+        //Querying basic car data to make sure the car is still awake.
+        $.ajax({
+            url: "vehicleID",
+            type: "POST",
+            async: false,
+            data: {
+                authToken: localOptions.authToken
+            }
+        }).done(function (response) {
+            if (response.state === "asleep") wakeUp();
+        }).catch(function (err) {
+            console.log("Checking if awake: " + err.responseText + " - " + err.statusText);
+        });
+        //Requesting the server make the vehicleData API call and return the full JSON object.
         $.ajax({
             url: "vehicleData",
             type: "POST",
             data: {
                 auth: JSON.stringify(localOptions)
             }
+        //Refresh all of the state variables
         }).done(function (response) {
-            if (response === "I_got_nothin") {
+            if (response === "I_got_nothin") { //These are just test values for invalid input
                 chargingState = "Disconnected";
                 batteryLevel = 80;
                 chargeLimit = 80;
@@ -634,7 +776,6 @@ window.onload = function () {
                 isLocked = false;
                 chargePortOpen = false;
                 carTitle = "Barnaby";
-                awake = "awake";
                 carTemp = 70;
                 seatHeating[0] = 0;
                 seatHeating[1] = 0;
@@ -651,7 +792,6 @@ window.onload = function () {
                 isLocked = response.vehicle_state.locked;
                 chargePortOpen = response.charge_state.charge_port_door_open;
                 carTitle = response.display_name;
-                awake = response.state;
                 carTemp = (response.climate_state.driver_temp_setting * 1.8) + 32;
                 seatHeating[0] = response.climate_state.seat_heater_left
                 seatHeating[1] = response.climate_state.seat_heater_right;
@@ -659,6 +799,8 @@ window.onload = function () {
                 seatHeating[3] = response.climate_state.seat_heater_rear_center;
                 seatHeating[4] = response.climate_state.seat_heater_rear_right;
             }
+
+            //Update HTML elements with accurate information.
             document.getElementById("battery_lvl").innerHTML = batteryLevel;
 
             document.getElementById("charging--charge_level").innerHTML = "Max Charge: " + chargeLimit.toString() + "%";
@@ -705,25 +847,30 @@ window.onload = function () {
                         break;
                 }
             }
-
-            if (awake === "asleep") {
-                wakeUpPopUp.style.display = 'block';
-                $.ajax({
-                    url: "wakeup",
-                    type: "POST",
-                    async: false,
-                    data: {
-                        auth: JSON.stringify(localOptions)
-                    }
-                }).done(function (response) {
-                    wakeUpPopUp.style.display = 'none';
-                    awake = "online";
-                }).catch(function (err) {
-                    console.log("Waking car: " + err.responseText + " - " + err.statusText);
-                });
-            }
         }).catch(function (err) {
             console.log("Updating state: " + err.responseText + " - " + err.statusText);
         });
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+      var expires = "expires="+d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
     }
 }
