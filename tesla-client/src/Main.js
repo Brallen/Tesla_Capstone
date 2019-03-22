@@ -13,6 +13,7 @@ class Main extends Component{
     super(props);
     this.state = {
     };
+    this.testFunc = this.testFunc.bind(this);
   }
 
   alertStoreFunc(){
@@ -29,6 +30,7 @@ class Main extends Component{
       you cannot dispatch a whole new state object as it will cause everything to fall
       out of scope that is reading the state.
     */
+   alert(JSON.stringify(this.props.loginState))
     store.dispatch({
       type: 'UPDATE_OBJECT',
       payload: {
@@ -68,6 +70,7 @@ const mapStateToProps = (state) => {
     accountPass: state.state.accountPass,
     accountToken: state.state.accountToken,
     vehicleDataName: state.state.vehicleDataObject.display_name,
+    loginState: state.state.initialVehicleLoginObject,
     vehicleSunroof: state.state.vehicleDataObject.vehicle_state.sun_roof_percent_open
   }
 }

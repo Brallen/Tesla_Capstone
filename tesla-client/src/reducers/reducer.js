@@ -2,6 +2,7 @@
 let defaultState = {
     accountName: '',
     accountPass: '',
+    loggedIn: false,
     localOptions: {
         authToken: '',
         vehicleID: '',
@@ -10,14 +11,14 @@ let defaultState = {
     },
     accountToken: '',
     initialVehicleLoginObject: {},
-    refreshTime: 2,
-    refreshInterval: 2,
+    refreshTime: 3,
+    refreshInterval: 3,
     vehicleDataObject: { 
         id: 0,
         user_id: 0,
         vehicle_id: 0,
         vin: '',
-        display_name: '',
+        display_name: 'Waking up vehicle...',
         option_codes: '',
         color: null,
         tokens: ['', ''],

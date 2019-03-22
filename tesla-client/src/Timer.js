@@ -29,46 +29,53 @@ class Timer extends Component {
   }
 
   refreshVehicleData(){
-    var self = this;
-    //first thing to check is if the vehicle is asleep
-    if(this.props.initialVehicleObject.state === 'asleep'){
-      axios.post('/wakeup', {
-        authToken: JSON.stringify(this.state.localOptions)
-      })
-      .then(function (response) {
-        var newStore = store.getState();
-        //if we get a good response then set the update timer interval to 10 seconds instead of 2
-        newStore.state.refreshInterval = 10;
-        
-        store.dispatch({
-          type: 'UPDATE_OBJECT',
-          payload: {
-            initialVehicleLoginObject: response.data,
-            refreshInterval: newStore.state.refreshInterval
-          }
+    //first let's make sure we're logged in
+    if(this.props.loggedInProp){
+      //then check is if the vehicle is asleep
+      if(this.props.initialVehicleObject.state === 'asleep'){
+        axios.post('/wakeup', {
+          authToken: JSON.stringify(this.state.localOptions)
         })
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    }else{
-      axios.post('/vehicleData', {
-        authToken: JSON.stringify(this.state.localOptions)
-      })
-      .then(function (response) {
-        store.dispatch({
-          type: 'UPDATE_OBJECT',
-          payload: {
-            vehicleDataObject: response.data
-          }
+        .then(function (response) {
+          var newStore = store.getState();
+          //if we get a good response then set the update timer interval to 10 seconds instead of 2
+          newStore.state.refreshInterval = 10;
+          
+          store.dispatch({
+            type: 'UPDATE_OBJECT',
+            payload: {
+              initialVehicleLoginObject: response.data,
+              refreshInterval: newStore.state.refreshInterval
+            }
+          })
         })
-          //alert(JSON.stringify(response));
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+        .catch(function (error) {
+          console.log(error);
+        });
+      //if the vehicle is not asleep then we pull updates for the data
+      }else{
+        axios.post('/vehicleData', {
+          authToken: JSON.stringify(this.state.localOptions)
+        })
+        .then(function (response) {
+          var newStore = store.getState();
+          newStore.state.initialVehicleLoginObject.state = response.data.state;
+          store.dispatch({
+            type: 'UPDATE_OBJECT',
+            payload: {
+              vehicleDataObject: response.data,
+              /*write the state of the vehicle to the initial state that we check so we
+                can see when the vehicle goes to sleep and then wake it up automatically again*/
+              initialVehicleLoginObject: newStore.state.initialVehicleLoginObject
+            }
+          })
+            //alert(JSON.stringify(response));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
     }
-      
       
   }
 
@@ -110,6 +117,7 @@ class Timer extends Component {
 const mapStateToProps = (state) => {
   return {
     globalTimer: state.state.refreshTime,
+    loggedInProp: state.state.loggedIn,
     globalTimerInterval: state.state.refreshInterval,
     vehicleDataName: state.state.vehicleDataObject.display_name,
     vehicleDataObject: state.state.vehicleDataObject,

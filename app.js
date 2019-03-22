@@ -329,6 +329,7 @@ app.post('/vehicleData', function (req, res) {
     var options = req.body.auth;
     console.log("Requesting full vehicle state");
     if(testMode == true){
+        
         res.send({
             id: 12345678901234567,
             user_id: 123,

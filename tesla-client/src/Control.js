@@ -54,7 +54,7 @@ class ControlModal extends Component{
     /* api call here */
     axios.post('/startEngine', {
       auth: JSON.stringify(this.state.localOptions),
-      pass: 'nope'
+      pass: this.props.passwordEntered
     })
     .then(function (response) {
       
@@ -288,7 +288,9 @@ const Modal = ({ handleClose, show, children }) => {
       vehicleLocked: state.state.vehicleDataObject.vehicle_state.locked,
       globalTimerInterval: state.state.refreshInterval,
       sunroofPercent: state.state.vehicleDataObject.vehicle_state.sun_roof_percent_open,
-      localOptionsProp: state.state.localOptions
+      localOptionsProp: state.state.localOptions,
+      //REMOVE THIS BELOW AFTER TESTING COMPLETE
+      passwordEntered: state.state.accountPass
     }
   }
 

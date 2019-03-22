@@ -67,6 +67,7 @@ class LoginModal extends Component {
                //remove password field in the future 
                 accountPass: self.state.password,
                 accountToken: self.state.authToken,
+                loggedIn: true,
                 initialVehicleLoginObject: response.data
             }
         })
@@ -136,9 +137,9 @@ const mapStateToProps = (state) => {
     accountName: state.state.accountName,
     accountPass: state.state.accountPass,
     accountToken: state.state.accountToken,
+    loggedIn: state.state.loggedIn,
     vehicleDataObject: state.state.vehicleDataObject,
     localOptionsProp: state.state.localOptions
-    //examplePropThree: state.state.examplePropThree
   }
 }
 

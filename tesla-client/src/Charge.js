@@ -81,6 +81,15 @@ class ChargingModal extends Component{
     })
     .catch(function (error) {
       alert(error.response.data + ' - ' + error.response.statusText);
+      //error lets repull our data and ensure its back to normal
+      var newStore = store.getState();
+      newStore.state.refreshTime = 1;
+      store.dispatch({
+        type: 'UPDATE_OBJECT',
+        payload: {
+          refreshTime: newStore.state.refreshTime
+        }
+      })
     });
   }
 
