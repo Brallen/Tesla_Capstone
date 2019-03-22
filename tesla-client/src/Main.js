@@ -22,7 +22,8 @@ class Main extends Component{
   testFunc(){
     var newStore = store.getState();
     newStore.state.vehicleDataObject.gui_settings.gui_temperature_units = 'F';
-    newStore.state.vehicleDataObject.display_name = 'turdman';
+    newStore.state.vehicleDataObject.vehicle_state.sun_roof_percent_open = 10;
+    newStore.state.vehicleDataObject.display_name = 'sunroof now exists and climate set to F';
     //alert(JSON.stringify(newStore.state.vehicleDataObject));
     /*
       you cannot dispatch a whole new state object as it will cause everything to fall
@@ -66,7 +67,8 @@ const mapStateToProps = (state) => {
     accountName: state.state.accountName,
     accountPass: state.state.accountPass,
     accountToken: state.state.accountToken,
-    vehicleDataName: state.state.vehicleDataObject.display_name
+    vehicleDataName: state.state.vehicleDataObject.display_name,
+    vehicleSunroof: state.state.vehicleDataObject.vehicle_state.sun_roof_percent_open
   }
 }
 

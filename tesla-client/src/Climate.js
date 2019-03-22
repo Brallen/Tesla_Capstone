@@ -114,7 +114,7 @@ class ClimateModal extends Component{
     this.refreshGlobalTimerWhenAction();
     
     //if vehicle climate is on then turn it off
-    if(this.props.vehicleClimate == true){
+    if(this.props.vehicleClimate === true){
       axios.post('/climateOff', {
         auth: JSON.stringify(this.state.localOptions)
       })
@@ -136,7 +136,7 @@ class ClimateModal extends Component{
       });
     }
 
-    if(this.props.vehicleClimate == false){
+    if(this.props.vehicleClimate === false){
       axios.post('/climateOn', {
         auth: JSON.stringify(this.state.localOptions)
       })
@@ -168,13 +168,9 @@ class ClimateModal extends Component{
     //calculate next level for front left seat
     switch(this.state.frontLeft){
       case 0:
-        this.setState({ frontLeftNext: 1 });
-        break;
       case 1:
-        this.setState({ frontLeftNext: 2 });
-        break;
       case 2:
-        this.setState({ frontLeftNext: 3 });
+        this.setState({ frontLeftNext: this.state.frontLeft+1 });
         break;
       case 3:
       default:
@@ -222,13 +218,9 @@ class ClimateModal extends Component{
     this.refreshGlobalTimerWhenAction();
     switch(this.state.frontRight){
       case 0:
-        this.setState({ frontRightNext: 1 });
-        break;
       case 1:
-        this.setState({ frontRightNext: 2 });
-        break;
       case 2:
-        this.setState({ frontRightNext: 3 });
+        this.setState({ frontRightNext: this.state.frontRight+1 });
         break;
       case 3:
       default:
@@ -276,13 +268,9 @@ class ClimateModal extends Component{
     this.refreshGlobalTimerWhenAction();
     switch(this.state.rearRight){
       case 0:
-        this.setState({ rearRightNext: 1 });
-        break;
       case 1:
-        this.setState({ rearRightNext: 2 });
-        break;
       case 2:
-        this.setState({ rearRightNext: 3 });
+        this.setState({ rearRightNext: this.state.rearRight+1 });
         break;
       case 3:
       default:
@@ -328,13 +316,9 @@ class ClimateModal extends Component{
  rearLeftHeater(){
   switch(this.state.rearLeft){
     case 0:
-      this.setState({ rearLeftNext: 1 });
-      break;
     case 1:
-      this.setState({ rearLeftNext: 2 });
-      break;
     case 2:
-      this.setState({ rearLeftNext: 3 });
+      this.setState({ rearLeftNext: this.state.rearLeft+1 });
       break;
     case 3:
     default:
@@ -381,13 +365,9 @@ class ClimateModal extends Component{
     this.refreshGlobalTimerWhenAction();
     switch(this.state.rearCenter){
       case 0:
-        this.setState({ rearCenterNext: 1 });
-        break;
       case 1:
-        this.setState({ rearCenterNext: 2 });
-        break;
       case 2:
-        this.setState({ rearCenterNext: 3 });
+        this.setState({ rearCenterNext: this.state.rearCenter+1 });
         break;
       case 3:
       default:

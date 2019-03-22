@@ -19,6 +19,7 @@ class ControlModal extends Component{
     this.openFrunkButton = this.openFrunkButton.bind(this);
     this.openTrunkButton = this.openTrunkButton.bind(this);
     this.openSunroofButton = this.openSunroofButton.bind(this);
+    this.checkSunroofState = this.checkSunroofState.bind(this);
   }
   
   componentDidMount(){
@@ -26,6 +27,10 @@ class ControlModal extends Component{
       localOptions: this.props.localOptionsProp
     });
     //alert(JSON.stringify(this.state.localOptions))
+  }
+  
+  componentDidUpdate(){
+    this.checkSunroofState();
   }
   
   //call this function inside every control
@@ -65,7 +70,7 @@ class ControlModal extends Component{
     this.refreshGlobalTimerWhenAction();
 
     //if it is locked, pass unlock
-    if(this.props.vehicleLocked == true){
+    if(this.props.vehicleLocked === true){
       axios.post('/unlock', {
         auth: JSON.stringify(this.state.localOptions)
       })
@@ -85,7 +90,7 @@ class ControlModal extends Component{
         alert(error.response.data + ' - ' + error.response.statusText);
       });
     }
-    if(this.props.vehicleLocked == false){
+    if(this.props.vehicleLocked === false){
       axios.post('/lock', {
         auth: JSON.stringify(this.state.localOptions)
       })
@@ -180,9 +185,10 @@ class ControlModal extends Component{
   openSunroofButton(){
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
-
+    //check the sunroof state and determine if it exists or not
+    this.checkSunroofState();
     //check to make sure the sunroof is present and not null
-    if(this.props.sunroofPercent != null){
+    if(this.state.sunroofCheck){
       //if the sunroof is open at all then we send a close command
       if(this.props.sunroofPercent > 0){
         axios.post('/closeSunroof', {
@@ -220,6 +226,15 @@ class ControlModal extends Component{
     }
   }
 
+  checkSunroofState(){
+    var newStore = store.getState();
+    //find a way to set the sunroofcheck without an infinite loop
+    if(newStore.state.vehicleDataObject.vehicle_state.sun_roof_percent_open != null){
+      //this.setState({sunroofCheck: true});
+    }else{
+      //this.setState({sunroofCheck: false});
+    }
+  }
 
 
 
@@ -231,6 +246,7 @@ class ControlModal extends Component{
   hideControlModal = () => {
     this.setState({ showControl: false });
   }
+
 
   render(){
     return(

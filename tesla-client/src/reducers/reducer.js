@@ -9,8 +9,9 @@ let defaultState = {
         tokens: []
     },
     accountToken: '',
-    refreshTime: 10,
-    refreshInterval: 10,
+    initialVehicleLoginObject: {},
+    refreshTime: 2,
+    refreshInterval: 2,
     vehicleDataObject: { 
         id: 0,
         user_id: 0,

@@ -80,7 +80,6 @@ class ChargingModal extends Component{
       alert("charge limit changed");
     })
     .catch(function (error) {
-      //alert(JSON.stringify(error))
       alert(error.response.data + ' - ' + error.response.statusText);
     });
   }
@@ -91,7 +90,7 @@ class ChargingModal extends Component{
     this.refreshGlobalTimerWhenAction();
     
     //if the charge door is open then send close command
-    if(this.props.vehicleChargeDoor == true){
+    if(this.props.vehicleChargeDoor === true){
       axios.post('/closeChargePort', {
         auth: JSON.stringify(this.state.localOptions)
       })
@@ -107,12 +106,11 @@ class ChargingModal extends Component{
         })
       })
       .catch(function (error) {
-        //alert(JSON.stringify(error))
         alert(error.response.data + ' - ' + error.response.statusText);
       });
     }
     //if the charge port door is closed then send open command
-    if(this.props.vehicleChargeDoor == false){
+    if(this.props.vehicleChargeDoor === false){
       axios.post('/openChargePort', {
         auth: JSON.stringify(this.state.localOptions)
       })
@@ -128,7 +126,6 @@ class ChargingModal extends Component{
         })
       })
       .catch(function (error) {
-        //alert(JSON.stringify(error))
         alert(error.response.data + ' - ' + error.response.statusText);
       });
     }
@@ -147,7 +144,7 @@ class ChargingModal extends Component{
                   <div className="modal--slider">
                     <Slider
                         value={this.props.vehicleCharge}
-                        min={this.props.vehicleChargeMin} //these are in celsius
+                        min={this.props.vehicleChargeMin}
                         max={this.props.vehicleChargeMax} 
                         onChange={this.handleChargeChange}
                         onChangeComplete={this.applyChargeSettings}
