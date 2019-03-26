@@ -55,18 +55,20 @@ class Timer extends Component {
       //if the vehicle is not asleep then we pull updates for the data
       }else{
         axios.post('/vehicleData', {
-          authToken: JSON.stringify(this.state.localOptions)
+          auth: JSON.stringify(this.state.localOptions)
         })
         .then(function (response) {
           var newStore = store.getState();
           newStore.state.initialVehicleLoginObject.state = response.data.state;
+          newStore.state.refreshInterval = 10;
           store.dispatch({
             type: 'UPDATE_OBJECT',
             payload: {
               vehicleDataObject: response.data,
               /*write the state of the vehicle to the initial state that we check so we
                 can see when the vehicle goes to sleep and then wake it up automatically again*/
-              initialVehicleLoginObject: newStore.state.initialVehicleLoginObject
+              initialVehicleLoginObject: newStore.state.initialVehicleLoginObject,
+              refreshInterval: newStore.state.refreshInterval
             }
           })
             //alert(JSON.stringify(response));

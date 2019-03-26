@@ -34,7 +34,7 @@ class LoginModal extends Component {
       password: self.state.password
     })
     .then(function (response) {
-      self.setState({ authToken: response.data });
+      self.setState({ authToken: response.data.authToken });
       self.vehicleLoginFunction();
     })
     .catch(function (error) {

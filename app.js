@@ -46,7 +46,7 @@ app.post('/unlock', function (req, res) {
     });
 });
 
-app.post('/openSunroof', function (req, res) {
+app.post('/opensunroof', function (req, res) {
     var options = req.body.auth;
     console.log("Requesting 'open sunroof'");
     var promise = teslajs.sunRoofControlAsync(JSON.parse(options), "vent");
@@ -59,7 +59,7 @@ app.post('/openSunroof', function (req, res) {
     });
 });
 
-app.post('/closeSunroof', function (req, res) {
+app.post('/closesunroof', function (req, res) {
     var options = req.body.auth;
     console.log("Requesting 'close sunroof'");
     var promise = teslajs.sunRoofControlAsync(JSON.parse(options), "close");
@@ -76,7 +76,7 @@ app.post('/chargelimit', function (req, res) {
     var options = req.body.auth;
     var value = req.body.value;
     console.log("Requesting 'set charge limit to " + value + "'");
-    var promise = teslajs.setChargeLimitAsync(JSON.parse(options), value);
+    var promise = teslajs.setChargeLimitAsync(JSON.parse(options), parseInt(value));
     promise.then(function (result) { //success
         console.log("Successful Response: " + result);
         res.status(200).send(result);
@@ -99,7 +99,7 @@ app.post('/honk', function (req, res) {
     });
 });
 
-app.post('/openChargePort', function (req, res) {
+app.post('/openchargeport', function (req, res) {
     var options = req.body.auth;
     console.log("Requesting 'open charge port'");
     var promise = teslajs.openChargePortAsync(JSON.parse(options));
@@ -112,7 +112,7 @@ app.post('/openChargePort', function (req, res) {
     });
 });
 
-app.post('/closeChargePort', function (req, res) {
+app.post('/closechargeport', function (req, res) {
     var options = req.body.auth;
     console.log("Requesting 'close charge port'");
     teslajs.closeChargePortAsync(JSON.parse(options))
@@ -314,10 +314,10 @@ app.post('/seatHeating', function (req, res) {
     var seat = req.body.seat;
     var level = req.body.level;
     console.log("Requesting 'seat " + seat + " to be heated to level " + level + "'");
-    var promise = teslajs.seatHeaterAsync(JSON.parse(options), seat, level);
+    var promise = teslajs.seatHeaterAsync(JSON.parse(options), JSON.parse(seat), parseInt(level));
     promise.then(function (result) { //success
-        console.log("Successful Response: " + result);
-        res.status(200).send(result);
+        console.log("Successful Response: " + JSON.stringify(result));
+        res.status(200).send(result.result);
     }).catch(function (err) { //error
         console.log("Error: " + err);
         res.status(400).send(err);
@@ -328,225 +328,54 @@ app.post('/seatHeating', function (req, res) {
 app.post('/vehicleData', function (req, res) {
     var options = req.body.auth;
     console.log("Requesting full vehicle state");
-    if(testMode == true){
-        
-        res.send({
-            id: 12345678901234567,
-            user_id: 123,
-            vehicle_id: 1234567890,
-            vin: "5YJSA11111111111",
-            display_name: "Nikola 2.0",
-            option_codes: 'AD15,MDL3,PBSB,RENA,BT37,ID3W,RF3G,S3PB,DRLH,DV2W,W39B,APF0,COUS,BC3B,CH07,PC30,FC3P,FG31,GLFR,HL31,HM31,IL31,LTPB,MR31,FM3B,RS3H,SA3P,STCP,SC04,SU3C,T3CA,TW00,TM00,UT3P,WR00,AU3P,APH3,AF00,ZCST,MI00,CDM0',
-            color: null,
-            tokens: ["abcdef1234567890", "1234567890abcdef"],
-            state: "online",
-            in_service: false,
-            id_s: "12345678901234567",
-            calendar_enabled: true,
-            api_version: 6,
-            backseat_token: null,
-            backseat_token_updated_at: null,
-            climate_state: {
-                battery_heater: false,
-                battery_heater_no_power: null,
-                driver_temp_setting: 21.7,
-                fan_status: 0,
-                inside_temp: 18.3,
-                is_auto_conditioning_on: false,
-                is_climate_on: false,
-                is_front_defroster_on: false,
-                is_preconditioning: false,
-                is_rear_defroster_on: false,
-                left_temp_direction: 0,
-                max_avail_temp: 28,
-                min_avail_temp: 15, 
-                outside_temp: 17.5,
-                passenger_temp_setting: 21.7,
-                remote_heater_control_enabled: false,
-                right_temp_direction: 0, 
-                seat_heater_left: 0,
-                seat_heater_rear_center: 0,
-                seat_heater_rear_left: 0,
-                seat_heater_rear_right: 0,
-                seat_heater_right: 0,
-                side_mirror_heaters: false,
-                smart_preconditioning: false,
-                timestamp: 1552440838137,
-                wiper_blade_heater: false
-            },
-            charge_state: {
-                battery_heater_on: false,
-                battery_level: 90,
-                batery_range: 276.68,
-                charge_current_request: 48,
-                charge_current_request_max: 48,
-                charge_enable_request: true,
-                charge_energy_added: 10.98,
-                charge_limit_soc: 50,
-                charge_limit_soc_max: 100,
-                charge_limit_soc_min: 50,
-                charge_limit_soc_std: 90,
-                charge_miles_added_ideal: 47,
-                charge_miles_added_rated: 47,
-                charge_port_cold_weather_mode: false,
-                charge_port_door_open: false,
-                charge_port_latch: 'Engaged',
-                charge_rate: 0,
-                charge_to_max_range: false,
-                charger_actual_current: 0,
-                charger_phases: null,
-                charger_pilot_current: 48,
-                charger_power: 0,
-                charger_voltage: 2,
-                charging_state: 'Disconnected',
-                conn_charge_cable: '<invalid>',
-                est_battery_range: 285.08,
-                fast_charger_brand: '<invalid>',
-                fast_charger_present: false,
-                fast_charger_type: '<invalid>',
-                ideal_battery_range: 276.68,
-                managed_charging_active: false,
-                managed_charging_start_time: null,
-                managed_charging_user_canceled: false,
-                max_range_charge_counter: 0,
-                not_enough_power_to_heat: null,
-                scheduled_charging_pending: false,
-                scheduled_charging_start_time: null,
-                time_to_full_charge: 0,
-                timestamp: 1552440838137,
-                trip_charging: false, 
-                usable_battery_level: 72,
-                user_charge_enable_request: null
-            },
-            gui_settings: {
-                gui_24_hour_time: false,
-                gui_charge_rate_units: 'mi/hr',
-                gui_distance_units: 'mi/hr',
-                gui_range_display: 'Rated',
-                gui_temperature_units: 'C',
-                timestamp: 1552440838137
-            },
-            vehicle_state: {
-                api_version: 6,
-                autopark_state_v3: 'ready',
-                autopark_style: 'dead_man',
-                calendar_supported: true,
-                car_version: '2018.50.6 4ec03ed',
-                center_display_state: 0,
-                df: 0,
-                dr: 0,
-                ft: 0,
-                homelink_nearby: false,
-                is_user_present: false,
-                last_autopark_error: 'no_error',
-                locked: true,
-                media_state: { 
-                    remote_control_enabled: true
-                },
-                notifications_supported: true,
-                odometer: 12900.1235,
-                parsed_calendar_supported: true,
-                pf: 0,
-                pr: 0,
-                remote_start: false,
-                remote_start_supported: true,
-                rt: 0,
-                software_update: {
-                    expected_duration_sec: 2700,
-                    status: ''
-                },
-                speed_limit_mode: {
-                    active: false,
-                    current_limit_mph: 55, 
-                    max_limit_mph: 90,
-                    min_limit_mph: 50,
-                    pin_code_set: false
-                },
-                sun_roof_percent_open: null,
-                sun_roof_state: 'unknown',
-                timestamp: 1552440838137,
-                valet_mode: false,
-                valet_pin_needed: true,
-                vehicle_name: 'TestVehicle'
-            },
-            vehicle_config: {
-                can_accept_navigation_requests: true,
-                can_actuate_trunks: true,
-                car_special_type: 'base',
-                car_type: 'model3',
-                charge_port_type: 'US',
-                eu_vehicle: false,
-                exterior_color: 'DeepBlue',
-                has_air_suspension: false,
-                has_ludicrous_mode: false,
-                motorized_charge_port: true,
-                perf_config: 'Base',
-                plg: null,
-                rear_seat_heaters: 1,
-                rear_seat_type: null,
-                rhd: false,
-                roof_color: 'Glass',
-                seat_type: null,
-                spoiler_type: 'None',
-                sun_roof_installed: null,
-                third_row_seats: '<invalid>',
-                timestamp: 1552440838137,
-                trim_badging: '74',
-                wheel_type: 'Pinwheel18'
-            },
-            drive_state: {
-                gps_as_of: 1552440838,
-                heading: 90,
-                latitude: 44.54428,
-                longitude: -123.254808,
-                native_latitude: 44.54428,
-                native_location_supported: 1,
-                native_longitude: -123.254808,
-                native_type: 'wgs',
-                power: 0,
-                shift_state: null,
-                speed: null,
-                timestamp: 1552440838137
-            }
+    teslajs.vehicleDataAsync(JSON.parse(options))
+        .then(function (vehicleData) {
+            console.log("Vehicle data received");
+            //console.log(vehicleData);
+            res.send(vehicleData);
+        }).catch(function (err) {
+            console.log("Tesla Response: " + err);
+            res.send("I_got_nothin");
         });
-    }else{
-        teslajs.vehicleDataAsync(JSON.parse(options))
-            .then(function (vehicleData) {
-                console.log("Vehicle data received");
-                console.log(vehicleData);
-                res.send(vehicleData);
-            }).catch(function (err) {
-                console.log("Tesla Response: " + err);
-            });
-    }
+});
+
+app.post('/mobileAccess', function(req, res) {
+    var options = req.body.auth;
+    console.log("Checking mobile access");
+    teslajs.mobileEnabledAsync(JSON.parse(options))
+        .then(function (result) {
+            console.log("Tesla Response: " + result);
+            res.send(result);
+        }).catch(function(err) {
+            console.log("Tesla Response: " + err);
+            res.send(true);
+        });
 });
 
 app.post('/wakeup', function (req, res) {
     var options = req.body.auth;
     console.log("Requesting vehicle wake-up");
-    if(testMode == true){
-        res.send({
-            id: 12345678901234567,
-            user_id: 123,
-            vehicle_id: 1234567890,
-            vin: "5YJSA11111111111",
-            display_name: "Nikola 2.0",
-            option_codes: 'AD15,MDL3,PBSB,RENA,BT37,ID3W,RF3G,S3PB,DRLH,DV2W,W39B,APF0,COUS,BC3B,CH07,PC30,FC3P,FG31,GLFR,HL31,HM31,IL31,LTPB,MR31,FM3B,RS3H,SA3P,STCP,SC04,SU3C,T3CA,TW00,TM00,UT3P,WR00,AU3P,APH3,AF00,ZCST,MI00,CDM0',
-            color: null,
-            tokens: ["abcdef1234567890", "1234567890abcdef"],
-            state: "online"
-        });
-    }else{
-        teslajs.wakeUp(JSON.parse(options), function (err, result) {
-            if (err) {
-                console.log("Tesla Response: " + err);
-                res.send(err);
-            } else {
-                console.log("Tesla Response: " + result);
-                res.send(result);
-            }
-        });
-    }
+
+    //Async request won't catch
+
+    /*teslajs.wakeUpAsync(JSON.parse(options))
+        .then(function(response) {
+            console.log("Tesla Response: " + response);
+            res.send("Tesla Response: " + response);
+        }).catch(function(err) {
+            console.log("Tesla Response: " + response);
+            res.send("Tesla Response: " + response);
+        });*/
+
+    teslajs.wakeUp(JSON.parse(options), function (err, result) {
+        if (err) {
+            console.log("Tesla Response: " + err);
+            res.send("Tesla Response: " + err);
+        } else {
+            console.log("Tesla Response: " + result);
+            res.send("Tesla Response: " + result);
+        }
+    });
 });
 
 app.post('/login', function (req, res) {
@@ -555,6 +384,22 @@ app.post('/login', function (req, res) {
     var password = req.body.password;
 
     console.log("Requesting 'login to " + email + "'s account'");
+
+    //Async request won't catch.
+
+    /*var promise = teslajs.loginAsync(email, password);
+  promise.catch(function(response){
+		console.log("AAAAA");
+		console.log("Tesla Repsonse: " + response.response);
+		if (typeof response.authToken === 'undefined') {
+			console.log("Invalid credentials, entering test mode");
+			res.send("faketoken");
+		}
+		else {
+			console.log("Login successful");
+			res.send(authToken);
+		}
+  });*/
 
     teslajs.login(email, password, function (err, result) {
         if (result.error) {
@@ -566,12 +411,10 @@ app.post('/login', function (req, res) {
 
         if (typeof result.authToken === 'undefined') {
             console.log("Invalid credentials, entering test mode");
-            testMode = true;
             res.send("faketoken");
         } else {
             console.log("Login successful");
-            testMode = false;
-            res.send(result.authToken);
+            res.send(result);
         }
     });
 });
@@ -580,26 +423,27 @@ app.post('/vehicleID', function (req, res) {
     var options = {
         authToken: req.body.authToken
     }
-    console.log("Requesting 'vehicle' with token " + options.authToken);
-    if (options.authToken == "faketoken") {
-        res.send({
-            id: 12345678901234567,
-            user_id: 123,
-            vehicle_id: 1234567890,
-            vin: "5YJSA11111111111",
-            display_name: "Nikola 2.0",
-            option_codes: 'AD15,MDL3,PBSB,RENA,BT37,ID3W,RF3G,S3PB,DRLH,DV2W,W39B,APF0,COUS,BC3B,CH07,PC30,FC3P,FG31,GLFR,HL31,HM31,IL31,LTPB,MR31,FM3B,RS3H,SA3P,STCP,SC04,SU3C,T3CA,TW00,TM00,UT3P,WR00,AU3P,APH3,AF00,ZCST,MI00,CDM0',
-            color: null,
-            tokens: ["abcdef1234567890", "1234567890abcdef"],
-            state: "asleep"
-        });
-    }else{
-        teslajs.vehicle(options, function (err, vehicle) {
-            console.log(JSON.stringify(vehicle));
-                res.send(vehicle);
+    console.log("Requesting 'vehicle' with token " + JSON.stringify(options.authToken));
+    teslajs.vehicle(options, function (err, vehicle) {
+        console.log(JSON.stringify(vehicle));
+        if (vehicle === null) res.status(400).send("fakeID");
+        else {
+            res.status(200).send(vehicle);
+        }
+    });
+});
 
+app.post('/refreshToken', function (req, res) {
+    var refreshToken = req.body.refreshToken;
+    console.log("Requesting 'refresh token' with refresh token " + refreshToken);
+    teslajs.refreshTokenAsync(refreshToken)
+        .then(function (result) {
+            console.log("Tesla Response: " + result);
+            res.status(200).send(result);
+        }).catch(function(err) {
+            console.log("Tesla Response: " + err);
+            res.status(400).send(true);
         });
-    }
 });
 
 

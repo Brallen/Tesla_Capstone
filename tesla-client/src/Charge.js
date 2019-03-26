@@ -56,9 +56,9 @@ class ChargingModal extends Component{
     this.refreshGlobalTimerWhenAction();
     var newStore = store.getState();
     this.setState({ 
-      maxCharge: parseFloat(value) 
+      maxCharge: parseInt(value) 
     });
-    newStore.state.vehicleDataObject.charge_state.charge_limit_soc = parseFloat(this.state.maxCharge);
+    newStore.state.vehicleDataObject.charge_state.charge_limit_soc = parseInt(this.state.maxCharge);
     store.dispatch({
       type: 'UPDATE_OBJECT',
       payload: {
@@ -73,7 +73,7 @@ class ChargingModal extends Component{
     //see comment above handleChargeChange()
     axios.post('/chargeLimit', {
       auth: JSON.stringify(this.state.localOptions),
-      value: parseFloat(this.state.maxCharge)
+      value: parseInt(this.state.maxCharge)
     })
     .then(function (response) {
       //if it's a good response, update local state
@@ -149,7 +149,7 @@ class ChargingModal extends Component{
                 <button onClick={this.hideChargeModal}id="modal--charging_close" className="modal--close_button"><i className="fas fa-times"></i></button>
               </div>
               <div className="modal--charging_controls">
-                <p id="charging--charge_level" className="modal--level_text">Max Charge: {parseFloat(this.props.vehicleCharge).toFixed(1)}%</p>
+                <p id="charging--charge_level" className="modal--level_text">Max Charge: {parseInt(this.props.vehicleCharge)}%</p>
                   <div className="modal--slider">
                     <Slider
                         value={this.props.vehicleCharge}
@@ -158,7 +158,7 @@ class ChargingModal extends Component{
                         onChange={this.handleChargeChange}
                         onChangeComplete={this.applyChargeSettings}
                         tooltip={false}
-                        step={0.1}/>
+                        step={1}/>
                   </div>
                   
                   <button onClick={this.chargePortButton} id="charging--charge_port" className="btn btn--modal_btn">
