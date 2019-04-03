@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {store} from './store/index.js';
 
 class Header extends Component{
   constructor(props){
@@ -7,7 +8,41 @@ class Header extends Component{
     this.state = {
       show: true
     };
+    this.logout = this.logout.bind(this);
   }
+
+  logout(){
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        accountName: '',
+        accountPass: '',
+        loggedIn: false,
+        showLogin: true,
+        mobileAccess: true,
+        localOptions: {
+            authToken: '',
+            vehicleID: '',
+            vehicle_id: '',
+            tokens: []
+        },
+        accountToken: '',
+        initialVehicleLoginObject: {},
+        refreshTime: 5,
+        refreshInterval: 5,
+        vehicleDataObject: {
+          display_name: 'Waking up vehicle...',
+          climate_state: {},
+          charge_state: {},
+          gui_settings: {},
+          vehicle_state: {},
+          vehicle_config: {},
+          drive_state: {}
+        }
+      }
+    });
+  }
+
   render(){
     return(
       <div>
@@ -15,6 +50,9 @@ class Header extends Component{
           <div className="container--car_info">
               <h1>{this.props.vehicleDataName}</h1>
               <p>Battery Level: {this.props.vehicleDataBatteryLevel}%</p>
+          </div>
+          <div className="container--logout_button">
+              <button className="btn logout-button" onClick={() => this.logout()}>Logout</button>
           </div>
         </header>
     </div>

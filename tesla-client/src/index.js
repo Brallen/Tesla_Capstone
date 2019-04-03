@@ -5,7 +5,6 @@ import {store} from './store/index.js';
 import './Assets/Styles/main.css';
 import Header from './Header';
 import Main from './Main';
-import Timer from './Timer'
 
 ReactDOM.render(
     //provider allows our App that is wrapped inside of it to 
@@ -13,7 +12,6 @@ ReactDOM.render(
     <Provider store={store}>
         <Header />
         <Main />
-        <Timer />
     </Provider>, 
     document.getElementById('root')
 );

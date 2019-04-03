@@ -26,6 +26,16 @@ class LoginModal extends Component {
   handlePasswordChange (evt) {
     this.setState({ password: evt.target.value });
   }
+  
+  hideModal = () => {
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showLogin: false
+      }
+    });
+    this.loginFunction();
+  }
 
   loginFunction = () => {
     var self = this;
@@ -40,15 +50,6 @@ class LoginModal extends Component {
     .catch(function (error) {
       console.log(error);
     });
-  }
-
-  showModal = () => {
-    this.setState({ show: true });
-  }
-
-  hideModal = () => {
-    this.setState({ show: false });
-    this.loginFunction();
   }
 
   vehicleLoginFunction = () => {
@@ -76,6 +77,12 @@ class LoginModal extends Component {
     .catch(function (error) {
       console.log(error);
     });
+    //after all is said and done, discard email and password
+    this.setState({
+      email: '',
+      password: ''
+    });
+
   }
 
 
@@ -103,7 +110,7 @@ class LoginModal extends Component {
   */
   render(){
     return(
-            <Modal show={this.state.show} handleClose={this.hideModal}>
+            <Modal show={this.props.showLoginProp} handleClose={this.hideModal}>
             <div>
                 <div className="container--header">
                     <div className="container--car_info">
@@ -114,10 +121,10 @@ class LoginModal extends Component {
                     <p id='login-error'></p>
                     <div className="login-form-text">
                         <label htmlFor="email">Email: </label>
-                        <input type="text" placeholder="Enter Tesla Email" name="email" required id="email" onChange={this.handleEmailChange}/>
+                        <input type="text" placeholder="Enter Tesla Email" name="email" required id="email" onChange={this.handleEmailChange} value={this.state.email}/>
                         <br />
                         <label htmlFor="password">Password: </label>
-                        <input type="password" placeholder="Enter Tesla Password" name="password" required id="password" onChange={this.handlePasswordChange}/>
+                        <input type="password" placeholder="Enter Tesla Password" name="password" required id="password" onChange={this.handlePasswordChange} value={this.state.password}/>
                     </div>
                     <button type="submit" onClick={this.hideModal} className="btn btn--modal_btn" id="login">Login</button>
                 </div>
@@ -139,14 +146,15 @@ const mapStateToProps = (state) => {
     accountToken: state.state.accountToken,
     loggedIn: state.state.loggedIn,
     vehicleDataObject: state.state.vehicleDataObject,
-    localOptionsProp: state.state.localOptions
+    localOptionsProp: state.state.localOptions,
+    showLoginProp: state.state.showLogin
   }
 }
 
 const Modal = ({ handleClose, show, children }) => {
     const showHideClassName = show ? 'block' : 'none';
     return (
-        <div className='modal container--modal_login' style={{display: showHideClassName}}>
+        <div className="modal container--modal_login" style={{display: showHideClassName}}>
         {children}
         <button onClick={handleClose}>
           Close

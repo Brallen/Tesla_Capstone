@@ -3,6 +3,8 @@ let defaultState = {
     accountName: '',
     accountPass: '',
     loggedIn: false,
+    showLogin: true,
+    mobileAccess: true,
     localOptions: {
         authToken: '',
         vehicleID: '',
@@ -207,6 +209,11 @@ const reducers = (state = defaultState, action) => {
         return {
             ...state,
             ...action.payload
+        }
+
+        case 'LOGOUT':
+        return {
+            ...state
         }
 
         

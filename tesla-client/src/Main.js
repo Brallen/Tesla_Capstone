@@ -5,6 +5,7 @@ import ControlModal from './Control';
 import MediaModal from './Media';
 import ClimateModal from './Climate';
 import ChargingModal from './Charge';
+import Timer from './Timer'
 import {store} from './store/index.js';
 import {connect} from 'react-redux';
 
@@ -58,6 +59,7 @@ class Main extends Component{
             </ul>  
           </div>
           <LoginModal/>
+          <Timer />
         </main>
       </div>
     );
