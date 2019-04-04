@@ -50,9 +50,10 @@ class Header extends Component{
           <div className="container--car_info">
               <h1>{this.props.vehicleDataName}</h1>
               <p>Battery Level: {this.props.vehicleDataBatteryLevel}%</p>
-          </div>
-          <div className="container--logout_button">
-              <button className="btn logout-button" onClick={() => this.logout()}>Logout</button>
+              <p>Estimated Range: {this.props.vehicleDataRangeLeft.toFixed(0)} Miles</p>
+              <div class="container--logout_menu">
+                <button className="btn logout-button" onClick={() => this.logout()}>Logout</button>
+              </div>
           </div>
         </header>
     </div>
@@ -63,7 +64,8 @@ class Header extends Component{
 const mapStateToProps = (state) => {
   return {
     vehicleDataName: state.state.vehicleDataObject.display_name,
-    vehicleDataBatteryLevel: state.state.vehicleDataObject.charge_state.usable_battery_level
+    vehicleDataBatteryLevel: state.state.vehicleDataObject.charge_state.usable_battery_level,
+    vehicleDataRangeLeft: state.state.vehicleDataObject.charge_state.est_battery_range
   }
 }
 
