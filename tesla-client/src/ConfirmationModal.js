@@ -148,7 +148,7 @@ class ConfirmationPrompt extends Component{
         }
     }
 
-    //hide confirmation modal
+    //hide (or close?) confirmation modal
     this.closeConfirmationModal();
 
   }

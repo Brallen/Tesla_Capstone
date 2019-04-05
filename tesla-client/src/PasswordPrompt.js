@@ -31,10 +31,12 @@ class PasswordCheck extends Component{
   hidePasswordModal = () => {
     var newStore = store.getState();
     newStore.state.showPasswordPrompt = false;
+    newStore.state.showControlModal = true;
     store.dispatch({
       type: 'UPDATE_OBJECT',
       payload: {
-        showPasswordPrompt: newStore.state.showPasswordPrompt
+        showPasswordPrompt: newStore.state.showPasswordPrompt,
+        showControlModal: newStore.state.showControlModal
       }
     })
     //remove password from field

@@ -49,12 +49,11 @@ class ControlModal extends Component{
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
     /* call the password prompt modal */
-    var newStore = store.getState();
-    newStore.state.showPasswordPrompt = true;
     store.dispatch({
       type: 'UPDATE_OBJECT',
       payload: {
-        showPasswordPrompt: newStore.state.showPasswordPrompt
+        showPasswordPrompt: true,
+        showControlModal: false
       }
     })
     //the api call itself is made in the passwordPrompt.js file
