@@ -63,28 +63,48 @@ class Timer extends Component {
       this.checkMobileAccess();
       if(this.props.mobileAccessProp === true){
         //then check is if the vehicle is asleep
-        if(this.props.initialVehicleObject.state === 'asleep'){
+        if(this.props.initialVehicleObject.state === 'asleep' && this.props.waitingForWake === false){
           axios.post('/wakeup', {
             authToken: JSON.stringify(this.state.localOptions)
           })
           .then(function (response) {
             var newStore = store.getState();
-            //if we get a good response then set the update timer interval to 10 seconds instead of 2
+            //if we get a good response then set the update timer interval to 10 seconds instead of default
+            //and turn off waiting for wake again
             newStore.state.refreshInterval = 10;
-            
+            newStore.state.waitingForWake = false;
             store.dispatch({
               type: 'UPDATE_OBJECT',
               payload: {
                 initialVehicleLoginObject: response.data,
-                refreshInterval: newStore.state.refreshInterval
+                refreshInterval: newStore.state.refreshInterval,
+                waitingForWake: newStore.state.waitingForWake
               }
             })
           })
           .catch(function (error) {
             console.log(error);
+            //if we get an error set waiting for wake back to false
+            store.dispatch({
+              type: 'UPDATE_OBJECT',
+              payload: {
+                waitingForWake: false
+              }
+            })
           });
+          //set waiting for wake to ensure we dont spam the wake command
+          var newStore = store.getState();
+          newStore.state.vehicleDataObject.display_name = 'Waking Vehicle Up..';
+          store.dispatch({
+            type: 'UPDATE_OBJECT',
+            payload: {
+              waitingForWake: true,
+              vehicleDataObject: newStore.state.vehicleDataObject
+            }
+          })
         //if the vehicle is not asleep then we pull updates for the data
-        }else{
+        }
+        if(this.props.initialVehicleObject.state === 'online' || this.props.vehicleDataObject.state === 'online'){
           axios.post('/vehicleData', {
             auth: JSON.stringify(this.state.localOptions)
           })
@@ -93,10 +113,10 @@ class Timer extends Component {
             newStore.state.initialVehicleLoginObject.state = response.data.state;
             newStore.state.refreshInterval = 10;
             //doing this special stuff because we need to see if the sun roof exists
-            if(response.data.vehicle_state.sun_roof_state === 'unknown'){
-              newStore.state.sunroofPresent = false;
-            }else{
+            if(JSON.stringify(response.data.option_codes).includes('RFP2')){
               newStore.state.sunroofPresent = true;
+            }else{
+              newStore.state.sunroofPresent = false;
             }
             if(parseInt(response.data.vehicle_state.sun_roof_percent_open) > 0){
               newStore.state.sunroofOpen = true;
@@ -192,7 +212,9 @@ const mapStateToProps = (state) => {
     vehicleDataObject: state.state.vehicleDataObject,
     localOptionsProp: state.state.localOptions,
     initialVehicleObject: state.state.initialVehicleLoginObject,
-    mobileAccessProp: state.state.mobileAccess
+    mobileAccessProp: state.state.mobileAccess,
+    vehicleOptionCodes: state.state.vehicleDataObject.option_codes,
+    waitingForWake: state.state.waitingForWake
   }
 }
 
