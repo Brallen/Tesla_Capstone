@@ -115,17 +115,32 @@ body
     max-width: 768px
     margin: auto
 
+.show
+    visibility: visible !important
+
 .modal
-    display: none
     position: fixed
     width:100%
     height: 100%
     top: 0
     left: 0
-    z-index: 1
+    z-index: 2000
     overflow: auto
+    visibility: hidden
+    backface-visibility: hidden
+
+.modal-overlay
+    position: fixed
+    width: 100%
+    height: 100%
+    visibility: hidden
+    top: 0
+    left: 0
+    z-index: 1000
+    opacity: 0
     background-color: rgb(0,0,0)
-    background-color: rgba(0,0,0,0.4)
+    background-color: rgba(0,0,0,0.2)
+    transition: all 0.3s
 
 .modal-content
     background-color: $BackgroundColor
@@ -295,3 +310,36 @@ body
 //     border-radius: 0
 //     width: 7px
 //     height: 25px
+
+/////// Animations ///////
+
+.modal-showing
+    -webkit-filter: blur(3px)
+    -moz-filter: blur(3px)
+    filter: blur(3px)
+
+.modal-content 
+    -webkit-transform: translateY(-5%)
+    -moz-transform: translateY(-5%)
+    -ms-transform: translateY(-5%)
+    transform: translateY(-5%)
+    opacity: 0
+
+.modal-content 
+    -webkit-transition: all 0.3s
+    -moz-transition: all 0.3s
+    transition: all 0.3s
+
+
+.show .modal-content,
+.show .modal 
+    -webkit-transform: translateY(0)
+    -moz-transform: translateY(0)
+    -ms-transform: translateY(0)
+    transform: translateY(0)
+    opacity: 1
+
+.show.modal-overlay
+    opacity: 1
+    visibility: visible
+

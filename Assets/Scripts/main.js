@@ -1,4 +1,6 @@
 window.onload = function () {
+    let header =  document.getElementsByClassName("container--header")[0];
+    let content = document.getElementsByClassName("container--main_section")[0];
     // Modal code
     let controlModal = document.getElementsByClassName('container--modal_controls')[0];
     let mediaModal = document.getElementsByClassName('container--modal_media')[0];
@@ -11,6 +13,7 @@ window.onload = function () {
     let logoutClose = document.getElementById('modal--logout_close');
     let wakeUpPopUp = document.getElementsByClassName("modal container--modal_wake-up")[0];
     let mobileAccessModal = document.getElementsByClassName("modal container--modal_mobile-access")[0];
+    let modalOverlay = document.getElementsByClassName("modal-overlay")[0];
 
     //buttons
     let flashbutton = document.getElementById('flashlights_btn');
@@ -72,39 +75,45 @@ window.onload = function () {
 
     var updates;
 
-    wakeUpPopUp.style.display = 'none';
+    wakeUpPopUp.classList.remove('show');
 
-    mobileAccessModal.style.display = 'none';
+    mobileAccessModal.classList.remove('show');
 
     document.getElementById('modal--control_open').onclick = function () {
-        controlModal.style.display = 'block';
+        controlModal.classList.add('show');
+        modalOverlay.classList.add('show');
+        header.classList.add('modal-showing');
+        content.classList.add('modal-showing');
     };
     document.getElementById('modal--control_close').onclick = function () {
-        controlModal.style.display = 'none';
+        controlModal.classList.remove('show');
+        modalOverlay.classList.remove('show');
+        header.classList.remove('modal-showing');
+        content.classList.remove('modal-showing');
     };
     document.getElementById('modal--media_open').onclick = function () {
-        mediaModal.style.display = 'block';
+        mediaModal.classList.add('show');
     };
     document.getElementById('modal--media_close').onclick = function () {
-        mediaModal.style.display = 'none';
+        mediaModal.classList.remove('show');
     };
     document.getElementById('modal--climate_open').onclick = function () {
-        climateModal.style.display = 'block';
+        climateModal.classList.add('show');
     };
     document.getElementById('modal--climate_close').onclick = function () {
-        climateModal.style.display = 'none';
+        climateModal.classList.remove('show');
     };
     document.getElementById('modal--charging_open').onclick = function () {
-        chargingModal.style.display = 'block';
+        chargingModal.classList.add('show');
     };
     document.getElementById('modal--charging_close').onclick = function () {
-        chargingModal.style.display = 'none';
+        chargingModal.classList.remove('show');
     };
     document.getElementById('modal--summon_open').onclick = function () {
-        summonModal.style.display = 'block';
+        summonModal.classList.add('show');
     };
     document.getElementById('modal--summon_close').onclick = function () {
-        summonModal.style.display = 'none';
+        summonModal.classList.remove('show');
     };
     logoutOpen.onclick = () => {
         logoutModal.classList.toggle('hidden');
@@ -119,15 +128,15 @@ window.onload = function () {
 
     window.onclick = function (event) {
         if (event.target == controlModal) {
-            controlModal.style.display = "none";
+            controlModal.classList.remove('show');
         } else if (event.target == mediaModal) {
-            mediaModal.style.display = "none";
+            mediaModal.classList.remove('show');
         } else if (event.target == climateModal) {
-            climateModal.style.display = "none";
+            climateModal.classList.remove('show');
         } else if (event.target == chargingModal) {
-            chargingModal.style.display = "none";
+            chargingModal.classList.remove('show');
         } else if (event.target == summonModal) {
-            summonModal.style.display = "none";
+            summonModal.classList.remove('show');
         }
     }
 
