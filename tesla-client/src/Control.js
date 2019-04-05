@@ -8,6 +8,7 @@ class ControlModal extends Component{
     super(props);
     this.state = {
       showControl: false,
+      sunroofPresent: false,
       sunroofCheck: false,
       localOptions: {}
     };
@@ -18,19 +19,22 @@ class ControlModal extends Component{
     this.flashLightsButton = this.flashLightsButton.bind(this);
     this.openFrunkButton = this.openFrunkButton.bind(this);
     this.openTrunkButton = this.openTrunkButton.bind(this);
-    this.openSunroofButton = this.openSunroofButton.bind(this);
-    this.checkSunroofState = this.checkSunroofState.bind(this);
+    this.SunroofButton = this.SunroofButton.bind(this);
   }
   
   componentDidMount(){
     this.setState({ 
       localOptions: this.props.localOptionsProp
     });
+    if(this.props.sunroofPercent != null){
+      this.setState({sunroofPresent: true});
+    }else{
+      this.setState({sunroofPresent: false});
+    }
     //alert(JSON.stringify(this.state.localOptions))
   }
   
   componentDidUpdate(){
-    this.checkSunroofState();
   }
   
   //call this function inside every control
@@ -65,50 +69,15 @@ class ControlModal extends Component{
   }
 
   lockButton(){
-    //so the timer doesnt refresh directly after an async api call
-    this.refreshGlobalTimerWhenAction();
-
-    //if it is locked, pass unlock
-    if(this.props.vehicleLocked === true){
-      axios.post('/unlock', {
-        auth: JSON.stringify(this.state.localOptions)
-      })
-      .then(function (response) {
-        //if it's a good response, update local state
-        var newStore = store.getState();
-        newStore.state.vehicleDataObject.vehicle_state.locked = !newStore.state.vehicleDataObject.vehicle_state.locked;
-        store.dispatch({
-          type: 'UPDATE_OBJECT',
-          payload: {
-          vehicleDataObject: newStore.state.vehicleDataObject
-          }
-        })
-      })
-      .catch(function (error) {
-        //alert(JSON.stringify(error))
-        alert(error.response.data + ' - ' + error.response.statusText);
-      });
-    }
-    if(this.props.vehicleLocked === false){
-      axios.post('/lock', {
-        auth: JSON.stringify(this.state.localOptions)
-      })
-      .then(function (response) {
-        //if it's a good response, update local state
-        var newStore = store.getState();
-        newStore.state.vehicleDataObject.vehicle_state.locked = !newStore.state.vehicleDataObject.vehicle_state.locked;
-        store.dispatch({
-          type: 'UPDATE_OBJECT',
-          payload: {
-          vehicleDataObject: newStore.state.vehicleDataObject
-          }
-        })
-      })
-      .catch(function (error) {
-        //alert(JSON.stringify(error))
-        alert(error.response.data + ' - ' + error.response.statusText);
-      });
-    }
+    //dispatch the confirmation prompt and tell it we are going to be locking or unlocking
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showConfirmationPrompt: true,
+        confirmationPromptLock: true
+      }
+    })
+    /* api call actually happens in confirmation modal */
   }
 
   honkHornButton(){
@@ -146,48 +115,36 @@ class ControlModal extends Component{
   }
 
   openFrunkButton(){
-    //so the timer doesnt refresh directly after an async api call
-    this.refreshGlobalTimerWhenAction();
-    /* api call here */
-    axios.post('/openTrunk', {
-      auth: JSON.stringify(this.state.localOptions),
-      which: "frunk"
+    //dispatch the confirmation prompt and tell it it's for the frunk
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showConfirmationPrompt: true,
+        confirmationPromptFrunk: true
+      }
     })
-    .then(function (response) {
-      //if it's a good response, update local state
-      alert("Frunk Opened");
-    })
-    .catch(function (error) {
-      //alert(JSON.stringify(error))
-      alert(error.response.data + ' - ' + error.response.statusText);
-    });
+    /* api call actually happens in confirmation modal */
+  
   }
 
   openTrunkButton(){
-    //so the timer doesnt refresh directly after an async api call
-    this.refreshGlobalTimerWhenAction();
-    /* api call here */
-    axios.post('/openTrunk', {
-      auth: JSON.stringify(this.state.localOptions),
-      which: "trunk"
+    //dispatch the confirmation prompt and tell it it's for the trunk
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showConfirmationPrompt: true,
+        confirmationPromptTrunk: true
+      }
     })
-    .then(function (response) {
-      //if it's a good response, update local state
-      alert("Trunk Opened");
-    })
-    .catch(function (error) {
-      //alert(JSON.stringify(error))
-      alert(error.response.data + ' - ' + error.response.statusText);
-    });
+    /* api call actually happens in confirmation modal */
+    
   }
 
-  openSunroofButton(){
+  SunroofButton(){
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
-    //check the sunroof state and determine if it exists or not
-    this.checkSunroofState();
     //check to make sure the sunroof is present and not null
-    if(this.state.sunroofCheck){
+    if(this.state.sunroofPresent){
       //if the sunroof is open at all then we send a close command
       if(this.props.sunroofPercent > 0){
         axios.post('/closeSunroof', {
@@ -198,7 +155,7 @@ class ControlModal extends Component{
           this.setState({ 
             sunroofCheck: false 
           });
-          alert("Sunroof has been closed");
+          //alert("Sunroof has been closed");
         })
         .catch(function (error) {
           alert(error.response.data + ' - ' + error.response.statusText);
@@ -213,7 +170,7 @@ class ControlModal extends Component{
           this.setState({ 
             sunroofCheck: true
           });
-          alert("Sunroof has been opened");
+          //alert("Sunroof has been opened");
         })
         .catch(function (error) {
           //alert(JSON.stringify(error))
@@ -225,15 +182,6 @@ class ControlModal extends Component{
     }
   }
 
-  checkSunroofState(){
-    var newStore = store.getState();
-    //find a way to set the sunroofcheck without an infinite loop
-    if(newStore.state.vehicleDataObject.vehicle_state.sun_roof_percent_open != null){
-      //this.setState({sunroofCheck: true});
-    }else{
-      //this.setState({sunroofCheck: false});
-    }
-  }
 
 
 
@@ -262,7 +210,12 @@ class ControlModal extends Component{
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.flashLightsButton} id="flashlights_btn">Flash Lights</button></li>
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openFrunkButton} id="openfrunk_btn">Open Frunk</button></li>
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openTrunkButton} id="opentrunk_btn">Open Trunk</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openSunroofButton} id="sunroof">{this.state.sunroofCheck ? 'Close' : 'Open'} Sunroof</button></li>
+                      {this.state.sunroofPresent ? 
+                        <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.SunroofButton} id="sunroof">{this.state.sunroofCheck ? 'Close' : 'Open'} Sunroof</button></li>
+                        :
+                        null
+                      }
+          
                   </ul>
               </div>
           </Modal>

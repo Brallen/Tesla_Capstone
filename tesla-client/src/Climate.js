@@ -108,14 +108,6 @@ class ClimateModal extends Component{
       //alert(JSON.stringify(error))
       alert(error.response.data + ' - ' + error.response.statusText);
       //error, lets repull the data to update the slider back to what it is
-      var newStore = store.getState();
-      newStore.state.refreshTime = 1;
-      store.dispatch({
-        type: 'UPDATE_OBJECT',
-        payload: {
-          refreshTime: newStore.state.refreshTime
-        }
-      })
     });
   }
 
@@ -163,7 +155,7 @@ class ClimateModal extends Component{
       })
       .catch(function (error) {
         //alert(JSON.stringify(error))
-        alert(error.response + ' - ' + error.response.statusText);
+        alert(error.response.data + ' - ' + error.response.statusText);
       });
     }
   }

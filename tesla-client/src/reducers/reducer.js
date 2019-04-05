@@ -5,6 +5,10 @@ const defaultState = {
     mobileAccess: true,
     showPasswordPrompt: false,
     showLogoutPrompt: false,
+    showConfirmationPrompt: false,
+    confirmationPromptFrunk: false,
+    confirmationPromptTrunk: false,
+    confirmationPromptLock: false,
     localOptions: {
         authToken: '',
         vehicleID: '',

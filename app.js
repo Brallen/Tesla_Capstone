@@ -317,7 +317,7 @@ app.post('/seatHeating', function (req, res) {
     var promise = teslajs.seatHeaterAsync(JSON.parse(options), JSON.parse(seat), parseInt(level));
     promise.then(function (result) { //success
         console.log("Successful Response: " + JSON.stringify(result));
-        res.status(200).send(result.result);
+        res.status(200).send(result);
     }).catch(function (err) { //error
         console.log("Error: " + err);
         res.status(400).send(err);

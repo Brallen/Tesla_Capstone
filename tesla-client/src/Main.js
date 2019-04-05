@@ -11,6 +11,7 @@ import {connect} from 'react-redux';
 
 import PasswordPrompt from './PasswordPrompt.js';
 import LogoutPrompt from './LogoutPrompt.js';
+import ConfirmationPrompt from './ConfirmationModal.js';
 
 class Main extends Component{
   constructor(props){
@@ -59,6 +60,7 @@ class Main extends Component{
           <Timer />
           <PasswordPrompt/>
           <LogoutPrompt/>
+          <ConfirmationPrompt/>
         </main>
       </div>
     );
