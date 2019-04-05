@@ -64,9 +64,6 @@ class LoginModal extends Component {
         store.dispatch({
             type: 'LOGIN',
             payload: {
-                accountName: self.state.email,
-               //remove password field in the future 
-                accountPass: self.state.password,
                 accountToken: self.state.authToken,
                 loggedIn: true,
                 initialVehicleLoginObject: response.data

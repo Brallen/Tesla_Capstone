@@ -15,32 +15,9 @@ class Header extends Component{
     store.dispatch({
       type: 'UPDATE_OBJECT',
       payload: {
-        accountName: '',
-        accountPass: '',
-        loggedIn: false,
-        showLogin: true,
-        mobileAccess: true,
-        localOptions: {
-            authToken: '',
-            vehicleID: '',
-            vehicle_id: '',
-            tokens: []
-        },
-        accountToken: '',
-        initialVehicleLoginObject: {},
-        refreshTime: 5,
-        refreshInterval: 5,
-        vehicleDataObject: {
-          display_name: 'Waking up vehicle...',
-          climate_state: {},
-          charge_state: {},
-          gui_settings: {},
-          vehicle_state: {},
-          vehicle_config: {},
-          drive_state: {}
-        }
+        showLogoutPrompt: true
       }
-    });
+    })
   }
 
   render(){
@@ -51,8 +28,8 @@ class Header extends Component{
               <h1>{this.props.vehicleDataName}</h1>
               <p>Battery Level: {this.props.vehicleDataBatteryLevel}%</p>
               <p>Estimated Range: {this.props.vehicleDataRangeLeft.toFixed(0)} Miles</p>
-              <div class="container--logout_menu">
-                <button className="btn logout-button" onClick={() => this.logout()}>Logout</button>
+              <div className="container--logout_menu">
+                <button className="btn logout-button" onClick={() => this.logout()}>Sign Out</button>
               </div>
           </div>
         </header>

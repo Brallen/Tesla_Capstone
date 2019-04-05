@@ -1,10 +1,10 @@
 //this is our default state
-let defaultState = {
-    accountName: '',
-    accountPass: '',
+const defaultState = {
     loggedIn: false,
     showLogin: true,
     mobileAccess: true,
+    showPasswordPrompt: false,
+    showLogoutPrompt: false,
     localOptions: {
         authToken: '',
         vehicleID: '',
@@ -213,7 +213,8 @@ const reducers = (state = defaultState, action) => {
 
         case 'LOGOUT':
         return {
-            ...state
+            ...state,
+            ...defaultState
         }
 
         

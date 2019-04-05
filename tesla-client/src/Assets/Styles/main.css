@@ -169,6 +169,13 @@ body {
   margin: 6px 0;
 }
 
+.container--modal_confirm input {
+  color: #000000;
+  background-color: #FFFFFF;
+  border-radius: 2px;
+  margin: 6px 0;
+}
+
 .container--modal_login #login-error {
   color: #DA3738;
 }
@@ -327,4 +334,7 @@ body {
   .container--car_image img {
     width: 530px;
   }
+}
+#confirm--password {
+  display: inline;
 }

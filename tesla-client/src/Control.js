@@ -51,18 +51,17 @@ class ControlModal extends Component{
   startEngineButton(){
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
-    /* api call here */
-    axios.post('/startEngine', {
-      auth: JSON.stringify(this.state.localOptions),
-      pass: this.props.passwordEntered
+    /* call the password prompt modal */
+    var newStore = store.getState();
+    newStore.state.showPasswordPrompt = true;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showPasswordPrompt: newStore.state.showPasswordPrompt
+      }
     })
-    .then(function (response) {
-      
-    })
-    .catch(function (error) {
-      //alert(JSON.stringify(error))
-      alert(error.response.data + ' - ' + error.response.statusText);
-    });
+    //the api call itself is made in the passwordPrompt.js file
+    
   }
 
   lockButton(){

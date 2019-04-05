@@ -9,6 +9,9 @@ import Timer from './Timer'
 import {store} from './store/index.js';
 import {connect} from 'react-redux';
 
+import PasswordPrompt from './PasswordPrompt.js';
+import LogoutPrompt from './LogoutPrompt.js';
+
 class Main extends Component{
   constructor(props){
     super(props);
@@ -23,19 +26,11 @@ class Main extends Component{
 
   testFunc(){
     var newStore = store.getState();
-    newStore.state.vehicleDataObject.gui_settings.gui_temperature_units = 'F';
-    newStore.state.vehicleDataObject.vehicle_state.sun_roof_percent_open = 10;
-    newStore.state.vehicleDataObject.display_name = 'sunroof now exists and climate set to F';
-    //alert(JSON.stringify(newStore.state.vehicleDataObject));
-    /*
-      you cannot dispatch a whole new state object as it will cause everything to fall
-      out of scope that is reading the state.
-    */
-   alert(JSON.stringify(this.props.loginState))
+    newStore.state.showPasswordPrompt = true;
     store.dispatch({
       type: 'UPDATE_OBJECT',
       payload: {
-        vehicleDataObject: newStore.state.vehicleDataObject
+        showPasswordPrompt: newStore.state.showPasswordPrompt
       }
     })
   }
@@ -58,8 +53,12 @@ class Main extends Component{
               </li>
             </ul>  
           </div>
+
+          
           <LoginModal/>
           <Timer />
+          <PasswordPrompt/>
+          <LogoutPrompt/>
         </main>
       </div>
     );

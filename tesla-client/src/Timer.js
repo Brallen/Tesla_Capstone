@@ -35,33 +35,7 @@ class Timer extends Component {
 
   logout(){
     store.dispatch({
-      type: 'UPDATE_OBJECT',
-      payload: {
-        accountName: '',
-        accountPass: '',
-        loggedIn: false,
-        showLogin: true,
-        mobileAccess: true,
-        localOptions: {
-            authToken: '',
-            vehicleID: '',
-            vehicle_id: '',
-            tokens: []
-        },
-        accountToken: '',
-        initialVehicleLoginObject: {},
-        refreshTime: 5,
-        refreshInterval: 5,
-        vehicleDataObject: {
-          display_name: 'Waking up vehicle...',
-          climate_state: {},
-          charge_state: {},
-          gui_settings: {},
-          vehicle_state: {},
-          vehicle_config: {},
-          drive_state: {}
-        }
-      }
+      type: 'LOGOUT'
     });
   }
 
