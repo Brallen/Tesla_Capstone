@@ -92,6 +92,17 @@ class Timer extends Component {
             var newStore = store.getState();
             newStore.state.initialVehicleLoginObject.state = response.data.state;
             newStore.state.refreshInterval = 10;
+            //doing this special stuff because we need to see if the sun roof exists
+            if(response.data.vehicle_state.sun_roof_state === 'unknown'){
+              newStore.state.sunroofPresent = false;
+            }else{
+              newStore.state.sunroofPresent = true;
+            }
+            if(parseInt(response.data.vehicle_state.sun_roof_percent_open) > 0){
+              newStore.state.sunroofOpen = true;
+            }else{
+              newStore.state.sunroofOpen = false;
+            }
             store.dispatch({
               type: 'UPDATE_OBJECT',
               payload: {
@@ -99,7 +110,9 @@ class Timer extends Component {
                 /*write the state of the vehicle to the initial state that we check so we
                   can see when the vehicle goes to sleep and then wake it up automatically again*/
                 initialVehicleLoginObject: newStore.state.initialVehicleLoginObject,
-                refreshInterval: newStore.state.refreshInterval
+                refreshInterval: newStore.state.refreshInterval,
+                sunroofPresent: newStore.state.sunroofPresent,
+                sunroofOpen: newStore.state.sunroofOpen
               }
             })
               //alert(JSON.stringify(response));

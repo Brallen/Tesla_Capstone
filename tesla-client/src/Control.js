@@ -8,7 +8,6 @@ class ControlModal extends Component{
     super(props);
     this.state = {
       showControl: false,
-      sunroofPresent: false,
       sunroofCheck: false,
       localOptions: {}
     };
@@ -26,11 +25,6 @@ class ControlModal extends Component{
     this.setState({ 
       localOptions: this.props.localOptionsProp
     });
-    if(this.props.sunroofPercent != null){
-      this.setState({sunroofPresent: true});
-    }else{
-      this.setState({sunroofPresent: false});
-    }
     //alert(JSON.stringify(this.state.localOptions))
   }
   
@@ -144,7 +138,7 @@ class ControlModal extends Component{
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
     //check to make sure the sunroof is present and not null
-    if(this.state.sunroofPresent){
+    if(this.props.sunroofPresentProp){
       //if the sunroof is open at all then we send a close command
       if(this.props.sunroofPercent > 0){
         axios.post('/closeSunroof', {
@@ -152,9 +146,12 @@ class ControlModal extends Component{
         })
         .then(function (response) {
           //if it's a good response, update local state
-          this.setState({ 
-            sunroofCheck: false 
-          });
+          store.dispatch({
+            type: 'UPDATE_OBJECT',
+            payload: {
+              sunroofOpen: false
+            }
+          })
           //alert("Sunroof has been closed");
         })
         .catch(function (error) {
@@ -167,9 +164,12 @@ class ControlModal extends Component{
         })
         .then(function (response) {
           //if it's a good response, update local state
-          this.setState({ 
-            sunroofCheck: true
-          });
+          store.dispatch({
+            type: 'UPDATE_OBJECT',
+            payload: {
+              sunroofOpen: true
+            }
+          })
           //alert("Sunroof has been opened");
         })
         .catch(function (error) {
@@ -210,8 +210,8 @@ class ControlModal extends Component{
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.flashLightsButton} id="flashlights_btn">Flash Lights</button></li>
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openFrunkButton} id="openfrunk_btn">Open Frunk</button></li>
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openTrunkButton} id="opentrunk_btn">Open Trunk</button></li>
-                      {this.state.sunroofPresent ? 
-                        <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.SunroofButton} id="sunroof">{this.state.sunroofCheck ? 'Close' : 'Open'} Sunroof</button></li>
+                      {this.props.sunroofPresentProp ? 
+                        <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.SunroofButton} id="sunroof">{this.props.sunroofOpenProp ? 'Close' : 'Open'} Sunroof</button></li>
                         :
                         null
                       }
@@ -240,6 +240,8 @@ const Modal = ({ handleClose, show, children }) => {
       vehicleLocked: state.state.vehicleDataObject.vehicle_state.locked,
       globalTimerInterval: state.state.refreshInterval,
       sunroofPercent: state.state.vehicleDataObject.vehicle_state.sun_roof_percent_open,
+      sunroofPresentProp: state.state.sunroofPresent,
+      sunroofOpenProp: state.state.sunroofOpen,
       localOptionsProp: state.state.localOptions,
       //REMOVE THIS BELOW AFTER TESTING COMPLETE
       passwordEntered: state.state.accountPass

@@ -3,6 +3,8 @@ const defaultState = {
     loggedIn: false,
     showLogin: true,
     mobileAccess: true,
+    sunroofPresent: false,
+    sunroofOpen: false,
     showPasswordPrompt: false,
     showLogoutPrompt: false,
     showConfirmationPrompt: false,

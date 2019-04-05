@@ -188,8 +188,8 @@ class ClimateModal extends Component{
     })
     axios.post('/seatHeating', {
       auth: JSON.stringify(this.state.localOptions),
-      seat: 0,
-      level: this.state.frontLeft
+      seat: JSON.stringify(0),
+      level: JSON.stringify(this.state.frontLeft)
     })
     .then(function (response) {
       //if it's a good response, update local state to match
@@ -227,8 +227,8 @@ class ClimateModal extends Component{
     })
     axios.post('/seatHeating', {
       auth: JSON.stringify(this.state.localOptions),
-      seat: 1,
-      level: this.state.frontRight
+      seat: JSON.stringify(1),
+      level: JSON.stringify(this.state.frontRight)
     })
     .then(function (response) {
       //if it's a good response, update local state to match
@@ -267,8 +267,8 @@ class ClimateModal extends Component{
     })
     axios.post('/seatHeating', {
       auth: JSON.stringify(this.state.localOptions),
-      seat: 5,
-      level: this.state.rearRight
+      seat: JSON.stringify(5),
+      level: JSON.stringify(this.state.rearRight)
     })
     .then(function (response) {
       //if it's a good response, update local state to match
@@ -306,8 +306,8 @@ class ClimateModal extends Component{
   })
   axios.post('/seatHeating', {
     auth: JSON.stringify(this.state.localOptions),
-    seat: 2,
-    level: this.state.rearLeft
+    seat: JSON.stringify(2),
+    level: JSON.stringify(this.state.rearLeft)
   })
   .then(function (response) {
     //if it's a good response, update local state to match
@@ -345,8 +345,8 @@ class ClimateModal extends Component{
     })
     axios.post('/seatHeating', {
       auth: JSON.stringify(this.state.localOptions),
-      seat: 4,
-      level: this.state.rearCenter
+      seat: JSON.stringify(4),
+      level: JSON.stringify(this.state.rearCenter)
     })
     .then(function (response) {
       //if it's a good response, update local state to match
