@@ -112,6 +112,7 @@ class Timer extends Component {
             var newStore = store.getState();
             newStore.state.initialVehicleLoginObject.state = response.data.state;
             newStore.state.refreshInterval = 10;
+            newStore.state.initialVehicleLoaded = true;
             //doing this special stuff because we need to see if the sun roof exists
             if(JSON.stringify(response.data.option_codes).includes('RFP2')){
               newStore.state.sunroofPresent = true;
@@ -132,7 +133,8 @@ class Timer extends Component {
                 initialVehicleLoginObject: newStore.state.initialVehicleLoginObject,
                 refreshInterval: newStore.state.refreshInterval,
                 sunroofPresent: newStore.state.sunroofPresent,
-                sunroofOpen: newStore.state.sunroofOpen
+                sunroofOpen: newStore.state.sunroofOpen,
+                initialVehicleLoaded: newStore.state.initialVehicleLoaded
               }
             })
               //alert(JSON.stringify(response));

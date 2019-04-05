@@ -9,9 +9,7 @@ class ClimateModal extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      show: false,
       temperature: this.props.vehicleClimateNum,
-      unitDecider: true,
       multiplier: 1,
       frontLeft: this.props.seatLeft,
       frontRight: this.props.seatRight,
@@ -55,18 +53,15 @@ class ClimateModal extends Component{
     })
   }
 
-  showClimateModal = () => {
-    this.setState({ showClimate: true });
-    if(this.props.vehicleClimateUnit === 'F'){
-      this.setState({ unitDecider: false });
-    }
-    if(this.props.vehicleClimateUnit === 'C'){
-      this.setState({ unitDecider: true });
-    }
-  }
-
   hideClimateModal = () => {
-    this.setState({ showClimate: false });
+    var newStore = store.getState();
+    newStore.state.showClimateModal = false;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showClimateModal: newStore.state.showClimateModal
+      }
+    })
   }
 
   /*
@@ -360,14 +355,14 @@ class ClimateModal extends Component{
   render(){
     return(
       <div>
-        <Modal show={this.state.showClimate} handleClose={this.hideClimateModal}>
+        <Modal show={this.props.showClimate} handleClose={this.hideClimateModal}>
           <div className="modal-content">
             <div className="modal--close">
               <button onClick={this.hideClimateModal} id="modal--climate_close" className="modal--close_button"><i className="fas fa-times"></i></button>
             </div>
             <div className="modal--climate_controls">
               <p id="climate--temp_level" className="modal--level_text">
-                Climate: {this.state.unitDecider ? parseFloat(this.props.vehicleClimateNum).toFixed(1) : parseFloat(this.props.vehicleClimateNum*(9/5)+32).toFixed(1)}{this.props.vehicleClimateUnit}
+                Climate: {this.props.unitDecider ? parseFloat(this.props.vehicleClimateNum).toFixed(1) : parseFloat(this.props.vehicleClimateNum*(9/5)+32).toFixed(1)}{this.props.vehicleClimateUnit}
               </p>
                 <div className='modal--slider'>
                   <Slider
@@ -406,8 +401,6 @@ class ClimateModal extends Component{
             </div>
           </div>
         </Modal>
-
-        <li className="item--control_btn"><button onClick={this.showClimateModal} id="modal--climate_open" className="btn btn--control_btn">Climate</button></li>
       </div>
     );
   }
@@ -429,14 +422,16 @@ const mapStateToProps = (state) => {
       vehicleClimateNum2: state.state.vehicleDataObject.climate_state.passenger_temp_setting,
       vehicleClimateMax: state.state.vehicleDataObject.climate_state.max_avail_temp,
       vehicleClimateMin: state.state.vehicleDataObject.climate_state.min_avail_temp,
-      vehicleClimateUnit: state.state.vehicleDataObject.gui_settings.gui_temperature_units,
       seatLeft: state.state.vehicleDataObject.climate_state.seat_heater_left,
       seatRight: state.state.vehicleDataObject.climate_state.seat_heater_right,
       seatLeftRear: state.state.vehicleDataObject.climate_state.seat_heater_rear_left,
       seatMidRear: state.state.vehicleDataObject.climate_state.seat_heater_rear_center,
       seatRightRear: state.state.vehicleDataObject.climate_state.seat_heater_rear_right,
       globalTimerInterval: state.state.refreshInterval,
-      localOptionsProp: state.state.localOptions
+      localOptionsProp: state.state.localOptions,
+      showClimate: state.state.showClimateModal,
+      unitDecider: state.state.unitDecider,
+      vehicleClimateUnit: state.state.vehicleDataObject.gui_settings.gui_temperature_units
     }
   }
 

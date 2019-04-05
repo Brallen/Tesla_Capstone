@@ -34,6 +34,24 @@ class ConfirmationPrompt extends Component{
     })
   }
 
+  //calling this when we press the X at the top
+  closeConfirmationModal = () => {
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showConfirmationPrompt: false,
+        confirmationPromptFrunk: false,
+        confirmationPromptTrunk: false,
+        confirmationPromptLock: false,
+        showControlModal: true,
+        showMediaModal: false,
+        showClimateModal: false,
+        showChargingModal: false,
+      }
+    })
+  }
+
+  //calling this when a button to confirm is pressed
   hideConfirmationModal = () => {
     store.dispatch({
       type: 'UPDATE_OBJECT',
@@ -41,7 +59,11 @@ class ConfirmationPrompt extends Component{
         showConfirmationPrompt: false,
         confirmationPromptFrunk: false,
         confirmationPromptTrunk: false,
-        confirmationPromptLock: false
+        confirmationPromptLock: false,
+        showControlModal: false,
+        showMediaModal: false,
+        showClimateModal: false,
+        showChargingModal: false,
       }
     })
   }
@@ -127,7 +149,7 @@ class ConfirmationPrompt extends Component{
     }
 
     //hide confirmation modal
-    this.hideConfirmationModal();
+    this.closeConfirmationModal();
 
   }
 
@@ -139,7 +161,7 @@ render(){
             <div className="modal-content">
                 <div className="modal--close">
                     <button id="modal--confirm_close" className="modal--close_button">
-                        <i className="fas fa-times" onClick={this.hideConfirmationModal}></i>
+                        <i className="fas fa-times" onClick={this.closeConfirmationModal}></i>
                     </button>
                 </div>
                 <div className="modal--confirm_controls">

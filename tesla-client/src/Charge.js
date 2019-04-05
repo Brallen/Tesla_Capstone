@@ -9,7 +9,6 @@ class ChargingModal extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      showCharge: false,
       maxCharge: 50,
       localOptions: {}
     };
@@ -38,12 +37,16 @@ class ChargingModal extends Component{
     })
   }
 
-  showChargeModal = () => {
-    this.setState({ showCharge: true });
-  }
 
   hideChargeModal = () => {
-    this.setState({ showCharge: false });
+    var newStore = store.getState();
+    newStore.state.showChargingModal = false;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showChargingModal: newStore.state.showChargingModal
+      }
+    })
   }
 
   /*
@@ -143,7 +146,7 @@ class ChargingModal extends Component{
   render(){
     return(
       <div>
-          <Modal show={this.state.showCharge} handleClose={this.hideChargeModal}>
+          <Modal show={this.props.showCharge} handleClose={this.hideChargeModal}>
             <div className="modal-content">
               <div className="modal--close">
                 <button onClick={this.hideChargeModal}id="modal--charging_close" className="modal--close_button"><i className="fas fa-times"></i></button>
@@ -167,7 +170,7 @@ class ChargingModal extends Component{
               </div>
             </div>
           </Modal>
-          <li className="item--control_btn"><button onClick={this.showChargeModal} id="modal--charging_open" className="btn btn--control_btn">Charging</button></li>
+          
       </div>
     );
   }
@@ -189,7 +192,8 @@ const mapStateToProps = (state) => {
       vehicleChargeMin: state.state.vehicleDataObject.charge_state.charge_limit_soc_min,
       vehicleCharge: state.state.vehicleDataObject.charge_state.charge_limit_soc,
       globalTimerInterval: state.state.refreshInterval,
-      localOptionsProp: state.state.localOptions
+      localOptionsProp: state.state.localOptions,
+      showCharge: state.state.showChargingModal
     }
   }
 export default connect(mapStateToProps)(ChargingModal);

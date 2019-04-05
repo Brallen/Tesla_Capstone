@@ -7,7 +7,6 @@ class ControlModal extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      showControl: false,
       sunroofCheck: false,
       localOptions: {}
     };
@@ -68,7 +67,10 @@ class ControlModal extends Component{
       type: 'UPDATE_OBJECT',
       payload: {
         showConfirmationPrompt: true,
-        confirmationPromptLock: true
+        confirmationPromptLock: true,
+        //remove the panel below the new modal we are bringing up
+        //if the user presses the x, it brings back the control modal
+        showControlModal: false
       }
     })
     /* api call actually happens in confirmation modal */
@@ -114,7 +116,10 @@ class ControlModal extends Component{
       type: 'UPDATE_OBJECT',
       payload: {
         showConfirmationPrompt: true,
-        confirmationPromptFrunk: true
+        confirmationPromptFrunk: true,
+        //remove the panel below the new modal we are bringing up
+        //if the user presses the x, it brings back the control modal
+        showControlModal: false
       }
     })
     /* api call actually happens in confirmation modal */
@@ -127,7 +132,10 @@ class ControlModal extends Component{
       type: 'UPDATE_OBJECT',
       payload: {
         showConfirmationPrompt: true,
-        confirmationPromptTrunk: true
+        confirmationPromptTrunk: true,
+        //remove the panel below the new modal we are bringing up
+        //if the user presses the x, it brings back the control modal
+        showControlModal: false
       }
     })
     /* api call actually happens in confirmation modal */
@@ -185,20 +193,22 @@ class ControlModal extends Component{
 
 
 
-
-  showControlModal = () => {
-    this.setState({ showControl: true });
-  }
-
   hideControlModal = () => {
-    this.setState({ showControl: false });
+    var newStore = store.getState();
+    newStore.state.showControlModal = false;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showControlModal: newStore.state.showControlModal
+      }
+    })
   }
 
 
   render(){
     return(
       <div>
-          <Modal show={this.state.showControl} handleClose={this.hideControlModal} >
+          <Modal show={this.props.showControl} handleClose={this.hideControlModal} >
               <div className="modal-content">
                   <div className="modal--close">
                       <button onClick={this.hideControlModal}id="modal--control_close" className="modal--close_button"><i className="fas fa-times"></i></button>
@@ -219,8 +229,6 @@ class ControlModal extends Component{
                   </ul>
               </div>
           </Modal>
-
-          <li className="item--control_btn"><button onClick={this.showControlModal} id="modal--control_open" className="btn btn--control_btn">Controls</button></li>
       </div>
     );
   }
@@ -244,7 +252,8 @@ const Modal = ({ handleClose, show, children }) => {
       sunroofOpenProp: state.state.sunroofOpen,
       localOptionsProp: state.state.localOptions,
       //REMOVE THIS BELOW AFTER TESTING COMPLETE
-      passwordEntered: state.state.accountPass
+      passwordEntered: state.state.accountPass,
+      showControl: state.state.showControlModal
     }
   }
 

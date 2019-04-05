@@ -19,6 +19,10 @@ class Main extends Component{
     this.state = {
     };
     this.testFunc = this.testFunc.bind(this);
+    this.showControls = this.showControls.bind(this);
+    this.showMedia = this.showMedia.bind(this);
+    this.showClimate = this.showClimate.bind(this);
+    this.showCharging = this.showCharging.bind(this);
   }
 
   alertStoreFunc(){
@@ -36,6 +40,58 @@ class Main extends Component{
     })
   }
 
+  showControls(){
+    var newStore = store.getState();
+    newStore.state.showControlModal = true;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showControlModal: newStore.state.showControlModal
+      }
+    })
+  }
+
+  showMedia(){
+    var newStore = store.getState();
+    newStore.state.showMediaModal = true;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showMediaModal: newStore.state.showMediaModal
+      }
+    })
+  }
+
+
+  showClimate(){
+    var newStore = store.getState();
+    if(this.props.vehicleClimateUnit === 'F'){
+      newStore.state.unitDecider = false;
+    }
+    if(this.props.vehicleClimateUnit === 'C'){
+      newStore.state.unitDecider = true;
+    }
+    newStore.state.showClimateModal = true;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showClimateModal: newStore.state.showClimateModal,
+        unitDecider: newStore.state.unitDecider
+      }
+    })
+  }
+
+  showCharging(){
+    var newStore = store.getState();
+    newStore.state.showChargingModal = true;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showChargingModal: newStore.state.showChargingModal
+      }
+    })
+  }
+
 
   render(){
     return(
@@ -43,19 +99,32 @@ class Main extends Component{
         <main className="container--main_section">
           <Image/>
           <div className="container--control_btn">
-            <ul className="list--control_btn" id="modal--control_open"><ControlModal/></ul>
-            <ul className="list--control_btn" id="modal--media_open"><MediaModal/></ul>
-            <ul className="list--control_btn" id="modal--climate_open"><ClimateModal/></ul>
-            <ul className="list--control_btn" id="modal--charging_open"><ChargingModal/></ul>  
-            <ul className="list--control_btn" id="modal--do_what_i_want">
-              <li className="item--control_btn">
-                <button onClick={this.alertStoreFunc} id="modal--store" className="btn btn--control_btn">Get State</button>
-                <button onClick={this.testFunc} id="modal--test" className="btn btn--control_btn">Test Button</button>
-              </li>
+            <ul className="list--control_btn">
+              {this.props.vehicleLoaded ? 
+                <li className="item--control_btn"><button onClick={this.showControls} id="modal--control_open" className="btn btn--control_btn">Controls</button></li>
+              : null}
+              {this.props.vehicleLoaded ? 
+                <li className="item--control_btn"><button onClick={this.showMedia}id="modal--media_open" className="btn btn--control_btn">Media</button></li>
+              : null}
+              {this.props.vehicleLoaded ? 
+                <li className="item--control_btn"><button onClick={this.showClimate} id="modal--climate_open" className="btn btn--control_btn">Climate</button></li>
+              : null}
+              {this.props.vehicleLoaded ? 
+                <li className="item--control_btn"><button onClick={this.showCharging} id="modal--charging_open" className="btn btn--control_btn">Charging</button></li>
+              : null}
+              {this.props.vehicleLoaded ? 
+                <li className="item--control_btn"><button onClick={this.alertStoreFunc} id="modal--store" className="btn btn--control_btn">Get State</button></li>
+              : null}
+              {this.props.vehicleLoaded ? 
+                <li className="item--control_btn"><button onClick={this.testFunc} id="modal--test" className="btn btn--control_btn">Test Button</button></li>
+              : null}
+              
             </ul>  
           </div>
-
-          
+          <ChargingModal/>
+          <MediaModal/>
+          <ClimateModal/>
+          <ControlModal/>
           <LoginModal/>
           <Timer />
           <PasswordPrompt/>
@@ -74,7 +143,9 @@ const mapStateToProps = (state) => {
     accountToken: state.state.accountToken,
     vehicleDataName: state.state.vehicleDataObject.display_name,
     loginState: state.state.initialVehicleLoginObject,
-    vehicleSunroof: state.state.vehicleDataObject.vehicle_state.sun_roof_percent_open
+    vehicleSunroof: state.state.vehicleDataObject.vehicle_state.sun_roof_percent_open,
+    vehicleClimateUnit: state.state.vehicleDataObject.gui_settings.gui_temperature_units,
+    vehicleLoaded: state.state.initialVehicleLoaded
   }
 }
 

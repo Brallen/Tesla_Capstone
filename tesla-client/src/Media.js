@@ -7,7 +7,6 @@ class MediaModal extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      showMedia: false,
       localOptions: {}
     };
     this.refreshGlobalTimerWhenAction = this.refreshGlobalTimerWhenAction.bind(this);
@@ -37,12 +36,16 @@ class MediaModal extends Component{
     })
   }
 
-  showMediaModal = () => {
-    this.setState({ showMedia: true });
-  }
 
   hideMediaModal = () => {
-    this.setState({ showMedia: false });
+    var newStore = store.getState();
+    newStore.state.showMediaModal = false;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showMediaModal: newStore.state.showMediaModal
+      }
+    })
   }
 
   volumeUp(){
@@ -128,7 +131,7 @@ class MediaModal extends Component{
   render(){
     return(
       <div>
-          <Modal show={this.state.showMedia} handleClose={this.hideMediaModal} >
+          <Modal show={this.props.showMedia} handleClose={this.hideMediaModal} >
             <div className="modal-content">
               <div className="modal--close">
                 <button id="modal--media_close" onClick={this.hideMediaModal} className="modal--close_button"><i className="fas fa-times"></i></button>
@@ -142,8 +145,6 @@ class MediaModal extends Component{
               </div>
             </div>
           </Modal>
-
-          <li className="item--control_btn"><button onClick={this.showMediaModal}id="modal--media_open" className="btn btn--control_btn">Media</button></li>
       </div>
     );
   }
@@ -154,9 +155,6 @@ const Modal = ({ handleClose, show, children }) => {
     return (
         <div className='modal' style={{display: showHideClassName}}>
         {children}
-        <button onClick={handleClose}>
-          Close
-        </button>
     </div>
     );
   };
@@ -164,7 +162,8 @@ const Modal = ({ handleClose, show, children }) => {
   const mapStateToProps = (state) => {
     return {
       globalTimerInterval: state.state.refreshInterval,
-      localOptionsProp: state.state.localOptions
+      localOptionsProp: state.state.localOptions,
+      showMedia: state.state.showMediaModal
     }
   }
 
