@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {store} from './store/index.js';
 import { connect } from 'react-redux';
+import {withCookies} from 'react-cookie';
 
 class LogoutCheck extends Component{
   constructor(props) {
@@ -33,10 +34,15 @@ class LogoutCheck extends Component{
   }
 
   logout = () => {
-    //Actually log out
+    //delete our user cookie
+    const { cookies } = this.props;
+    cookies.remove('token', { path: '/' });
+    cookies.remove('refreshToken', { path: '/' });
+    //reset client state
     store.dispatch({
       type: 'LOGOUT'
     })
+
   }
 
 
@@ -78,4 +84,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(LogoutCheck);
+export default withCookies(connect(mapStateToProps)(LogoutCheck));

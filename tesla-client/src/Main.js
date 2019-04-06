@@ -8,7 +8,7 @@ import ChargingModal from './Charge';
 import Timer from './Timer'
 import {store} from './store/index.js';
 import {connect} from 'react-redux';
-
+import {withCookies} from 'react-cookie';
 import PasswordPrompt from './PasswordPrompt.js';
 import LogoutPrompt from './LogoutPrompt.js';
 import ConfirmationPrompt from './ConfirmationModal.js';
@@ -30,14 +30,11 @@ class Main extends Component{
   }
 
   testFunc(){
-    var newStore = store.getState();
-    newStore.state.showPasswordPrompt = true;
-    store.dispatch({
-      type: 'UPDATE_OBJECT',
-      payload: {
-        showPasswordPrompt: newStore.state.showPasswordPrompt
-      }
-    })
+    let { cookies } = this.props;
+    let useCookie = cookies.get("token");
+    let useCookieRefresh = cookies.get('refreshToken');
+    alert("auth token: " + useCookie);
+    alert("refresh token: " + useCookieRefresh);
   }
 
   showControls(){
@@ -151,4 +148,4 @@ const mapStateToProps = (state) => {
 
 
 
-export default connect(mapStateToProps)(Main);
+export default withCookies(connect(mapStateToProps)(Main));

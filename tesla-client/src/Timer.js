@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {store} from './store/index.js';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import {withCookies} from 'react-cookie';
 
 class Timer extends Component {
   constructor(props) {
@@ -34,6 +35,11 @@ class Timer extends Component {
 
 
   logout(){
+    //delete our user cookie
+    const { cookies } = this.props;
+    cookies.remove('token', { path: '/' });
+    cookies.remove('refreshToken', { path: '/' });
+    //reset client state
     store.dispatch({
       type: 'LOGOUT'
     });
@@ -220,4 +226,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Timer);
+export default withCookies(connect(mapStateToProps)(Timer));

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {store} from './store/index.js';
+import {withCookies} from 'react-cookie';
 import axios from 'axios'
 
 class LoginModal extends Component {
@@ -12,11 +13,21 @@ class LoginModal extends Component {
       email: '',
       password: '',
       authToken: '',
+      refreshToken: '',
       localVehicleObject: {}
     };
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.setLocalOptions = this.setLocalOptions.bind(this);
+  }
+
+  componentDidMount(){
+    const { cookies } = this.props;
+    let userCookie = cookies.get("token");
+    let refreshCookie = cookies.get("refreshToken");
+    if(userCookie != null && refreshCookie != null){
+      this.setState({ authToken: userCookie, refreshToken: refreshCookie }, this.vehicleLoginFunction);
+    }
   }
 
   handleEmailChange (evt) {
@@ -34,42 +45,61 @@ class LoginModal extends Component {
         showLogin: false
       }
     });
-    this.loginFunction();
   }
 
   loginFunction = () => {
-    var self = this;
-    axios.post('/login', {
-      email: self.state.email,
-      password: self.state.password
-    })
-    .then(function (response) {
-      self.setState({ authToken: response.data.authToken });
-      self.vehicleLoginFunction();
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+      const { cookies } = this.props;
+      var self = this;
+      axios.post('/login', {
+        email: self.state.email,
+        password: self.state.password
+      })
+      .then(function (response) {
+        self.setState({ authToken: response.data.authToken, refreshToken: response.data.refreshToken }, self.vehicleLoginFunction);
+        cookies.set('token', response.data.authToken, { path: '/' });
+        cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   vehicleLoginFunction = () => {
     var self = this;
+    const { cookies } = this.props;
+    //log in
     axios.post('/vehicleID', {
       authToken: self.state.authToken
     })
     .then(function (response) {
-        self.setState({ 
-          localVehicleObject: response.data 
-        });
-        store.dispatch({
-            type: 'LOGIN',
-            payload: {
-                accountToken: self.state.authToken,
-                loggedIn: true,
-                initialVehicleLoginObject: response.data
-            }
+      //then try to refresh the token
+        axios.post('/refreshToken', {
+          refreshToken: self.state.refreshToken
         })
-        self.setLocalOptions();
+        .then(function (response) {
+          //if we do refresh, store our new cookies and update state
+          self.setState({ authToken: response.data.authToken });
+          cookies.set('token', response.data.authToken, { path: '/' });
+          cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      
+
+      //from vehicleID call
+      self.setState({ 
+        localVehicleObject: response.data 
+      });
+      store.dispatch({
+          type: 'LOGIN',
+          payload: {
+              accountToken: self.state.authToken,
+              loggedIn: true,
+              initialVehicleLoginObject: response.data
+          }
+      })
+      self.setLocalOptions();
     })
     .catch(function (error) {
       console.log(error);
@@ -79,6 +109,7 @@ class LoginModal extends Component {
       email: '',
       password: ''
     });
+    this.hideModal();
 
   }
 
@@ -123,7 +154,7 @@ class LoginModal extends Component {
                         <label htmlFor="password">Password: </label>
                         <input type="password" placeholder="Enter Tesla Password" name="password" required id="password" onChange={this.handlePasswordChange} value={this.state.password}/>
                     </div>
-                    <button type="submit" onClick={this.hideModal} className="btn btn--modal_btn" id="login">Login</button>
+                    <button type="submit" onClick={this.loginFunction} className="btn btn--modal_btn" id="login">Login</button>
                 </div>
             </div>
             </Modal>
@@ -161,4 +192,4 @@ const Modal = ({ handleClose, show, children }) => {
   };
 
 //connect our mapStateToProps and our App component and export
-export default connect(mapStateToProps)(LoginModal);
+export default withCookies(connect(mapStateToProps)(LoginModal));

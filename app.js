@@ -593,7 +593,8 @@ app.post('/login', function (req, res) {
         if (typeof result.authToken === 'undefined') {
             console.log("Invalid credentials, entering test mode");
             res.send({
-                authToken: "faketoken"
+                authToken: "faketoken",
+                refreshToken: "fakeRefreshToken"
             });
         } else {
             console.log("Login successful");
@@ -639,10 +640,17 @@ app.post('/refreshToken', function (req, res) {
     console.log("Requesting 'refresh token' with refresh token " + refreshToken);
     teslajs.refreshTokenAsync(refreshToken)
         .then(function (result) {
-            console.log("Tesla Response: " + result);
-            res.status(200).send(result);
+            //console.log("Tesla Response: " + JSON.stringify(result));
+            if(result.response.statusCode == 401){
+                res.status(200).send({
+                    authToken: "UltraFakeToken",
+                    refreshToken: "UltraFakeRefreshToken"
+                });
+            }else{
+                res.status(200).send(result);
+            }
         }).catch(function(err) {
-            console.log("Tesla Response: " + err);
+            console.log("ERROR - Tesla Response: " + err);
             res.status(400).send(true);
         });
 });
