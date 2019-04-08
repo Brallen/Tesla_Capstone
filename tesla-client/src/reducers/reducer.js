@@ -12,6 +12,7 @@ const defaultState = {
     showMediaModal: false,
     showClimateModal: false,
     showChargingModal: false,
+    showDiagnosticsModal: false,
     initialVehicleLoaded: false,
     unitDecider: false,
     showConfirmationPrompt: false,

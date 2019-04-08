@@ -18,9 +18,6 @@ class LogoutCheck extends Component{
       localOptions: this.props.localOptionsProp
     });
   }
-  
-  componentDidUpdate(){
-  }
 
   hideLogoutModal = () => {
     var newStore = store.getState();

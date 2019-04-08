@@ -5,6 +5,7 @@ import ControlModal from './Control';
 import MediaModal from './Media';
 import ClimateModal from './Climate';
 import ChargingModal from './Charge';
+import Diagnostics from './Diagnostics';
 import Timer from './Timer'
 import {store} from './store/index.js';
 import {connect} from 'react-redux';
@@ -23,6 +24,7 @@ class Main extends Component{
     this.showMedia = this.showMedia.bind(this);
     this.showClimate = this.showClimate.bind(this);
     this.showCharging = this.showCharging.bind(this);
+    this.showDiagnostics = this.showDiagnostics.bind(this);
   }
 
   alertStoreFunc(){
@@ -89,6 +91,17 @@ class Main extends Component{
     })
   }
 
+  showDiagnostics(){
+    var newStore = store.getState();
+    newStore.state.showDiagnosticsModal = true;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showDiagnosticsModal: newStore.state.showDiagnosticsModal
+      }
+    })
+  }
+
 
   render(){
     return(
@@ -110,7 +123,7 @@ class Main extends Component{
                 <li className="item--control_btn"><button onClick={this.showCharging} id="modal--charging_open" className="btn btn--control_btn">Charging</button></li>
               : null}
               {this.props.vehicleLoaded ? 
-                <li className="item--control_btn"><button onClick={this.alertStoreFunc} id="modal--store" className="btn btn--control_btn">Get State</button></li>
+                <li className="item--control_btn"><button onClick={this.showDiagnostics} id="modal--store" className="btn btn--control_btn">Diagnostics</button></li>
               : null}
               {this.props.vehicleLoaded ? 
                 <li className="item--control_btn"><button onClick={this.testFunc} id="modal--test" className="btn btn--control_btn">Test Button</button></li>
@@ -118,6 +131,7 @@ class Main extends Component{
               
             </ul>  
           </div>
+          <Diagnostics/>
           <ChargingModal/>
           <MediaModal/>
           <ClimateModal/>

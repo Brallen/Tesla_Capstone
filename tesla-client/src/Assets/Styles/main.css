@@ -140,6 +140,17 @@ body {
   text-align: center;
 }
 
+.modal-content-diagnostics {
+  background-color: #33333C;
+  word-wrap: break-word;
+  width: 80%;
+  margin: auto;
+  margin-top: 75px;
+  padding: 10px 0;
+  border-radius: 5px;
+  text-align: center;
+}
+
 .container--modal_login {
   background-color: #33333C;
   width: 100%;
@@ -199,6 +210,12 @@ body {
 }
 
 .modal-content .modal--close {
+  text-align: right;
+  margin: -9px 8px 0 0;
+  font-size: 25px;
+}
+
+.modal-content-diagnostics .modal--close {
   text-align: right;
   margin: -9px 8px 0 0;
   font-size: 25px;

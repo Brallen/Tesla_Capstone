@@ -640,7 +640,7 @@ app.post('/refreshToken', function (req, res) {
     console.log("Requesting 'refresh token' with refresh token " + refreshToken);
     teslajs.refreshTokenAsync(refreshToken)
         .then(function (result) {
-            //console.log("Tesla Response: " + JSON.stringify(result));
+            //sending fake tokens for testing purposes
             if(result.response.statusCode == 401){
                 res.status(200).send({
                     authToken: "UltraFakeToken",
