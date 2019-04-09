@@ -20,6 +20,12 @@ const defaultState = {
     confirmationPromptFrunk: false,
     confirmationPromptTrunk: false,
     confirmationPromptLock: false,
+    toggleVehicleState: false,
+    toggleDriveState: false,
+    toggleChargeState: false,
+    toggleClimateState: false,
+    toggleVehicleConfig: false,
+    toggleGUISettings: false,
     localOptions: {
         authToken: '',
         vehicleID: '',

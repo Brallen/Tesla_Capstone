@@ -52,6 +52,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
+  z-index: 1000;
   background-color: #2C3138;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
@@ -124,7 +125,7 @@ body {
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: 2000;
   overflow: auto;
   background-color: black;
   background-color: rgba(0, 0, 0, 0.4);
@@ -155,6 +156,14 @@ body {
   background-color: #33333C;
   width: 100%;
   height: 100%;
+}
+
+.container--modal_diagnostics {
+  background-color: #33333C;
+  margin-top: 75px;
+  z-index: 500;
+  width: 100%;
+  height: calc(100% - 75px);
 }
 
 .container--modal_login .modal-content {
