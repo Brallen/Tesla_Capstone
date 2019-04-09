@@ -19,6 +19,7 @@ class LoginModal extends Component {
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.setLocalOptions = this.setLocalOptions.bind(this);
+    this.handleRemember = this.handleRemember.bind(this);
   }
 
   componentDidMount(){
@@ -36,6 +37,15 @@ class LoginModal extends Component {
 
   handlePasswordChange (evt) {
     this.setState({ password: evt.target.value });
+  }
+
+  handleRemember (evt) {
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+          rememberMeChecked: evt.target.checked
+      }
+    })
   }
   
   hideModal = () => {
@@ -56,8 +66,11 @@ class LoginModal extends Component {
       })
       .then(function (response) {
         self.setState({ authToken: response.data.authToken, refreshToken: response.data.refreshToken }, self.vehicleLoginFunction);
-        cookies.set('token', response.data.authToken, { path: '/' });
-        cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
+        //if remember me is checked we will set cookies
+        if(self.props.rememberMeChecked === true){
+          cookies.set('token', response.data.authToken, { path: '/' });
+          cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
+        }
       })
       .catch(function (error) {
         console.log(error);
@@ -79,8 +92,11 @@ class LoginModal extends Component {
         .then(function (response) {
           //if we do refresh, store our new cookies and update state
           self.setState({ authToken: response.data.authToken });
-          cookies.set('token', response.data.authToken, { path: '/' });
-          cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
+          //if remember me is checked we will set cookies
+          if(self.props.rememberMeChecked === true){
+            cookies.set('token', response.data.authToken, { path: '/' });
+            cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
+          }
         })
         .catch(function (error) {
           console.log(error);
@@ -153,8 +169,13 @@ class LoginModal extends Component {
                         <br />
                         <label htmlFor="password">Password: </label>
                         <input type="password" placeholder="Enter Tesla Password" name="password" required id="password" onChange={this.handlePasswordChange} value={this.state.password}/>
+                        <br />
+                        <input id="checkbox" type="checkbox" Label='Remember Me' checked={this.props.rememberMeChecked} onChange={this.handleRemember}/>
+                        <label htmlFor="Remember"> Remember Me</label>
                     </div>
+                    
                     <button type="submit" onClick={this.loginFunction} className="btn btn--modal_btn" id="login">Login</button>
+                    
                 </div>
             </div>
             </Modal>
@@ -175,7 +196,8 @@ const mapStateToProps = (state) => {
     loggedIn: state.state.loggedIn,
     vehicleDataObject: state.state.vehicleDataObject,
     localOptionsProp: state.state.localOptions,
-    showLoginProp: state.state.showLogin
+    showLoginProp: state.state.showLogin,
+    rememberMeChecked: state.state.rememberMeChecked
   }
 }
 
@@ -184,9 +206,7 @@ const Modal = ({ handleClose, show, children }) => {
     return (
         <div className="modal container--modal_login" style={{display: showHideClassName}}>
         {children}
-        <button onClick={handleClose}>
-          Close
-        </button>
+        
     </div>
     );
   };
