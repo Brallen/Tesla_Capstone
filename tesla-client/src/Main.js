@@ -6,6 +6,7 @@ import MediaModal from './Media';
 import ClimateModal from './Climate';
 import ChargingModal from './Charge';
 import Diagnostics from './Diagnostics';
+import Header from './Header';
 import Timer from './Timer'
 import {store} from './store/index.js';
 import {connect} from 'react-redux';
@@ -106,6 +107,7 @@ class Main extends Component{
   render(){
     return(
       <div>
+        <Header/>
         <main className="container--main_section">
           <Image/>
           <div className="container--control_btn">

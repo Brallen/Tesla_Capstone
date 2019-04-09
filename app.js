@@ -294,6 +294,13 @@ app.post('/openTrunk', function (req, res) {
 app.post('/setTemp', function (req, res) {
     var options = req.body.auth;
     var tempC = req.body.temp;
+
+    /* try this 
+    var options = {
+        auth: req.body.auth,
+        tempC: req.body.temp
+    }
+    also try as non promise, and also as sending numbers as strings */
     console.log("Requesting 'temp set to " + tempC + "'");
     //setting same temp for Driver & Passenger
     var promise = teslajs.setTempsAsync(options, tempC, tempC);
@@ -355,7 +362,7 @@ app.post('/vehicleData', function (req, res) {
                 user_id: 123,
                 vehicle_id: 1234567890,
                 vin: "5YJSA11111111111",
-                display_name: "Nikola 2.0",
+                display_name: "Generated Test Vehicle",
                 option_codes: 'AD15,MDL3,PBSB,RENA,BT37,ID3W,RF3G,S3PB,DRLH,DV2W,W39B,APF0,COUS,BC3B,CH07,PC30,FC3P,FG31,GLFR,HL31,HM31,IL31,LTPB,MR31,FM3B,RS3H,SA3P,STCP,SC04,SU3C,T3CA,TW00,TM00,UT3P,WR00,AU3P,APH3,AF00,ZCST,MI00,CDM0',
                 color: null,
                 tokens: ["abcdef1234567890", "1234567890abcdef"],
@@ -616,7 +623,7 @@ app.post('/vehicleID', function (req, res) {
                 id: 12345678901234567,
                 vehicle_id: 1234567890,
                 vin: "5YJSA11111111111",
-                display_name: "Nikola 2.0",
+                display_name: "Generated Test Vehicle",
                 option_codes: 'AD15,MDL3,PBSB,RENA,BT37,ID3W,RF3G,S3PB,DRLH,DV2W,W39B,APF0,COUS,BC3B,CH07,PC30,FC3P,FG31,GLFR,HL31,HM31,IL31,LTPB,MR31,FM3B,RS3H,SA3P,STCP,SC04,SU3C,T3CA,TW00,TM00,UT3P,WR00,AU3P,APH3,AF00,ZCST,MI00,CDM0',
                 color: null,
                 tokens: ["abcdef1234567890", "1234567890abcdef"],

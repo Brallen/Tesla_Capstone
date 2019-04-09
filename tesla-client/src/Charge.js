@@ -16,6 +16,7 @@ class ChargingModal extends Component{
     this.handleChargeChange = this.handleChargeChange.bind(this);
     this.applyChargeSettings = this.applyChargeSettings.bind(this);
     this.chargePortButton = this.chargePortButton.bind(this);
+    this.chargingButton = this.chargingButton.bind(this);
   }
 
   componentDidMount(){
@@ -143,6 +144,21 @@ class ChargingModal extends Component{
     }
   }
 
+
+  chargingButton(){
+    this.refreshGlobalTimerWhenAction();
+    //if it's not charging
+    if(this.props.vehicleCharging === 'Disconnected'){
+
+    }
+    if(this.props.vehicleCharging === 'Charging'){
+
+    }
+    if(this.props.vehicleCharging === 'Complete'){
+
+    }
+  }
+
   render(){
     return(
       <div>
@@ -166,6 +182,10 @@ class ChargingModal extends Component{
                   
                   <button onClick={this.chargePortButton} id="charging--charge_port" className="btn btn--modal_btn">
                     {this.props.vehicleChargeDoor ? 'Close Charge Port' : 'Open Charge Port'}
+                  </button>
+
+                  <button onClick={this.chargingButton} id="charging--charge_port" className="btn btn--modal_btn">
+                    stop/start charging
                   </button>
               </div>
             </div>
@@ -193,7 +213,8 @@ const mapStateToProps = (state) => {
       vehicleCharge: state.state.vehicleDataObject.charge_state.charge_limit_soc,
       globalTimerInterval: state.state.refreshInterval,
       localOptionsProp: state.state.localOptions,
-      showCharge: state.state.showChargingModal
+      showCharge: state.state.showChargingModal,
+      vehicleCharging: state.state.vehicleDataObject.charge_state.charging_state
     }
   }
 export default connect(mapStateToProps)(ChargingModal);

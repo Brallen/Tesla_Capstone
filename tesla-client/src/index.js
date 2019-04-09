@@ -4,7 +4,6 @@ import {Provider} from 'react-redux';
 import {CookiesProvider} from 'react-cookie';
 import {store} from './store/index.js';
 import './Assets/Styles/main.css';
-import Header from './Header';
 import Main from './Main';
 
 ReactDOM.render(
@@ -12,7 +11,6 @@ ReactDOM.render(
     //have access to our store
     <CookiesProvider>
         <Provider store={store}>
-            <Header />
             <Main />
         </Provider>
     </CookiesProvider>, 
