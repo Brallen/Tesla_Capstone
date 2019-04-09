@@ -6,7 +6,7 @@ let logger = require('morgan');
 const teslajs = require('teslajs');
 let bodyParser = require('body-parser');
 
-let port = process.env.PORT || 3001;
+let port = process.env.PORT+1 || 3001;
 let app = express();
 var testMode = false;
 
