@@ -1,11 +1,8 @@
 # How to run
-In the root directory run `$ npm start`. This will create a web server running on localhost:3000.
+In the root directory run `$ npm start`. This will create a node express server running at localhost:3001.
 
 # What this is
-This application runs a website that lets you login to a Tesla account and control 
-a car attached to that account. Currently it will only control the first car on the 
-account with no way to switch.
+This application runs our tesla API server that lets us send commands to the tesla servers. 
+The public Facing client is located inside tesla-client
 
 # Known Bugs
-- Spamming API requests makes it stop after 9 occurences
-- Car state not accurately being updated
