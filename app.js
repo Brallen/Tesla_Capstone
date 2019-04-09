@@ -8,7 +8,6 @@ let bodyParser = require('body-parser');
 
 let port = process.env.PORT || 3001;
 let app = express();
-
 var testMode = false;
 
 //app.set('view engine', 'html');
