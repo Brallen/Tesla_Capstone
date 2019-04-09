@@ -8,6 +8,7 @@
     "client": "npm start --prefix tesla-client",
     "server": "node app.js",
     "start": "concurrently --kill-others \"npm run client\" \"npm run server\"",
+    "install-script": "npm install && cd tesla-client && npm install && npm audit fix",
     "heroku-postbuild": "cd tesla-client && npm install --only=dev && npm install && npm run build"
   },
   "keywords": [],
