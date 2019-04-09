@@ -1,6 +1,7 @@
 //this is our default state
 const defaultState = {
     loggedIn: false,
+    loginFailed: false,
     showLogin: true,
     mobileAccess: true,
     waitingForWake: false,

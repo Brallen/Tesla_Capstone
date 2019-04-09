@@ -587,26 +587,25 @@ app.post('/login', function (req, res) {
 			res.send(authToken);
 		}
   });*/
-
-    teslajs.login(email, password, function (err, result) {
-        if (result.error) {
-            console.log(JSON.stringify(result.error));
-            process.exit(1);
-        }
-
-        console.log("Tesla Response: " + result.response.statusCode + ": " + result.body.response);
-
-        if (typeof result.authToken === 'undefined') {
-            console.log("Invalid credentials, entering test mode");
-            res.send({
-                authToken: "faketoken",
-                refreshToken: "fakeRefreshToken"
-            });
-        } else {
+    if(email === 'test')
+    {
+        console.log("Entering test mode");
+        res.send({
+            authToken: "faketoken",
+            refreshToken: "fakeRefreshToken"
+        });
+    }else{
+        teslajs.login(email, password, function (err, result) {
+        console.log("Tesla Response: " + result.response.statusCode);
+        if (!result.response.authToken) {
+            console.error("Login failed!");
+            res.status(401).send(false);
+        }else{
             console.log("Login successful");
-            res.send(result);
+            res.status(200).send(result);
         }
-    });
+        });
+    }
 });
 
 app.post('/vehicleID', function (req, res) {

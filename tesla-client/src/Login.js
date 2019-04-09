@@ -47,6 +47,7 @@ class LoginModal extends Component {
       }
     })
   }
+
   
   hideModal = () => {
     store.dispatch({
@@ -65,6 +66,13 @@ class LoginModal extends Component {
         password: self.state.password
       })
       .then(function (response) {
+        //set loginFailed as false so we don't display an error
+        store.dispatch({
+          type: 'UPDATE_OBJECT',
+          payload: {
+            loginFailed: false
+          }
+        });
         self.setState({ authToken: response.data.authToken, refreshToken: response.data.refreshToken }, self.vehicleLoginFunction);
         //if remember me is checked we will set cookies
         if(self.props.rememberMeChecked === true){
@@ -73,6 +81,18 @@ class LoginModal extends Component {
         }
       })
       .catch(function (error) {
+        //set loginFailed as true so we can display an error
+        store.dispatch({
+          type: 'UPDATE_OBJECT',
+          payload: {
+            loginFailed: true
+          }
+        });
+        //reset values of our login inputs
+        self.setState({
+          email: '',
+          password: ''
+        });
         console.log(error);
       });
   }
@@ -172,6 +192,7 @@ class LoginModal extends Component {
                         <br />
                         <input id="checkbox" type="checkbox" Label='Remember Me' checked={this.props.rememberMeChecked} onChange={this.handleRemember}/>
                         <label htmlFor="Remember"> Remember Me</label>
+                        <p>{this.props.loginFailed ? "Login Failed!" : ""}</p>
                     </div>
                     
                     <button type="submit" onClick={this.loginFunction} className="btn btn--modal_btn" id="login">Login</button>
@@ -197,7 +218,8 @@ const mapStateToProps = (state) => {
     vehicleDataObject: state.state.vehicleDataObject,
     localOptionsProp: state.state.localOptions,
     showLoginProp: state.state.showLogin,
-    rememberMeChecked: state.state.rememberMeChecked
+    rememberMeChecked: state.state.rememberMeChecked,
+    loginFailed: state.state.loginFailed
   }
 }
 
