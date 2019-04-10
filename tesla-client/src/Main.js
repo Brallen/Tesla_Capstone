@@ -13,7 +13,8 @@ import {connect} from 'react-redux';
 import {withCookies} from 'react-cookie';
 import PasswordPrompt from './PasswordPrompt.js';
 import LogoutPrompt from './LogoutPrompt.js';
-import ConfirmationPrompt from './ConfirmationModal.js';
+import ConfirmationPrompt from './ConfirmationPrompt.js';
+import ErrorPrompt from './ErrorPrompt.js';
 
 class Main extends Component{
   constructor(props){
@@ -143,6 +144,7 @@ class Main extends Component{
           <PasswordPrompt/>
           <LogoutPrompt/>
           <ConfirmationPrompt/>
+          <ErrorPrompt/>
         </main>
       </div>
     );

@@ -15,6 +15,7 @@ class MediaModal extends Component{
     this.trackForward = this.trackForward.bind(this);
     this.trackBackward = this.trackBackward.bind(this);
     this.trackPlayPause = this.trackPlayPause.bind(this);
+    this.showError = this.showError.bind(this);
   }
 
   componentDidMount(){
@@ -36,6 +37,17 @@ class MediaModal extends Component{
     })
   }
 
+  showError(text){
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showErrorPrompt: true,
+        showMediaModal: false,
+        errorText: text
+      }
+    })
+  }
+
 
   hideMediaModal = () => {
     var newStore = store.getState();
@@ -50,6 +62,7 @@ class MediaModal extends Component{
 
   volumeUp(){
     this.refreshGlobalTimerWhenAction();
+    var self = this;
     /* api call here */
     axios.post('/volumeUp', {
       auth: JSON.stringify(this.state.localOptions)
@@ -59,13 +72,13 @@ class MediaModal extends Component{
       alert("Volume up pressed");
     })
     .catch(function (error) {
-      //alert(JSON.stringify(error))
-      alert(error.response.data + ' - ' + error.response.statusText);
+      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
     });
   }
 
   volumeDown(){
     this.refreshGlobalTimerWhenAction();
+    var self = this;
     /* api call here */
     axios.post('/volumeDown', {
       auth: JSON.stringify(this.state.localOptions)
@@ -75,13 +88,13 @@ class MediaModal extends Component{
       alert("Volume up pressed");
     })
     .catch(function (error) {
-      //alert(JSON.stringify(error))
-      alert(error.response.data + ' - ' + error.response.statusText);
+      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
     });
   }
 
   trackForward(){
     this.refreshGlobalTimerWhenAction();
+    var self = this;
     /* api call here */
     axios.post('/nextSong', {
       auth: JSON.stringify(this.state.localOptions)
@@ -91,13 +104,13 @@ class MediaModal extends Component{
       alert("Next song pressed");
     })
     .catch(function (error) {
-      //alert(JSON.stringify(error))
-      alert(error.response.data + ' - ' + error.response.statusText);
+      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
     });
   }
 
   trackBackward(){
     this.refreshGlobalTimerWhenAction();
+    var self = this;
     /* api call here */
     axios.post('/prevSong', {
       auth: JSON.stringify(this.state.localOptions)
@@ -107,13 +120,13 @@ class MediaModal extends Component{
       alert("Previous song pressed");
     })
     .catch(function (error) {
-      //alert(JSON.stringify(error))
-      alert(error.response.data + ' - ' + error.response.statusText);
+      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
     });
   }
 
   trackPlayPause(){
     this.refreshGlobalTimerWhenAction();
+    var self = this;
     /* api call here */
     axios.post('/toggleMusic', {
       auth: JSON.stringify(this.state.localOptions)
@@ -123,8 +136,7 @@ class MediaModal extends Component{
       alert("Play/Pause pressed");
     })
     .catch(function (error) {
-      //alert(JSON.stringify(error))
-      alert(error.response.data + ' - ' + error.response.statusText);
+      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
     });
   }
 

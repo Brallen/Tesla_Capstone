@@ -12,6 +12,7 @@ class ConfirmationPrompt extends Component{
     this.hideConfirmationModal = this.hideConfirmationModal.bind(this);
     this.refreshGlobalTimerWhenAction = this.refreshGlobalTimerWhenAction.bind(this);
     this.handleCommand = this.handleCommand.bind(this);
+    this.showError = this.showError.bind(this);
   }
   
   componentDidMount(){
@@ -20,7 +21,16 @@ class ConfirmationPrompt extends Component{
     });
   }
   
-  componentDidUpdate(){
+  showError(text){
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showErrorPrompt: true,
+        showConfirmationPrompt: false,
+        showControlModal: false,
+        errorText: text
+      }
+    })
   }
 
   refreshGlobalTimerWhenAction(){
@@ -71,7 +81,7 @@ class ConfirmationPrompt extends Component{
   handleCommand = () => {
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
-
+    var self = this;
     //handle opening the frunk
     if(this.props.frunk === true){
         axios.post('/openTrunk', {
@@ -83,8 +93,7 @@ class ConfirmationPrompt extends Component{
         alert("Frunk Opened");
         })
         .catch(function (error) {
-        //alert(JSON.stringify(error))
-        alert(error.response.data + ' - ' + error.response.statusText);
+          self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
         });
     }
 
@@ -99,8 +108,7 @@ class ConfirmationPrompt extends Component{
             alert("Trunk Opened");
         })
         .catch(function (error) {
-            //alert(JSON.stringify(error))
-            alert(error.response.data + ' - ' + error.response.statusText);
+          self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
         });
     }
 
@@ -122,8 +130,7 @@ class ConfirmationPrompt extends Component{
                 })
             })
             .catch(function (error) {
-                //alert(JSON.stringify(error))
-                alert(error.response.data + ' - ' + error.response.statusText);
+              self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
             });
         }
         if(this.props.vehicleLocked === false){
@@ -142,8 +149,7 @@ class ConfirmationPrompt extends Component{
                 })
             })
             .catch(function (error) {
-                //alert(JSON.stringify(error))
-                alert(error.response.data + ' - ' + error.response.statusText);
+              self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
             });
         }
     }

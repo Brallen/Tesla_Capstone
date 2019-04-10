@@ -13,6 +13,7 @@ class PasswordCheck extends Component{
     this.hidePasswordModal = this.hidePasswordModal.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.startVehicle = this.startVehicle.bind(this);
+    this.showError = this.showError.bind(this);
   }
   
   componentDidMount(){
@@ -21,7 +22,16 @@ class PasswordCheck extends Component{
     });
   }
   
-  componentDidUpdate(){
+  showError(text){
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showErrorPrompt: true,
+        showPasswordPrompt: false,
+        showControlModal: false,
+        errorText: text
+      }
+    })
   }
 
   handlePasswordChange (evt) {
@@ -44,6 +54,7 @@ class PasswordCheck extends Component{
   }
 
   startVehicle = () => {
+    var self = this;
     axios.post('/startEngine', {
         auth: JSON.stringify(this.state.localOptions),
         pass: this.state.password
@@ -52,8 +63,7 @@ class PasswordCheck extends Component{
         
     })
     .catch(function (error) {
-        //alert(JSON.stringify(error))
-        alert(error.response.data + ' - ' + error.response.statusText);
+      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
     });
     this.hidePasswordModal();
   }

@@ -41,7 +41,12 @@ class Diagnostics extends Component{
     store.dispatch({
       type: 'UPDATE_OBJECT',
       payload: {
-        toggleVehicleState: newStore.state.toggleVehicleState
+        toggleVehicleState: newStore.state.toggleVehicleState,
+        toggleDriveState: false,
+        toggleChargeState: false,
+        toggleClimateState: false,
+        toggleVehicleConfig: false,
+        toggleGUISettings: false
       }
     })
   }
@@ -51,7 +56,12 @@ class Diagnostics extends Component{
     store.dispatch({
       type: 'UPDATE_OBJECT',
       payload: {
-        toggleDriveState: newStore.state.toggleDriveState
+        toggleVehicleState: false,
+        toggleDriveState: newStore.state.toggleDriveState,
+        toggleChargeState: false,
+        toggleClimateState: false,
+        toggleVehicleConfig: false,
+        toggleGUISettings: false
       }
     })
   }
@@ -61,7 +71,12 @@ class Diagnostics extends Component{
     store.dispatch({
       type: 'UPDATE_OBJECT',
       payload: {
-        toggleChargeState: newStore.state.toggleChargeState
+        toggleVehicleState: false,
+        toggleDriveState: false,
+        toggleChargeState: newStore.state.toggleChargeState,
+        toggleClimateState: false,
+        toggleVehicleConfig: false,
+        toggleGUISettings: false
       }
     })
   }
@@ -71,7 +86,12 @@ class Diagnostics extends Component{
     store.dispatch({
       type: 'UPDATE_OBJECT',
       payload: {
-        toggleClimateState: newStore.state.toggleClimateState
+        toggleVehicleState: false,
+        toggleDriveState: false,
+        toggleChargeState: false,
+        toggleClimateState: newStore.state.toggleClimateState,
+        toggleVehicleConfig: false,
+        toggleGUISettings: false
       }
     })
   }
@@ -81,7 +101,12 @@ class Diagnostics extends Component{
     store.dispatch({
       type: 'UPDATE_OBJECT',
       payload: {
-        toggleVehicleConfig: newStore.state.toggleVehicleConfig
+        toggleVehicleState: false,
+        toggleDriveState: false,
+        toggleChargeState: false,
+        toggleClimateState: false,
+        toggleVehicleConfig: newStore.state.toggleVehicleConfig,
+        toggleGUISettings: false
       }
     })
   }
@@ -91,6 +116,11 @@ class Diagnostics extends Component{
     store.dispatch({
       type: 'UPDATE_OBJECT',
       payload: {
+        toggleVehicleState: false,
+        toggleDriveState: false,
+        toggleChargeState: false,
+        toggleClimateState: false,
+        toggleVehicleConfig: false,
         toggleGUISettings: newStore.state.toggleGUISettings
       }
     })

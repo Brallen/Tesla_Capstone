@@ -320,7 +320,7 @@ app.post('/seatHeating', function (req, res) {
     var seat = req.body.seat;
     var level = req.body.level;
     console.log("Requesting 'seat " + seat + " to be heated to level " + level + "'");
-    var promise = teslajs.seatHeaterAsync(JSON.parse(options), JSON.parse(seat), parseInt(level));
+    var promise = teslajs.seatHeaterAsync(JSON.parse(options), JSON.parse(seat), JSON.parse(level));
     promise.then(function (result) { //success
         console.log("Successful Response: " + JSON.stringify(result));
         res.status(200).send(result);
@@ -390,11 +390,11 @@ app.post('/vehicleData', function (req, res) {
                     passenger_temp_setting: 21.7,
                     remote_heater_control_enabled: false,
                     right_temp_direction: 0, 
-                    seat_heater_left: 0,
-                    seat_heater_rear_center: 0,
-                    seat_heater_rear_left: 0,
+                    seat_heater_left: 3,
+                    seat_heater_rear_center: 2,
+                    seat_heater_rear_left: 1,
                     seat_heater_rear_right: 0,
-                    seat_heater_right: 0,
+                    seat_heater_right: 2,
                     side_mirror_heaters: false,
                     smart_preconditioning: false,
                     timestamp: 1552440838137,
@@ -557,10 +557,10 @@ app.post('/wakeup', function (req, res) {
     teslajs.wakeUp(JSON.parse(options), function (err, result) {
         if (err) {
             console.log("Tesla Response: " + err);
-            res.send("Tesla Response: " + err);
+            res.status(400).send(err);
         } else {
             console.log("Tesla Response: " + result);
-            res.send("Tesla Response: " + result);
+            res.status(200).send(result);
         }
     });
 });
@@ -599,7 +599,7 @@ app.post('/login', function (req, res) {
         console.log("Tesla Response: " + result.response.statusCode);
         if (!result.response.authToken) {
             console.error("Login failed!");
-            res.status(401).send(false);
+            res.status(400).send(false);
         }else{
             console.log("Login successful");
             res.status(200).send(result);

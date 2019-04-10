@@ -17,6 +17,7 @@ class ChargingModal extends Component{
     this.applyChargeSettings = this.applyChargeSettings.bind(this);
     this.chargePortButton = this.chargePortButton.bind(this);
     this.chargingButton = this.chargingButton.bind(this);
+    this.showError = this.showError.bind(this);
   }
 
   componentDidMount(){
@@ -34,6 +35,17 @@ class ChargingModal extends Component{
       type: 'UPDATE_OBJECT',
       payload: {
         refreshTime: newStore.state.refreshTime
+      }
+    })
+  }
+
+  showError(text){
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showErrorPrompt: true,
+        showChargingModal: false,
+        errorText: text
       }
     })
   }
@@ -73,6 +85,7 @@ class ChargingModal extends Component{
 
   applyChargeSettings(){
     this.refreshGlobalTimerWhenAction();
+    var self = this;
     //make API call here to send the max charge setting
     //see comment above handleChargeChange()
     axios.post('/chargeLimit', {
@@ -84,7 +97,7 @@ class ChargingModal extends Component{
       alert("charge limit changed");
     })
     .catch(function (error) {
-      alert(error.response.data + ' - ' + error.response.statusText);
+      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
       //error lets repull our data and ensure its back to normal
       var newStore = store.getState();
       newStore.state.refreshTime = 1;
@@ -101,7 +114,7 @@ class ChargingModal extends Component{
 
   chargePortButton(){
     this.refreshGlobalTimerWhenAction();
-    
+    var self = this;
     //if the charge door is open then send close command
     if(this.props.vehicleChargeDoor === true){
       axios.post('/closeChargePort', {
@@ -119,7 +132,7 @@ class ChargingModal extends Component{
         })
       })
       .catch(function (error) {
-        alert(error.response.data + ' - ' + error.response.statusText);
+        self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
       });
     }
     //if the charge port door is closed then send open command
@@ -139,7 +152,7 @@ class ChargingModal extends Component{
         })
       })
       .catch(function (error) {
-        alert(error.response.data + ' - ' + error.response.statusText);
+        self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
       });
     }
   }

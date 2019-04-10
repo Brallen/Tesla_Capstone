@@ -18,6 +18,7 @@ class ControlModal extends Component{
     this.openFrunkButton = this.openFrunkButton.bind(this);
     this.openTrunkButton = this.openTrunkButton.bind(this);
     this.SunroofButton = this.SunroofButton.bind(this);
+    this.showError = this.showError.bind(this);
   }
   
   componentDidMount(){
@@ -42,6 +43,16 @@ class ControlModal extends Component{
     })
   }
 
+  showError(text){
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showErrorPrompt: true,
+        showControlModal: false,
+        errorText: text
+      }
+    })
+  }
   
 
 
@@ -78,6 +89,7 @@ class ControlModal extends Component{
   honkHornButton(){
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
+    var self = this;
     /* api call here */
     axios.post('/honk', {
       auth: JSON.stringify(this.state.localOptions)
@@ -87,14 +99,14 @@ class ControlModal extends Component{
       alert("Vehicle Honked");
     })
     .catch(function (error) {
-      //alert(JSON.stringify(error))
-      alert(error.response.data + ' - ' + error.response.statusText);
+      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
     });
   }
 
   flashLightsButton(){
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
+    var self = this;
     /* api call here */
     axios.post('/flashLights', {
       auth: JSON.stringify(this.state.localOptions)
@@ -104,8 +116,7 @@ class ControlModal extends Component{
       alert("Lights Flashed");
     })
     .catch(function (error) {
-      //alert(JSON.stringify(error))
-      alert(error.response.data + ' - ' + error.response.statusText);
+      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
     });
   }
 
@@ -144,6 +155,7 @@ class ControlModal extends Component{
   SunroofButton(){
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
+    var self = this;
     //check to make sure the sunroof is present and not null
     if(this.props.sunroofPresentProp){
       //if the sunroof is open at all then we send a close command
@@ -162,7 +174,7 @@ class ControlModal extends Component{
           //alert("Sunroof has been closed");
         })
         .catch(function (error) {
-          alert(error.response.data + ' - ' + error.response.statusText);
+          self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
         });
       }else{
         //if its not open then send an open command
@@ -180,8 +192,7 @@ class ControlModal extends Component{
           //alert("Sunroof has been opened");
         })
         .catch(function (error) {
-          //alert(JSON.stringify(error))
-          alert(error.response.data + ' - ' + error.response.statusText);
+          self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
         });
       }
     }else{
