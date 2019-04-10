@@ -144,12 +144,12 @@ body {
 .modal-content-diagnostics {
   background-color: #33333C;
   word-wrap: break-word;
-  width: 80%;
+  width: 560px;
   margin: auto;
   margin-top: 75px;
   padding: 10px 0;
   border-radius: 5px;
-  text-align: center;
+  text-align: left;
 }
 
 .container--modal_login {

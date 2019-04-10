@@ -408,7 +408,7 @@ app.post('/vehicleData', function (req, res) {
                     charge_current_request_max: 48,
                     charge_enable_request: true,
                     charge_energy_added: 10.98,
-                    charge_limit_soc: 50,
+                    charge_limit_soc: 78,
                     charge_limit_soc_max: 100,
                     charge_limit_soc_min: 50,
                     charge_limit_soc_std: 90,
@@ -587,7 +587,7 @@ app.post('/login', function (req, res) {
 			res.send(authToken);
 		}
   });*/
-    if(email === 'test')
+    if(email === 'test' || email === '')
     {
         console.log("Entering test mode");
         res.send({

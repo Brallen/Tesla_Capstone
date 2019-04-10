@@ -361,8 +361,8 @@ class ClimateModal extends Component{
                       <i className="climate--img fas fa-fire-alt"></i>
                     </button>
                     <button id="climate--seat_bm" className={'climate--seat_btn_level_'+this.props.seatMidRear} onClick={this.rearMidHeater}>
-                      <i className="climate--img fas fa-fire-alt"></i
-                    ></button>
+                      <i className="climate--img fas fa-fire-alt"></i>
+                    </button>
                     <button id="climate--seat_br" className={'climate--seat_btn_level_'+this.props.seatRightRear} onClick={this.rearRightHeater}>
                       <i className="climate--img fas fa-fire-alt"></i>
                     </button>

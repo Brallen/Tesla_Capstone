@@ -131,7 +131,7 @@ render(){
     return(
     <div>
         <Modal show={this.props.show} handleClose={this.hideLogoutModal} >
-            <div className="modal-content">
+            <div className="modal-content-diagnostics">
                 <div className="modal--close">
                     <button onClick={this.hideDiagnosticsModal}id="modal--diagnostics_close" className="modal--close_button"><i className="fas fa-times"></i></button>
                 </div>
@@ -146,11 +146,11 @@ render(){
 
                   </ul>
                 {this.props.toggleVehicleState ? <pre>Vehicle State: {JSON.stringify(this.props.vehicleData.vehicle_state, null, 4)}</pre>  : null}
-                {this.props.toggleDriveState ? <p>Drive State: {JSON.stringify(this.props.vehicleData.drive_state, null, 4)}</p> : null}
-                {this.props.toggleChargeState ? <p>Charge State: {JSON.stringify(this.props.vehicleData.charge_state, null, 4)}</p> : null}
-                {this.props.toggleClimateState ? <p>Climate State: {JSON.stringify(this.props.vehicleData.climate_state, null, 4)}</p> : null}
-                {this.props.toggleVehicleConfig ? <p>Vehicle Config: {JSON.stringify(this.props.vehicleData.vehicle_config, null, 4)}</p> : null}
-                {this.props.toggleGUISettings ? <p>GUI Settings: {JSON.stringify(this.props.vehicleData.gui_settings, null, 4)}</p> : null}
+                {this.props.toggleDriveState ? <pre>Drive State: {JSON.stringify(this.props.vehicleData.drive_state, null, 4)}</pre> : null}
+                {this.props.toggleChargeState ? <pre>Charge State: {JSON.stringify(this.props.vehicleData.charge_state, null, 4)}</pre> : null}
+                {this.props.toggleClimateState ? <pre>Climate State: {JSON.stringify(this.props.vehicleData.climate_state, null, 4)}</pre> : null}
+                {this.props.toggleVehicleConfig ? <pre>Vehicle Config: {JSON.stringify(this.props.vehicleData.vehicle_config, null, 4)}</pre> : null}
+                {this.props.toggleGUISettings ? <pre>GUI Settings: {JSON.stringify(this.props.vehicleData.gui_settings, null, 4)}</pre> : null}
             </div>
         </Modal>
     </div>
