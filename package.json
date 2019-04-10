@@ -1,26 +1,31 @@
 {
-  "name": "server",
-  "version": "0.0.0",
-  "private": true,
+  "name": "tesla-web-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "sass --no-source-map Assets/Styles/Sass/main.sass Assets/Styles/main.css && node ./bin/www",
-    "client": "cd login && npm run start",
-    "server": "nodemon app.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "npm start --prefix tesla-client",
+    "server": "node app.js",
+    "start": "concurrently --kill-others \"npm run client\" \"npm run server\"",
+    "install-script": "npm install && cd tesla-client && npm install && npm audit fix",
+    "heroku-postbuild": "cd tesla-client && npm install --only=dev && npm install && npm run build"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
+    "express": "~4.16.0",
     "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
-    "express": "~4.16.0",
     "hbs": "^4.0.2",
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
-    "sass": "^1.17.0",
-    "teslajs": "^4.2.6"
+    "teslajs": "^4.3.2"
   },
   "devDependencies": {
-    "concurrently": "^4.0.1"
+    "concurrently": "^4.1.0"
   },
   "engines": {
     "node": "8.9.1",

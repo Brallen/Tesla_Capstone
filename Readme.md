@@ -1,16 +1,12 @@
-# How to run
-Install the server by downloading the files and running `$ npm install` in the directory.
-In the root directory run `$ npm start`. This will create a web server running on localhost:3000.
+# How to install
+In the root directory run `$ npm run install-script`. This will install the node modules required for the express API server, as well as the node modules required for the react client.
 
-To connect to the public facing instance of this server, go to "tesla-web-app.herokuapp.com".
+# How to run
+In the root directory run `$ npm start`. This will create a node express server running at localhost:3001.
+This will also start the react based tesla-client at localhost:3000.
 
 # What this is
-This application runs a website that lets you login to a Tesla account and control 
-a car attached to that account. Currently it will only control the first car on the 
-account with no way to switch.
+This application runs our Tesla API server that lets us send commands to the Tesla servers to control Tesla vehicles. 
+The public Facing client is located inside tesla-client.
 
 # Known Bugs
-- Spamming API requests makes it stop after 9 occurences.
-- Setting charge limit doesn't succeed.
-- Potential timing issues with seat heating.
-- Summoning not implemented
