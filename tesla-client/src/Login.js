@@ -20,6 +20,7 @@ class LoginModal extends Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.setLocalOptions = this.setLocalOptions.bind(this);
     this.handleRemember = this.handleRemember.bind(this);
+    this.handleEnterPressed = this.handleEnterPressed.bind(this);
   }
 
   componentDidMount(){
@@ -37,6 +38,14 @@ class LoginModal extends Component {
 
   handlePasswordChange (evt) {
     this.setState({ password: evt.target.value });
+  }
+
+  handleEnterPressed (evt) {
+    var code = evt.keyCode || evt.which;
+    if(code === 13)
+    {
+      this.loginFunction();
+    }
   }
 
   handleRemember (evt) {
@@ -185,12 +194,27 @@ class LoginModal extends Component {
                     <p id='login-error'></p>
                     <div className="login-form-text">
                         <label htmlFor="email">Email: </label>
-                        <input type="text" placeholder="Enter Tesla Email" name="email" required id="email" onChange={this.handleEmailChange} value={this.state.email}/>
+                        <input type="text" 
+                          placeholder="Enter Tesla Email" 
+                          name="email" 
+                          required id="email" 
+                          onChange={this.handleEmailChange} 
+                          value={this.state.email}/>
                         <br />
                         <label htmlFor="password">Password: </label>
-                        <input type="password" placeholder="Enter Tesla Password" name="password" required id="password" onChange={this.handlePasswordChange} value={this.state.password}/>
+                        <input type="password" 
+                          placeholder="Enter Tesla Password" 
+                          name="password" 
+                          required id="password"
+                          onKeyPress={this.handleEnterPressed} 
+                          onChange={this.handlePasswordChange} 
+                          value={this.state.password}/>
                         <br />
-                        <input id="checkbox" type="checkbox" Label='Remember Me' checked={this.props.rememberMeChecked} onChange={this.handleRemember}/>
+                        <input id="checkbox" 
+                          type="checkbox" 
+                          Label='Remember Me' 
+                          checked={this.props.rememberMeChecked} 
+                          onChange={this.handleRemember}/>
                         <label htmlFor="Remember"> Remember Me</label>
                         <p>{this.props.loginFailed ? "Login Failed!" : ""}</p>
                     </div>
