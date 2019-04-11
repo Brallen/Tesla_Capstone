@@ -52,6 +52,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
+  z-index: 1000;
   background-color: #2C3138;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
@@ -69,9 +70,9 @@ body {
 
 .container--logout_menu {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 32px;
+  top: 10px;
+  right: 10px;
+  font-size: 16px;
   cursor: pointer;
 }
 
@@ -157,10 +158,29 @@ body {
   text-align: center;
 }
 
+.modal-content-diagnostics {
+  background-color: #33333C;
+  word-wrap: break-word;
+  width: 80%;
+  margin: auto;
+  margin-top: 75px;
+  padding: 10px 0;
+  border-radius: 5px;
+  text-align: center;
+}
+
 .container--modal_login {
   background-color: #33333C;
   width: 100%;
   height: 100%;
+}
+
+.container--modal_diagnostics {
+  background-color: #33333C;
+  margin-top: 75px;
+  z-index: 500;
+  width: 100%;
+  height: calc(100% - 75px);
 }
 
 .container--modal_login .modal-content {
@@ -180,6 +200,13 @@ body {
 }
 
 .container--modal_login input {
+  color: #000000;
+  background-color: #FFFFFF;
+  border-radius: 2px;
+  margin: 6px 0;
+}
+
+.container--modal_confirm input {
   color: #000000;
   background-color: #FFFFFF;
   border-radius: 2px;
@@ -209,6 +236,12 @@ body {
 }
 
 .modal-content .modal--close {
+  text-align: right;
+  margin: -9px 8px 0 0;
+  font-size: 25px;
+}
+
+.modal-content-diagnostics .modal--close {
   text-align: right;
   margin: -9px 8px 0 0;
   font-size: 25px;
@@ -345,6 +378,7 @@ body {
     width: 530px;
   }
 }
+<<<<<<< HEAD:Assets/Styles/main.css
 .modal-showing {
   -webkit-filter: blur(3px);
   -moz-filter: blur(3px);
@@ -377,4 +411,8 @@ body {
 .show.modal-overlay {
   opacity: 1;
   visibility: visible;
+=======
+#confirm--password {
+  display: inline;
+>>>>>>> Dev:tesla-client/src/Assets/Styles/main.css
 }
