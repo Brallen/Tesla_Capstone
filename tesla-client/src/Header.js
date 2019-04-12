@@ -27,12 +27,11 @@ class Header extends Component{
           <div className="container--car_info">
               <h1>{this.props.vehicleDataName}</h1>
               {this.props.vehicleLoaded ? 
-                <p>Battery Level: {this.props.vehicleDataBatteryLevel}%</p>
+                <p>{this.props.chargingTF ? <i class="fas fa-bolt"/> : null } Battery Level: {this.props.vehicleDataBatteryLevel}%</p>
               : null }
               {this.props.vehicleLoaded ? 
                 <p>Estimated Range: {this.props.vehicleDataRangeLeft.toFixed(0)} Miles</p>
               : null }
-              {this.props.chargingTF ? 'Charging' : 'Not Charging' }
               <div className="container--logout_menu">
                 <button className="btn logout-button" onClick={() => this.logout()}>Sign Out</button>
               </div>

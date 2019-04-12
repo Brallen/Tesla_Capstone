@@ -373,7 +373,7 @@ app.post('/vehicleData', function (req, res) {
         }).catch(function (err) {
             console.log("Tesla Response: " + JSON.stringify(err));
             //send fake vehicle update
-            /*res.send({
+            res.send({
                 id: 12345678901234567,
                 user_id: 123,
                 vehicle_id: 1234567890,
@@ -441,7 +441,7 @@ app.post('/vehicleData', function (req, res) {
                     charger_pilot_current: 48,
                     charger_power: 0,
                     charger_voltage: 2,
-                    charging_state: 'Disconnected',
+                    charging_state: 'Charging',
                     conn_charge_cable: '<invalid>',
                     est_battery_range: 285.08,
                     fast_charger_brand: '<invalid>',
@@ -551,7 +551,7 @@ app.post('/vehicleData', function (req, res) {
                     speed: null,
                     timestamp: 1552440838137
                 }
-            });*/
+            });
         });
 });
 
