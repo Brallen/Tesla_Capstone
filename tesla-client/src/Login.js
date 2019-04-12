@@ -28,7 +28,7 @@ class LoginModal extends Component {
     let userCookie = cookies.get("token");
     let refreshCookie = cookies.get("refreshToken");
     if(userCookie != null && refreshCookie != null){
-      this.setState({ authToken: userCookie, refreshToken: refreshCookie }, this.vehicleLoginFunction);
+      this.setState({ authToken: userCookie, refreshToken: refreshCookie }, this.vehicleLoginCookie);
     }
   }
 
@@ -106,9 +106,26 @@ class LoginModal extends Component {
       });
   }
 
-  vehicleLoginFunction = () => {
+  vehicleLoginCookie = () => {
     var self = this;
     const { cookies } = this.props;
+    axios.post('/refreshToken', {
+      refreshToken: self.state.refreshToken
+    })
+    .then(function (response) {
+      //if we do refresh, store our new cookies and update state
+      self.setState({ authToken: response.data.authToken }, self.vehicleLoginFunction);
+      //if remember me is checked we will set cookies
+        cookies.set('token', response.data.authToken, { path: '/' });
+        cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  vehicleLoginFunction = () => {
+    var self = this;
     //log in
     axios.post('/vehicleID', {
       authToken: self.state.authToken

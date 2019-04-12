@@ -32,6 +32,7 @@ class Header extends Component{
               {this.props.vehicleLoaded ? 
                 <p>Estimated Range: {this.props.vehicleDataRangeLeft.toFixed(0)} Miles</p>
               : null }
+              {this.props.chargingTF ? 'Charging' : 'Not Charging' }
               <div className="container--logout_menu">
                 <button className="btn logout-button" onClick={() => this.logout()}>Sign Out</button>
               </div>
@@ -47,7 +48,8 @@ const mapStateToProps = (state) => {
     vehicleDataName: state.state.vehicleDataObject.display_name,
     vehicleDataBatteryLevel: state.state.vehicleDataObject.charge_state.usable_battery_level,
     vehicleDataRangeLeft: state.state.vehicleDataObject.charge_state.est_battery_range,
-    vehicleLoaded: state.state.initialVehicleLoaded
+    vehicleLoaded: state.state.initialVehicleLoaded,
+    chargingTF: state.state.chargingTF
   }
 }
 
