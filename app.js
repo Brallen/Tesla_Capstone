@@ -245,6 +245,7 @@ app.post('/prevSong', function (req, res) {
 
 app.post('/volumeUp', function (req, res) {
     var options = req.body.auth;
+    console.log(options);
     console.log("Turning volume up");
     var promise = teslajs.mediaVolumeUpAsync(JSON.parse(options));
     promise.then(function (result) { //success
@@ -255,6 +256,8 @@ app.post('/volumeUp', function (req, res) {
         res.status(400).send(err);
     });
 });
+
+//{"authToken":"27dca13259eb7c99c6fe100816fa0e2b9ef7b7575993bf66d7decbcaa1c440b1","vehicleID":"58706612948970456","vehicle_id":28906417,"tokens":["6ed77422b3d2896c","03274357adf9b3f5"]}
 
 app.post('/volumeDown', function (req, res) {
     var options = req.body.auth;
@@ -294,7 +297,9 @@ app.post('/setTemp', function (req, res) {
     var options = req.body.auth;
     var tempC = req.body.temp;
 
-    /* try this 
+    console.log(options + "\n" + tempC);
+
+    /* try this
     var options = {
         auth: req.body.auth,
         tempC: req.body.temp
@@ -302,8 +307,8 @@ app.post('/setTemp', function (req, res) {
     also try as non promise, and also as sending numbers as strings */
     console.log("Requesting 'temp set to " + tempC + "'");
     //setting same temp for Driver & Passenger
-    var promise = teslajs.setTempsAsync(options, tempC, tempC);
-    promise.then(function (result) { //success
+    teslajs.setTempsAsync(JSON.parse(options), tempC, tempC)
+    .then(function (result) { //success
         console.log("Successful Response: " + result);
         console.log("Temp set to: " + Math.round(tempC * (9 / 5) + 32) + "F");
         res.status(200).send(result);
@@ -311,6 +316,17 @@ app.post('/setTemp', function (req, res) {
         console.log("Error: " + err);
         res.status(400).send(err);
     });
+
+    /*teslajs.setTemps(JSON.parse(options), tempC, null, function (err, result) {
+      console.log(result);
+      console.log(err);
+        if (result && result.result) {
+            var str = (temp + " Deg.C");
+            console.log("\nTemperature successfully set to: " + str);
+        } else {
+            console.log(err);
+        }
+    }); */
 
 });
 
@@ -386,11 +402,11 @@ app.post('/vehicleData', function (req, res) {
                     is_rear_defroster_on: false,
                     left_temp_direction: 0,
                     max_avail_temp: 28,
-                    min_avail_temp: 15, 
+                    min_avail_temp: 15,
                     outside_temp: 17.5,
                     passenger_temp_setting: 21.7,
                     remote_heater_control_enabled: false,
-                    right_temp_direction: 0, 
+                    right_temp_direction: 0,
                     seat_heater_left: 3,
                     seat_heater_rear_center: 2,
                     seat_heater_rear_left: 1,
@@ -441,7 +457,7 @@ app.post('/vehicleData', function (req, res) {
                     scheduled_charging_start_time: null,
                     time_to_full_charge: 0,
                     timestamp: 1552440838137,
-                    trip_charging: false, 
+                    trip_charging: false,
                     usable_battery_level: 72,
                     user_charge_enable_request: null
                 },
@@ -467,7 +483,7 @@ app.post('/vehicleData', function (req, res) {
                     is_user_present: false,
                     last_autopark_error: 'no_error',
                     locked: true,
-                    media_state: { 
+                    media_state: {
                         remote_control_enabled: true
                     },
                     notifications_supported: true,
@@ -484,7 +500,7 @@ app.post('/vehicleData', function (req, res) {
                     },
                     speed_limit_mode: {
                         active: false,
-                        current_limit_mph: 55, 
+                        current_limit_mph: 55,
                         max_limit_mph: 90,
                         min_limit_mph: 50,
                         pin_code_set: false
@@ -617,7 +633,7 @@ app.post('/vehicleID', function (req, res) {
     teslajs.vehicle(options, function (err, vehicle) {
         console.log(JSON.stringify(vehicle));
         if (vehicle === null) {
-            //sending a fake vehicle for 
+            //sending a fake vehicle for
             res.status(200).send({
                 id: 12345678901234567,
                 vehicle_id: 1234567890,
