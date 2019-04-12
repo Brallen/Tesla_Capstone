@@ -115,7 +115,7 @@ class LoginModal extends Component {
     })
     .then(function (response) {
       //then try to refresh the token
-        axios.post('/refreshToken', {
+        /*axios.post('/refreshToken', {
           refreshToken: self.state.refreshToken
         })
         .then(function (response) {
@@ -129,7 +129,7 @@ class LoginModal extends Component {
         })
         .catch(function (error) {
           console.log(error);
-        });
+        });*/
       
 
       //from vehicleID call

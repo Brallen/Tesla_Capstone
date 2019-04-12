@@ -129,7 +129,7 @@ class Main extends Component{
                 <li className="item--control_btn"><button onClick={this.showDiagnostics} id="modal--store" className="btn btn--control_btn">Diagnostics</button></li>
               : null}
               {this.props.vehicleLoaded ? 
-                <li className="item--control_btn"><button onClick={this.testFunc} id="modal--test" className="btn btn--control_btn">Test Button</button></li>
+                <li className="item--control_btn"><button onClick={this.alertStoreFunc} id="modal--test" className="btn btn--control_btn">Test Button</button></li>
               : null}
               
             </ul>  

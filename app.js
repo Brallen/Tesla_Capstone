@@ -333,13 +333,13 @@ app.post('/seatHeating', function (req, res) {
 // checking to see if mobile access is enabled
 app.post('/mobileAccess', function(req, res) {
     var options = req.body.auth;
-    console.log("Checking mobile access");
+    console.log("Checking mobile access with " + options);
     teslajs.mobileEnabledAsync(JSON.parse(options))
         .then(function (result) {
-            console.log("Tesla Response: " + result);
+            console.log("Tesla Response: " + JSON.stringify(result));
             res.send(result);
         }).catch(function(err) {
-            console.log("Tesla Response: " + err);
+            console.log("Tesla Response: " + JSON.stringify(err));
             res.send(true);
         });
 });
@@ -351,12 +351,13 @@ app.post('/vehicleData', function (req, res) {
     teslajs.vehicleDataAsync(JSON.parse(options))
         .then(function (vehicleData) {
             console.log("Vehicle data received");
+            console.log(JSON.stringify(vehicleData))
             //console.log(vehicleData);
             res.send(vehicleData);
         }).catch(function (err) {
-            console.log("Tesla Response: " + err);
+            console.log("Tesla Response: " + JSON.stringify(err));
             //send fake vehicle update
-            res.send({
+            /*res.send({
                 id: 12345678901234567,
                 user_id: 123,
                 vehicle_id: 1234567890,
@@ -534,7 +535,7 @@ app.post('/vehicleData', function (req, res) {
                     speed: null,
                     timestamp: 1552440838137
                 }
-            });
+            });*/
         });
 });
 
@@ -556,10 +557,10 @@ app.post('/wakeup', function (req, res) {
 
     teslajs.wakeUp(JSON.parse(options), function (err, result) {
         if (err) {
-            console.log("Tesla Response: " + err);
+            console.log("Tesla Response: " + JSON.stringify(err));
             res.status(400).send(err);
         } else {
-            console.log("Tesla Response: " + result);
+            console.log("Tesla Response: " + JSON.stringify(result));
             res.status(200).send(result);
         }
     });
@@ -596,8 +597,8 @@ app.post('/login', function (req, res) {
         });
     }else{
         teslajs.login(email, password, function (err, result) {
-        console.log("Tesla Response: " + result.response.statusCode);
-        if (!result.response.authToken) {
+        console.log("Tesla Response: " + JSON.stringify(result));
+        if (!result.response.body.access_token) {
             console.error("Login failed!");
             res.status(400).send(false);
         }else{

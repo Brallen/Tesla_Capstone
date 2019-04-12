@@ -46,6 +46,7 @@ class Timer extends Component {
   }
 
   checkMobileAccess(){
+    //alert(JSON.stringify(this.state.localOptions));
     axios.post('/mobileAccess', {
       auth: JSON.stringify(this.state.localOptions)
     })
