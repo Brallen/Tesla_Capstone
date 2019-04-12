@@ -85,7 +85,7 @@ class ClimateModal extends Component{
     //see comment above handleClimateChange()
     axios.post('/setTemp', {
       auth: JSON.stringify(this.state.localOptions),
-      temp: parseInt(this.state.temperature.toFixed(0))
+      temp: parseFloat(this.state.temperature.toFixed(1))
     })
     .then(function (response) {
       //if it's a good response, update local state
@@ -186,15 +186,18 @@ class ClimateModal extends Component{
     this.refreshGlobalTimerWhenAction();
     var self = this;
     //do our api call with the next seat heater level
+
     axios.post('/seatHeating', {
       auth: JSON.stringify(this.state.localOptions),
       seat: JSON.stringify(0),
       level: JSON.stringify(this.nextHeatLevel(this.props.seatLeft))
     })
     .then(function (response) {
-      //if it's a good response, update local state to match
+      //if it's a good response, update local state
+      //alert("we're in");
       var newStore = store.getState();
-      newStore.vehicleDataObject.climate_state.seat_heater_left = self.nextHeatLevel(self.props.seatLeft);
+      //alert(JSON.stringify(newStore.state.vehicleDataObject.climate_state.seat_heater_left));
+      newStore.state.vehicleDataObject.climate_state.seat_heater_left = self.nextHeatLevel(self.props.seatLeft);
       store.dispatch({
         type: 'UPDATE_OBJECT',
         payload: {
@@ -203,7 +206,6 @@ class ClimateModal extends Component{
       })
     })
     .catch(function (error) {
-      //otherwise we do nothing
       self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
     });
   }
@@ -224,7 +226,7 @@ class ClimateModal extends Component{
     .then(function (response) {
       //if it's a good response, update local state to match
       var newStore = store.getState();
-      newStore.vehicleDataObject.climate_state.seat_heater_right = self.nextHeatLevel(self.props.seatRight);
+      newStore.state.vehicleDataObject.climate_state.seat_heater_right = self.nextHeatLevel(self.props.seatRight);
       store.dispatch({
         type: 'UPDATE_OBJECT',
         payload: {
@@ -253,7 +255,7 @@ class ClimateModal extends Component{
     .then(function (response) {
       //if it's a good response, update local state to match
       var newStore = store.getState();
-      newStore.vehicleDataObject.climate_state.seat_heater_rear_right = self.nextHeatLevel(self.props.seatRightRear);
+      newStore.state.vehicleDataObject.climate_state.seat_heater_rear_right = self.nextHeatLevel(self.props.seatRightRear);
       store.dispatch({
         type: 'UPDATE_OBJECT',
         payload: {
@@ -281,7 +283,7 @@ class ClimateModal extends Component{
     .then(function (response) {
       //if it's a good response, update local state to match
       var newStore = store.getState();
-      newStore.vehicleDataObject.climate_state.seat_heater_rear_left = self.nextHeatLevel(self.props.seatLeftRear);
+      newStore.state.vehicleDataObject.climate_state.seat_heater_rear_left = self.nextHeatLevel(self.props.seatLeftRear);
       store.dispatch({
         type: 'UPDATE_OBJECT',
         payload: {
@@ -309,7 +311,7 @@ class ClimateModal extends Component{
     .then(function (response) {
       //if it's a good response, update local state to match
       var newStore = store.getState();
-      newStore.vehicleDataObject.climate_state.seat_heater_rear_center = self.nextHeatLevel(self.props.seatMidRear);
+      newStore.state.vehicleDataObject.climate_state.seat_heater_rear_center = self.nextHeatLevel(self.props.seatMidRear);
       store.dispatch({
         type: 'UPDATE_OBJECT',
         payload: {
