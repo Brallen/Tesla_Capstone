@@ -183,7 +183,7 @@ class ChargingModal extends Component{
             auth: JSON.stringify(this.state.localOptions)
         }).then(function(response) {
             var newStore = store.getState();
-            newStore.state.vehicleDataObject.charge_state.charging_state = 'Disconnected';
+            newStore.state.vehicleDataObject.charge_state.charging_state = 'Stopped';
             store.dispatch({
                 type: 'UPDATE_OBJECT',
                 payload: {
