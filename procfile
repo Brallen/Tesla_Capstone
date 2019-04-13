@@ -1,2 +1,1 @@
-web: npm run install-script && concurrently --kill-others "npm run server"
-worker: npm run install-script && concurrently --kill-others "npm run client"
+web: npm run install-script && npm start
