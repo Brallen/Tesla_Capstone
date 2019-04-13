@@ -15,6 +15,7 @@ const defaultState = {
     showChargingModal: false,
     showDiagnosticsModal: false,
     showErrorPrompt: false,
+    chargingTF: false,
     errorText: '',
     rememberMeChecked: false,
     initialVehicleLoaded: false,

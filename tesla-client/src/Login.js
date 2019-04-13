@@ -20,6 +20,7 @@ class LoginModal extends Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.setLocalOptions = this.setLocalOptions.bind(this);
     this.handleRemember = this.handleRemember.bind(this);
+    this.handleEnterPressed = this.handleEnterPressed.bind(this);
   }
 
   componentDidMount(){
@@ -27,7 +28,7 @@ class LoginModal extends Component {
     let userCookie = cookies.get("token");
     let refreshCookie = cookies.get("refreshToken");
     if(userCookie != null && refreshCookie != null){
-      this.setState({ authToken: userCookie, refreshToken: refreshCookie }, this.vehicleLoginFunction);
+      this.setState({ authToken: userCookie, refreshToken: refreshCookie }, this.vehicleLoginCookie);
     }
   }
 
@@ -37,6 +38,14 @@ class LoginModal extends Component {
 
   handlePasswordChange (evt) {
     this.setState({ password: evt.target.value });
+  }
+
+  handleEnterPressed (evt) {
+    var code = evt.keyCode || evt.which;
+    if(code === 13)
+    {
+      this.loginFunction();
+    }
   }
 
   handleRemember (evt) {
@@ -97,16 +106,33 @@ class LoginModal extends Component {
       });
   }
 
-  vehicleLoginFunction = () => {
+  vehicleLoginCookie = () => {
     var self = this;
     const { cookies } = this.props;
+    axios.post('/refreshToken', {
+      refreshToken: self.state.refreshToken
+    })
+    .then(function (response) {
+      //if we do refresh, store our new cookies and update state
+      self.setState({ authToken: response.data.authToken }, self.vehicleLoginFunction);
+      //if remember me is checked we will set cookies
+        cookies.set('token', response.data.authToken, { path: '/' });
+        cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  vehicleLoginFunction = () => {
+    var self = this;
     //log in
     axios.post('/vehicleID', {
       authToken: self.state.authToken
     })
     .then(function (response) {
       //then try to refresh the token
-        axios.post('/refreshToken', {
+        /*axios.post('/refreshToken', {
           refreshToken: self.state.refreshToken
         })
         .then(function (response) {
@@ -120,7 +146,7 @@ class LoginModal extends Component {
         })
         .catch(function (error) {
           console.log(error);
-        });
+        });*/
       
 
       //from vehicleID call
@@ -185,12 +211,27 @@ class LoginModal extends Component {
                     <p id='login-error'></p>
                     <div className="login-form-text">
                         <label htmlFor="email">Email: </label>
-                        <input type="text" placeholder="Enter Tesla Email" name="email" required id="email" onChange={this.handleEmailChange} value={this.state.email}/>
+                        <input type="text" 
+                          placeholder="Enter Tesla Email" 
+                          name="email" 
+                          required id="email" 
+                          onChange={this.handleEmailChange} 
+                          value={this.state.email}/>
                         <br />
                         <label htmlFor="password">Password: </label>
-                        <input type="password" placeholder="Enter Tesla Password" name="password" required id="password" onChange={this.handlePasswordChange} value={this.state.password}/>
+                        <input type="password" 
+                          placeholder="Enter Tesla Password" 
+                          name="password" 
+                          required id="password"
+                          onKeyPress={this.handleEnterPressed} 
+                          onChange={this.handlePasswordChange} 
+                          value={this.state.password}/>
                         <br />
-                        <input id="checkbox" type="checkbox" Label='Remember Me' checked={this.props.rememberMeChecked} onChange={this.handleRemember}/>
+                        <input id="checkbox" 
+                          type="checkbox" 
+                          Label='Remember Me' 
+                          checked={this.props.rememberMeChecked} 
+                          onChange={this.handleRemember}/>
                         <label htmlFor="Remember"> Remember Me</label>
                         <p>{this.props.loginFailed ? "Login Failed!" : ""}</p>
                     </div>

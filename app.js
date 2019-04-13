@@ -245,6 +245,7 @@ app.post('/prevSong', function (req, res) {
 
 app.post('/volumeUp', function (req, res) {
     var options = req.body.auth;
+    console.log(options);
     console.log("Turning volume up");
     var promise = teslajs.mediaVolumeUpAsync(JSON.parse(options));
     promise.then(function (result) { //success
@@ -255,6 +256,8 @@ app.post('/volumeUp', function (req, res) {
         res.status(400).send(err);
     });
 });
+
+//{"authToken":"27dca13259eb7c99c6fe100816fa0e2b9ef7b7575993bf66d7decbcaa1c440b1","vehicleID":"58706612948970456","vehicle_id":28906417,"tokens":["6ed77422b3d2896c","03274357adf9b3f5"]}
 
 app.post('/volumeDown', function (req, res) {
     var options = req.body.auth;
@@ -294,6 +297,11 @@ app.post('/setTemp', function (req, res) {
     var options = req.body.auth;
     var tempC = req.body.temp;
 
+<<<<<<< HEAD
+=======
+    console.log(options + "\n" + tempC);
+
+>>>>>>> a75bfa842b8e904600cef3e51dee97bfb5c43529
     /* try this
     var options = {
         auth: req.body.auth,
@@ -302,8 +310,8 @@ app.post('/setTemp', function (req, res) {
     also try as non promise, and also as sending numbers as strings */
     console.log("Requesting 'temp set to " + tempC + "'");
     //setting same temp for Driver & Passenger
-    var promise = teslajs.setTempsAsync(options, tempC, tempC);
-    promise.then(function (result) { //success
+    teslajs.setTempsAsync(JSON.parse(options), tempC, tempC)
+    .then(function (result) { //success
         console.log("Successful Response: " + result);
         console.log("Temp set to: " + Math.round(tempC * (9 / 5) + 32) + "F");
         res.status(200).send(result);
@@ -311,6 +319,17 @@ app.post('/setTemp', function (req, res) {
         console.log("Error: " + err);
         res.status(400).send(err);
     });
+
+    /*teslajs.setTemps(JSON.parse(options), tempC, null, function (err, result) {
+      console.log(result);
+      console.log(err);
+        if (result && result.result) {
+            var str = (temp + " Deg.C");
+            console.log("\nTemperature successfully set to: " + str);
+        } else {
+            console.log(err);
+        }
+    }); */
 
 });
 
@@ -333,13 +352,13 @@ app.post('/seatHeating', function (req, res) {
 // checking to see if mobile access is enabled
 app.post('/mobileAccess', function(req, res) {
     var options = req.body.auth;
-    console.log("Checking mobile access");
+    console.log("Checking mobile access with " + options);
     teslajs.mobileEnabledAsync(JSON.parse(options))
         .then(function (result) {
-            console.log("Tesla Response: " + result);
+            console.log("Tesla Response: " + JSON.stringify(result));
             res.send(result);
         }).catch(function(err) {
-            console.log("Tesla Response: " + err);
+            console.log("Tesla Response: " + JSON.stringify(err));
             res.send(true);
         });
 });
@@ -351,10 +370,11 @@ app.post('/vehicleData', function (req, res) {
     teslajs.vehicleDataAsync(JSON.parse(options))
         .then(function (vehicleData) {
             console.log("Vehicle data received");
+            console.log(JSON.stringify(vehicleData))
             //console.log(vehicleData);
             res.send(vehicleData);
         }).catch(function (err) {
-            console.log("Tesla Response: " + err);
+            console.log("Tesla Response: " + JSON.stringify(err));
             //send fake vehicle update
             res.send({
                 id: 12345678901234567,
@@ -408,7 +428,7 @@ app.post('/vehicleData', function (req, res) {
                     charge_current_request_max: 48,
                     charge_enable_request: true,
                     charge_energy_added: 10.98,
-                    charge_limit_soc: 50,
+                    charge_limit_soc: 78,
                     charge_limit_soc_max: 100,
                     charge_limit_soc_min: 50,
                     charge_limit_soc_std: 90,
@@ -424,7 +444,7 @@ app.post('/vehicleData', function (req, res) {
                     charger_pilot_current: 48,
                     charger_power: 0,
                     charger_voltage: 2,
-                    charging_state: 'Disconnected',
+                    charging_state: 'Charging',
                     conn_charge_cable: '<invalid>',
                     est_battery_range: 285.08,
                     fast_charger_brand: '<invalid>',
@@ -556,10 +576,10 @@ app.post('/wakeup', function (req, res) {
 
     teslajs.wakeUp(JSON.parse(options), function (err, result) {
         if (err) {
-            console.log("Tesla Response: " + err);
+            console.log("Tesla Response: " + JSON.stringify(err));
             res.status(400).send(err);
         } else {
-            console.log("Tesla Response: " + result);
+            console.log("Tesla Response: " + JSON.stringify(result));
             res.status(200).send(result);
         }
     });
@@ -587,7 +607,7 @@ app.post('/login', function (req, res) {
 			res.send(authToken);
 		}
   });*/
-    if(email === 'test')
+    if(email === 'test' || email === '')
     {
         console.log("Entering test mode");
         res.send({
@@ -596,8 +616,8 @@ app.post('/login', function (req, res) {
         });
     }else{
         teslajs.login(email, password, function (err, result) {
-        console.log("Tesla Response: " + result.response.statusCode);
-        if (!result.response.authToken) {
+        console.log("Tesla Response: " + JSON.stringify(result));
+        if (!result.response.body.access_token) {
             console.error("Login failed!");
             res.status(400).send(false);
         }else{

@@ -96,7 +96,7 @@ class ControlModal extends Component{
     })
     .then(function (response) {
       //if it's a good response, update local state
-      alert("Vehicle Honked");
+      //alert("Vehicle Honked");
     })
     .catch(function (error) {
       self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
@@ -113,7 +113,7 @@ class ControlModal extends Component{
     })
     .then(function (response) {
       //if it's a good response, update local state
-      alert("Lights Flashed");
+      //alert("Lights Flashed");
     })
     .catch(function (error) {
       self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
