@@ -666,7 +666,7 @@ app.post('/stopCharge', function(req, res) {
             res.status(200).send(result);
         }).catch(function(err) {
             console.log("Error: " + err);
-            res.status(400).send(result);
+            res.status(400).send(err);
         });
 });
 
@@ -679,7 +679,7 @@ app.post('/startCharge', function(req, res) {
             res.status(200).send(result);
         }).catch(function(err) {
             console.log("Error: " + err);
-            res.status(400).send(result);
+            res.status(400).send(err);
         });
 });
 
