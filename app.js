@@ -294,7 +294,7 @@ app.post('/setTemp', function (req, res) {
     var options = req.body.auth;
     var tempC = req.body.temp;
 
-    /* try this 
+    /* try this
     var options = {
         auth: req.body.auth,
         tempC: req.body.temp
@@ -385,11 +385,11 @@ app.post('/vehicleData', function (req, res) {
                     is_rear_defroster_on: false,
                     left_temp_direction: 0,
                     max_avail_temp: 28,
-                    min_avail_temp: 15, 
+                    min_avail_temp: 15,
                     outside_temp: 17.5,
                     passenger_temp_setting: 21.7,
                     remote_heater_control_enabled: false,
-                    right_temp_direction: 0, 
+                    right_temp_direction: 0,
                     seat_heater_left: 3,
                     seat_heater_rear_center: 2,
                     seat_heater_rear_left: 1,
@@ -440,7 +440,7 @@ app.post('/vehicleData', function (req, res) {
                     scheduled_charging_start_time: null,
                     time_to_full_charge: 0,
                     timestamp: 1552440838137,
-                    trip_charging: false, 
+                    trip_charging: false,
                     usable_battery_level: 72,
                     user_charge_enable_request: null
                 },
@@ -466,7 +466,7 @@ app.post('/vehicleData', function (req, res) {
                     is_user_present: false,
                     last_autopark_error: 'no_error',
                     locked: true,
-                    media_state: { 
+                    media_state: {
                         remote_control_enabled: true
                     },
                     notifications_supported: true,
@@ -483,7 +483,7 @@ app.post('/vehicleData', function (req, res) {
                     },
                     speed_limit_mode: {
                         active: false,
-                        current_limit_mph: 55, 
+                        current_limit_mph: 55,
                         max_limit_mph: 90,
                         min_limit_mph: 50,
                         pin_code_set: false
@@ -616,7 +616,7 @@ app.post('/vehicleID', function (req, res) {
     teslajs.vehicle(options, function (err, vehicle) {
         console.log(JSON.stringify(vehicle));
         if (vehicle === null) {
-            //sending a fake vehicle for 
+            //sending a fake vehicle for
             res.status(200).send({
                 id: 12345678901234567,
                 vehicle_id: 1234567890,
@@ -660,6 +660,31 @@ app.post('/refreshToken', function (req, res) {
         });
 });
 
+app.post('/stopCharge', function(req, res) {
+    var options = req.body.auth;
+    console.log("Requesting Stop Charge");
+    teslajs.stopChargeAsync(JSON.parse(options))
+        .then(function(result) {
+            console.log("Successful Response: " + result);
+            res.status(200).send(result);
+        }).catch(function(err) {
+            console.log("Error: " + err);
+            res.status(400).send(result);
+        });
+});
+
+app.post('/startCharge', function(req, res) {
+    var options = req.body.auth;
+    console.log("Requesting Start Charge");
+    teslajs.startChargeAsync(JSON.parse(options))
+        .then(function(result) {
+            console.log("Successful Response: " + result);
+            res.status(200).send(result);
+        }).catch(function(err) {
+            console.log("Error: " + err);
+            res.status(400).send(result);
+        });
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

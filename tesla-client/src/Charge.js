@@ -21,7 +21,7 @@ class ChargingModal extends Component{
   }
 
   componentDidMount(){
-    this.setState({ 
+    this.setState({
       localOptions: this.props.localOptionsProp
     });
     //alert(JSON.stringify(this.state.localOptions))
@@ -64,15 +64,15 @@ class ChargingModal extends Component{
 
   /*
     this runs every time the slider is moved
-    this is because in order for the view to be updated client side we need to 
+    this is because in order for the view to be updated client side we need to
     update the corresponding data. This means if we call the API in this function
     we are going to be flooding the server with API commands
   */
   handleChargeChange (value) {
     this.refreshGlobalTimerWhenAction();
     var newStore = store.getState();
-    this.setState({ 
-      maxCharge: parseInt(value) 
+    this.setState({
+      maxCharge: parseInt(value)
     });
     newStore.state.vehicleDataObject.charge_state.charge_limit_soc = parseInt(this.state.maxCharge);
     store.dispatch({
@@ -186,24 +186,24 @@ class ChargingModal extends Component{
                     <Slider
                         value={this.props.vehicleCharge}
                         min={this.props.vehicleChargeMin}
-                        max={this.props.vehicleChargeMax} 
+                        max={this.props.vehicleChargeMax}
                         onChange={this.handleChargeChange}
                         onChangeComplete={this.applyChargeSettings}
                         tooltip={false}
                         step={1}/>
                   </div>
-                  
+
                   <button onClick={this.chargePortButton} id="charging--charge_port" className="btn btn--modal_btn">
                     {this.props.vehicleChargeDoor ? 'Close Charge Port' : 'Open Charge Port'}
                   </button>
 
                   <button onClick={this.chargingButton} id="charging--charge_port" className="btn btn--modal_btn">
-                    stop/start charging
+                    {this.props.vehicleCharging ? 'Stop Charge' : 'Start Charge'}
                   </button>
               </div>
             </div>
           </Modal>
-          
+
       </div>
     );
   }
