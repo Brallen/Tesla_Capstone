@@ -226,7 +226,7 @@ class ChargingModal extends Component{
                       : null
                   }
 
-                  { (this.props.vehicleCharing !== 'Disconnected') ?
+                  { (this.props.vehicleCharging !== 'Disconnected') ?
                       <button onClick={this.chargingButton} id="charging--charge_port" className="btn btn--modal_btn">
                         {(this.props.vehicleCharging === 'Charging') ? 'Stop Charge' : null}
                         {(this.props.vehicleCharging === 'Stopped') ? 'Start Charge' : null}
