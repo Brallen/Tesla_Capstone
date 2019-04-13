@@ -160,15 +160,39 @@ class ChargingModal extends Component{
 
   chargingButton(){
     this.refreshGlobalTimerWhenAction();
+    var self = this;
     //if it's not charging
-    if(this.props.vehicleCharging === 'Disconnected'){
-
+    if(this.props.vehicleCharging === 'Stopped'){
+        axios.post('/startCharge', {
+            auth: JSON.stringify(this.state.localOptions)
+        }).then(function(response) {
+            var newStore = store.getState();
+            newStore.state.vehicleDataObject.charge_state.charging_state = 'Charging';
+            store.dispatch({
+                type: 'UPDATE_OBJECT',
+                payload: {
+                    vehicleDataObject: newStore.state.vehicleDataObject
+                }
+            })
+        }).catch(function(error) {
+            self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+        });
     }
     if(this.props.vehicleCharging === 'Charging'){
-
-    }
-    if(this.props.vehicleCharging === 'Complete'){
-
+        axios.post('/stopCharge', {
+            auth: JSON.stringify(this.state.localOptions)
+        }).then(function(response) {
+            var newStore = store.getState();
+            newStore.state.vehicleDataObject.charge_state.charging_state = 'Disconnected';
+            store.dispatch({
+                type: 'UPDATE_OBJECT',
+                payload: {
+                    vehicleDataObject: newStore.state.vehicleDataObject
+                }
+            })
+        }).catch(function(error) {
+            self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+        });
     }
   }
 
@@ -193,13 +217,22 @@ class ChargingModal extends Component{
                         step={1}/>
                   </div>
 
-                  <button onClick={this.chargePortButton} id="charging--charge_port" className="btn btn--modal_btn">
-                    {this.props.vehicleChargeDoor ? 'Close Charge Port' : 'Open Charge Port'}
-                  </button>
+                  { (this.props.vehicleCharging !== 'Charging') ?
+                      <button onClick={this.chargePortButton} id="charging--charge_port" className="btn btn--modal_btn">
+                        {this.props.vehicleChargeDoor ? 'Open Charge Port' : null}
+                        {(this.props.chargePortLatch === 'Disengaged' && !this.props.vehicleChargeDoor) ? 'Close Charge Port' : null}
+                        {(this.props.chargePortLatch === 'Engaged' && this.props.vehicleCharging === 'Stopped') ? 'Disengage Charger Latch' : null}
+                      </button>
+                      : null
+                  }
 
-                  <button onClick={this.chargingButton} id="charging--charge_port" className="btn btn--modal_btn">
-                    {this.props.vehicleCharging ? 'Stop Charge' : 'Start Charge'}
-                  </button>
+                  { (this.props.vehicleCharing !== 'Disconnected') ?
+                      <button onClick={this.chargingButton} id="charging--charge_port" className="btn btn--modal_btn">
+                        {(this.props.vehicleCharging === 'Charging') ? 'Stop Charge' : null}
+                        {(this.props.vehicleCharging === 'Stopped') ? 'Start Charge' : null}
+                      </button>
+                      : null
+                  }
               </div>
             </div>
           </Modal>
@@ -227,7 +260,8 @@ const mapStateToProps = (state) => {
       globalTimerInterval: state.state.refreshInterval,
       localOptionsProp: state.state.localOptions,
       showCharge: state.state.showChargingModal,
-      vehicleCharging: state.state.vehicleDataObject.charge_state.charging_state
+      vehicleCharging: state.state.vehicleDataObject.charge_state.charging_state,
+      chargePortLatch: state.state.vehicleDataObject.charge_state.charge_port_latch
     }
   }
 export default connect(mapStateToProps)(ChargingModal);

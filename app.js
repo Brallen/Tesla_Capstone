@@ -297,17 +297,6 @@ app.post('/setTemp', function (req, res) {
     var options = req.body.auth;
     var tempC = req.body.temp;
 
-<<<<<<< HEAD
-=======
-    console.log(options + "\n" + tempC);
-
->>>>>>> a75bfa842b8e904600cef3e51dee97bfb5c43529
-    /* try this
-    var options = {
-        auth: req.body.auth,
-        tempC: req.body.temp
-    }
-    also try as non promise, and also as sending numbers as strings */
     console.log("Requesting 'temp set to " + tempC + "'");
     //setting same temp for Driver & Passenger
     teslajs.setTempsAsync(JSON.parse(options), tempC, tempC)
@@ -319,18 +308,6 @@ app.post('/setTemp', function (req, res) {
         console.log("Error: " + err);
         res.status(400).send(err);
     });
-
-    /*teslajs.setTemps(JSON.parse(options), tempC, null, function (err, result) {
-      console.log(result);
-      console.log(err);
-        if (result && result.result) {
-            var str = (temp + " Deg.C");
-            console.log("\nTemperature successfully set to: " + str);
-        } else {
-            console.log(err);
-        }
-    }); */
-
 });
 
 //setting seat heating temp for [seat] at [level]
