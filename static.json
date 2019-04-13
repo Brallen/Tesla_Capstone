@@ -2,6 +2,6 @@
     "root": "build/",
     "clean_urls": false,
     "routes": {
-      "/**": "tesla-client/public/index.html"
+        "/**": "index.html"
     }
-  }
+}
