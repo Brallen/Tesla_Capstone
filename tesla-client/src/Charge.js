@@ -21,7 +21,7 @@ class ChargingModal extends Component{
   }
 
   componentDidMount(){
-    this.setState({ 
+    this.setState({
       localOptions: this.props.localOptionsProp
     });
     //alert(JSON.stringify(this.state.localOptions))
@@ -64,15 +64,15 @@ class ChargingModal extends Component{
 
   /*
     this runs every time the slider is moved
-    this is because in order for the view to be updated client side we need to 
+    this is because in order for the view to be updated client side we need to
     update the corresponding data. This means if we call the API in this function
     we are going to be flooding the server with API commands
   */
   handleChargeChange (value) {
     this.refreshGlobalTimerWhenAction();
     var newStore = store.getState();
-    this.setState({ 
-      maxCharge: parseInt(value) 
+    this.setState({
+      maxCharge: parseInt(value)
     });
     newStore.state.vehicleDataObject.charge_state.charge_limit_soc = parseInt(this.state.maxCharge);
     store.dispatch({
@@ -160,15 +160,39 @@ class ChargingModal extends Component{
 
   chargingButton(){
     this.refreshGlobalTimerWhenAction();
+    var self = this;
     //if it's not charging
-    if(this.props.vehicleCharging === 'Disconnected'){
-
+    if(this.props.vehicleCharging === 'Stopped'){
+        axios.post('/startCharge', {
+            auth: JSON.stringify(this.state.localOptions)
+        }).then(function(response) {
+            var newStore = store.getState();
+            newStore.state.vehicleDataObject.charge_state.charging_state = 'Charging';
+            store.dispatch({
+                type: 'UPDATE_OBJECT',
+                payload: {
+                    vehicleDataObject: newStore.state.vehicleDataObject
+                }
+            })
+        }).catch(function(error) {
+            self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+        });
     }
     if(this.props.vehicleCharging === 'Charging'){
-
-    }
-    if(this.props.vehicleCharging === 'Complete'){
-
+        axios.post('/stopCharge', {
+            auth: JSON.stringify(this.state.localOptions)
+        }).then(function(response) {
+            var newStore = store.getState();
+            newStore.state.vehicleDataObject.charge_state.charging_state = 'Disconnected';
+            store.dispatch({
+                type: 'UPDATE_OBJECT',
+                payload: {
+                    vehicleDataObject: newStore.state.vehicleDataObject
+                }
+            })
+        }).catch(function(error) {
+            self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+        });
     }
   }
 
@@ -186,24 +210,33 @@ class ChargingModal extends Component{
                     <Slider
                         value={this.props.vehicleCharge}
                         min={this.props.vehicleChargeMin}
-                        max={this.props.vehicleChargeMax} 
+                        max={this.props.vehicleChargeMax}
                         onChange={this.handleChargeChange}
                         onChangeComplete={this.applyChargeSettings}
                         tooltip={false}
                         step={1}/>
                   </div>
-                  
-                  <button onClick={this.chargePortButton} id="charging--charge_port" className="btn btn--modal_btn">
-                    {this.props.vehicleChargeDoor ? 'Close Charge Port' : 'Open Charge Port'}
-                  </button>
 
-                  <button onClick={this.chargingButton} id="charging--charge_port" className="btn btn--modal_btn">
-                    stop/start charging
-                  </button>
+                  { (this.props.vehicleCharging !== 'Charging') ?
+                      <button onClick={this.chargePortButton} id="charging--charge_port" className="btn btn--modal_btn">
+                        {this.props.vehicleChargeDoor ? 'Open Charge Port' : null}
+                        {(this.props.chargePortLatch === 'Disengaged' && !this.props.vehicleChargeDoor) ? 'Close Charge Port' : null}
+                        {(this.props.chargePortLatch === 'Engaged' && this.props.vehicleCharging === 'Stopped') ? 'Disengage Charger Latch' : null}
+                      </button>
+                      : null
+                  }
+
+                  { (this.props.vehicleCharging !== 'Disconnected') ?
+                      <button onClick={this.chargingButton} id="charging--charge_port" className="btn btn--modal_btn">
+                        {(this.props.vehicleCharging === 'Charging') ? 'Stop Charge' : null}
+                        {(this.props.vehicleCharging === 'Stopped') ? 'Start Charge' : null}
+                      </button>
+                      : null
+                  }
               </div>
             </div>
           </Modal>
-          
+
       </div>
     );
   }
@@ -227,7 +260,8 @@ const mapStateToProps = (state) => {
       globalTimerInterval: state.state.refreshInterval,
       localOptionsProp: state.state.localOptions,
       showCharge: state.state.showChargingModal,
-      vehicleCharging: state.state.vehicleDataObject.charge_state.charging_state
+      vehicleCharging: state.state.vehicleDataObject.charge_state.charging_state,
+      chargePortLatch: state.state.vehicleDataObject.charge_state.charge_port_latch
     }
   }
 export default connect(mapStateToProps)(ChargingModal);
