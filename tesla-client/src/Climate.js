@@ -327,7 +327,9 @@ class ClimateModal extends Component{
             </div>
             <div className="modal--climate_controls">
               <p id="climate--temp_level" className="modal--level_text">
-                Climate: {this.props.unitDecider ? parseFloat(this.props.vehicleClimateNum).toFixed(1) : parseFloat(this.props.vehicleClimateNum*(9/5)+32).toFixed(1)}{this.props.vehicleClimateUnit}
+                Climate: {(this.props.vehicleClimateUnit === 'F') ? 
+                  parseFloat(this.props.vehicleClimateNum*(9/5)+32).toFixed(1) : 
+                  parseFloat(this.props.vehicleClimateNum).toFixed(1)}{this.props.vehicleClimateUnit}
               </p>
                 <div className='modal--slider'>
                   <Slider
@@ -395,7 +397,6 @@ const mapStateToProps = (state) => {
       globalTimerInterval: state.state.refreshInterval,
       localOptionsProp: state.state.localOptions,
       showClimate: state.state.showClimateModal,
-      unitDecider: state.state.unitDecider,
       vehicleClimateUnit: state.state.vehicleDataObject.gui_settings.gui_temperature_units
     }
   }

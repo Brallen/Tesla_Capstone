@@ -9,7 +9,6 @@ class ChargingModal extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      maxCharge: 50,
       localOptions: {}
     };
     this.refreshGlobalTimerWhenAction = this.refreshGlobalTimerWhenAction.bind(this);

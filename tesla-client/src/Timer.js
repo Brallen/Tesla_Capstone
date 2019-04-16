@@ -137,29 +137,6 @@ class Timer extends Component {
                 newStore.state.initialVehicleLoginObject.state = response.data.state;
                 newStore.state.refreshInterval = 10;
                 newStore.state.initialVehicleLoaded = true;
-                //doing this special stuff because we need to see if the sun roof exists
-                if(JSON.stringify(response.data.option_codes).includes('RFP2')){
-                  newStore.state.sunroofPresent = true;
-                }else{
-                  newStore.state.sunroofPresent = false;
-                }
-                if(parseInt(response.data.vehicle_state.sun_roof_percent_open) > 0){
-                  newStore.state.sunroofOpen = true;
-                }else{
-                  newStore.state.sunroofOpen = false;
-                }
-                if(response.data.charge_state.charging_state === "Charging"){
-                  newStore.state.chargingTF = true;
-                }else{
-                  newStore.state.chargingTF = false;
-                }
-                if(response.data.gui_settings.gui_temperature_units === 'F'){
-                  newStore.state.unitDecider = false;
-                }else{
-                  newStore.state.unitDecider = true;
-                }
-
-                
                 store.dispatch({
                   type: 'UPDATE_OBJECT',
                   payload: {
@@ -168,10 +145,6 @@ class Timer extends Component {
                       can see when the vehicle goes to sleep and then wake it up automatically again*/
                     initialVehicleLoginObject: newStore.state.initialVehicleLoginObject,
                     refreshInterval: newStore.state.refreshInterval,
-                    sunroofPresent: newStore.state.sunroofPresent,
-                    sunroofOpen: newStore.state.sunroofOpen,
-                    chargingTF: newStore.state.chargingTF,
-                    unitDecider: newStore.state.unitDecider,
                     initialVehicleLoaded: newStore.state.initialVehicleLoaded
                   }
                 })
