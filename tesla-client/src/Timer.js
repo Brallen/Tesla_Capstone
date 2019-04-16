@@ -46,6 +46,7 @@ class Timer extends Component {
   }
 
   checkMobileAccess(){
+    var self = this;
     axios.post('/mobileAccess', {
       auth: JSON.stringify(this.state.localOptions)
     })
@@ -59,6 +60,7 @@ class Timer extends Component {
     })
     .catch(function (error) {
       console.log(error);
+      self.showError("Error: Could not determine mobile access");
     });
   }
 
@@ -99,7 +101,7 @@ class Timer extends Component {
             })
             .catch(function (error) {
               console.log(error);
-              self.showError("Could not wake the vehicle, trying again.");
+              self.showError("Error: Could not wake the vehicle, trying again shortly");
               //if we get an error set waiting for wake back to false
               store.dispatch({
                 type: 'UPDATE_OBJECT',
@@ -175,7 +177,7 @@ class Timer extends Component {
                 })
               })
               .catch(function (error) {
-                self.showError("Could not retrieve vehicle data!");
+                self.showError("Error: Could not retrieve vehicle data");
                 console.log(error);
               });
             }

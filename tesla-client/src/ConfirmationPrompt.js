@@ -89,10 +89,10 @@ class ConfirmationPrompt extends Component{
         })
         .then(function (response) {
         //if it's a good response, we dont need to do anything
-          self.showError("Front Trunk has been opened!");
+          self.showError("Frunk has been opened!");
         })
         .catch(function (error) {
-          self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+          self.showError("Error: Could not open the Frunk");
         });
     }
 
@@ -107,7 +107,7 @@ class ConfirmationPrompt extends Component{
             self.showError("Trunk has been opened!");
         })
         .catch(function (error) {
-          self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+          self.showError("Error: Could not open the Trunk");
         });
     }
 
@@ -129,7 +129,7 @@ class ConfirmationPrompt extends Component{
                 })
             })
             .catch(function (error) {
-              self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+              self.showError("Error: Could not unlock the vehicle");
             });
         }
         if(this.props.vehicleLocked === false){
@@ -148,7 +148,7 @@ class ConfirmationPrompt extends Component{
                 })
             })
             .catch(function (error) {
-              self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+              self.showError("Error: Could not lock the vehicle");
             });
         }
     }

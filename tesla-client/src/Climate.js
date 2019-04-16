@@ -90,7 +90,7 @@ class ClimateModal extends Component{
       //if it's a good response, state is already updated!
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the vehicle cabin temperature");
       //error, lets repull the data to update the slider back to what it is
       var newStore = store.getState();
       newStore.state.refreshTime = 1;
@@ -123,7 +123,7 @@ class ClimateModal extends Component{
         })
       })
       .catch(function (error) {
-        self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+        self.showError("Error: Could not turn off the vehicle climate");
       });
     }
 
@@ -143,7 +143,7 @@ class ClimateModal extends Component{
         })
       })
       .catch(function (error) {
-        self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+        self.showError("Error: Could not turn on the vehicle climate");
       });
     }
   }
@@ -199,7 +199,7 @@ class ClimateModal extends Component{
       })
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the front left seat heater to level: "+self.nextHeatLevel(self.props.seatLeft));
     });
   }
 
@@ -228,7 +228,7 @@ class ClimateModal extends Component{
       })
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the front right seat heater to level: "+self.nextHeatLevel(self.props.seatRight));
     });
   }
 
@@ -257,7 +257,7 @@ class ClimateModal extends Component{
       })
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the rear right seat heater to level: "+self.nextHeatLevel(self.props.seatRightRear));
     });
   }
 
@@ -285,7 +285,7 @@ class ClimateModal extends Component{
       })
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the rear left seat heater to level: "+self.nextHeatLevel(self.props.seatLeftRear));
     });
   }
 
@@ -313,7 +313,7 @@ class ClimateModal extends Component{
       })
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the rear middle seat heater to level: "+self.nextHeatLevel(self.props.seatMidRear));
     });
   }
 

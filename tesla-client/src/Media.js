@@ -69,7 +69,7 @@ class MediaModal extends Component{
       //if it's a good response, we don't need to do anything
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not toggle volume up");
     });
   }
 
@@ -84,7 +84,7 @@ class MediaModal extends Component{
       //if it's a good response, we don't need to do anything
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not toggle volume down");
     });
   }
 
@@ -99,7 +99,7 @@ class MediaModal extends Component{
       //if it's a good response, we don't need to do anything
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not toggle track forward");
     });
   }
 
@@ -114,7 +114,7 @@ class MediaModal extends Component{
       //if it's a good response, we don't need to do anything
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not toggle track backwards");
     });
   }
 
@@ -129,7 +129,7 @@ class MediaModal extends Component{
       //if it's a good response, we don't need to do anything
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not play/pause the track");
     });
   }
 

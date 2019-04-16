@@ -62,7 +62,7 @@ class PasswordCheck extends Component{
         
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not start vehicle");
     });
     this.hidePasswordModal();
   }

@@ -96,7 +96,7 @@ class ControlModal extends Component{
       //if it's a good response, we don't need anything
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not honk the vehicle horn");
     });
   }
 
@@ -112,7 +112,7 @@ class ControlModal extends Component{
       //if it's a good response, we dont need anything
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not flash the vehicle lights");
     });
   }
 
@@ -169,7 +169,7 @@ class ControlModal extends Component{
           })
         })
         .catch(function (error) {
-          self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+          self.showError("Error: Could not close the Sunroof");
         });
       }else{
         //if its not open then send an open command
@@ -186,7 +186,7 @@ class ControlModal extends Component{
           })
         })
         .catch(function (error) {
-          self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+          self.showError("Error: Could not open the Sunroof");
         });
       }
     }else{

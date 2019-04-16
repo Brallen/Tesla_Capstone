@@ -94,7 +94,7 @@ class ChargingModal extends Component{
       //if it's a good response, state is already updated!
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set max charge limit");
       //error lets repull our data and ensure its back to normal
       var newStore = store.getState();
       newStore.state.refreshTime = 1;
@@ -129,7 +129,7 @@ class ChargingModal extends Component{
         })
       })
       .catch(function (error) {
-        self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+        self.showError("Error: Could not close the vehicle charge port");
       });
     }
     //if the charge port door is closed then send open command
@@ -149,7 +149,7 @@ class ChargingModal extends Component{
         })
       })
       .catch(function (error) {
-        self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+        self.showError("Error: Could not open the vehicle charge port");
       });
     }
   }
@@ -172,7 +172,7 @@ class ChargingModal extends Component{
                 }
             })
         }).catch(function(error) {
-            self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+          self.showError("Error: Could not start charging the vehicle");
         });
     }
     if(this.props.vehicleCharging === 'Charging'){
@@ -188,7 +188,7 @@ class ChargingModal extends Component{
                 }
             })
         }).catch(function(error) {
-            self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+          self.showError("Error: Could not stop charging the vehicle");
         });
     }
   }
