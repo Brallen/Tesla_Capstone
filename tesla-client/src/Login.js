@@ -160,6 +160,7 @@ class LoginModal extends Component {
     })
     .catch(function (error) {
       console.log(error);
+      self.logout();
     });
     //after all is said and done, discard email and password
     this.setState({

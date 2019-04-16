@@ -19,6 +19,7 @@ class Timer extends Component {
     this.refreshVehicleData = this.refreshVehicleData.bind(this);
     this.checkMobileAccess = this.checkMobileAccess.bind(this);
     this.logout = this.logout.bind(this);
+    this.showError = this.showError.bind(this);
     this.startTimer();
   }
 
@@ -63,7 +64,18 @@ class Timer extends Component {
     });
   }
 
+  showError(text){
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showErrorPrompt: true,
+        errorText: text
+      }
+    })
+  }
+
   refreshVehicleData(){
+    var self = this;
     //first let's make sure we're logged in
     if(this.props.loggedInProp){
       this.checkMobileAccess()
@@ -89,6 +101,7 @@ class Timer extends Component {
             })
             .catch(function (error) {
               console.log(error);
+              self.showError("Could not wake the vehicle, trying again.");
               //if we get an error set waiting for wake back to false
               store.dispatch({
                 type: 'UPDATE_OBJECT',
@@ -165,6 +178,7 @@ class Timer extends Component {
                   //alert(JSON.stringify(response));
               })
               .catch(function (error) {
+                self.showError("Could not retrieve vehicle data!");
                 console.log(error);
               });
             }
