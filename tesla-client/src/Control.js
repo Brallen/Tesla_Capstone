@@ -25,7 +25,6 @@ class ControlModal extends Component{
     this.setState({ 
       localOptions: this.props.localOptionsProp
     });
-    //alert(JSON.stringify(this.state.localOptions))
   }
   
   componentDidUpdate(){
@@ -94,8 +93,7 @@ class ControlModal extends Component{
       auth: JSON.stringify(this.state.localOptions)
     })
     .then(function (response) {
-      //if it's a good response, update local state
-      //alert("Vehicle Honked");
+      //if it's a good response, we don't need anything
     })
     .catch(function (error) {
       self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
@@ -111,8 +109,7 @@ class ControlModal extends Component{
       auth: JSON.stringify(this.state.localOptions)
     })
     .then(function (response) {
-      //if it's a good response, update local state
-      //alert("Lights Flashed");
+      //if it's a good response, we dont need anything
     })
     .catch(function (error) {
       self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
@@ -170,7 +167,6 @@ class ControlModal extends Component{
               sunroofOpen: false
             }
           })
-          //alert("Sunroof has been closed");
         })
         .catch(function (error) {
           self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
@@ -188,14 +184,13 @@ class ControlModal extends Component{
               sunroofOpen: true
             }
           })
-          //alert("Sunroof has been opened");
         })
         .catch(function (error) {
           self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
         });
       }
     }else{
-      alert("Uh oh, this vehicle has no sunroof!");
+      self.showError("This vehicle has no sunroof to operate");
     }
   }
 

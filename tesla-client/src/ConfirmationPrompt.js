@@ -88,8 +88,8 @@ class ConfirmationPrompt extends Component{
             which: "frunk"
         })
         .then(function (response) {
-        //if it's a good response, update local state
-        alert("Frunk Opened");
+        //if it's a good response, we dont need to do anything
+          self.showError("Front Trunk has been opened!");
         })
         .catch(function (error) {
           self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
@@ -104,7 +104,7 @@ class ConfirmationPrompt extends Component{
         })
         .then(function (response) {
             //if it's a good response, update local state
-            alert("Trunk Opened");
+            self.showError("Trunk has been opened!");
         })
         .catch(function (error) {
           self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));

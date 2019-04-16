@@ -24,7 +24,6 @@ class ChargingModal extends Component{
     this.setState({
       localOptions: this.props.localOptionsProp
     });
-    //alert(JSON.stringify(this.state.localOptions))
   }
 
   //call this function inside every control
@@ -92,8 +91,7 @@ class ChargingModal extends Component{
       value: parseInt(this.state.maxCharge)
     })
     .then(function (response) {
-      //if it's a good response, update local state
-      alert("charge limit changed");
+      //if it's a good response, state is already updated!
     })
     .catch(function (error) {
       self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));

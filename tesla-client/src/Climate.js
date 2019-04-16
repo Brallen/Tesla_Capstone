@@ -29,7 +29,6 @@ class ClimateModal extends Component{
     this.setState({ 
       localOptions: this.props.localOptionsProp
     });
-    //alert(JSON.stringify(this.state.localOptions))
   }
 
   //call this function inside every control
@@ -88,8 +87,7 @@ class ClimateModal extends Component{
       temp: parseFloat(this.state.temperature.toFixed(1))
     })
     .then(function (response) {
-      //if it's a good response, update local state
-      alert("temperature set");
+      //if it's a good response, state is already updated!
     })
     .catch(function (error) {
       self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
@@ -123,7 +121,6 @@ class ClimateModal extends Component{
             vehicleDataObject: newStore.state.vehicleDataObject
           }
         })
-        alert("temperature set");
       })
       .catch(function (error) {
         self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
@@ -144,7 +141,6 @@ class ClimateModal extends Component{
             vehicleDataObject: newStore.state.vehicleDataObject
           }
         })
-        alert("temperature set");
       })
       .catch(function (error) {
         self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
@@ -193,9 +189,7 @@ class ClimateModal extends Component{
     })
     .then(function (response) {
       //if it's a good response, update local state
-      //alert("we're in");
       var newStore = store.getState();
-      //alert(JSON.stringify(newStore.state.vehicleDataObject.climate_state.seat_heater_left));
       newStore.state.vehicleDataObject.climate_state.seat_heater_left = self.nextHeatLevel(self.props.seatLeft);
       store.dispatch({
         type: 'UPDATE_OBJECT',

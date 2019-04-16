@@ -27,7 +27,6 @@ class Timer extends Component {
     this.setState({ 
       localOptions: this.props.localOptionsProp
     });
-    //alert(JSON.stringify(this.state.localOptions))
   }
 
   startTimer() {
@@ -47,7 +46,6 @@ class Timer extends Component {
   }
 
   checkMobileAccess(){
-    //alert(JSON.stringify(this.state.localOptions));
     axios.post('/mobileAccess', {
       auth: JSON.stringify(this.state.localOptions)
     })
@@ -175,7 +173,6 @@ class Timer extends Component {
                     initialVehicleLoaded: newStore.state.initialVehicleLoaded
                   }
                 })
-                  //alert(JSON.stringify(response));
               })
               .catch(function (error) {
                 self.showError("Could not retrieve vehicle data!");
