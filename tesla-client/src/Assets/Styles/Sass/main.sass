@@ -170,14 +170,19 @@ body
     margin: 0 auto
 
 .container--modal_login .login-form-text
-    text-align: right
+    text-align: left
     padding: 10px 15px 10px 0
+    margin-left: 29px
+    width: 249px
 
 .container--modal_login input
     color: $Black
     background-color: $White
     border-radius: 2px
     margin: 6px 0
+
+.container--modal_login input:not(#checkbox)
+    width: 100%
 
 .container--modal_confirm input
     color: $Black
@@ -213,28 +218,22 @@ body
     font-size: 25px
 
 .modal--slider
-    -webkit-appearance: none
+    margin: 30px auto
     width: 80%
-    height: 7px
-    border-radius: 3px
-    background: $LightGreenAccent
-    margin: 20px
 
-.modal--slider::-webkit-slider-thumb
-  -webkit-appearance: none
-  appearance: none
-  width: 20px
-  height: 20px
-  border-radius: 50%
-  background: $ButtonColor
-  cursor: pointer
+.modal--slider .rangeslider
+    height: 9px
 
-.modal--slider::-moz-range-thumb
-  width: 20px
-  height: 20px
-  border-radius: 50%
-  background: $ButtonColor
-  cursor: pointer
+.modal--slider .rangeslider-horizontal .rangeslider__fill
+    background-color: $GreenAccent
+
+.modal--slider .rangeslider-horizontal .rangeslider__handle::after
+    content: none
+
+.modal--slider .rangeslider-horizontal .rangeslider__handle
+    width: 20px
+    height: 20px
+    border-radius: 20px
 
 .modal--media_controls
     margin: 15px 0
@@ -314,17 +313,3 @@ body
 
 #confirm--password 
     display: inline
-
-
-// Commenting out for now until we can get the battery percentage
-// #charging--charge_slider
-//     height: 15px
-
-// #charging--charge_slider::-webkit-slider-thumb
-//     border-radius: 0
-//     width: 7px
-//     height: 25px
-// #charging--charge_slider::moz-range-thumb
-//     border-radius: 0
-//     width: 7px
-//     height: 25px
