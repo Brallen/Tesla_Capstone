@@ -140,6 +140,11 @@ class Timer extends Component {
                 }else{
                   newStore.state.chargingTF = false;
                 }
+                if(response.data.gui_settings.gui_temperature_units === 'F'){
+                  newStore.state.unitDecider = false;
+                }else{
+                  newStore.state.unitDecider = true;
+                }
 
                 
                 store.dispatch({
@@ -152,6 +157,8 @@ class Timer extends Component {
                     refreshInterval: newStore.state.refreshInterval,
                     sunroofPresent: newStore.state.sunroofPresent,
                     sunroofOpen: newStore.state.sunroofOpen,
+                    chargingTF: newStore.state.chargingTF,
+                    unitDecider: newStore.state.unitDecider,
                     initialVehicleLoaded: newStore.state.initialVehicleLoaded
                   }
                 })
