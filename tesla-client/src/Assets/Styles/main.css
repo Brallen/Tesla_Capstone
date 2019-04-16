@@ -28,6 +28,10 @@ body {
   color: #F8F9FA;
 }
 
+.fas.fa-bolt {
+  color: #77CEC9;
+}
+
 .btn {
   margin: 5px;
   padding: 10px 15px;
@@ -48,6 +52,8 @@ body {
 }
 
 .container--header {
+  display: flex;
+  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
@@ -55,6 +61,7 @@ body {
   z-index: 1000;
   background-color: #2C3138;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  height: 90px;
 }
 
 .container--car_info {
@@ -70,7 +77,7 @@ body {
 
 .container--logout_menu {
   position: absolute;
-  top: 10px;
+  top: 15px;
   right: 10px;
   font-size: 16px;
   cursor: pointer;
@@ -204,6 +211,8 @@ body {
 
 .container--modal_login #login-error {
   color: #DA3738;
+  text-align: center;
+  font-size: 22px;
 }
 
 .container--modal_login .container--header {
@@ -246,7 +255,7 @@ body {
 }
 
 .modal--slider .rangeslider-horizontal .rangeslider__fill {
-  background-color: #D1F2F0;
+  background-color: #77CEC9;
 }
 
 .modal--slider .rangeslider-horizontal .rangeslider__handle::after {

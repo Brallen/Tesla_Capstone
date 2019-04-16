@@ -204,7 +204,7 @@ class LoginModal extends Component {
                     </div>
                 </div>
                 <div className="modal-content">
-                    <p id='login-error'></p>
+                <p id="login-error">{this.props.loginFailed ? "Invalid Username or Password! " : ""}</p>
                     <div className="login-form-text">
                         <label htmlFor="email">Email: </label>
                         <input type="text" 
@@ -229,9 +229,7 @@ class LoginModal extends Component {
                           checked={this.props.rememberMeChecked} 
                           onChange={this.handleRemember}/>
                         <label htmlFor="Remember"> Remember Me</label>
-                        <p>{this.props.loginFailed ? "Login Failed!" : ""}</p>
                     </div>
-                    
                     <button type="submit" onClick={this.loginFunction} className="btn btn--modal_btn" id="login">Login</button>
                     
                 </div>

@@ -40,6 +40,9 @@ body
 .fas
     color: $FontColor
 
+.fas.fa-bolt
+    color: $GreenAccent
+
 .btn
     margin: 5px
     padding: 10px 15px
@@ -57,6 +60,8 @@ body
     background-color: $DarkGreenAccent
 
 .container--header
+    display: flex
+    align-items: center
     position: fixed
     top: 0
     left: 0
@@ -64,6 +69,7 @@ body
     z-index: 1000
     background-color: $HeaderBackground
     box-shadow: 0 3px 6px rgba(0,0,0,.3)
+    height: 90px
 
 .container--car_info
     padding: 10px 0
@@ -76,7 +82,7 @@ body
 
 .container--logout_menu
     position: absolute
-    top: 10px
+    top: 15px
     right: 10px
     font-size: 16px
     cursor: pointer
@@ -192,6 +198,8 @@ body
 
 .container--modal_login #login-error
     color: $RedAccent
+    text-align: center
+    font-size: 22px
 
 .container--modal_login .container--header
     height: 71px
