@@ -59,7 +59,7 @@ class PasswordCheck extends Component{
         pass: this.state.password
     })
     .then(function (response) {
-        
+      self.showError("You have two minutes to start driving the vehicle");
     })
     .catch(function (error) {
       self.showError("Error: Could not start vehicle");
