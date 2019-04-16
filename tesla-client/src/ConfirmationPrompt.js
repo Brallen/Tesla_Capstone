@@ -27,7 +27,6 @@ class ConfirmationPrompt extends Component{
       payload: {
         showErrorPrompt: true,
         showConfirmationPrompt: false,
-        showControlModal: false,
         errorText: text
       }
     })

@@ -28,7 +28,6 @@ class PasswordCheck extends Component{
       payload: {
         showErrorPrompt: true,
         showPasswordPrompt: false,
-        showControlModal: false,
         errorText: text
       }
     })

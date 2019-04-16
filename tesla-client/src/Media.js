@@ -42,7 +42,6 @@ class MediaModal extends Component{
       type: 'UPDATE_OBJECT',
       payload: {
         showErrorPrompt: true,
-        showMediaModal: false,
         errorText: text
       }
     })

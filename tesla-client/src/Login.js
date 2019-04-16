@@ -21,6 +21,7 @@ class LoginModal extends Component {
     this.setLocalOptions = this.setLocalOptions.bind(this);
     this.handleRemember = this.handleRemember.bind(this);
     this.handleEnterPressed = this.handleEnterPressed.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount(){
@@ -64,6 +65,17 @@ class LoginModal extends Component {
       payload: {
         showLogin: false
       }
+    });
+  }
+
+  logout(){
+    //delete our user cookie
+    const { cookies } = this.props;
+    cookies.remove('token', { path: '/' });
+    cookies.remove('refreshToken', { path: '/' });
+    //reset client state
+    store.dispatch({
+      type: 'LOGOUT'
     });
   }
 
@@ -120,6 +132,8 @@ class LoginModal extends Component {
         cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
     })
     .catch(function (error) {
+      //possibly add a login failed here
+      self.logout();
       console.log(error);
     });
   }
@@ -131,25 +145,6 @@ class LoginModal extends Component {
       authToken: self.state.authToken
     })
     .then(function (response) {
-      //then try to refresh the token
-        /*axios.post('/refreshToken', {
-          refreshToken: self.state.refreshToken
-        })
-        .then(function (response) {
-          //if we do refresh, store our new cookies and update state
-          self.setState({ authToken: response.data.authToken });
-          //if remember me is checked we will set cookies
-          if(self.props.rememberMeChecked === true){
-            cookies.set('token', response.data.authToken, { path: '/' });
-            cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });*/
-      
-
-      //from vehicleID call
       self.setState({ 
         localVehicleObject: response.data 
       });

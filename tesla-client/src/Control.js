@@ -48,7 +48,6 @@ class ControlModal extends Component{
       type: 'UPDATE_OBJECT',
       payload: {
         showErrorPrompt: true,
-        showControlModal: false,
         errorText: text
       }
     })

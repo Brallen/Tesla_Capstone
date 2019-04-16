@@ -44,7 +44,6 @@ class ChargingModal extends Component{
       type: 'UPDATE_OBJECT',
       payload: {
         showErrorPrompt: true,
-        showChargingModal: false,
         errorText: text
       }
     })

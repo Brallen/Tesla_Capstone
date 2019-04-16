@@ -172,7 +172,6 @@ class ClimateModal extends Component{
       type: 'UPDATE_OBJECT',
       payload: {
         showErrorPrompt: true,
-        showClimateModal: false,
         errorText: text
       }
     })

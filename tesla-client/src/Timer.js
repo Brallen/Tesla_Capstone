@@ -93,7 +93,7 @@ class Timer extends Component {
               store.dispatch({
                 type: 'UPDATE_OBJECT',
                 payload: {
-                  waitingForWake: true
+                  waitingForWake: false
                 }
               })
             });
