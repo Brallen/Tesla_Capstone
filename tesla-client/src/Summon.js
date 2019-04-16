@@ -14,10 +14,11 @@ class SummonModal extends Component{
     this.showError = this.showError.bind(this);
     this.summonBackwards = this.summonBackwards.bind(this);
     this.summonForwards = this.summonForwards.bind(this);
+    this.summonAbort = this.summonAbort.bind(this);
   }
 
   componentDidMount(){
-    this.setState({ 
+    this.setState({
       localOptions: this.props.localOptionsProp
     });
   }
@@ -56,11 +57,40 @@ class SummonModal extends Component{
   }
 
   summonBackwards(){
-    alert("Summon Backwards pressed");
+    axios.post('/summonBackward', {
+      //update these to send correct info
+    })
+    .then(function(response){
+
+    })
+    .catch(function(error){
+
+    });
+    //alert("Summon Backwards pressed");
   }
 
   summonForwards(){
-    alert("Summon Forwards pressed");
+    axios.post('/summonForward', {
+
+    })
+    .then(function(response){
+
+    })
+    .catch(function(error){
+
+    });
+    //alert("Summon Forwards pressed");
+  }
+
+  summonAbort(){
+    axios.post('/summonAbort')
+    .then(function(response){
+
+    })
+    .catch(function(error){
+
+    });
+    //alert("Summon Aborted");
   }
 
   //The Modal - need to include in Main.js for link
@@ -73,8 +103,8 @@ class SummonModal extends Component{
                       <button onClick={this.hideSummonModal}id="modal--control_close" className="modal--close_button"><i className="fas fa-times"></i></button>
                   </div>
                   <ul className="list--modal_btn">
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.summonForwards} id="enginetoggle_btn">Summon Forward</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.summonBackwards} id="lock">Summon Backwards</button></li>
+                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onMouseDown={this.summonForwards} onMouseUp={this.summonAbort} id="enginetoggle_btn">Summon Forward</button></li>
+                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onMouseDown={this.summonBackwards} onMouseUp={this.summonAbort} id="lock">Summon Backwards</button></li>
                   </ul>
               </div>
           </Modal>

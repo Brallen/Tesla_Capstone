@@ -4,11 +4,15 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 const teslajs = require('teslajs');
+const WS13 = require('websocket13');
 let bodyParser = require('body-parser');
 
 let port = process.env.PORT || 3001;
 let app = express();
 var testMode = false;
+
+//websocket for autopark/summon
+let ws = new WS13.WebSocket("wss://streaming.vn.teslamotors.com/streaming/");
 
 //app.set('view engine', 'html');
 app.use(bodyParser.json());
@@ -675,6 +679,39 @@ app.post('/refreshToken', function (req, res) {
             console.log("ERROR - Tesla Response: " + err);
             res.status(400).send(true);
         });
+});
+
+//streaming commands
+app.post('/summonForward', function(req, res){
+    //let ws = new WS13.WebSocket("wss://streaming.vn.teslamotors.com/streaming/");
+
+    //get options variable for tag & token
+
+    ws.send(JSON.stringify({
+      "tag": req.body.vehicleID,
+      "token": req.body.authToken,
+      "msg_type": "autopark:cmd_forward",
+      "latitude": req.body.latitude,
+      "longitude": req.body.longitude
+    }));
+});
+
+app.post('/summonBackward', function(req, res){
+    ws.send(JSON.stringify({
+      "tag": req.body.vehicleID,
+      "token": req.body.authToken,
+      "msg_type": "autopark:cmd_backward",
+      "latitude": req.body.latitude,
+      "longitude": req.body.longitude
+    }));
+});
+
+app.post('/summonAbort', function(req, res){
+  ws.send(JSON.stringify({
+    "tag": req.body.vehicleID,
+    "token": req.body.authToken,
+    "msg_type": "autopark:cmd_abort",
+  }));
 });
 
 
