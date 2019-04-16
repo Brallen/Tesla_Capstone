@@ -13,6 +13,7 @@ const defaultState = {
     showMediaModal: false,
     showClimateModal: false,
     showChargingModal: false,
+    showSummonModal: false,
     showDiagnosticsModal: false,
     showErrorPrompt: false,
     chargingTF: false,

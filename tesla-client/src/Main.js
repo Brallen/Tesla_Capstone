@@ -15,6 +15,7 @@ import PasswordPrompt from './PasswordPrompt.js';
 import LogoutPrompt from './LogoutPrompt.js';
 import ConfirmationPrompt from './ConfirmationPrompt.js';
 import ErrorPrompt from './ErrorPrompt.js';
+import SummonModal from './Summon.js';
 
 class Main extends Component{
   constructor(props){
@@ -104,6 +105,17 @@ class Main extends Component{
     })
   }
 
+  showSummon(){
+    var newStore = store.getState();
+    newStore.state.showSummonModal = true;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showSummonModal: newStore.state.showSummonModal
+      }
+    })
+  }
+
 
   render(){
     return(
@@ -126,10 +138,10 @@ class Main extends Component{
                 <li className="item--control_btn"><button onClick={this.showCharging} id="modal--charging_open" className="btn btn--control_btn">Charging</button></li>
               : null}
               {this.props.vehicleLoaded ? 
-                <li className="item--control_btn"><button onClick={this.showDiagnostics} id="modal--store" className="btn btn--control_btn">Diagnostics</button></li>
+                <li className="item--control_btn"><button onClick={this.showSummon} id="modal--charging_open" className="btn btn--control_btn">Summon Vehicle</button></li>
               : null}
               {this.props.vehicleLoaded ? 
-                <li className="item--control_btn"><button onClick={this.alertStoreFunc} id="modal--test" className="btn btn--control_btn">Test Button</button></li>
+                <li className="item--control_btn"><button onClick={this.showDiagnostics} id="modal--store" className="btn btn--control_btn">Diagnostics</button></li>
               : null}
               
             </ul>  
@@ -139,6 +151,7 @@ class Main extends Component{
           <MediaModal/>
           <ClimateModal/>
           <ControlModal/>
+          <SummonModal/>
           <LoginModal/>
           <Timer />
           <PasswordPrompt/>
