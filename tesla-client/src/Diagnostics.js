@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import {store} from './store/index.js';
 import { connect } from 'react-redux';
 import {withCookies} from 'react-cookie';
+import Prism from "prismjs";
+import "./Assets/Styles/prism.css";
+import "prismjs/components/prism-json"
 
 class Diagnostics extends Component{
   constructor(props) {
@@ -19,6 +22,7 @@ class Diagnostics extends Component{
   }
   
   componentDidMount(){
+    Prism.highlightAll();
     this.setState({ 
       localOptions: this.props.localOptionsProp
     });
@@ -39,15 +43,15 @@ class Diagnostics extends Component{
     var newStore = store.getState();
     newStore.state.toggleVehicleState = !newStore.state.toggleVehicleState;
     store.dispatch({
-      type: 'UPDATE_OBJECT',
-      payload: {
-        toggleVehicleState: newStore.state.toggleVehicleState,
-        toggleDriveState: false,
-        toggleChargeState: false,
-        toggleClimateState: false,
-        toggleVehicleConfig: false,
-        toggleGUISettings: false
-      }
+        type: 'UPDATE_OBJECT',
+        payload: {
+            toggleVehicleState: newStore.state.toggleVehicleState,
+            toggleDriveState: false,
+            toggleChargeState: false,
+            toggleClimateState: false,
+            toggleVehicleConfig: false,
+            toggleGUISettings: false
+        }
     })
   }
   toggleDriveState(){
@@ -143,14 +147,14 @@ render(){
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.toggleClimateState} id="flashlights_btn">View Climate States</button></li>
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.toggleVehicleConfig} id="openfrunk_btn">View Vehicle Config</button></li>
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.toggleGUISettings} id="opentrunk_btn">View GUI Settings</button></li>
-
-                  </ul>
-                {this.props.toggleVehicleState ? <pre>Vehicle State: {JSON.stringify(this.props.vehicleData.vehicle_state, null, 4)}</pre>  : null}
-                {this.props.toggleDriveState ? <pre>Drive State: {JSON.stringify(this.props.vehicleData.drive_state, null, 4)}</pre> : null}
-                {this.props.toggleChargeState ? <pre>Charge State: {JSON.stringify(this.props.vehicleData.charge_state, null, 4)}</pre> : null}
-                {this.props.toggleClimateState ? <pre>Climate State: {JSON.stringify(this.props.vehicleData.climate_state, null, 4)}</pre> : null}
-                {this.props.toggleVehicleConfig ? <pre>Vehicle Config: {JSON.stringify(this.props.vehicleData.vehicle_config, null, 4)}</pre> : null}
-                {this.props.toggleGUISettings ? <pre>GUI Settings: {JSON.stringify(this.props.vehicleData.gui_settings, null, 4)}</pre> : null}
+                </ul>
+                
+                {this.props.toggleVehicleState ? <pre className="language-json" dangerouslySetInnerHTML={{__html: "Vehicle State: " + Prism.highlight(JSON.stringify(this.props.vehicleData.vehicle_state, null, 4), Prism.languages.json)}}></pre>: null}
+                {this.props.toggleDriveState ? <pre className="language-json" dangerouslySetInnerHTML={{__html: "Drive State: " + Prism.highlight(JSON.stringify(this.props.vehicleData.drive_state, null, 4), Prism.languages.json)}}></pre>: null}
+                {this.props.toggleChargeState ? <pre className="language-json" dangerouslySetInnerHTML={{__html: "Charge State: " + Prism.highlight(JSON.stringify(this.props.vehicleData.charge_state, null, 4), Prism.languages.json)}}></pre>: null}
+                {this.props.toggleClimateState ? <pre className="language-json" dangerouslySetInnerHTML={{__html: "Climate State: " + Prism.highlight(JSON.stringify(this.props.vehicleData.climate_state, null, 4), Prism.languages.json)}}></pre>: null}
+                {this.props.toggleVehicleConfig ? <pre className="language-json" dangerouslySetInnerHTML={{__html: "Vehicle Config: " + Prism.highlight(JSON.stringify(this.props.vehicleData.vehicle_config, null, 4), Prism.languages.json)}}></pre>: null}
+                {this.props.toggleGUISettings ? <pre className="language-json" dangerouslySetInnerHTML={{__html: "GUI Settings: " + Prism.highlight(JSON.stringify(this.props.vehicleData.gui_settings, null, 4), Prism.languages.json)}}></pre>: null}
             </div>
         </Modal>
     </div>

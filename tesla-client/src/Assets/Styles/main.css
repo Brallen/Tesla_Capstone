@@ -148,6 +148,11 @@ body {
   text-align: center;
 }
 
+.modal pre {
+  margin: 28px auto 0 auto;
+  width: 80%;
+}
+
 .modal-content-diagnostics {
   background-color: #33333C;
   word-wrap: break-word;
