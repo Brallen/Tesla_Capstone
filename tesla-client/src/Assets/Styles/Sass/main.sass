@@ -40,6 +40,9 @@ body
 .fas
     color: $FontColor
 
+.fas.fa-bolt
+    color: $GreenAccent
+
 .btn
     margin: 5px
     padding: 10px 15px
@@ -57,6 +60,8 @@ body
     background-color: $DarkGreenAccent
 
 .container--header
+    display: flex
+    align-items: center
     position: fixed
     top: 0
     left: 0
@@ -64,6 +69,7 @@ body
     z-index: 1000
     background-color: $HeaderBackground
     box-shadow: 0 3px 6px rgba(0,0,0,.3)
+    height: 90px
 
 .container--car_info
     padding: 10px 0
@@ -76,7 +82,7 @@ body
 
 .container--logout_menu
     position: absolute
-    top: 10px
+    top: 15px
     right: 10px
     font-size: 16px
     cursor: pointer
@@ -137,6 +143,10 @@ body
     border-radius: 5px
     text-align: center
 
+.modal pre
+    margin: 28px auto 0 auto
+    width: 80%
+
 .modal-content-diagnostics
     background-color: $BackgroundColor
     word-wrap: break-word
@@ -170,14 +180,19 @@ body
     margin: 0 auto
 
 .container--modal_login .login-form-text
-    text-align: right
+    text-align: left
     padding: 10px 15px 10px 0
+    margin-left: 29px
+    width: 249px
 
 .container--modal_login input
     color: $Black
     background-color: $White
     border-radius: 2px
     margin: 6px 0
+
+.container--modal_login input:not(#checkbox)
+    width: 100%
 
 .container--modal_confirm input
     color: $Black
@@ -187,6 +202,8 @@ body
 
 .container--modal_login #login-error
     color: $RedAccent
+    text-align: center
+    font-size: 22px
 
 .container--modal_login .container--header
     height: 71px
@@ -213,28 +230,22 @@ body
     font-size: 25px
 
 .modal--slider
-    -webkit-appearance: none
+    margin: 30px auto
     width: 80%
-    height: 7px
-    border-radius: 3px
-    background: $LightGreenAccent
-    margin: 20px
 
-.modal--slider::-webkit-slider-thumb
-  -webkit-appearance: none
-  appearance: none
-  width: 20px
-  height: 20px
-  border-radius: 50%
-  background: $ButtonColor
-  cursor: pointer
+.modal--slider .rangeslider
+    height: 9px
 
-.modal--slider::-moz-range-thumb
-  width: 20px
-  height: 20px
-  border-radius: 50%
-  background: $ButtonColor
-  cursor: pointer
+.modal--slider .rangeslider-horizontal .rangeslider__fill
+    background-color: $GreenAccent
+
+.modal--slider .rangeslider-horizontal .rangeslider__handle::after
+    content: none
+
+.modal--slider .rangeslider-horizontal .rangeslider__handle
+    width: 20px
+    height: 20px
+    border-radius: 20px
 
 .modal--media_controls
     margin: 15px 0
@@ -314,17 +325,3 @@ body
 
 #confirm--password 
     display: inline
-
-
-// Commenting out for now until we can get the battery percentage
-// #charging--charge_slider
-//     height: 15px
-
-// #charging--charge_slider::-webkit-slider-thumb
-//     border-radius: 0
-//     width: 7px
-//     height: 25px
-// #charging--charge_slider::moz-range-thumb
-//     border-radius: 0
-//     width: 7px
-//     height: 25px
