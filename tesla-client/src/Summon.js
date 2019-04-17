@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import {store} from './store/index.js';
 import { connect } from 'react-redux';
-import { axios } from 'axios';
+import axios from 'axios';
 
 class SummonModal extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      localOptions: {}
+      localOptions: {},
+      vehicleDataObject: {}
     };
     this.refreshGlobalTimerWhenAction = this.refreshGlobalTimerWhenAction.bind(this);
     this.hideSummonModal = this.hideSummonModal.bind(this);
@@ -19,7 +20,8 @@ class SummonModal extends Component{
 
   componentDidMount(){
     this.setState({
-      localOptions: this.props.localOptionsProp
+      localOptions: this.props.localOptionsProp,
+      vehicleDataObject: this.props.vehicleDataProp
     });
   }
 
@@ -58,37 +60,43 @@ class SummonModal extends Component{
 
   summonBackwards(){
     axios.post('/summonBackward', {
-      //update these to send correct info
+        auth: JSON.stringify(this.state.localOptions),
+        latitude: this.state.vehicleDataObject.drive_state.latitude,
+        longitude: this.state.vehicleDataObject.drive_state.longitude
     })
     .then(function(response){
-
+        //console.log(response);
     })
     .catch(function(error){
-
+        //console.log("Error - SummonBackward Command: " + error);
     });
     //alert("Summon Backwards pressed");
   }
 
   summonForwards(){
     axios.post('/summonForward', {
-
+        auth: JSON.stringify(this.state.localOptions),
+        latitude: this.state.vehicleDataObject.drive_state.latitude,
+        longitude: this.state.vehicleDataObject.drive_state.longitude
     })
     .then(function(response){
-
+        //console.log(response);
     })
     .catch(function(error){
-
+        //console.log("Error - SummonForward Command: " + error);
     });
     //alert("Summon Forwards pressed");
   }
 
   summonAbort(){
-    axios.post('/summonAbort')
+    axios.post('/summonAbort',{
+        auth: JSON.stringify(this.state.localOptions),
+    })
     .then(function(response){
-
+        //console.log(response);
     })
     .catch(function(error){
-
+      //console.log("Error - SummonAbort Command: " + error);
     });
     //alert("Summon Aborted");
   }
@@ -125,7 +133,9 @@ const Modal = ({ handleClose, show, children }) => {
 
 const mapStateToProps = (state) => {
   return {
-    showControl: state.state.showSummonModal
+    showControl: state.state.showSummonModal,
+    vehicleDataProp: state.state.vehicleDataObject,
+    localOptionsProp: state.state.localOptions
   }
 }
 
