@@ -71,7 +71,7 @@ class ChargingModal extends Component{
     this.setState({
       maxCharge: parseInt(value)
     });
-    newStore.state.vehicleDataObject.charge_state.charge_limit_soc = parseInt(this.state.maxCharge);
+    newStore.state.vehicleDataObject.charge_state.charge_limit_soc = parseInt(value);
     store.dispatch({
       type: 'UPDATE_OBJECT',
       payload: {

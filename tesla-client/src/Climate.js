@@ -66,8 +66,8 @@ class ClimateModal extends Component{
     this.setState({ 
       temperature: parseFloat(value)
     });
-    newStore.state.vehicleDataObject.climate_state.driver_temp_setting = parseFloat(this.state.temperature);
-    newStore.state.vehicleDataObject.climate_state.passenger_temp_setting = parseFloat(this.state.temperature);
+    newStore.state.vehicleDataObject.climate_state.driver_temp_setting = parseFloat(value);
+    newStore.state.vehicleDataObject.climate_state.passenger_temp_setting = parseFloat(value);
 
     store.dispatch({
       type: 'UPDATE_OBJECT',
