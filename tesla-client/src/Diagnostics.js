@@ -140,14 +140,13 @@ render(){
                     <button onClick={this.hideDiagnosticsModal}id="modal--diagnostics_close" className="modal--close_button"><i className="fas fa-times"></i></button>
                 </div>
 
-                <ul className="list--modal_btn">
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.toggleVehicleState} id="enginetoggle_btn">View Vehicle State</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.toggleDriveState} id="lock">View Drive State</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.toggleChargeState} id="honk">View Charge State</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.toggleClimateState} id="flashlights_btn">View Climate States</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.toggleVehicleConfig} id="openfrunk_btn">View Vehicle Config</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.toggleGUISettings} id="opentrunk_btn">View GUI Settings</button></li>
-                </ul>
+                <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleVehicleState} id="enginetoggle_btn">Vehicle State</button>
+                <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleDriveState} id="lock">Drive State</button>
+                <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleChargeState} id="honk">Charge State</button>
+                <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleClimateState} id="flashlights_btn">Climate States</button>
+                <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleVehicleConfig} id="openfrunk_btn">Vehicle Config</button>
+                <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleGUISettings} id="opentrunk_btn">GUI Settings</button>
+                
                 
                 {this.props.toggleVehicleState ? <pre className="language-json" dangerouslySetInnerHTML={{__html: "Vehicle State: " + Prism.highlight(JSON.stringify(this.props.vehicleData.vehicle_state, null, 4), Prism.languages.json)}}></pre>: null}
                 {this.props.toggleDriveState ? <pre className="language-json" dangerouslySetInnerHTML={{__html: "Drive State: " + Prism.highlight(JSON.stringify(this.props.vehicleData.drive_state, null, 4), Prism.languages.json)}}></pre>: null}
