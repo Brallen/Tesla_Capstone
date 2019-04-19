@@ -125,7 +125,7 @@ class Main extends Component{
               {this.props.vehicleLoaded ? 
                 <li className="item--control_btn"><button onClick={this.showCharging} id="modal--charging_open" className="btn btn--control_btn">Charging</button></li>
               : null}
-              {this.props.vehicleLoaded ? 
+              {(this.props.vehicleLoaded && !this.props.vehicleOptions.includes('MDL3')) ? 
                 <li className="item--control_btn"><button onClick={this.showSummon} id="modal--charging_open" className="btn btn--control_btn">Summon Vehicle</button></li>
               : null}
               {this.props.vehicleLoaded ? 
@@ -161,7 +161,8 @@ const mapStateToProps = (state) => {
     loginState: state.state.initialVehicleLoginObject,
     vehicleSunroof: state.state.vehicleDataObject.vehicle_state.sun_roof_percent_open,
     vehicleClimateUnit: state.state.vehicleDataObject.gui_settings.gui_temperature_units,
-    vehicleLoaded: state.state.initialVehicleLoaded
+    vehicleLoaded: state.state.initialVehicleLoaded,
+    vehicleOptions: state.state.vehicleDataObject.option_codes
   }
 }
 
