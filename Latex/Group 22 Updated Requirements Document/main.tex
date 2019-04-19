@@ -1,0 +1,246 @@
+\documentclass[onecolumn, draftclsnofoot,10pt, compsoc]{IEEEtran}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{setspace}
+\usepackage{cite}
+\usepackage{geometry}
+\usepackage{pgfgantt}
+\usepackage{longtable}
+\geometry{textheight=9.5in, textwidth=7in}
+% 1. Fill in these details
+\def \CapstoneTeamName{                 The Ingineers}
+\def \CapstoneTeamNumber{               22}
+\def \GroupMemberOne{                   Brett Case}
+\def \GroupMemberTwo{                   Alexander Morefield}
+\def \GroupMemberThree{                 James Zeng}
+\def \GroupMemberFour{                  Christopher Jansen}
+\def \GroupMemberFive{                  Burton Jaursch}
+\def \CapstoneProjectName{              Tesla Web Application}
+\def \CapstoneSponsorCompany{           Cafe Electric LLC}
+\def \CapstoneSponsorPerson{            Otmar Ebenhoech}
+
+% 2. Uncomment the appropriate line below so that the document type works
+\def \DocType{                  %Problem Statement
+                                Requirements Document
+                                %Technology Review
+                                %Design Document
+                                %Progress Report
+                                }
+
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil   \makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill            \makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil                \makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill  \makebox[.75in][r]{Date}}}}
+% 3. If the document is not to be signed, uncomment the RENEWcommand below
+%\renewcommand{\NameSigPair}[1]{#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+        % \includegraphics[height=4cm]{coe_v_spot1}
+        \hfill
+        % 4. If you have a logo, use this includegraphics command to put it on the coversheet.
+        %\includegraphics[height=4cm]{CompanyLogo}
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge CS Capstone \DocType \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge\CapstoneProjectName}\par
+            \vfill
+
+            \vfill
+            {\large Prepared for}\par
+            \Huge \CapstoneSponsorCompany\par
+            \vspace{25pt}
+            {\Large\NameSigPair{\CapstoneSponsorPerson}\par}
+            {\large Prepared by }\par
+            % Group\CapstoneTeamNumber\par
+            % 5. comment out the line below this one if you do not wish to name your team
+            % \CapstoneTeamName\par
+            \vspace{5pt}
+            {\Large
+                {\GroupMemberOne}\par
+                {\GroupMemberTwo}\par
+                {\GroupMemberThree}\par
+                {\GroupMemberFour}\par
+                {\GroupMemberFive}\par
+            }
+            \vspace{20pt}
+        }
+        \begin{abstract}
+        % 6. Fill in your abstract
+        This document will cover the requirements for the Tesla Web App capstone group. Inside are the specifications that we will follow as we implement our design.
+        \end{abstract}
+    \end{singlespace}
+\end{titlepage}
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+% 7. uncomment this (if applicable). Consider adding a page break.
+%\listoffigures
+%\listoftables
+\clearpage
+\newpage
+\section{Changes}
+\begin{itemize}
+    \item Added section in introduction explaining what the modified purpose for the app is.
+    \item Updated promises about achieving feature parity with the Tesla App throughout, as this proved not possible in our time frame and due to API limitations.
+    \item Added more accurate description of app in section 5.2.
+    \item Added updated user description in section 5.3.3.
+    \item Expanded section 5.3.2 to show complete detail of system functions.
+    \item Removed all references to a user and car database, as this proved unnecessary for the project.
+\end{itemize}
+
+% 8. now you write!
+\section{Introduction}
+This project exists to provide a way to control a Tesla car after it has been totaled.
+Currently, if a Tesla car gets into a serious accident, it loses all support from Tesla including the use of their application.
+Our application will fill the void and let salvage title Tesla car owners have a way to remotely control their car again.
+
+Though this is the ultimate purpose of the project, our original client is no longer involved in the project so we can no longer access these grey market vehicles, only those on the official Tesla server. However, we have had some communication with our client who said if we can get it working on official Tesla servers, he could modify to work on his system. All this is to say, our project as it exists will not satisfy the original purpose and our requirements have been updated for this new direction. We have connected with Cafe Electric LLC for some project guidance and ability to test on production Tesla vehicles.
+
+\section{Definition, Acronyms, and Abbreviations}
+\subsection{Definitions}
+\begin{itemize}
+    \item \textbf{3.1 User Interface:} The way a user would interact with a piece of software.
+    \item \textbf{3.1 User Experience:} The overall experience the user has using a piece of software.
+\end{itemize}
+\subsection{Acronyms and Abbreviations}
+\begin{itemize}
+    \item \textbf{3.1 HTTPS:} Hyper Text Transfer Protocol Secure
+    \item \textbf{3.1 UI:} User Interface
+    \item \textbf{3.1 UX:} User Experience
+\end{itemize}
+\section{Stakeholder Requirements Specification}
+After talking the client, Phil Sadow, he expressed hesitations regarding specific stakeholder requirements. He mentioned the value in having owners of blacklisted Teslas (Tesla cars that have been totaled and are no longer supported by the company) to once again be able to enjoy and service their vehicles. Further, Sadow has placed the value of the Tesla app as the main requirement and evaluation of the ultimate project. If the app has the same responsiveness and usability as the application, Sadow believes this will be roughly all that is necessary for users and for himself.\\
+Further studies can be conducted looking into what users of these Teslas will be wanting out of an application and further stakeholder requirements can be created through the process of this research. 
+
+\section{System Requirements Specification}
+\subsection{System Purpose}
+This application serves to provide controls in a web app for Tesla vehicles.
+\subsection{System Scope}
+This web application will offer much of the same functionality as Tesla's first party app. This includes, primarily, vehicle controls, climate controls, media controls, and charging controls, and some basic diagnostics that we can access through Tesla servers.
+
+\subsection{System Overview}
+\subsubsection{System Context}
+This web app will allow its users to control their Tesla vehicle. The user will log into their account that contains their specific car and have access to different actions they can do. Clicking one of these will cause the car to do the selected action, i.e. turn on or off.
+\subsubsection{System Functions} \label{sssec:functions}
+This is the complete definition of how the app should function.
+\begin{itemize}
+    \item User can login with their Tesla email and password.
+    \item User will have the option to be remembered in their browser.
+    \item User can sign out, which will take them back to the login screen and destroy the login cookie if they chose to be remembered.
+    \item If the login info is bad, the user will be denied access.
+    \item If the email is "test", a test version of the app will open.
+    \item Once they've logged in successfully, the user will have access to a control modal, a media modal, a climate modal, a charging modal, and a diagnostics modal.
+    \item All these modals can be closed with a x button in the corner, returning the user to the main page.
+    \item In the controls modal, user will have access to a start engine button.
+    \item The start engine button requires the user to enter their password.
+    \item If the password is correct, the user will be told they have two minutes to start driving before the car shuts off.
+    \item The user will have a button to lock/unlock the car.
+    \item Lock/unlock button opens a confirmation prompt.
+    \item Lock/unlock and lock button text changes along with state of vehicle
+    \item The user will be able to honk the horn.
+    \item The user will be able to flash the light.
+    \item The user will be able to open the trunk/frunk.
+    \item The open trunk/frunk button opens a confirmation prompt.
+    \item In the media modal, the user will be able to increase/decrease media volume.
+    \item The user will also be able to play/pause songs, and skip to the previous or next track.
+    \item In the climate modal, the user will have access to a climate slider to the set the temperature.
+    \item The climate slider's unit is shown in fahrenheit or celsius depending on the vehicle preferences.
+    \item The user will also have a button to turn the climate control on/off entirely.
+    \item The user will also be able to control the seat heating levels for each seat using buttons that are color coded for each level.
+    \item Seat heat levels wrap once the maximum (3) is surpassed.
+    \item In the charging modal, the user will be able to set a max xharge level for the car, which defaults to 90\%.
+    \item When the charge port is closed, user will have a button to open it.
+    \item When the user plugs in the vehicle, stop charge button appears.
+    \item While the vehicle is charging, the user will only be able to stop the charge in this modal.
+    \item Once the charge is stopped, the user will be able to unlock the charger latch, disconnecting the charger.
+    \item Once the charger is disconnected, the user will be able to close the charge port.
+    \item If charging is completed, the user will only be able to disconnect the charger from the charging modal.
+    \item In the diagnostics modal, the user has access to the complete car state JSON, styled for readability.
+    \item All information about the state of the vehicle is automatically updated every ten seconds.
+\end{itemize}
+\subsubsection{User Characteristics}
+The users of this app will be Tesla owners who want to control their cars remotely. They may want to use this over the Tesla app because it works on any device type, however ultimately we hope this will be used by grey-market Tesla owners who are no longer supported by Tesla.
+\subsubsection{System Interfaces}
+The system will be accessed through any web browser to control the user's car.
+\subsection{System Operations}
+\subsubsection{Reliability}
+There should be as little downtime as possible when working because any downtime means the users can't control their cars.
+It's crucial to make this system as dependable as possible since as it scales up, more and more people will be using it so any down time would cause large problems.
+\subsection{System Modes and States}
+The system will exist in a web app.
+\subsection{Physical Characteristics}
+\subsubsection{System Security}
+The site will have specific logins for each user account.
+Once logged in, all traffic will be encrypted with HTTPS.
+No user information will be stored server side. Client-side cookies only contain an authentication token, which can be easily changed, and the cookie is optional. The authentication tokens are also changed every login to keep them as secure as possible. Actual log in credentials are never stored anywhere, even client-side.
+\subsection{Verification}
+The application will be completed when its functionality defined in section \ref{sssec:functions} is completed.
+\subsection{Assumptions and Dependencies}
+We assume that the user will be able to connect to the internet since this application runs in a web browser and needs to connect to a remote database.
+
+\section{Software Requirements Specification}
+
+\subsection{Purpose}
+The general purpose of this web application is to establish a front-end interface which the user can use as a control panel for their car, and a back-end that will connect to our server which interacts with the car's API\cite{1}.
+
+\subsection{Scope}
+To create this interface, we will implement a web page that displays all of the required information and provides vehicle controls that the user can interact with. 
+We will make the web-page dynamic and interactive by making use of page styling and JavaScript.
+The objective with this web page is to make it a slick user experience similar to that offered by the official Tesla app. 
+Some specific goals include dynamic page updates, and use of graphics to display vehicle status.\\*
+We will also write a back-end script for the web app.
+The primary function of this will be to take requests from the web page and either pull data from the database of salvaged vehicles or pass it on to the car via the vehicle API.
+
+\subsection{Product Perspective}
+This web app will have to interact with the Teslas that it is controlling. It will do this using the TeslaJS API, which allows us to submit commands and fetch state information to and from the car via JSON objects.
+
+\subsection{Product Functions}
+The web application will have the same functions similar to those described in \ref{sssec:functions} System Functions. The final product will fit both desktop and mobile viewports and dynamically configure the controls to best fit the corresponding view.
+
+\subsection{Performance Metrics}
+
+    There are two main metrics that will be examined within the development of the web app. 
+    The first, which is difficult to measure, is to have comparable usability to the official Tesla app.
+    Our application will display more diagnostic information than the Tesla app, but the comparison between the applications is the main metric for completion.
+    
+    The second metric we will be using is the speed and responsiveness of the application to requests by users.
+    For example, when the unlock button is pressed, we do not want the request to take more than a couple of seconds to be sent out and for the unlock action to finally happen.
+    It should be expected that the application should at least respond to a user's request within a second, and for the request to be initiated by the vehicle within two to three seconds.
+    While the speed of an internet connection can affect the how quickly these actions take place, we have to assume there will be a sufficient connection and that the application will not be suffering from a heavy workload.
+
+\section{Information Item Content} 
+
+%---Gantt Chart Goes Here---%
+\begin{ganttchart}[vgrid,
+  vrule/.style={very thick, blue}]{1}{30}
+\gantttitle{Tesla Web Application}{30} \\
+\gantttitle{Fall Term}{10}
+\gantttitle{Winter Term}{10}
+\gantttitle{Spring Term}{10} \\
+\gantttitlelist{1,...,30}{1} \\
+\ganttbar{Design}{1}{10} \\
+\ganttbar{Re-write Backend}{11}{13} \\
+\ganttlinkedbar{API Integration}{14}{16} \\
+\ganttlinkedbar{Backend Gives Diagnostics}{17}{20} \\
+\ganttlinkedbar{API Controls Car}{21}{25} \\
+\ganttbar{UX Research}{11}{14} \\
+\ganttlinkedbar{UX Design}{15}{16} \\
+\ganttlinkedbar{Front End Template}{16}{17} \\ 
+\ganttlinkedbar{Componetize Front End}{18}{20} \\
+\ganttbar{Testing}{23}{30} \\
+\ganttbar{Design Booth}{27}{28} \\
+\ganttlinkedbar{Create Booth}{29}{30}
+\ganttlink{elem4}{elem9}
+\ganttlink{elem8}{elem9}
+\end{ganttchart}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}
