@@ -44,7 +44,7 @@ body {
 }
 
 .btn--control_btn {
-  width: 75%;
+  flex-basis: 75%;
 }
 
 .btn:active {
@@ -127,6 +127,9 @@ body {
   width: 100%;
   max-width: 768px;
   margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .modal {
@@ -371,6 +374,11 @@ body {
   .logout-button {
     top: 34px;
     right: -10px;
+  }
+}
+@media only screen and (min-width: 500px) {
+  .btn--control_btn {
+    flex-basis: 48%;
   }
 }
 @media only screen and (min-width: 768px) {
