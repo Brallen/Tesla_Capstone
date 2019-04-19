@@ -112,27 +112,25 @@ class Main extends Component{
         <main className="container--main_section">
           <Image/>
           <div className="container--control_btn">
-            <ul className="list--control_btn">
               {this.props.vehicleLoaded ? 
-                <li className="item--control_btn"><button onClick={this.showControls} id="modal--control_open" className="btn btn--control_btn">Controls</button></li>
+                <button onClick={this.showControls} id="modal--control_open" className="btn btn--control_btn">Controls</button>
               : null}
               {this.props.vehicleLoaded ? 
-                <li className="item--control_btn"><button onClick={this.showMedia}id="modal--media_open" className="btn btn--control_btn">Media</button></li>
+                <button onClick={this.showMedia}id="modal--media_open" className="btn btn--control_btn">Media</button>
               : null}
               {this.props.vehicleLoaded ? 
-                <li className="item--control_btn"><button onClick={this.showClimate} id="modal--climate_open" className="btn btn--control_btn">Climate</button></li>
+                <button onClick={this.showClimate} id="modal--climate_open" className="btn btn--control_btn">Climate</button>
               : null}
               {this.props.vehicleLoaded ? 
-                <li className="item--control_btn"><button onClick={this.showCharging} id="modal--charging_open" className="btn btn--control_btn">Charging</button></li>
+                <button onClick={this.showCharging} id="modal--charging_open" className="btn btn--control_btn">Charging</button>
               : null}
               {(this.props.vehicleLoaded && !this.props.vehicleOptions.includes('MDL3')) ? 
-                <li className="item--control_btn"><button onClick={this.showSummon} id="modal--charging_open" className="btn btn--control_btn">Summon Vehicle</button></li>
+                <button onClick={this.showSummon} id="modal--charging_open" className="btn btn--control_btn">Summon Vehicle</button>
               : null}
               {this.props.vehicleLoaded ? 
-                <li className="item--control_btn"><button onClick={this.showDiagnostics} id="modal--store" className="btn btn--control_btn">Diagnostics</button></li>
+                <button onClick={this.showDiagnostics} id="modal--store" className="btn btn--control_btn">Diagnostics</button>
               : null}
               
-            </ul>  
           </div>
           <Diagnostics/>
           <ChargingModal/>
