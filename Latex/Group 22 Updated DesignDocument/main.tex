@@ -1,0 +1,356 @@
+\documentclass[onecolumn, draftclsnofoot,10pt, compsoc]{IEEEtran}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{setspace}
+\usepackage{cite}
+\usepackage{geometry}
+\usepackage{pgfgantt}
+\usepackage{longtable}
+\geometry{textheight=9.5in, textwidth=7in}
+% 1. Fill in these details
+\def \CapstoneTeamName{                 The Ingineers}
+\def \CapstoneTeamNumber{               22}
+\def \GroupMemberOne{                   Brett Case}
+\def \GroupMemberTwo{                   Alexander Morefield}
+\def \GroupMemberThree{                 James Zeng}
+\def \GroupMemberFour{                  Christopher Jansen}
+\def \GroupMemberFive{                  Burton Jaursch}
+\def \CapstoneProjectName{              Teslar Web Application}
+\def \CapstoneSponsorCompany{           Cafe Electric LLC}
+\def \CapstoneSponsorPerson{            Otmar Ebenhoech}
+
+% 2. Uncomment the appropriate line below so that the document type works
+\def \DocType{                  %Problem Statement
+                                %Requirements Document
+                                %Technology Review
+                                Design Document
+                                %Progress Report
+                                }
+
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil   \makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill            \makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil                \makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill  \makebox[.75in][r]{Date}}}}
+% 3. If the document is not to be signed, uncomment the RENEWcommand below
+%\renewcommand{\NameSigPair}[1]{#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+        % \includegraphics[height=4cm]{coe_v_spot1}
+        \hfill
+        % 4. If you have a logo, use this includegraphics command to put it on the coversheet.
+        %\includegraphics[height=4cm]{CompanyLogo}
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge CS Capstone \DocType \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge\CapstoneProjectName}\par
+            \vfill
+
+            \vfill
+            {\large Prepared for}\par
+            \Huge \CapstoneSponsorCompany\par
+            \vspace{25pt}
+            {\Large\NameSigPair{\CapstoneSponsorPerson}\par}
+            {\large Prepared by }\par
+            % Group\CapstoneTeamNumber\par
+            % 5. comment out the line below this one if you do not wish to name your team
+            % \CapstoneTeamName\par
+            \vspace{5pt}
+            {\Large
+                {\GroupMemberOne}\par
+                {\GroupMemberTwo}\par
+                {\GroupMemberThree}\par
+                {\GroupMemberFour}\par
+                {\GroupMemberFive}\par
+            }
+            \vspace{20pt}
+        }
+        \begin{abstract}
+        % 6. Fill in your abstract
+        The purpose of this document is to discuss and outline the architecture and design choices made for the Tesla Web Application
+        The functionality and design choices made for each of the technologies is discussed in detail.
+        We will go into what each piece of our application will do and how it will interact with others.
+        \end{abstract}
+    \end{singlespace}
+\end{titlepage}
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+% 7. uncomment this (if applicable). Consider adding a page break.
+%\listoffigures
+%\listoftables
+\clearpage
+\newpage
+\section{Table of changes}
+
+    \begin{longtable}{p{.3\textwidth} | p{.3\textwidth} | p{.3\textwidth}}
+    
+
+        \textbf{Section}
+        & \textbf{Original}
+        & \textbf{New}
+        \\\hline
+        \begin{itemize}
+            \item 4.3 Application Framework
+        \end{itemize}
+        & \begin{itemize}
+            \item \textit{"The framework used for the native desktop application will be electron. Electron allows us to use HTML, Sass compiled CSS, and ReactJS to build native desktop applications by combining Chromium and Node.js runtimes into an application. This provides us the opportunity to build a native desktop application based upon the same technologies our web application uses."}
+        \end{itemize}
+        & \begin{itemize}
+            \item \textit{"The framework used for the web application will be reactJS with Sass compiled CSS. ReactJS builds web applications by combining Chromium and Node.js runtimes. This allows us to focus on one project for both the desktop web application and the mobile web application."}
+        \end{itemize}
+        \\\hline
+        \begin{itemize}
+            \item 4.4 Integration with Back-End
+        \end{itemize}
+        & \begin{itemize}
+            \item \textit{"All the data will be stored in a MySQL database that will be polled to get the content for the front-end pages."}
+        \end{itemize}
+        & \begin{itemize}
+            \item Section removed as it no longer applies to our application, section 4.4 is now Testing
+        \end{itemize}
+        \\\hline
+        \begin{itemize}
+            \item 5.2 Back-End Structure and Expectations
+        \end{itemize}
+        & \begin{itemize}
+            \item \textit{"As a bonus, the application should have decent support and possibly documentation with being able to work with the React front-end and MySQL database."}
+        \end{itemize}
+        & \begin{itemize}
+            \item \textit{"As a bonus, the application should have decent support and documentation."}
+        \end{itemize}
+        \\\hline
+        \begin{itemize}
+            \item 5.3 Back-End Language
+        \end{itemize}
+        & \begin{itemize}
+            \item Python was initially the designated as the Back-End language due to portability and inherent security. This language would be used in order to use the Django  framework.
+        \end{itemize}
+        & \begin{itemize}
+            \item Node.js has now replaced Python out of sake for convenience of development and compatibility with necessary technologies such as TeslaJS
+        \end{itemize}
+        \\\hline
+        \begin{itemize}
+            \item 5.4 Back-End Frameworks
+        \end{itemize}
+        & \begin{itemize}
+            \item Django was initially picked due to the perks of using Python as a Back-End language, as well as the community support for the framework and it's compatibility with MySQL and React technologies.
+        \end{itemize}
+        & \begin{itemize}
+            \item Due to the necessity of using JavaScript for the back-end language for TeslaJS, Express was considered the top selection for the group's familiarity with the framework, as well as it's easy ability to connect to different packages such as TeslaJS and other libraries accessed through NPM
+        \end{itemize}
+        \\\hline
+        \begin{itemize}
+            \item 5.5 Testing
+        \end{itemize}
+        & \begin{itemize}
+            \item Initially discusses testing done with Django and MySQL integration.
+        \end{itemize}
+        & \begin{itemize}
+            \item Removed references to Django and MySQL as they are not being used. Keeps in the testing of the vehicle and authenticating with the end-user. Updated wording to what has been accomplished as well as including authentication measures for testing login information
+        \end{itemize}
+        \\\hline
+        \begin{itemize}
+            \item 5.6 Timeline
+        \end{itemize}
+        & \begin{itemize}
+            \item Runs over the general timeline of the back-end development
+        \end{itemize}
+        & \begin{itemize}
+            \item Removed this section since development has been finished with the back-end. 
+        \end{itemize}
+        \\\hline
+        \begin{itemize}
+            \item 6.3 Security
+        \end{itemize}
+        & \begin{itemize}
+            \item Use of web application firewall
+        \end{itemize}
+        & \begin{itemize}
+            \item Web application firewall no longer needed, so we removed the section.
+        \end{itemize}
+        \\\hline
+        \begin{itemize}
+            \item 7.1 Overview
+        \end{itemize}
+        & \begin{itemize}
+            \item An overview of the entire communication between the vehicle, API server, and Tesla servers did not exist.
+        \end{itemize}
+        & \begin{itemize}
+            \item Added an overview that discussed the different steps for communication between an end-user and a Tesla vehicle.
+        \end{itemize}
+        \\\hline
+        \begin{itemize}
+            \item 7.2 Server to Tesla Communication
+        \end{itemize}
+        & \begin{itemize}
+            \item Initially discussed sending JSON objects over a VPN
+        \end{itemize}
+        & \begin{itemize}
+            \item Removed references to VPN.
+        \end{itemize}
+        \\\hline
+        \begin{itemize}
+            \item 7.3 React to Server Communication
+        \end{itemize}
+        & \begin{itemize}
+            \item Was not touched on in original documentation
+        \end{itemize}
+        & \begin{itemize}
+            \item Added this section to further discuss how the React client communicates with our Node.JS API server.
+        \end{itemize}
+        \\\hline
+        \begin{itemize}
+            \item 7.4 Web Sockets
+        \end{itemize}
+        & \begin{itemize}
+            \item Was not touched on in original documentation
+        \end{itemize}
+        & \begin{itemize}
+            \item Added this section to further discuss how the streaming web socket interface worked when summoning the vehicle
+        \end{itemize}
+        \\\hline
+        \begin{itemize}
+            \item 8 Database
+        \end{itemize}
+        & \begin{itemize}
+            \item MySQL Database Purpose, Structure, Tables, and Timeline
+        \end{itemize}
+        & \begin{itemize}
+            \item Deleted section 8 as we are not using a database in our application. Now is "Hosting"
+        \end{itemize}
+        \\\hline
+        \begin{itemize}
+            \item 8 Hosting
+        \end{itemize}
+        & \begin{itemize}
+            \item Described using Oregon State servers during development, and had some speculation about what we "would" do.
+        \end{itemize}
+        & \begin{itemize}
+            \item Updated to reflect what actually transpired.
+        \end{itemize}
+       
+    
+    \end{longtable}
+% 8. now you write!
+
+\section{Overview}
+
+    \subsection{Scope}
+        This document describes the technologies we will use to build a web application to control Tesla cars. This document serves as a high-level overview of the process and will not include very small details.
+    \subsection{Purpose}
+        This document specifies the technologies that will be used to build a Tesla Web Application. This information will be followed through the development process.
+        
+    \subsection{Intended Audience}
+        This document is intended for any person working to build our Tesla Web Application. It lays out all of the technologies that will be used and how they will interact with each other. 
+
+\section{Definitions}
+\begin{itemize}
+    \item \textbf{ReactJS:} A component based JavaScript Library for building user interfaces. 
+    \item \textbf{Header:} The element at the top of the web app containing the navigation bar.
+    \item \textbf{Style Sheets:} The template that contains the style of the page independent from the content.
+    \item \textbf{Sass (Syntactically Awesome Style Sheets):} A scripting language that is compiled into CSS.
+    \item \textbf{CSS (Cascading Style Sheets):} A style sheet language used for describing the style of a document.
+    \item \textbf{HTML (Hyper Text Markup Language):} The markup language used to create web pages.
+    \item \textbf{Chromium:} An open-source web browser.
+    \item \textbf{Node.JS:} An open-source JavaScript runtime environment that executes JavaScript code outside of a browser.
+    \item \textbf{Runtime:} A program library used to implement functions.
+    \item \textbf{Component:} Independent reusable pieces that describe what should be shown on screen.
+    \item \textbf{HTTPS (Hyper Text Transfer Protocol Secure):} A secure framework that transfers information between a browser and a site. 
+    \item \textbf{NPM (Node Package Manager):} A virtual package manager for JavaScript and default for Node.JS. Largely used to download and use libraries in the application. 
+    \item \textbf{REST (Representational State Transfer} an architectural style and approach to communications often used in web services development. Uses HTTP requests to GET, PUT, POST and DELETE data.
+\end{itemize}
+    
+
+\section{Front-End}
+    \subsection{Structure}
+        The front end of this web application will be built up using ReactJS components.
+        Each component will represent a specific part of the user interface that when combined, will create the entire page.
+        An example of a component would be the header of the application.
+        The advantage to having each piece of the application being its own component is it will allow us to easily change or swap out a piece as needed.
+    \subsection{Styling}
+        The styling of the page will be done with Sass instead of regular CSS.
+        Sass gets compiled turning it into CSS meaning that before the web server is booted up, there will need to be an extra step of to turn Sass into CSS.
+        Using Sass will let us use variables in our style sheets to make changing any colors or values easy.
+        \subsubsection{Web Application}
+            The web application will utilize a dynamic page along with a navigation header to provide users with a familiar environment that can scale to match screen real-estate. 
+        \subsubsection{Mobile View}
+            Using the web application on a mobile device should re-style the page to utilize a style that closely matches the official Tesla application. This will allow us to provide users with a familiar experience.
+    \subsection{Application Framework}
+        The framework used for the web application will be reactJS with Sass compiled CSS. ReactJS builds web applications by combining Chromium and Node.js runtimes. This allows us to focus on one project for both the desktop web application and the mobile web application.
+    \subsection{Testing}
+        Since the page will be made up of many components, testing will involve targeting a specific component and making sure that all data is being properly grabbed from the database. Further testing will involve pressing the buttons that will control the car and make sure they perform the correct action.
+    \subsection{Timeline}
+        There will be 4 weeks spent on the Research and design portion of the front end.
+        Following that will be a 3 week period of building the front-end to match our design without reusable components yet.
+        After that there will be 3 weeks of breaking the site down into ReactJS components to have the most reusability.
+        We will now be at the end of Winter term and the front-end should be finished.
+        Spring term will be about testing our front-end to make sure that it is working as expected and that it is properly getting data from the database.
+        If there are any small features that need to be added later, they will be added during this time.
+        We will cut off addition of any new features 3 weeks before the Engineering Expo to ensure that what is currently in the application has been sufficiently tested and up to standards.
+
+\section{Back-End}
+    \subsection{Purpose}
+        Back-end frameworks are the collection of tools and languages used in server-side programming. This is the core logic that the application uses and especially the information that is given and taken by an application \cite{tripathi_2018}. Within the Tesla Web Application, this will generally be the agent that will communicate with the Tesla API to the car and front-end. It will be important for this application to relay information regarding the car quickly and easily for the front-end to render the information for the user. 
+    \subsection{Structure and Expectations}
+        The back-end framework will be running on the server to collect requests from individual clients and process their requests. It is important for the server to be able to route the requests to the right areas. Also, the framework should be capable of sufficiently scaling to avoid having the system be rebuilt like the original version of this application being replaced by this project.
+        
+        Considering this application will be web-based, it is almost entirely essential for the back-end framework to have REST functionality. As a bonus, the application should have decent support and documentation. 
+    \subsection{Language}
+        While deciding on the framework is generally the most interesting part of creating the back-end, it could be considered even more important to consider the language that will be used for the back-end and what the framework will be in. The language will generally provide what to expect from the frameworks that come from them, whether that could be shortcomings or perks.
+        
+        For this project, we are moving forward with implementing Node.JS as our back-end language. From our exploration with different back-end languages, we came to realize that one of the biggest challenges designing and implementing our back-end would not necessarily be rooted in difficulties with comprehension of the syntax, but rather convenience issues during development. Using important packages like TeslaJS requires the language to be in JavaScript, and made Node even more appealing, if not required for our application.\cite{intersog_2017}
+    \subsection{Frameworks}
+        Due to the necessity of using Node.JS, we looked into a variety of different frameworks that are easy to develop with using this language. Express is considered one of the most popular Node frameworks to work with, and became our choice virtually at the same time we had decided to use Node.js. The group has experience using Express in the past and had a quick understanding how our server would be designed to serve requests made by clients.
+        
+        Beyond our own understanding, the popularity of Express results in tremendous support for applications and a variety of different libraries that can be ported into our project using NPM. The syntax of serving REST-based requests has very good readability, and allows quick development for our server. \cite{tripathi_2018} 
+    \subsection{Testing}
+        Security is a big issue to ensure that the back-end effectively authenticates a client with the car they are attempting to control. We made sure that the back-end works with the Tesla API specifically and uses the MyTesla email and password to authenticate the client. Communication between our server and the Tesla server is secured using the HTTPS protocol.  
+\section{Security}
+    \subsection{Purpose}
+    Given that the application gives the user the ability to start and drive the vehicle, it is important that information is stored and transferred in a secure manner.  
+    \subsection{HTTPS}
+    Like HTTP, HTTPS is a framework that transfers information back and froth between a browser and a site. HTTPS encrypts the data being sent at the socket security layer (SSL) or the transport security layer (TLS). The information is encrypted using a asymmetric public key. When encrypting and decrypting data, there is a private and public key. The public key is held by everyone, while the private key is held by a specific user.\cite{HTTPS} 
+\section{Communication Format and API}
+    \subsection{Overview}
+    In the process of sending requests to a vehicle, there are a few different steps between the client web application and the vehicle. The process of sending a request to a car works as follows:
+    \begin{itemize}
+        \item The client sends a command to the project server (i.e. "flash lights" or "honk horn")
+        \item The project server receives the message and forwards the command to Tesla servers using the TeslaJS library (encapsulating Tesla API within it). The project server sends a received message from the Tesla server back to the client if appropriate. 
+        \item Tesla servers receive the API request, authenticate the token, and send a command to the vehicle. Send a status response to the project server whether the command was sent successfully. 
+        \item The vehicle receives the command from the Tesla server, and executes it
+    \end{itemize}
+    This communication is entirely done using a REST protocol and exchanging JSON objects.
+    \newline \newline
+    In the event a streaming action is requested, the process is slightly different. This involves connecting a web socket to the Tesla \textit{Streaming} Servers and sending information through a web socket protocol:
+    \begin{itemize}
+        \item The client send a HTTP command to the project server (i.e. "summon forward")
+        \item The project server receives the HTTP command, and sends a Web Socket command to the Tesla streaming server with a JSON payload (including a Web Socket command i.e. autopark:forward). The project server sends a response to the client saying the Web Socket was sent successfully
+        \item The Tesla streaming server receives the message, authenticates the data and forwards it to the vehicle. In the event that the data is incorrect, or cannot process the request, the Web Socket is closed, or an error message is received, respectively
+        \item The vehicle receives the command and executes it, pinging the Tesla streaming server for changes in the command. 
+    \end{itemize}
+    
+    The following information will go further into detail regarding the specific format of this communication during these different steps. 
+    
+    
+    \subsection{Server to Tesla Communication}
+    In order to provide the basic functions of our application we will be using the Tesla REST API. Tesla's API as documented by Tim Dorr will allow our application to lock and unlock the car, start the car, heat and cool the car, etc. We will also be able to see the status of the car and other vehicle information. To access this information and interact with the API, we will be sending and receiving JSON objects from Tesla. \cite{API}
+    \subsection{React to Server Communication}
+    For the React to Node.JS Express server communication we are using the Axios library for our POST requests. This allows us to easily send POST requests to our API server, and get responses back or catch errors to display to the user. The POST requests specifically allow us to send information to the cars where a GET request would want secure information to be put in the url. 
+    \subsection{Web Sockets}
+    The web sockets open a streaming interface from our Node.JS Express server to Tesla's servers, this streaming interface sends JSON objects at regular intervals and is specifically for the summoning feature of the vehicle. 
+
+\section{Hosting}
+
+    Since our project is going to be web-based, our project will need to be contained on a web server that our users can access.
+    We will be using our our client's servers for this, which at this point is the most convenient and secure option. We have tried using some cloud-based hosting services, however we found that running both an Express server and the React server made using these far too complicated.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}

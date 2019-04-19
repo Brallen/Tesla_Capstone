@@ -4,6 +4,7 @@ const defaultState = {
     loggedIn: false,
     loginFailed: false,
     showLogin: true,
+    showLogoutButton: false,
     mobileAccess: true,
     waitingForWake: false,
     sunroofOpen: false,
