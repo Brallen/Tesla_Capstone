@@ -29,7 +29,7 @@ class Diagnostics extends Component{
   }
 
   hideDiagnosticsModal = () => {
-    var newStore = store.getState();
+    let newStore = store.getState();
     newStore.state.showDiagnosticsModal = false;
     store.dispatch({
       type: 'UPDATE_OBJECT',
@@ -54,6 +54,7 @@ class Diagnostics extends Component{
         }
     })
   }
+
   toggleDriveState(){
     var newStore = store.getState();
     newStore.state.toggleDriveState = !newStore.state.toggleDriveState;
@@ -135,7 +136,7 @@ render(){
     return(
     <div>
         <Modal show={this.props.show} handleClose={this.hideLogoutModal} >
-            <div className="modal-content-diagnostics">
+            <div className="modal-content">
                 <div className="modal--close">
                     <button onClick={this.hideDiagnosticsModal}id="modal--diagnostics_close" className="modal--close_button"><i className="fas fa-times"></i></button>
                 </div>

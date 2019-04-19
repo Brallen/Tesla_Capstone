@@ -74,28 +74,31 @@ body
 .container--car_info
     padding: 10px 0
     margin: auto
-    width: 50%
+    width: 70%
     text-align: center
 
 .container--car_info h1
-    font-size: 24px
+    font-size: 15px
+
+.container--car_info p,
+.container--car_info i
+    font-size: 13px
 
 .container--logout_menu
     position: absolute
-    top: 15px
-    right: 10px
+    top: 36px
+    right: 15px
     font-size: 16px
     cursor: pointer
 
-.container--logout_button
-    padding: 2px
-    position: fixed
-    right: 0px
-    background-color: $FontColor
-    border-radius: 8px
+.container--logout_menu i
+    font-size: 27px
 
 .logout-button
     background-color: $RedAccent
+    position: absolute
+    top: 30px
+    right: -10px
 
 .logout-button:active
     background-color: $DarkRedAccent
@@ -143,19 +146,10 @@ body
     border-radius: 5px
     text-align: center
 
-.modal pre
+.modal pre[class*="language-"]
     margin: 28px auto 0 auto
-    width: 80%
-
-.modal-content-diagnostics
-    background-color: $BackgroundColor
-    word-wrap: break-word
-    width: 560px
-    margin: auto
-    margin-top: 75px
-    padding: 10px 0
-    border-radius: 5px
-    text-align: left
+    width: auto
+    font-size: .8em
 
 .diagnostics-buttons
     display: flex
@@ -316,22 +310,53 @@ body
 @media only screen and (min-width: 375px)
     .modal-content
         width: 355px
+
     .btn--modal_btn
         margin: 6px auto
 
-@media only screen and (min-width: 800px)
+@media only screen and (min-width: 420px)
+    .container--logout_menu
+        top: 28px
+        right: 15px
+
+    .container--logout_menu i
+        font-size: 32px
+
+    .logout-button
+        top: 34px
+        right: -10px
+
+@media only screen and (min-width: 768px)
     .container--main_section
         padding-top: 71px
+
     .container--car_image
-        height: calc(100vh - 71px)    
+        height: calc(100vh - 71px)  
+
     .modal-content
         width: 550px
+
     .btn
         padding: 15px 15px
+
     .btn--modal_btn
         margin: 8px auto
+
     .container--car_image img
         width: 530px
+
+    .modal pre[class*="language-"]
+        font-size: 1em
+
+    .container--car_info h1
+        font-size: 24px
+
+    .container--car_info p,
+    .container--car_info i
+        font-size: 16px
+    
+    .container--logout_menu i
+        font-size: 32px
 
 #confirm--password 
     display: inline
