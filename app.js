@@ -329,7 +329,7 @@ app.post('/seatHeating', function (req, res) {
 // checking to see if mobile access is enabled
 app.post('/mobileAccess', function(req, res) {
     var options = req.body.auth;
-    console.log("Checking mobile access with " + options);
+    console.log("Checking mobile access");
     teslajs.mobileEnabledAsync(JSON.parse(options))
         .then(function (result) {
             console.log("Tesla Response: " + JSON.stringify(result));
@@ -347,7 +347,7 @@ app.post('/vehicleData', function (req, res) {
     teslajs.vehicleDataAsync(JSON.parse(options))
         .then(function (vehicleData) {
             console.log("Vehicle data received");
-            console.log(JSON.stringify(vehicleData))
+            //console.log(JSON.stringify(vehicleData))
             //console.log(vehicleData);
             res.send(vehicleData);
         }).catch(function (err) {
@@ -593,7 +593,7 @@ app.post('/login', function (req, res) {
         });
     }else{
         teslajs.login(email, password, function (err, result) {
-        console.log("Tesla Response: " + JSON.stringify(result));
+        //console.log("Tesla Response: " + JSON.stringify(result));
         if (!result.response.body.access_token) {
             console.error("Login failed!");
             res.status(400).send(false);
@@ -611,7 +611,7 @@ app.post('/vehicleID', function (req, res) {
     }
     console.log("Requesting 'vehicle' with token " + JSON.stringify(options.authToken));
     teslajs.vehicle(options, function (err, vehicle) {
-        console.log(JSON.stringify(vehicle));
+        //console.log(JSON.stringify(vehicle));
         if (vehicle === null) {
             //sending a fake vehicle for
             res.status(200).send({
