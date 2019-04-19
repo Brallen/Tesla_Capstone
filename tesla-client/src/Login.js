@@ -21,6 +21,7 @@ class LoginModal extends Component {
     this.setLocalOptions = this.setLocalOptions.bind(this);
     this.handleRemember = this.handleRemember.bind(this);
     this.handleEnterPressed = this.handleEnterPressed.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount(){
@@ -64,6 +65,17 @@ class LoginModal extends Component {
       payload: {
         showLogin: false
       }
+    });
+  }
+
+  logout(){
+    //delete our user cookie
+    const { cookies } = this.props;
+    cookies.remove('token', { path: '/' });
+    cookies.remove('refreshToken', { path: '/' });
+    //reset client state
+    store.dispatch({
+      type: 'LOGOUT'
     });
   }
 
@@ -121,6 +133,8 @@ class LoginModal extends Component {
         cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
     })
     .catch(function (error) {
+      //possibly add a login failed here
+      self.logout();
       console.log(error);
     });
   }
@@ -140,27 +154,8 @@ class LoginModal extends Component {
       authToken: self.state.authToken
     })
     .then(function (response) {
-      //then try to refresh the token
-        /*axios.post('/refreshToken', {
-          refreshToken: self.state.refreshToken
-        })
-        .then(function (response) {
-          //if we do refresh, store our new cookies and update state
-          self.setState({ authToken: response.data.authToken });
-          //if remember me is checked we will set cookies
-          if(self.props.rememberMeChecked === true){
-            cookies.set('token', response.data.authToken, { path: '/' });
-            cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });*/
-
-
-      //from vehicleID call
-      self.setState({
-        localVehicleObject: response.data
+      self.setState({ 
+        localVehicleObject: response.data 
       });
       store.dispatch({
           type: 'LOGIN',
@@ -174,6 +169,7 @@ class LoginModal extends Component {
     })
     .catch(function (error) {
       console.log(error);
+      self.logout();
     });
     //after all is said and done, discard email and password
     this.setState({
@@ -217,7 +213,7 @@ class LoginModal extends Component {
                     </div>
                 </div>
                 <div className="modal-content">
-                    <p id='login-error'></p>
+                <p id="login-error">{this.props.loginFailed ? "Invalid Username or Password! " : ""}</p>
                     <div className="login-form-text">
                         <label htmlFor="email">Email: </label>
                         <input type="text"
@@ -242,9 +238,7 @@ class LoginModal extends Component {
                           checked={this.props.rememberMeChecked}
                           onChange={this.handleRemember}/>
                         <label htmlFor="Remember"> Remember Me</label>
-                        <p>{this.props.loginFailed ? "Login Failed!" : ""}</p>
                     </div>
-
                     <button type="submit" onClick={this.loginFunction} className="btn btn--modal_btn" id="login">Login</button>
 
                 </div>

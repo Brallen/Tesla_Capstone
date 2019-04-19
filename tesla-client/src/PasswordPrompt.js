@@ -28,7 +28,6 @@ class PasswordCheck extends Component{
       payload: {
         showErrorPrompt: true,
         showPasswordPrompt: false,
-        showControlModal: false,
         errorText: text
       }
     })
@@ -60,10 +59,10 @@ class PasswordCheck extends Component{
         pass: this.state.password
     })
     .then(function (response) {
-        
+      self.showError("You have two minutes to start driving the vehicle");
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not start vehicle");
     });
     this.hidePasswordModal();
   }

@@ -22,7 +22,6 @@ class Main extends Component{
     super(props);
     this.state = {
     };
-    this.testFunc = this.testFunc.bind(this);
     this.showControls = this.showControls.bind(this);
     this.showMedia = this.showMedia.bind(this);
     this.showClimate = this.showClimate.bind(this);
@@ -30,17 +29,6 @@ class Main extends Component{
     this.showDiagnostics = this.showDiagnostics.bind(this);
   }
 
-  alertStoreFunc(){
-    alert(JSON.stringify(store.getState()));
-  }
-
-  testFunc(){
-    let { cookies } = this.props;
-    let useCookie = cookies.get("token");
-    let useCookieRefresh = cookies.get('refreshToken');
-    alert("auth token: " + useCookie);
-    alert("refresh token: " + useCookieRefresh);
-  }
 
   showControls(){
     var newStore = store.getState();

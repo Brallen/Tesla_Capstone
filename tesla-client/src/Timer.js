@@ -19,6 +19,7 @@ class Timer extends Component {
     this.refreshVehicleData = this.refreshVehicleData.bind(this);
     this.checkMobileAccess = this.checkMobileAccess.bind(this);
     this.logout = this.logout.bind(this);
+    this.showError = this.showError.bind(this);
     this.startTimer();
   }
 
@@ -26,7 +27,6 @@ class Timer extends Component {
     this.setState({ 
       localOptions: this.props.localOptionsProp
     });
-    //alert(JSON.stringify(this.state.localOptions))
   }
 
   startTimer() {
@@ -46,7 +46,7 @@ class Timer extends Component {
   }
 
   checkMobileAccess(){
-    //alert(JSON.stringify(this.state.localOptions));
+    var self = this;
     axios.post('/mobileAccess', {
       auth: JSON.stringify(this.state.localOptions)
     })
@@ -60,10 +60,22 @@ class Timer extends Component {
     })
     .catch(function (error) {
       console.log(error);
+      self.showError("Error: Could not determine mobile access");
     });
   }
 
+  showError(text){
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showErrorPrompt: true,
+        errorText: text
+      }
+    })
+  }
+
   refreshVehicleData(){
+    var self = this;
     //first let's make sure we're logged in
     if(this.props.loggedInProp){
       this.checkMobileAccess()
@@ -89,11 +101,12 @@ class Timer extends Component {
             })
             .catch(function (error) {
               console.log(error);
+              self.showError("Error: Could not wake the vehicle, trying again shortly");
               //if we get an error set waiting for wake back to false
               store.dispatch({
                 type: 'UPDATE_OBJECT',
                 payload: {
-                  waitingForWake: true
+                  waitingForWake: false
                 }
               })
             });
@@ -122,26 +135,8 @@ class Timer extends Component {
               .then(function (response) {
                 var newStore = store.getState();
                 newStore.state.initialVehicleLoginObject.state = response.data.state;
-                newStore.state.refreshInterval = 10;
+                newStore.state.refreshInterval = 6;
                 newStore.state.initialVehicleLoaded = true;
-                //doing this special stuff because we need to see if the sun roof exists
-                if(JSON.stringify(response.data.option_codes).includes('RFP2')){
-                  newStore.state.sunroofPresent = true;
-                }else{
-                  newStore.state.sunroofPresent = false;
-                }
-                if(parseInt(response.data.vehicle_state.sun_roof_percent_open) > 0){
-                  newStore.state.sunroofOpen = true;
-                }else{
-                  newStore.state.sunroofOpen = false;
-                }
-                if(response.data.charge_state.charging_state === "Charging"){
-                  newStore.state.chargingTF = true;
-                }else{
-                  newStore.state.chargingTF = false;
-                }
-
-                
                 store.dispatch({
                   type: 'UPDATE_OBJECT',
                   payload: {
@@ -150,14 +145,12 @@ class Timer extends Component {
                       can see when the vehicle goes to sleep and then wake it up automatically again*/
                     initialVehicleLoginObject: newStore.state.initialVehicleLoginObject,
                     refreshInterval: newStore.state.refreshInterval,
-                    sunroofPresent: newStore.state.sunroofPresent,
-                    sunroofOpen: newStore.state.sunroofOpen,
                     initialVehicleLoaded: newStore.state.initialVehicleLoaded
                   }
                 })
-                  //alert(JSON.stringify(response));
               })
               .catch(function (error) {
+                self.showError("Error: Could not retrieve vehicle data");
                 console.log(error);
               });
             }

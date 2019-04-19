@@ -22,7 +22,6 @@ class MediaModal extends Component{
     this.setState({ 
       localOptions: this.props.localOptionsProp
     });
-    //alert(JSON.stringify(this.state.localOptions))
   }
 
   //call this function inside every control
@@ -42,7 +41,6 @@ class MediaModal extends Component{
       type: 'UPDATE_OBJECT',
       payload: {
         showErrorPrompt: true,
-        showMediaModal: false,
         errorText: text
       }
     })
@@ -68,11 +66,10 @@ class MediaModal extends Component{
       auth: JSON.stringify(this.state.localOptions)
     })
     .then(function (response) {
-      //if it's a good response, update local state
-      alert("Volume up pressed");
+      //if it's a good response, we don't need to do anything
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not toggle volume up");
     });
   }
 
@@ -84,11 +81,10 @@ class MediaModal extends Component{
       auth: JSON.stringify(this.state.localOptions)
     })
     .then(function (response) {
-      //if it's a good response, update local state
-      alert("Volume up pressed");
+      //if it's a good response, we don't need to do anything
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not toggle volume down");
     });
   }
 
@@ -100,11 +96,10 @@ class MediaModal extends Component{
       auth: JSON.stringify(this.state.localOptions)
     })
     .then(function (response) {
-      //if it's a good response, update local state
-      alert("Next song pressed");
+      //if it's a good response, we don't need to do anything
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not toggle track forward");
     });
   }
 
@@ -116,11 +111,10 @@ class MediaModal extends Component{
       auth: JSON.stringify(this.state.localOptions)
     })
     .then(function (response) {
-      //if it's a good response, update local state
-      alert("Previous song pressed");
+      //if it's a good response, we don't need to do anything
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not toggle track backwards");
     });
   }
 
@@ -132,11 +126,10 @@ class MediaModal extends Component{
       auth: JSON.stringify(this.state.localOptions)
     })
     .then(function (response) {
-      //if it's a good response, update local state
-      alert("Play/Pause pressed");
+      //if it's a good response, we don't need to do anything
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not play/pause the track");
     });
   }
 

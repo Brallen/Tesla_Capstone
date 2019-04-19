@@ -29,7 +29,6 @@ class ClimateModal extends Component{
     this.setState({ 
       localOptions: this.props.localOptionsProp
     });
-    //alert(JSON.stringify(this.state.localOptions))
   }
 
   //call this function inside every control
@@ -67,8 +66,8 @@ class ClimateModal extends Component{
     this.setState({ 
       temperature: parseFloat(value)
     });
-    newStore.state.vehicleDataObject.climate_state.driver_temp_setting = parseFloat(this.state.temperature);
-    newStore.state.vehicleDataObject.climate_state.passenger_temp_setting = parseFloat(this.state.temperature);
+    newStore.state.vehicleDataObject.climate_state.driver_temp_setting = parseFloat(value);
+    newStore.state.vehicleDataObject.climate_state.passenger_temp_setting = parseFloat(value);
 
     store.dispatch({
       type: 'UPDATE_OBJECT',
@@ -88,11 +87,10 @@ class ClimateModal extends Component{
       temp: parseFloat(this.state.temperature.toFixed(1))
     })
     .then(function (response) {
-      //if it's a good response, update local state
-      alert("temperature set");
+      //if it's a good response, state is already updated!
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the vehicle cabin temperature");
       //error, lets repull the data to update the slider back to what it is
       var newStore = store.getState();
       newStore.state.refreshTime = 1;
@@ -123,10 +121,9 @@ class ClimateModal extends Component{
             vehicleDataObject: newStore.state.vehicleDataObject
           }
         })
-        alert("temperature set");
       })
       .catch(function (error) {
-        self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+        self.showError("Error: Could not turn off the vehicle climate");
       });
     }
 
@@ -144,10 +141,9 @@ class ClimateModal extends Component{
             vehicleDataObject: newStore.state.vehicleDataObject
           }
         })
-        alert("temperature set");
       })
       .catch(function (error) {
-        self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+        self.showError("Error: Could not turn on the vehicle climate");
       });
     }
   }
@@ -172,7 +168,6 @@ class ClimateModal extends Component{
       type: 'UPDATE_OBJECT',
       payload: {
         showErrorPrompt: true,
-        showClimateModal: false,
         errorText: text
       }
     })
@@ -194,9 +189,7 @@ class ClimateModal extends Component{
     })
     .then(function (response) {
       //if it's a good response, update local state
-      //alert("we're in");
       var newStore = store.getState();
-      //alert(JSON.stringify(newStore.state.vehicleDataObject.climate_state.seat_heater_left));
       newStore.state.vehicleDataObject.climate_state.seat_heater_left = self.nextHeatLevel(self.props.seatLeft);
       store.dispatch({
         type: 'UPDATE_OBJECT',
@@ -206,7 +199,7 @@ class ClimateModal extends Component{
       })
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the front left seat heater to level: "+self.nextHeatLevel(self.props.seatLeft));
     });
   }
 
@@ -235,7 +228,7 @@ class ClimateModal extends Component{
       })
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the front right seat heater to level: "+self.nextHeatLevel(self.props.seatRight));
     });
   }
 
@@ -264,7 +257,7 @@ class ClimateModal extends Component{
       })
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the rear right seat heater to level: "+self.nextHeatLevel(self.props.seatRightRear));
     });
   }
 
@@ -292,7 +285,7 @@ class ClimateModal extends Component{
       })
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the rear left seat heater to level: "+self.nextHeatLevel(self.props.seatLeftRear));
     });
   }
 
@@ -320,7 +313,7 @@ class ClimateModal extends Component{
       })
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the rear middle seat heater to level: "+self.nextHeatLevel(self.props.seatMidRear));
     });
   }
 
@@ -334,7 +327,9 @@ class ClimateModal extends Component{
             </div>
             <div className="modal--climate_controls">
               <p id="climate--temp_level" className="modal--level_text">
-                Climate: {this.props.unitDecider ? parseFloat(this.props.vehicleClimateNum).toFixed(1) : parseFloat(this.props.vehicleClimateNum*(9/5)+32).toFixed(1)}{this.props.vehicleClimateUnit}
+                Climate: {(this.props.vehicleClimateUnit === 'F') ? 
+                  parseFloat(this.props.vehicleClimateNum*(9/5)+32).toFixed(1) : 
+                  parseFloat(this.props.vehicleClimateNum).toFixed(1)}{this.props.vehicleClimateUnit}
               </p>
                 <div className='modal--slider'>
                   <Slider
@@ -402,7 +397,6 @@ const mapStateToProps = (state) => {
       globalTimerInterval: state.state.refreshInterval,
       localOptionsProp: state.state.localOptions,
       showClimate: state.state.showClimateModal,
-      unitDecider: state.state.unitDecider,
       vehicleClimateUnit: state.state.vehicleDataObject.gui_settings.gui_temperature_units
     }
   }

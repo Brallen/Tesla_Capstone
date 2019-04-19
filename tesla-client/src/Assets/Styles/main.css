@@ -28,6 +28,10 @@ body {
   color: #F8F9FA;
 }
 
+.fas.fa-bolt {
+  color: #77CEC9;
+}
+
 .btn {
   margin: 5px;
   padding: 10px 15px;
@@ -48,6 +52,8 @@ body {
 }
 
 .container--header {
+  display: flex;
+  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
@@ -55,6 +61,7 @@ body {
   z-index: 1000;
   background-color: #2C3138;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  height: 90px;
 }
 
 .container--car_info {
@@ -70,7 +77,7 @@ body {
 
 .container--logout_menu {
   position: absolute;
-  top: 10px;
+  top: 15px;
   right: 10px;
   font-size: 16px;
   cursor: pointer;
@@ -141,6 +148,11 @@ body {
   text-align: center;
 }
 
+.modal pre {
+  margin: 28px auto 0 auto;
+  width: 80%;
+}
+
 .modal-content-diagnostics {
   background-color: #33333C;
   word-wrap: break-word;
@@ -178,8 +190,10 @@ body {
 }
 
 .container--modal_login .login-form-text {
-  text-align: right;
+  text-align: left;
   padding: 10px 15px 10px 0;
+  margin-left: 29px;
+  width: 249px;
 }
 
 .container--modal_login input {
@@ -187,6 +201,10 @@ body {
   background-color: #FFFFFF;
   border-radius: 2px;
   margin: 6px 0;
+}
+
+.container--modal_login input:not(#checkbox) {
+  width: 100%;
 }
 
 .container--modal_confirm input {
@@ -198,6 +216,8 @@ body {
 
 .container--modal_login #login-error {
   color: #DA3738;
+  text-align: center;
+  font-size: 22px;
 }
 
 .container--modal_login .container--header {
@@ -218,6 +238,12 @@ body {
   display: block;
 }
 
+.btn--modal_btn_diagnostics {
+  margin: 4px auto;
+  width: 25%;
+  display: block;
+}
+
 .modal-content .modal--close {
   text-align: right;
   margin: -9px 8px 0 0;
@@ -231,30 +257,26 @@ body {
 }
 
 .modal--slider {
-  -webkit-appearance: none;
+  margin: 30px auto;
   width: 80%;
-  height: 7px;
-  border-radius: 3px;
-  background: #D1F2F0;
-  margin: 20px;
 }
 
-.modal--slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #07A298;
-  cursor: pointer;
+.modal--slider .rangeslider {
+  height: 9px;
 }
 
-.modal--slider::-moz-range-thumb {
+.modal--slider .rangeslider-horizontal .rangeslider__fill {
+  background-color: #77CEC9;
+}
+
+.modal--slider .rangeslider-horizontal .rangeslider__handle::after {
+  content: none;
+}
+
+.modal--slider .rangeslider-horizontal .rangeslider__handle {
   width: 20px;
   height: 20px;
-  border-radius: 50%;
-  background: #07A298;
-  cursor: pointer;
+  border-radius: 20px;
 }
 
 .modal--media_controls {

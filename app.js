@@ -329,14 +329,6 @@ app.post('/setTemp', function (req, res) {
     var options = req.body.auth;
     var tempC = req.body.temp;
 
-    console.log(options + "\n" + tempC);
-
-    /* try this
-    var options = {
-        auth: req.body.auth,
-        tempC: req.body.temp
-    }
-    also try as non promise, and also as sending numbers as strings */
     console.log("Requesting 'temp set to " + tempC + "'");
     //setting same temp for Driver & Passenger
     teslajs.setTempsAsync(JSON.parse(options), tempC, tempC)
@@ -348,18 +340,6 @@ app.post('/setTemp', function (req, res) {
         console.log("Error: " + err);
         res.status(400).send(err);
     });
-
-    /*teslajs.setTemps(JSON.parse(options), tempC, null, function (err, result) {
-      console.log(result);
-      console.log(err);
-        if (result && result.result) {
-            var str = (temp + " Deg.C");
-            console.log("\nTemperature successfully set to: " + str);
-        } else {
-            console.log(err);
-        }
-    }); */
-
 });
 
 //setting seat heating temp for [seat] at [level]
@@ -440,7 +420,7 @@ app.post('/summonAbort', function(req, res){
 // checking to see if mobile access is enabled
 app.post('/mobileAccess', function(req, res) {
     var options = req.body.auth;
-    console.log("Checking mobile access with " + options);
+    console.log("Checking mobile access");
     teslajs.mobileEnabledAsync(JSON.parse(options))
         .then(function (result) {
             console.log("Tesla Response: " + JSON.stringify(result));
@@ -458,7 +438,7 @@ app.post('/vehicleData', function (req, res) {
     teslajs.vehicleDataAsync(JSON.parse(options))
         .then(function (vehicleData) {
             console.log("Vehicle data received");
-            console.log(JSON.stringify(vehicleData))
+            //console.log(JSON.stringify(vehicleData))
             //console.log(vehicleData);
             res.send(vehicleData);
         }).catch(function (err) {
@@ -704,7 +684,7 @@ app.post('/login', function (req, res) {
         });
     }else{
         teslajs.login(email, password, function (err, result) {
-        console.log("Tesla Response: " + JSON.stringify(result));
+        //console.log("Tesla Response: " + JSON.stringify(result));
         if (!result.response.body.access_token) {
             console.error("Login failed!");
             res.status(400).send(false);
@@ -722,7 +702,7 @@ app.post('/vehicleID', function (req, res) {
     }
     console.log("Requesting 'vehicle' with token " + JSON.stringify(options.authToken));
     teslajs.vehicle(options, function (err, vehicle) {
-        console.log(JSON.stringify(vehicle));
+        //console.log(JSON.stringify(vehicle));
         if (vehicle === null) {
             //sending a fake vehicle for
             res.status(200).send({
@@ -765,6 +745,32 @@ app.post('/refreshToken', function (req, res) {
         }).catch(function(err) {
             console.log("ERROR - Tesla Response: " + err);
             res.status(400).send(true);
+        });
+});
+
+app.post('/stopCharge', function(req, res) {
+    var options = req.body.auth;
+    console.log("Requesting Stop Charge");
+    teslajs.stopChargeAsync(JSON.parse(options))
+        .then(function(result) {
+            console.log("Successful Response: " + result);
+            res.status(200).send(result);
+        }).catch(function(err) {
+            console.log("Error: " + err);
+            res.status(400).send(err);
+        });
+});
+
+app.post('/startCharge', function(req, res) {
+    var options = req.body.auth;
+    console.log("Requesting Start Charge");
+    teslajs.startChargeAsync(JSON.parse(options))
+        .then(function(result) {
+            console.log("Successful Response: " + result);
+            res.status(200).send(result);
+        }).catch(function(err) {
+            console.log("Error: " + err);
+            res.status(400).send(err);
         });
 });
 
