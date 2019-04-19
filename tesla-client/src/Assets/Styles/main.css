@@ -164,6 +164,11 @@ body {
   text-align: left;
 }
 
+.diagnostics-buttons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .container--modal_login {
   background-color: #33333C;
   width: 100%;
@@ -239,9 +244,10 @@ body {
 }
 
 .btn--modal_btn_diagnostics {
-  margin: 4px auto;
+  margin: 8px auto;
   width: 25%;
   display: block;
+  flex-basis: 29%;
 }
 
 .modal-content .modal--close {
