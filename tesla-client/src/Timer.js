@@ -135,7 +135,7 @@ class Timer extends Component {
               .then(function (response) {
                 var newStore = store.getState();
                 newStore.state.initialVehicleLoginObject.state = response.data.state;
-                newStore.state.refreshInterval = 10;
+                newStore.state.refreshInterval = 6;
                 newStore.state.initialVehicleLoaded = true;
                 store.dispatch({
                   type: 'UPDATE_OBJECT',

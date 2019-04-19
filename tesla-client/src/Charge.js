@@ -112,7 +112,7 @@ class ChargingModal extends Component{
     this.refreshGlobalTimerWhenAction();
     var self = this;
     //if the charge door is open then send close command
-    if(this.props.vehicleChargeDoor === true){
+    if(this.props.vehicleChargeDoor === true && this.props.vehicleCharging === 'Disconnected'){
       axios.post('/closeChargePort', {
         auth: JSON.stringify(this.state.localOptions)
       })
@@ -132,7 +132,7 @@ class ChargingModal extends Component{
       });
     }
     //if the charge port door is closed then send open command
-    if(this.props.vehicleChargeDoor === false){
+    if(this.props.vehicleChargeDoor === false || this.props.chargePortLatch === 'Engaged'){
       axios.post('/openChargePort', {
         auth: JSON.stringify(this.state.localOptions)
       })
@@ -140,6 +140,9 @@ class ChargingModal extends Component{
         //if it's a good response, update local state
         var newStore = store.getState();
         newStore.state.vehicleDataObject.charge_state.charge_port_door_open = true;
+        if(self.props.chargePortLatch === 'Engaged'){
+          newStore.state.vehicleDataObject.charge_state.charge_port_latch = 'Disengaged';
+        }
         store.dispatch({
           type: 'UPDATE_OBJECT',
           payload: {
@@ -213,16 +216,21 @@ class ChargingModal extends Component{
                         step={1}/>
                   </div>
 
-                  { (this.props.vehicleCharging !== 'Charging') ?
+                  { (this.props.vehicleCharging === 'Disconnected') ?
                       <button onClick={this.chargePortButton} id="charging--charge_port" className="btn btn--modal_btn">
-                        {this.props.vehicleChargeDoor ? 'Open Charge Port' : null}
-                        {(this.props.chargePortLatch === 'Disengaged' && !this.props.vehicleChargeDoor) ? 'Close Charge Port' : null}
-                        {(this.props.chargePortLatch === 'Engaged' && this.props.vehicleCharging === 'Stopped') ? 'Disengage Charger Latch' : null}
+                        {this.props.vehicleChargeDoor ? 'Close Charge Port' : 'Open Charge Port'}
                       </button>
                       : null
                   }
 
-                  { (this.props.vehicleCharging !== 'Disconnected' && this.props.vehicleCharging !== 'Complete') ?
+                  { ((this.props.vehicleCharging === 'Stopped' || this.props.vehicleCharging === 'Complete') && this.props.chargePortLatch === 'Engaged') ?
+                      <button onClick={this.chargePortButton} id="charging--disengage_latch" className="btn btn--modal_btn">
+                        Disengage Charger Latch
+                      </button>
+                      : null
+                  }
+
+                  { ((this.props.vehicleCharging === 'Charging' || this.props.vehicleCharging === 'Stopped') && this.props.chargePortLatch === 'Engaged') ?
                       <button onClick={this.chargingButton} id="charging--charge_port" className="btn btn--modal_btn">
                         {(this.props.vehicleCharging === 'Charging') ? 'Stop Charge' : null}
                         {(this.props.vehicleCharging === 'Stopped') ? 'Start Charge' : null}
