@@ -238,7 +238,7 @@ class LoginModal extends Component {
                         <br />
                         <input id="checkbox"
                           type="checkbox"
-                          Label='Remember Me'
+                          label='Remember Me'
                           checked={this.props.rememberMeChecked}
                           onChange={this.handleRemember}/>
                         <label htmlFor="Remember"> Remember Me</label>
