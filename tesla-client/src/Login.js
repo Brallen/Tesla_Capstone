@@ -20,6 +20,8 @@ class LoginModal extends Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.setLocalOptions = this.setLocalOptions.bind(this);
     this.handleRemember = this.handleRemember.bind(this);
+    this.handleEnterPressed = this.handleEnterPressed.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount(){
@@ -27,7 +29,7 @@ class LoginModal extends Component {
     let userCookie = cookies.get("token");
     let refreshCookie = cookies.get("refreshToken");
     if(userCookie != null && refreshCookie != null){
-      this.setState({ authToken: userCookie, refreshToken: refreshCookie }, this.vehicleLoginFunction);
+      this.setState({ authToken: userCookie, refreshToken: refreshCookie }, this.vehicleLoginCookie);
     }
   }
 
@@ -39,6 +41,14 @@ class LoginModal extends Component {
     this.setState({ password: evt.target.value });
   }
 
+  handleEnterPressed (evt) {
+    var code = evt.keyCode || evt.which;
+    if(code === 13)
+    {
+      this.loginFunction();
+    }
+  }
+
   handleRemember (evt) {
     store.dispatch({
       type: 'UPDATE_OBJECT',
@@ -48,7 +58,7 @@ class LoginModal extends Component {
     })
   }
 
-  
+
   hideModal = () => {
     store.dispatch({
       type: 'UPDATE_OBJECT',
@@ -58,9 +68,21 @@ class LoginModal extends Component {
     });
   }
 
+  logout(){
+    //delete our user cookie
+    const { cookies } = this.props;
+    cookies.remove('token', { path: '/' });
+    cookies.remove('refreshToken', { path: '/' });
+    //reset client state
+    store.dispatch({
+      type: 'LOGOUT'
+    });
+  }
+
   loginFunction = () => {
       const { cookies } = this.props;
       var self = this;
+
       axios.post('/login', {
         email: self.state.email,
         password: self.state.password
@@ -97,33 +119,41 @@ class LoginModal extends Component {
       });
   }
 
-  vehicleLoginFunction = () => {
+  vehicleLoginCookie = () => {
     var self = this;
     const { cookies } = this.props;
+    axios.post('/refreshToken', {
+      refreshToken: self.state.refreshToken
+    })
+    .then(function (response) {
+      //if we do refresh, store our new cookies and update state
+      self.setState({ authToken: response.data.authToken }, self.vehicleLoginFunction);
+      //if remember me is checked we will set cookies
+        cookies.set('token', response.data.authToken, { path: '/' });
+        cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
+    })
+    .catch(function (error) {
+      //possibly add a login failed here
+      self.logout();
+      console.log(error);
+    });
+  }
+
+  vehicleLoginFunction = () => {
+    var self = this;
     //log in
+    var newStore = store.getState();
+    newStore.state.email = self.state.email;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        email: newStore.state.email
+      }
+    });
     axios.post('/vehicleID', {
       authToken: self.state.authToken
     })
     .then(function (response) {
-      //then try to refresh the token
-        axios.post('/refreshToken', {
-          refreshToken: self.state.refreshToken
-        })
-        .then(function (response) {
-          //if we do refresh, store our new cookies and update state
-          self.setState({ authToken: response.data.authToken });
-          //if remember me is checked we will set cookies
-          if(self.props.rememberMeChecked === true){
-            cookies.set('token', response.data.authToken, { path: '/' });
-            cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-      
-
-      //from vehicleID call
       self.setState({ 
         localVehicleObject: response.data 
       });
@@ -139,6 +169,7 @@ class LoginModal extends Component {
     })
     .catch(function (error) {
       console.log(error);
+      self.logout();
     });
     //after all is said and done, discard email and password
     this.setState({
@@ -166,8 +197,8 @@ class LoginModal extends Component {
 
   /*
     in the render, we can access all the functions of a component inside with
-    this.functionName() wrapped in brackets like {this.function()}, this can be seen in the 
-    onClick functionality of the buttons. 
+    this.functionName() wrapped in brackets like {this.function()}, this can be seen in the
+    onClick functionality of the buttons.
 
     To access our varaibles passed down from the global store to the functions component state
     we use this.props.whateverFieldHere as seen in the H2 tags
@@ -182,21 +213,34 @@ class LoginModal extends Component {
                     </div>
                 </div>
                 <div className="modal-content">
-                    <p id='login-error'></p>
+                <p id="login-error">{this.props.loginFailed ? "Invalid Username or Password! " : ""}</p>
                     <div className="login-form-text">
                         <label htmlFor="email">Email: </label>
-                        <input type="text" placeholder="Enter Tesla Email" name="email" required id="email" onChange={this.handleEmailChange} value={this.state.email}/>
+                        <input type="text"
+                          placeholder="Enter Tesla Email"
+                          name="email"
+                          required id="email"
+                          onChange={this.handleEmailChange}
+                          value={this.state.email}/>
                         <br />
                         <label htmlFor="password">Password: </label>
-                        <input type="password" placeholder="Enter Tesla Password" name="password" required id="password" onChange={this.handlePasswordChange} value={this.state.password}/>
+                        <input type="password"
+                          placeholder="Enter Tesla Password"
+                          name="password"
+                          required id="password"
+                          onKeyPress={this.handleEnterPressed}
+                          onChange={this.handlePasswordChange}
+                          value={this.state.password}/>
                         <br />
-                        <input id="checkbox" type="checkbox" Label='Remember Me' checked={this.props.rememberMeChecked} onChange={this.handleRemember}/>
+                        <input id="checkbox"
+                          type="checkbox"
+                          label='Remember Me'
+                          checked={this.props.rememberMeChecked}
+                          onChange={this.handleRemember}/>
                         <label htmlFor="Remember"> Remember Me</label>
-                        <p>{this.props.loginFailed ? "Login Failed!" : ""}</p>
                     </div>
-                    
                     <button type="submit" onClick={this.loginFunction} className="btn btn--modal_btn" id="login">Login</button>
-                    
+
                 </div>
             </div>
             </Modal>
@@ -206,13 +250,12 @@ class LoginModal extends Component {
 
 /*
   this maps the global stores components that we want access to in our component. As you can see
-  we only pass examplePropOne and examplePropTwo to this component, meaning we will be unable to 
-  access that field of our global store object in this component. 
+  we only pass examplePropOne and examplePropTwo to this component, meaning we will be unable to
+  access that field of our global store object in this component.
 */
 const mapStateToProps = (state) => {
   return {
-    accountName: state.state.accountName,
-    accountPass: state.state.accountPass,
+    email: state.state.email,
     accountToken: state.state.accountToken,
     loggedIn: state.state.loggedIn,
     vehicleDataObject: state.state.vehicleDataObject,
@@ -228,7 +271,7 @@ const Modal = ({ handleClose, show, children }) => {
     return (
         <div className="modal container--modal_login" style={{display: showHideClassName}}>
         {children}
-        
+
     </div>
     );
   };

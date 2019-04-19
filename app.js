@@ -4,11 +4,43 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 const teslajs = require('teslajs');
+const WS13 = require('websocket13');
 let bodyParser = require('body-parser');
 
 let port = process.env.PORT || 3001;
 let app = express();
 var testMode = false;
+
+//websocket for autopark/summon
+let ws = new WS13.WebSocket("wss://streaming.vn.teslamotors.com/streaming/");
+
+//var ws;
+
+//websocket message handlers
+ws.on('connected', function() {
+	console.log('*** WebSocket Connected to wss://streaming.vn.teslamotors.com/streaming/');
+  /*ws.send(JSON.stringify({
+		"tag": "vehicle_18fbvbvbv",
+		"token": "redacted",
+		"value": "shift_state,speed,power,est_lat,est_lng,est_heading,est_corrected_lat,est_corrected_lng,native_latitude,native_longitude,native_heading,native_type,native_location_supported",
+		"msg_type": "data:subscribe"
+	}));*/
+});
+
+ws.on('message', (type, data) => {
+  console.log('*** WebSocket Message recieved: ');
+	console.log(data.toString('utf8'));
+});
+
+ws.on('disconnected', function() {
+	console.log('*** WebSocket Disconnected to wss://streaming.vn.teslamotors.com/streaming/');
+	console.log(arguments);
+});
+
+ws.on('error', function(err){
+  console.log('*** WebSocket Error Recieved: ');
+  console.log(err);
+})
 
 //app.set('view engine', 'html');
 app.use(bodyParser.json());
@@ -245,6 +277,7 @@ app.post('/prevSong', function (req, res) {
 
 app.post('/volumeUp', function (req, res) {
     var options = req.body.auth;
+    console.log(options);
     console.log("Turning volume up");
     var promise = teslajs.mediaVolumeUpAsync(JSON.parse(options));
     promise.then(function (result) { //success
@@ -255,6 +288,8 @@ app.post('/volumeUp', function (req, res) {
         res.status(400).send(err);
     });
 });
+
+//{"authToken":"27dca13259eb7c99c6fe100816fa0e2b9ef7b7575993bf66d7decbcaa1c440b1","vehicleID":"58706612948970456","vehicle_id":28906417,"tokens":["6ed77422b3d2896c","03274357adf9b3f5"]}
 
 app.post('/volumeDown', function (req, res) {
     var options = req.body.auth;
@@ -294,16 +329,10 @@ app.post('/setTemp', function (req, res) {
     var options = req.body.auth;
     var tempC = req.body.temp;
 
-    /* try this 
-    var options = {
-        auth: req.body.auth,
-        tempC: req.body.temp
-    }
-    also try as non promise, and also as sending numbers as strings */
     console.log("Requesting 'temp set to " + tempC + "'");
     //setting same temp for Driver & Passenger
-    var promise = teslajs.setTempsAsync(options, tempC, tempC);
-    promise.then(function (result) { //success
+    teslajs.setTempsAsync(JSON.parse(options), tempC, tempC)
+    .then(function (result) { //success
         console.log("Successful Response: " + result);
         console.log("Temp set to: " + Math.round(tempC * (9 / 5) + 32) + "F");
         res.status(200).send(result);
@@ -311,7 +340,6 @@ app.post('/setTemp', function (req, res) {
         console.log("Error: " + err);
         res.status(400).send(err);
     });
-
 });
 
 //setting seat heating temp for [seat] at [level]
@@ -330,16 +358,75 @@ app.post('/seatHeating', function (req, res) {
     });
 });
 
+/**** STREAMING COMMANDS ****/
+app.post('/summonForward', function(req, res){
+    var email = req.body.email;
+    var options = JSON.parse(req.body.auth);
+    //console.log(options);
+    var longitude = req.body.longitude;
+    var latitude = req.body.latitude;
+
+    var token = Buffer.from(email + ':' + options.tokens[0], 'utf8').toString('base64')
+
+    ws.send(JSON.stringify({
+      "tag": options.vehicle_id.toString(),
+      "token": token,
+      "msg_type": "autopark:cmd_forward",
+      "latitude": latitude.toString(),
+      "longitude": longitude.toString()
+    }));
+
+    //send response back to server
+    res.status(200).send("SummonForward command sent");
+});
+
+app.post('/summonBackward', function(req, res){
+    var email = req.body.email;
+    var options = JSON.parse(req.body.auth);
+    //console.log(options);
+    var longitude = req.body.longitude;
+    var latitude = req.body.latitude;
+
+    var token = Buffer.from(email + ':' + options.tokens[0], 'utf8').toString('base64')
+
+    ws.send(JSON.stringify({
+      "tag": options.vehicle_id.toString(),
+      "token": token,
+      "msg_type": "autopark:cmd_backward",
+      "latitude": latitude.toString(),
+      "longitude": longitude.toString()
+    }));
+
+    res.status(200).send("SummonBackward command sent");
+});
+
+app.post('/summonAbort', function(req, res){
+    //get options variable for tag & token
+    var email = req.body.email;
+    var options = JSON.parse(req.body.auth);
+    //console.log(options);
+
+    var token = Buffer.from(email + ':' + options.tokens[0], 'utf8').toString('base64')
+
+    ws.send(JSON.stringify({
+      "tag": options.vehicle_id.toString(),
+      "token": token,
+      "msg_type": "autopark:cmd_abort",
+    }));
+
+  res.status(200).send("SummonAbort command sent");
+});
+
 // checking to see if mobile access is enabled
 app.post('/mobileAccess', function(req, res) {
     var options = req.body.auth;
     console.log("Checking mobile access");
     teslajs.mobileEnabledAsync(JSON.parse(options))
         .then(function (result) {
-            console.log("Tesla Response: " + result);
+            console.log("Tesla Response: " + JSON.stringify(result));
             res.send(result);
         }).catch(function(err) {
-            console.log("Tesla Response: " + err);
+            console.log("Tesla Response: " + JSON.stringify(err));
             res.send(true);
         });
 });
@@ -351,10 +438,11 @@ app.post('/vehicleData', function (req, res) {
     teslajs.vehicleDataAsync(JSON.parse(options))
         .then(function (vehicleData) {
             console.log("Vehicle data received");
+            //console.log(JSON.stringify(vehicleData))
             //console.log(vehicleData);
             res.send(vehicleData);
         }).catch(function (err) {
-            console.log("Tesla Response: " + err);
+            console.log("Tesla Response: " + JSON.stringify(err));
             //send fake vehicle update
             res.send({
                 id: 12345678901234567,
@@ -362,7 +450,7 @@ app.post('/vehicleData', function (req, res) {
                 vehicle_id: 1234567890,
                 vin: "5YJSA11111111111",
                 display_name: "Generated Test Vehicle",
-                option_codes: 'AD15,MDL3,PBSB,RENA,BT37,ID3W,RF3G,S3PB,DRLH,DV2W,W39B,APF0,COUS,BC3B,CH07,PC30,FC3P,FG31,GLFR,HL31,HM31,IL31,LTPB,MR31,FM3B,RS3H,SA3P,STCP,SC04,SU3C,T3CA,TW00,TM00,UT3P,WR00,AU3P,APH3,AF00,ZCST,MI00,CDM0',
+                option_codes: 'AD15,MDLS,PBSB,RENA,BT37,ID3W,RF3G,S3PB,DRLH,DV2W,W39B,APF0,COUS,BC3B,CH07,PC30,FC3P,FG31,GLFR,HL31,HM31,IL31,LTPB,MR31,FM3B,RS3H,SA3P,STCP,SC04,SU3C,T3CA,TW00,TM00,UT3P,WR00,AU3P,APH3,AF00,ZCST,MI00,CDM0',
                 color: null,
                 tokens: ["abcdef1234567890", "1234567890abcdef"],
                 state: "online",
@@ -385,11 +473,11 @@ app.post('/vehicleData', function (req, res) {
                     is_rear_defroster_on: false,
                     left_temp_direction: 0,
                     max_avail_temp: 28,
-                    min_avail_temp: 15, 
+                    min_avail_temp: 15,
                     outside_temp: 17.5,
                     passenger_temp_setting: 21.7,
                     remote_heater_control_enabled: false,
-                    right_temp_direction: 0, 
+                    right_temp_direction: 0,
                     seat_heater_left: 3,
                     seat_heater_rear_center: 2,
                     seat_heater_rear_left: 1,
@@ -408,7 +496,7 @@ app.post('/vehicleData', function (req, res) {
                     charge_current_request_max: 48,
                     charge_enable_request: true,
                     charge_energy_added: 10.98,
-                    charge_limit_soc: 50,
+                    charge_limit_soc: 78,
                     charge_limit_soc_max: 100,
                     charge_limit_soc_min: 50,
                     charge_limit_soc_std: 90,
@@ -424,7 +512,7 @@ app.post('/vehicleData', function (req, res) {
                     charger_pilot_current: 48,
                     charger_power: 0,
                     charger_voltage: 2,
-                    charging_state: 'Disconnected',
+                    charging_state: 'Charging',
                     conn_charge_cable: '<invalid>',
                     est_battery_range: 285.08,
                     fast_charger_brand: '<invalid>',
@@ -440,7 +528,7 @@ app.post('/vehicleData', function (req, res) {
                     scheduled_charging_start_time: null,
                     time_to_full_charge: 0,
                     timestamp: 1552440838137,
-                    trip_charging: false, 
+                    trip_charging: false,
                     usable_battery_level: 72,
                     user_charge_enable_request: null
                 },
@@ -466,7 +554,7 @@ app.post('/vehicleData', function (req, res) {
                     is_user_present: false,
                     last_autopark_error: 'no_error',
                     locked: true,
-                    media_state: { 
+                    media_state: {
                         remote_control_enabled: true
                     },
                     notifications_supported: true,
@@ -483,7 +571,7 @@ app.post('/vehicleData', function (req, res) {
                     },
                     speed_limit_mode: {
                         active: false,
-                        current_limit_mph: 55, 
+                        current_limit_mph: 55,
                         max_limit_mph: 90,
                         min_limit_mph: 50,
                         pin_code_set: false
@@ -556,10 +644,10 @@ app.post('/wakeup', function (req, res) {
 
     teslajs.wakeUp(JSON.parse(options), function (err, result) {
         if (err) {
-            console.log("Tesla Response: " + err);
+            console.log("Tesla Response: " + JSON.stringify(err));
             res.status(400).send(err);
         } else {
-            console.log("Tesla Response: " + result);
+            console.log("Tesla Response: " + JSON.stringify(result));
             res.status(200).send(result);
         }
     });
@@ -587,7 +675,7 @@ app.post('/login', function (req, res) {
 			res.send(authToken);
 		}
   });*/
-    if(email === 'test')
+    if(email === 'test' || email === '')
     {
         console.log("Entering test mode");
         res.send({
@@ -596,8 +684,8 @@ app.post('/login', function (req, res) {
         });
     }else{
         teslajs.login(email, password, function (err, result) {
-        console.log("Tesla Response: " + result.response.statusCode);
-        if (!result.response.authToken) {
+        //console.log("Tesla Response: " + JSON.stringify(result));
+        if (!result.response.body.access_token) {
             console.error("Login failed!");
             res.status(400).send(false);
         }else{
@@ -614,15 +702,15 @@ app.post('/vehicleID', function (req, res) {
     }
     console.log("Requesting 'vehicle' with token " + JSON.stringify(options.authToken));
     teslajs.vehicle(options, function (err, vehicle) {
-        console.log(JSON.stringify(vehicle));
+        //console.log(JSON.stringify(vehicle));
         if (vehicle === null) {
-            //sending a fake vehicle for 
+            //sending a fake vehicle for
             res.status(200).send({
                 id: 12345678901234567,
                 vehicle_id: 1234567890,
                 vin: "5YJSA11111111111",
                 display_name: "Generated Test Vehicle",
-                option_codes: 'AD15,MDL3,PBSB,RENA,BT37,ID3W,RF3G,S3PB,DRLH,DV2W,W39B,APF0,COUS,BC3B,CH07,PC30,FC3P,FG31,GLFR,HL31,HM31,IL31,LTPB,MR31,FM3B,RS3H,SA3P,STCP,SC04,SU3C,T3CA,TW00,TM00,UT3P,WR00,AU3P,APH3,AF00,ZCST,MI00,CDM0',
+                option_codes: 'AD15,MDLS,PBSB,RENA,BT37,ID3W,RF3G,S3PB,DRLH,DV2W,W39B,APF0,COUS,BC3B,CH07,PC30,FC3P,FG31,GLFR,HL31,HM31,IL31,LTPB,MR31,FM3B,RS3H,SA3P,STCP,SC04,SU3C,T3CA,TW00,TM00,UT3P,WR00,AU3P,APH3,AF00,ZCST,MI00,CDM0',
                 color: null,
                 tokens: ["abcdef1234567890", "1234567890abcdef"],
                 state: "online",
@@ -660,6 +748,31 @@ app.post('/refreshToken', function (req, res) {
         });
 });
 
+app.post('/stopCharge', function(req, res) {
+    var options = req.body.auth;
+    console.log("Requesting Stop Charge");
+    teslajs.stopChargeAsync(JSON.parse(options))
+        .then(function(result) {
+            console.log("Successful Response: " + result);
+            res.status(200).send(result);
+        }).catch(function(err) {
+            console.log("Error: " + err);
+            res.status(400).send(err);
+        });
+});
+
+app.post('/startCharge', function(req, res) {
+    var options = req.body.auth;
+    console.log("Requesting Start Charge");
+    teslajs.startChargeAsync(JSON.parse(options))
+        .then(function(result) {
+            console.log("Successful Response: " + result);
+            res.status(200).send(result);
+        }).catch(function(err) {
+            console.log("Error: " + err);
+            res.status(400).send(err);
+        });
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

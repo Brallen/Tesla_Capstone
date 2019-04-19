@@ -27,7 +27,7 @@ class Header extends Component{
           <div className="container--car_info">
               <h1>{this.props.vehicleDataName}</h1>
               {this.props.vehicleLoaded ? 
-                <p>Battery Level: {this.props.vehicleDataBatteryLevel}%</p>
+                <p>{(this.props.vehicleCharging === 'Charging') ? <i class="fas fa-bolt"/> : null} Battery Level: {this.props.vehicleDataBatteryLevel}%</p>
               : null }
               {this.props.vehicleLoaded ? 
                 <p>Estimated Range: {this.props.vehicleDataRangeLeft.toFixed(0)} Miles</p>
@@ -47,7 +47,8 @@ const mapStateToProps = (state) => {
     vehicleDataName: state.state.vehicleDataObject.display_name,
     vehicleDataBatteryLevel: state.state.vehicleDataObject.charge_state.usable_battery_level,
     vehicleDataRangeLeft: state.state.vehicleDataObject.charge_state.est_battery_range,
-    vehicleLoaded: state.state.initialVehicleLoaded
+    vehicleLoaded: state.state.initialVehicleLoaded,
+    vehicleCharging: state.state.vehicleDataObject.charge_state.charging_state
   }
 }
 
