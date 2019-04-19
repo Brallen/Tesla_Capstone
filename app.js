@@ -4,11 +4,43 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 const teslajs = require('teslajs');
+const WS13 = require('websocket13');
 let bodyParser = require('body-parser');
 
 let port = process.env.PORT || 3001;
 let app = express();
 var testMode = false;
+
+//websocket for autopark/summon
+let ws = new WS13.WebSocket("wss://streaming.vn.teslamotors.com/streaming/");
+
+//var ws;
+
+//websocket message handlers
+ws.on('connected', function() {
+	console.log('*** WebSocket Connected to wss://streaming.vn.teslamotors.com/streaming/');
+  /*ws.send(JSON.stringify({
+		"tag": "vehicle_18fbvbvbv",
+		"token": "redacted",
+		"value": "shift_state,speed,power,est_lat,est_lng,est_heading,est_corrected_lat,est_corrected_lng,native_latitude,native_longitude,native_heading,native_type,native_location_supported",
+		"msg_type": "data:subscribe"
+	}));*/
+});
+
+ws.on('message', (type, data) => {
+  console.log('*** WebSocket Message recieved: ');
+	console.log(data.toString('utf8'));
+});
+
+ws.on('disconnected', function() {
+	console.log('*** WebSocket Disconnected to wss://streaming.vn.teslamotors.com/streaming/');
+	console.log(arguments);
+});
+
+ws.on('error', function(err){
+  console.log('*** WebSocket Error Recieved: ');
+  console.log(err);
+})
 
 //app.set('view engine', 'html');
 app.use(bodyParser.json());
@@ -324,6 +356,65 @@ app.post('/seatHeating', function (req, res) {
         console.log("Error: " + err);
         res.status(400).send(err);
     });
+});
+
+/**** STREAMING COMMANDS ****/
+app.post('/summonForward', function(req, res){
+    var email = req.body.email;
+    var options = JSON.parse(req.body.auth);
+    //console.log(options);
+    var longitude = req.body.longitude;
+    var latitude = req.body.latitude;
+
+    var token = Buffer.from(email + ':' + options.tokens[0], 'utf8').toString('base64')
+
+    ws.send(JSON.stringify({
+      "tag": options.vehicle_id.toString(),
+      "token": token,
+      "msg_type": "autopark:cmd_forward",
+      "latitude": latitude.toString(),
+      "longitude": longitude.toString()
+    }));
+
+    //send response back to server
+    res.status(200).send("SummonForward command sent");
+});
+
+app.post('/summonBackward', function(req, res){
+    var email = req.body.email;
+    var options = JSON.parse(req.body.auth);
+    //console.log(options);
+    var longitude = req.body.longitude;
+    var latitude = req.body.latitude;
+
+    var token = Buffer.from(email + ':' + options.tokens[0], 'utf8').toString('base64')
+
+    ws.send(JSON.stringify({
+      "tag": options.vehicle_id.toString(),
+      "token": token,
+      "msg_type": "autopark:cmd_backward",
+      "latitude": latitude.toString(),
+      "longitude": longitude.toString()
+    }));
+
+    res.status(200).send("SummonBackward command sent");
+});
+
+app.post('/summonAbort', function(req, res){
+    //get options variable for tag & token
+    var email = req.body.email;
+    var options = JSON.parse(req.body.auth);
+    //console.log(options);
+
+    var token = Buffer.from(email + ':' + options.tokens[0], 'utf8').toString('base64')
+
+    ws.send(JSON.stringify({
+      "tag": options.vehicle_id.toString(),
+      "token": token,
+      "msg_type": "autopark:cmd_abort",
+    }));
+
+  res.status(200).send("SummonAbort command sent");
 });
 
 // checking to see if mobile access is enabled

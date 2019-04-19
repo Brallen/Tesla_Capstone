@@ -1,5 +1,6 @@
 //this is our default state
 const defaultState = {
+    email: '',
     loggedIn: false,
     loginFailed: false,
     showLogin: true,
@@ -12,6 +13,7 @@ const defaultState = {
     showMediaModal: false,
     showClimateModal: false,
     showChargingModal: false,
+    showSummonModal: false,
     showDiagnosticsModal: false,
     showErrorPrompt: false,
     errorText: '',
@@ -37,7 +39,7 @@ const defaultState = {
     initialVehicleLoginObject: {},
     refreshTime: 3,
     refreshInterval: 3,
-    vehicleDataObject: { 
+    vehicleDataObject: {
         id: 0,
         user_id: 0,
         vehicle_id: 0,
@@ -66,11 +68,11 @@ const defaultState = {
             is_rear_defroster_on: false,
             left_temp_direction: 0,
             max_avail_temp: 0,
-            min_avail_temp: 0, 
+            min_avail_temp: 0,
             outside_temp: 0,
             passenger_temp_setting: 0,
             remote_heater_control_enabled: false,
-            right_temp_direction: 0, 
+            right_temp_direction: 0,
             seat_heater_left: 0,
             seat_heater_rear_center: 0,
             seat_heater_rear_left: 0,
@@ -121,7 +123,7 @@ const defaultState = {
             scheduled_charging_start_time: null,
             time_to_full_charge: 0,
             timestamp: 0,
-            trip_charging: false, 
+            trip_charging: false,
             usable_battery_level: 0,
             user_charge_enable_request: null
         },
@@ -147,7 +149,7 @@ const defaultState = {
             is_user_present: false,
             last_autopark_error: '',
             locked: false,
-            media_state: { 
+            media_state: {
                 remote_control_enabled: true
             },
             notifications_supported: false,
@@ -164,7 +166,7 @@ const defaultState = {
             },
             speed_limit_mode: {
                 active: false,
-                current_limit_mph: 0, 
+                current_limit_mph: 0,
                 max_limit_mph: 0,
                 min_limit_mph: 0,
                 pin_code_set: false
@@ -239,7 +241,7 @@ const reducers = (state = defaultState, action) => {
             ...defaultState
         }
 
-        
+
         default: return state;
     }
 }
