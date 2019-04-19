@@ -60,6 +60,7 @@ class SummonModal extends Component{
 
   summonBackwards(){
     axios.post('/summonBackward', {
+        email: this.props.emailProp,
         auth: JSON.stringify(this.state.localOptions),
         latitude: this.state.vehicleDataObject.drive_state.latitude,
         longitude: this.state.vehicleDataObject.drive_state.longitude
@@ -74,7 +75,9 @@ class SummonModal extends Component{
   }
 
   summonForwards(){
+    //alert(this.props.emailProp);
     axios.post('/summonForward', {
+        email: this.props.emailProp,
         auth: JSON.stringify(this.state.localOptions),
         latitude: this.state.vehicleDataObject.drive_state.latitude,
         longitude: this.state.vehicleDataObject.drive_state.longitude
@@ -90,6 +93,7 @@ class SummonModal extends Component{
 
   summonAbort(){
     axios.post('/summonAbort',{
+        email:this.props.emailProp,
         auth: JSON.stringify(this.state.localOptions),
     })
     .then(function(response){
@@ -135,7 +139,8 @@ const mapStateToProps = (state) => {
   return {
     showControl: state.state.showSummonModal,
     vehicleDataProp: state.state.vehicleDataObject,
-    localOptionsProp: state.state.localOptions
+    localOptionsProp: state.state.localOptions,
+    emailProp: state.state.email
   }
 }
 

@@ -14,6 +14,8 @@ var testMode = false;
 //websocket for autopark/summon
 let ws = new WS13.WebSocket("wss://streaming.vn.teslamotors.com/streaming/");
 
+//var ws;
+
 //websocket message handlers
 ws.on('connected', function() {
 	console.log('*** WebSocket Connected to wss://streaming.vn.teslamotors.com/streaming/');
@@ -34,6 +36,11 @@ ws.on('disconnected', function() {
 	console.log('*** WebSocket Disconnected to wss://streaming.vn.teslamotors.com/streaming/');
 	console.log(arguments);
 });
+
+ws.on('error', function(err){
+  console.log('*** WebSocket Error Recieved: ');
+  console.log(err);
+})
 
 //app.set('view engine', 'html');
 app.use(bodyParser.json());
@@ -372,25 +379,21 @@ app.post('/seatHeating', function (req, res) {
 });
 
 /**** STREAMING COMMANDS ****/
-//streaming commands
 app.post('/summonForward', function(req, res){
-    //let ws = new WS13.WebSocket("wss://streaming.vn.teslamotors.com/streaming/");
-
-    //get options variable for tag & token
-  //  var token = req.body.auth.authToken;
-  //  var tag = req.body.auth.vehicleID; //could be vehicle_id
-
+    var email = req.body.email;
     var options = JSON.parse(req.body.auth);
-    console.log(options);
+    //console.log(options);
     var longitude = req.body.longitude;
     var latitude = req.body.latitude;
 
+    var token = Buffer.from(email + ':' + options.tokens[0], 'utf8').toString('base64')
+
     ws.send(JSON.stringify({
-      "tag": options.vehicle_id,
-      "token": options.authToken,
+      "tag": options.vehicle_id.toString(),
+      "token": token,
       "msg_type": "autopark:cmd_forward",
-      "latitude": latitude,
-      "longitude": longitude
+      "latitude": latitude.toString(),
+      "longitude": longitude.toString()
     }));
 
     //send response back to server
@@ -398,18 +401,20 @@ app.post('/summonForward', function(req, res){
 });
 
 app.post('/summonBackward', function(req, res){
-    //get options variable for tag & token
+    var email = req.body.email;
     var options = JSON.parse(req.body.auth);
-    console.log(options);
+    //console.log(options);
     var longitude = req.body.longitude;
     var latitude = req.body.latitude;
 
+    var token = Buffer.from(email + ':' + options.tokens[0], 'utf8').toString('base64')
+
     ws.send(JSON.stringify({
-      "tag": options.vehicle_id,
-      "token": options.authToken,
+      "tag": options.vehicle_id.toString(),
+      "token": token,
       "msg_type": "autopark:cmd_backward",
-      "latitude": latitude,
-      "longitude": longitude
+      "latitude": latitude.toString(),
+      "longitude": longitude.toString()
     }));
 
     res.status(200).send("SummonBackward command sent");
@@ -417,14 +422,17 @@ app.post('/summonBackward', function(req, res){
 
 app.post('/summonAbort', function(req, res){
     //get options variable for tag & token
+    var email = req.body.email;
     var options = JSON.parse(req.body.auth);
-    console.log(options);
+    //console.log(options);
 
-    /*ws.send(JSON.stringify({
-      "tag": options.vehicle_id,
-      "token": options.authToken,
+    var token = Buffer.from(email + ':' + options.tokens[0], 'utf8').toString('base64')
+
+    ws.send(JSON.stringify({
+      "tag": options.vehicle_id.toString(),
+      "token": token,
       "msg_type": "autopark:cmd_abort",
-    }));*/
+    }));
 
   res.status(200).send("SummonAbort command sent");
 });
