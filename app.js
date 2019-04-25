@@ -450,7 +450,7 @@ app.post('/vehicleData', function (req, res) {
                 vehicle_id: 1234567890,
                 vin: "5YJSA11111111111",
                 display_name: "Generated Test Vehicle",
-                option_codes: 'AD15,MDLS,PBSB,RENA,BT37,ID3W,RF3G,S3PB,DRLH,DV2W,W39B,APF0,COUS,BC3B,CH07,PC30,FC3P,FG31,GLFR,HL31,HM31,IL31,LTPB,MR31,FM3B,RS3H,SA3P,STCP,SC04,SU3C,T3CA,TW00,TM00,UT3P,WR00,AU3P,APH3,AF00,ZCST,MI00,CDM0',
+                option_codes: 'AD15,MDLS,PBSB,RENA,BT37,ID3W,RFP2',
                 color: null,
                 tokens: ["abcdef1234567890", "1234567890abcdef"],
                 state: "online",
@@ -485,7 +485,7 @@ app.post('/vehicleData', function (req, res) {
                     seat_heater_right: 2,
                     side_mirror_heaters: false,
                     smart_preconditioning: false,
-                    timestamp: 1552440838137,
+                    timestamp: 1000000000000,
                     wiper_blade_heater: false
                 },
                 charge_state: {
@@ -527,7 +527,7 @@ app.post('/vehicleData', function (req, res) {
                     scheduled_charging_pending: false,
                     scheduled_charging_start_time: null,
                     time_to_full_charge: 0,
-                    timestamp: 1552440838137,
+                    timestamp: 1000000000000,
                     trip_charging: false,
                     usable_battery_level: 72,
                     user_charge_enable_request: null
@@ -538,14 +538,14 @@ app.post('/vehicleData', function (req, res) {
                     gui_distance_units: 'mi/hr',
                     gui_range_display: 'Rated',
                     gui_temperature_units: 'F',
-                    timestamp: 1552440838137
+                    timestamp: 1000000000000
                 },
                 vehicle_state: {
                     api_version: 6,
                     autopark_state_v3: 'ready',
                     autopark_style: 'dead_man',
                     calendar_supported: true,
-                    car_version: '2018.50.6 4ec03ed',
+                    car_version: 'TESTVERSION mmddll33',
                     center_display_state: 0,
                     df: 0,
                     dr: 0,
@@ -558,7 +558,7 @@ app.post('/vehicleData', function (req, res) {
                         remote_control_enabled: true
                     },
                     notifications_supported: true,
-                    odometer: 12900.1235,
+                    odometer: 12002.1853,
                     parsed_calendar_supported: true,
                     pf: 0,
                     pr: 0,
@@ -578,7 +578,7 @@ app.post('/vehicleData', function (req, res) {
                     },
                     sun_roof_percent_open: null,
                     sun_roof_state: 'unknown',
-                    timestamp: 1552440838137,
+                    timestamp: 1000000000000,
                     valet_mode: false,
                     valet_pin_needed: true,
                     vehicle_name: 'TestVehicle'
@@ -587,10 +587,10 @@ app.post('/vehicleData', function (req, res) {
                     can_accept_navigation_requests: true,
                     can_actuate_trunks: true,
                     car_special_type: 'base',
-                    car_type: 'model3',
+                    car_type: 'modelS',
                     charge_port_type: 'US',
                     eu_vehicle: false,
-                    exterior_color: 'DeepBlue',
+                    exterior_color: 'White',
                     has_air_suspension: false,
                     has_ludicrous_mode: false,
                     motorized_charge_port: true,
@@ -604,23 +604,23 @@ app.post('/vehicleData', function (req, res) {
                     spoiler_type: 'None',
                     sun_roof_installed: null,
                     third_row_seats: '<invalid>',
-                    timestamp: 1552440838137,
+                    timestamp: 1000000000000,
                     trim_badging: '74',
                     wheel_type: 'Pinwheel18'
                 },
                 drive_state: {
-                    gps_as_of: 1552440838,
+                    gps_as_of: 1000000000000,
                     heading: 90,
-                    latitude: 44.54428,
-                    longitude: -123.254808,
-                    native_latitude: 44.54428,
+                    latitude: 20.00000,
+                    longitude: -150.00000,
+                    native_latitude: 20.00000,
                     native_location_supported: 1,
-                    native_longitude: -123.254808,
+                    native_longitude: -150.00000,
                     native_type: 'wgs',
                     power: 0,
                     shift_state: null,
                     speed: null,
-                    timestamp: 1552440838137
+                    timestamp: 1000000000000
                 }
             });
         });
