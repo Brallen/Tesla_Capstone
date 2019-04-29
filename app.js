@@ -11,6 +11,12 @@ let port = process.env.PORT || 3001;
 let app = express();
 var testMode = false;
 
+app.use(express.static(path.join(__dirname, 'tesla-client/build')));
+
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 //websocket for autopark/summon
 let ws = new WS13.WebSocket("wss://streaming.vn.teslamotors.com/streaming/");
 
