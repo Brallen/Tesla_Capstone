@@ -9,6 +9,7 @@ class Header extends Component{
       show: true
     };
     this.logout = this.logout.bind(this);
+    this.openMenu = this.openMenu.bind(this);
   }
 
   logout(){
@@ -20,6 +21,17 @@ class Header extends Component{
     })
   }
 
+  openMenu(){
+    var newStore = store.getState();
+    newStore.state.showLogoutButton = !newStore.state.showLogoutButton;
+    store.dispatch({
+        type: 'UPDATE_OBJECT',
+        payload: {
+          showLogoutButton: newStore.state.showLogoutButton
+        }
+      })
+  }
+
   render(){
     return(
       <div>
@@ -27,13 +39,19 @@ class Header extends Component{
           <div className="container--car_info">
               <h1>{this.props.vehicleDataName}</h1>
               {this.props.vehicleLoaded ? 
-                <p>Battery Level: {this.props.vehicleDataBatteryLevel}%</p>
+                <p>{(this.props.vehicleCharging === 'Charging') ? <i className="fas fa-bolt"/> : null} Battery Level: {this.props.vehicleDataBatteryLevel}%</p>
               : null }
               {this.props.vehicleLoaded ? 
                 <p>Estimated Range: {this.props.vehicleDataRangeLeft.toFixed(0)} Miles</p>
               : null }
               <div className="container--logout_menu">
-                <button className="btn logout-button" onClick={() => this.logout()}>Sign Out</button>
+                <button className="logout-burger" onClick={() => this.openMenu()}>
+                    {this.props.logoutButtonProp ? <i class="fas fa-times"></i> : <i className="fas fa-bars"></i>}
+                </button>
+                {this.props.logoutButtonProp ?
+                    <button className="btn logout-button" onClick={() => this.logout()}>Sign Out</button>
+                    : null
+                }
               </div>
           </div>
         </header>
@@ -47,7 +65,9 @@ const mapStateToProps = (state) => {
     vehicleDataName: state.state.vehicleDataObject.display_name,
     vehicleDataBatteryLevel: state.state.vehicleDataObject.charge_state.usable_battery_level,
     vehicleDataRangeLeft: state.state.vehicleDataObject.charge_state.est_battery_range,
-    vehicleLoaded: state.state.initialVehicleLoaded
+    vehicleLoaded: state.state.initialVehicleLoaded,
+    vehicleCharging: state.state.vehicleDataObject.charge_state.charging_state,
+    logoutButtonProp: state.state.showLogoutButton
   }
 }
 

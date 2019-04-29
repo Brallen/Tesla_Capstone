@@ -40,6 +40,9 @@ body
 .fas
     color: $FontColor
 
+.fas.fa-bolt
+    color: $GreenAccent
+
 .btn
     margin: 5px
     padding: 10px 15px
@@ -51,12 +54,14 @@ body
     cursor: pointer
 
 .btn--control_btn
-    width: 75%
+    flex-basis: 75%
 
 .btn:active
     background-color: $DarkGreenAccent
 
 .container--header
+    display: flex
+    align-items: center
     position: fixed
     top: 0
     left: 0
@@ -64,32 +69,36 @@ body
     z-index: 1000
     background-color: $HeaderBackground
     box-shadow: 0 3px 6px rgba(0,0,0,.3)
+    height: 90px
 
 .container--car_info
     padding: 10px 0
     margin: auto
-    width: 50%
+    width: 70%
     text-align: center
 
 .container--car_info h1
-    font-size: 24px
+    font-size: 15px
+
+.container--car_info p,
+.container--car_info i
+    font-size: 13px
 
 .container--logout_menu
     position: absolute
-    top: 10px
-    right: 10px
+    top: 36px
+    right: 15px
     font-size: 16px
     cursor: pointer
 
-.container--logout_button
-    padding: 2px
-    position: fixed
-    right: 0px
-    background-color: $FontColor
-    border-radius: 8px
+.container--logout_menu i
+    font-size: 27px
 
 .logout-button
     background-color: $RedAccent
+    position: absolute
+    top: 30px
+    right: -10px
 
 .logout-button:active
     background-color: $DarkRedAccent
@@ -115,6 +124,9 @@ body
     width: 100%
     max-width: 768px
     margin: auto
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
 
 .modal
     display: none
@@ -137,15 +149,14 @@ body
     border-radius: 5px
     text-align: center
 
-.modal-content-diagnostics
-    background-color: $BackgroundColor
-    word-wrap: break-word
-    width: 80%
-    margin: auto
-    margin-top: 75px
-    padding: 10px 0
-    border-radius: 5px
-    text-align: center
+.modal pre[class*="language-"]
+    margin: 28px auto 0 auto
+    width: auto
+    font-size: .8em
+
+.diagnostics-buttons
+    display: flex
+    flex-wrap: wrap
 
 .container--modal_login
     background-color: $BackgroundColor
@@ -170,14 +181,19 @@ body
     margin: 0 auto
 
 .container--modal_login .login-form-text
-    text-align: right
+    text-align: left
     padding: 10px 15px 10px 0
+    margin-left: 29px
+    width: 249px
 
 .container--modal_login input
     color: $Black
     background-color: $White
     border-radius: 2px
     margin: 6px 0
+
+.container--modal_login input:not(#checkbox)
+    width: 100%
 
 .container--modal_confirm input
     color: $Black
@@ -187,6 +203,8 @@ body
 
 .container--modal_login #login-error
     color: $RedAccent
+    text-align: center
+    font-size: 22px
 
 .container--modal_login .container--header
     height: 71px
@@ -202,6 +220,12 @@ body
     width: 80%
     display: block
 
+.btn--modal_btn_diagnostics
+    margin: 8px auto
+    width: 25%
+    display: block
+    flex-basis: 29%
+
 .modal-content .modal--close
     text-align: right
     margin: -9px 8px 0 0
@@ -213,28 +237,22 @@ body
     font-size: 25px
 
 .modal--slider
-    -webkit-appearance: none
+    margin: 30px auto
     width: 80%
-    height: 7px
-    border-radius: 3px
-    background: $LightGreenAccent
-    margin: 20px
 
-.modal--slider::-webkit-slider-thumb
-  -webkit-appearance: none
-  appearance: none
-  width: 20px
-  height: 20px
-  border-radius: 50%
-  background: $ButtonColor
-  cursor: pointer
+.modal--slider .rangeslider
+    height: 9px
 
-.modal--slider::-moz-range-thumb
-  width: 20px
-  height: 20px
-  border-radius: 50%
-  background: $ButtonColor
-  cursor: pointer
+.modal--slider .rangeslider-horizontal .rangeslider__fill
+    background-color: $GreenAccent
+
+.modal--slider .rangeslider-horizontal .rangeslider__handle::after
+    content: none
+
+.modal--slider .rangeslider-horizontal .rangeslider__handle
+    width: 20px
+    height: 20px
+    border-radius: 20px
 
 .modal--media_controls
     margin: 15px 0
@@ -295,36 +313,57 @@ body
 @media only screen and (min-width: 375px)
     .modal-content
         width: 355px
+
     .btn--modal_btn
         margin: 6px auto
 
-@media only screen and (min-width: 800px)
+@media only screen and (min-width: 420px)
+    .container--logout_menu
+        top: 28px
+        right: 15px
+
+    .container--logout_menu i
+        font-size: 32px
+
+    .logout-button
+        top: 34px
+        right: -10px
+
+@media only screen and (min-width: 500px)
+    .btn--control_btn
+        flex-basis: 48%
+
+@media only screen and (min-width: 768px)
     .container--main_section
         padding-top: 71px
+
     .container--car_image
-        height: calc(100vh - 71px)    
+        height: calc(100vh - 71px)  
+
     .modal-content
         width: 550px
+
     .btn
         padding: 15px 15px
+
     .btn--modal_btn
         margin: 8px auto
+
     .container--car_image img
         width: 530px
 
+    .modal pre[class*="language-"]
+        font-size: 1em
+
+    .container--car_info h1
+        font-size: 24px
+
+    .container--car_info p,
+    .container--car_info i
+        font-size: 16px
+    
+    .container--logout_menu i
+        font-size: 32px
+
 #confirm--password 
     display: inline
-
-
-// Commenting out for now until we can get the battery percentage
-// #charging--charge_slider
-//     height: 15px
-
-// #charging--charge_slider::-webkit-slider-thumb
-//     border-radius: 0
-//     width: 7px
-//     height: 25px
-// #charging--charge_slider::moz-range-thumb
-//     border-radius: 0
-//     width: 7px
-//     height: 25px

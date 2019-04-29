@@ -15,13 +15,13 @@ import PasswordPrompt from './PasswordPrompt.js';
 import LogoutPrompt from './LogoutPrompt.js';
 import ConfirmationPrompt from './ConfirmationPrompt.js';
 import ErrorPrompt from './ErrorPrompt.js';
+import SummonModal from './Summon.js';
 
 class Main extends Component{
   constructor(props){
     super(props);
     this.state = {
     };
-    this.testFunc = this.testFunc.bind(this);
     this.showControls = this.showControls.bind(this);
     this.showMedia = this.showMedia.bind(this);
     this.showClimate = this.showClimate.bind(this);
@@ -29,17 +29,6 @@ class Main extends Component{
     this.showDiagnostics = this.showDiagnostics.bind(this);
   }
 
-  alertStoreFunc(){
-    alert(JSON.stringify(store.getState()));
-  }
-
-  testFunc(){
-    let { cookies } = this.props;
-    let useCookie = cookies.get("token");
-    let useCookieRefresh = cookies.get('refreshToken');
-    alert("auth token: " + useCookie);
-    alert("refresh token: " + useCookieRefresh);
-  }
 
   showControls(){
     var newStore = store.getState();
@@ -104,6 +93,17 @@ class Main extends Component{
     })
   }
 
+  showSummon(){
+    var newStore = store.getState();
+    newStore.state.showSummonModal = true;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showSummonModal: newStore.state.showSummonModal
+      }
+    })
+  }
+
 
   render(){
     return(
@@ -112,33 +112,32 @@ class Main extends Component{
         <main className="container--main_section">
           <Image/>
           <div className="container--control_btn">
-            <ul className="list--control_btn">
               {this.props.vehicleLoaded ? 
-                <li className="item--control_btn"><button onClick={this.showControls} id="modal--control_open" className="btn btn--control_btn">Controls</button></li>
+                <button onClick={this.showControls} id="modal--control_open" className="btn btn--control_btn">Controls</button>
               : null}
               {this.props.vehicleLoaded ? 
-                <li className="item--control_btn"><button onClick={this.showMedia}id="modal--media_open" className="btn btn--control_btn">Media</button></li>
+                <button onClick={this.showMedia}id="modal--media_open" className="btn btn--control_btn">Media</button>
               : null}
               {this.props.vehicleLoaded ? 
-                <li className="item--control_btn"><button onClick={this.showClimate} id="modal--climate_open" className="btn btn--control_btn">Climate</button></li>
+                <button onClick={this.showClimate} id="modal--climate_open" className="btn btn--control_btn">Climate</button>
               : null}
               {this.props.vehicleLoaded ? 
-                <li className="item--control_btn"><button onClick={this.showCharging} id="modal--charging_open" className="btn btn--control_btn">Charging</button></li>
+                <button onClick={this.showCharging} id="modal--charging_open" className="btn btn--control_btn">Charging</button>
+              : null}
+              {(this.props.vehicleLoaded && !this.props.vehicleOptions.includes('MDL3')) ? 
+                <button onClick={this.showSummon} id="modal--charging_open" className="btn btn--control_btn">Summon Vehicle</button>
               : null}
               {this.props.vehicleLoaded ? 
-                <li className="item--control_btn"><button onClick={this.showDiagnostics} id="modal--store" className="btn btn--control_btn">Diagnostics</button></li>
-              : null}
-              {this.props.vehicleLoaded ? 
-                <li className="item--control_btn"><button onClick={this.testFunc} id="modal--test" className="btn btn--control_btn">Test Button</button></li>
+                <button onClick={this.showDiagnostics} id="modal--store" className="btn btn--control_btn">Diagnostics</button>
               : null}
               
-            </ul>  
           </div>
           <Diagnostics/>
           <ChargingModal/>
           <MediaModal/>
           <ClimateModal/>
           <ControlModal/>
+          <SummonModal/>
           <LoginModal/>
           <Timer />
           <PasswordPrompt/>
@@ -160,7 +159,8 @@ const mapStateToProps = (state) => {
     loginState: state.state.initialVehicleLoginObject,
     vehicleSunroof: state.state.vehicleDataObject.vehicle_state.sun_roof_percent_open,
     vehicleClimateUnit: state.state.vehicleDataObject.gui_settings.gui_temperature_units,
-    vehicleLoaded: state.state.initialVehicleLoaded
+    vehicleLoaded: state.state.initialVehicleLoaded,
+    vehicleOptions: state.state.vehicleDataObject.option_codes
   }
 }
 

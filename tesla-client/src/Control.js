@@ -25,7 +25,6 @@ class ControlModal extends Component{
     this.setState({ 
       localOptions: this.props.localOptionsProp
     });
-    //alert(JSON.stringify(this.state.localOptions))
   }
   
   componentDidUpdate(){
@@ -48,7 +47,6 @@ class ControlModal extends Component{
       type: 'UPDATE_OBJECT',
       payload: {
         showErrorPrompt: true,
-        showControlModal: false,
         errorText: text
       }
     })
@@ -95,11 +93,10 @@ class ControlModal extends Component{
       auth: JSON.stringify(this.state.localOptions)
     })
     .then(function (response) {
-      //if it's a good response, update local state
-      alert("Vehicle Honked");
+      //if it's a good response, we don't need anything
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not honk the vehicle horn");
     });
   }
 
@@ -112,11 +109,10 @@ class ControlModal extends Component{
       auth: JSON.stringify(this.state.localOptions)
     })
     .then(function (response) {
-      //if it's a good response, update local state
-      alert("Lights Flashed");
+      //if it's a good response, we dont need anything
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not flash the vehicle lights");
     });
   }
 
@@ -156,8 +152,6 @@ class ControlModal extends Component{
     //so the timer doesnt refresh directly after an async api call
     this.refreshGlobalTimerWhenAction();
     var self = this;
-    //check to make sure the sunroof is present and not null
-    if(this.props.sunroofPresentProp){
       //if the sunroof is open at all then we send a close command
       if(this.props.sunroofPercent > 0){
         axios.post('/closeSunroof', {
@@ -171,10 +165,9 @@ class ControlModal extends Component{
               sunroofOpen: false
             }
           })
-          //alert("Sunroof has been closed");
         })
         .catch(function (error) {
-          self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+          self.showError("Error: Could not close the Sunroof");
         });
       }else{
         //if its not open then send an open command
@@ -189,15 +182,11 @@ class ControlModal extends Component{
               sunroofOpen: true
             }
           })
-          //alert("Sunroof has been opened");
         })
         .catch(function (error) {
-          self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+          self.showError("Error: Could not open the Sunroof");
         });
       }
-    }else{
-      alert("Uh oh, this vehicle has no sunroof!");
-    }
   }
 
 
@@ -230,8 +219,12 @@ class ControlModal extends Component{
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.flashLightsButton} id="flashlights_btn">Flash Lights</button></li>
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openFrunkButton} id="openfrunk_btn">Open Frunk</button></li>
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openTrunkButton} id="opentrunk_btn">Open Trunk</button></li>
-                      {this.props.sunroofPresentProp ? 
-                        <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.SunroofButton} id="sunroof">{this.props.sunroofOpenProp ? 'Close' : 'Open'} Sunroof</button></li>
+                      {(this.props.optionCodes.includes('RFP2')) ? 
+                        <li className="item--modal_btn">
+                          <button className="btn btn--modal_btn" onClick={this.SunroofButton} id="sunroof">
+                            {this.props.sunroofOpenProp ? 'Close' : 'Open'} Sunroof
+                          </button>
+                        </li>
                         :
                         null
                       }
@@ -258,7 +251,7 @@ const Modal = ({ handleClose, show, children }) => {
       vehicleLocked: state.state.vehicleDataObject.vehicle_state.locked,
       globalTimerInterval: state.state.refreshInterval,
       sunroofPercent: state.state.vehicleDataObject.vehicle_state.sun_roof_percent_open,
-      sunroofPresentProp: state.state.sunroofPresent,
+      optionCodes: state.state.vehicleDataObject.option_codes,
       sunroofOpenProp: state.state.sunroofOpen,
       localOptionsProp: state.state.localOptions,
       //REMOVE THIS BELOW AFTER TESTING COMPLETE

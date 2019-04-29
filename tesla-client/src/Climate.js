@@ -29,7 +29,6 @@ class ClimateModal extends Component{
     this.setState({ 
       localOptions: this.props.localOptionsProp
     });
-    //alert(JSON.stringify(this.state.localOptions))
   }
 
   //call this function inside every control
@@ -67,8 +66,8 @@ class ClimateModal extends Component{
     this.setState({ 
       temperature: parseFloat(value)
     });
-    newStore.state.vehicleDataObject.climate_state.driver_temp_setting = parseFloat(this.state.temperature);
-    newStore.state.vehicleDataObject.climate_state.passenger_temp_setting = parseFloat(this.state.temperature);
+    newStore.state.vehicleDataObject.climate_state.driver_temp_setting = parseFloat(value);
+    newStore.state.vehicleDataObject.climate_state.passenger_temp_setting = parseFloat(value);
 
     store.dispatch({
       type: 'UPDATE_OBJECT',
@@ -85,14 +84,13 @@ class ClimateModal extends Component{
     //see comment above handleClimateChange()
     axios.post('/setTemp', {
       auth: JSON.stringify(this.state.localOptions),
-      temp: parseInt(this.state.temperature.toFixed(0))
+      temp: parseFloat(this.state.temperature.toFixed(1))
     })
     .then(function (response) {
-      //if it's a good response, update local state
-      alert("temperature set");
+      //if it's a good response, state is already updated!
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the vehicle cabin temperature");
       //error, lets repull the data to update the slider back to what it is
       var newStore = store.getState();
       newStore.state.refreshTime = 1;
@@ -123,10 +121,9 @@ class ClimateModal extends Component{
             vehicleDataObject: newStore.state.vehicleDataObject
           }
         })
-        alert("temperature set");
       })
       .catch(function (error) {
-        self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+        self.showError("Error: Could not turn off the vehicle climate");
       });
     }
 
@@ -144,10 +141,9 @@ class ClimateModal extends Component{
             vehicleDataObject: newStore.state.vehicleDataObject
           }
         })
-        alert("temperature set");
       })
       .catch(function (error) {
-        self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+        self.showError("Error: Could not turn on the vehicle climate");
       });
     }
   }
@@ -172,7 +168,6 @@ class ClimateModal extends Component{
       type: 'UPDATE_OBJECT',
       payload: {
         showErrorPrompt: true,
-        showClimateModal: false,
         errorText: text
       }
     })
@@ -186,15 +181,16 @@ class ClimateModal extends Component{
     this.refreshGlobalTimerWhenAction();
     var self = this;
     //do our api call with the next seat heater level
+
     axios.post('/seatHeating', {
       auth: JSON.stringify(this.state.localOptions),
       seat: JSON.stringify(0),
       level: JSON.stringify(this.nextHeatLevel(this.props.seatLeft))
     })
     .then(function (response) {
-      //if it's a good response, update local state to match
+      //if it's a good response, update local state
       var newStore = store.getState();
-      newStore.vehicleDataObject.climate_state.seat_heater_left = self.nextHeatLevel(self.props.seatLeft);
+      newStore.state.vehicleDataObject.climate_state.seat_heater_left = self.nextHeatLevel(self.props.seatLeft);
       store.dispatch({
         type: 'UPDATE_OBJECT',
         payload: {
@@ -203,8 +199,7 @@ class ClimateModal extends Component{
       })
     })
     .catch(function (error) {
-      //otherwise we do nothing
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the front left seat heater to level: "+self.nextHeatLevel(self.props.seatLeft));
     });
   }
 
@@ -224,7 +219,7 @@ class ClimateModal extends Component{
     .then(function (response) {
       //if it's a good response, update local state to match
       var newStore = store.getState();
-      newStore.vehicleDataObject.climate_state.seat_heater_right = self.nextHeatLevel(self.props.seatRight);
+      newStore.state.vehicleDataObject.climate_state.seat_heater_right = self.nextHeatLevel(self.props.seatRight);
       store.dispatch({
         type: 'UPDATE_OBJECT',
         payload: {
@@ -233,7 +228,7 @@ class ClimateModal extends Component{
       })
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the front right seat heater to level: "+self.nextHeatLevel(self.props.seatRight));
     });
   }
 
@@ -253,7 +248,7 @@ class ClimateModal extends Component{
     .then(function (response) {
       //if it's a good response, update local state to match
       var newStore = store.getState();
-      newStore.vehicleDataObject.climate_state.seat_heater_rear_right = self.nextHeatLevel(self.props.seatRightRear);
+      newStore.state.vehicleDataObject.climate_state.seat_heater_rear_right = self.nextHeatLevel(self.props.seatRightRear);
       store.dispatch({
         type: 'UPDATE_OBJECT',
         payload: {
@@ -262,7 +257,7 @@ class ClimateModal extends Component{
       })
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the rear right seat heater to level: "+self.nextHeatLevel(self.props.seatRightRear));
     });
   }
 
@@ -281,7 +276,7 @@ class ClimateModal extends Component{
     .then(function (response) {
       //if it's a good response, update local state to match
       var newStore = store.getState();
-      newStore.vehicleDataObject.climate_state.seat_heater_rear_left = self.nextHeatLevel(self.props.seatLeftRear);
+      newStore.state.vehicleDataObject.climate_state.seat_heater_rear_left = self.nextHeatLevel(self.props.seatLeftRear);
       store.dispatch({
         type: 'UPDATE_OBJECT',
         payload: {
@@ -290,7 +285,7 @@ class ClimateModal extends Component{
       })
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the rear left seat heater to level: "+self.nextHeatLevel(self.props.seatLeftRear));
     });
   }
 
@@ -309,7 +304,7 @@ class ClimateModal extends Component{
     .then(function (response) {
       //if it's a good response, update local state to match
       var newStore = store.getState();
-      newStore.vehicleDataObject.climate_state.seat_heater_rear_center = self.nextHeatLevel(self.props.seatMidRear);
+      newStore.state.vehicleDataObject.climate_state.seat_heater_rear_center = self.nextHeatLevel(self.props.seatMidRear);
       store.dispatch({
         type: 'UPDATE_OBJECT',
         payload: {
@@ -318,7 +313,7 @@ class ClimateModal extends Component{
       })
     })
     .catch(function (error) {
-      self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+      self.showError("Error: Could not set the rear middle seat heater to level: "+self.nextHeatLevel(self.props.seatMidRear));
     });
   }
 
@@ -332,7 +327,9 @@ class ClimateModal extends Component{
             </div>
             <div className="modal--climate_controls">
               <p id="climate--temp_level" className="modal--level_text">
-                Climate: {this.props.unitDecider ? parseFloat(this.props.vehicleClimateNum).toFixed(1) : parseFloat(this.props.vehicleClimateNum*(9/5)+32).toFixed(1)}{this.props.vehicleClimateUnit}
+                Climate: {(this.props.vehicleClimateUnit === 'F') ? 
+                  parseFloat(this.props.vehicleClimateNum*(9/5)+32).toFixed(1) : 
+                  parseFloat(this.props.vehicleClimateNum).toFixed(1)}{this.props.vehicleClimateUnit}
               </p>
                 <div className='modal--slider'>
                   <Slider
@@ -361,8 +358,8 @@ class ClimateModal extends Component{
                       <i className="climate--img fas fa-fire-alt"></i>
                     </button>
                     <button id="climate--seat_bm" className={'climate--seat_btn_level_'+this.props.seatMidRear} onClick={this.rearMidHeater}>
-                      <i className="climate--img fas fa-fire-alt"></i
-                    ></button>
+                      <i className="climate--img fas fa-fire-alt"></i>
+                    </button>
                     <button id="climate--seat_br" className={'climate--seat_btn_level_'+this.props.seatRightRear} onClick={this.rearRightHeater}>
                       <i className="climate--img fas fa-fire-alt"></i>
                     </button>
@@ -400,7 +397,6 @@ const mapStateToProps = (state) => {
       globalTimerInterval: state.state.refreshInterval,
       localOptionsProp: state.state.localOptions,
       showClimate: state.state.showClimateModal,
-      unitDecider: state.state.unitDecider,
       vehicleClimateUnit: state.state.vehicleDataObject.gui_settings.gui_temperature_units
     }
   }

@@ -27,7 +27,6 @@ class ConfirmationPrompt extends Component{
       payload: {
         showErrorPrompt: true,
         showConfirmationPrompt: false,
-        showControlModal: false,
         errorText: text
       }
     })
@@ -89,11 +88,11 @@ class ConfirmationPrompt extends Component{
             which: "frunk"
         })
         .then(function (response) {
-        //if it's a good response, update local state
-        alert("Frunk Opened");
+        //if it's a good response, we dont need to do anything
+          self.showError("Frunk has been opened!");
         })
         .catch(function (error) {
-          self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+          self.showError("Error: Could not open the Frunk");
         });
     }
 
@@ -105,10 +104,10 @@ class ConfirmationPrompt extends Component{
         })
         .then(function (response) {
             //if it's a good response, update local state
-            alert("Trunk Opened");
+            self.showError("Trunk has been opened!");
         })
         .catch(function (error) {
-          self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+          self.showError("Error: Could not open the Trunk");
         });
     }
 
@@ -130,7 +129,7 @@ class ConfirmationPrompt extends Component{
                 })
             })
             .catch(function (error) {
-              self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+              self.showError("Error: Could not unlock the vehicle");
             });
         }
         if(this.props.vehicleLocked === false){
@@ -149,7 +148,7 @@ class ConfirmationPrompt extends Component{
                 })
             })
             .catch(function (error) {
-              self.showError(JSON.stringify(error.response.data + " - " + error.response.statusText));
+              self.showError("Error: Could not lock the vehicle");
             });
         }
     }
