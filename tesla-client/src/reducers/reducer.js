@@ -17,6 +17,8 @@ const defaultState = {
     showSummonModal: false,
     showDiagnosticsModal: false,
     showErrorPrompt: false,
+    apiMobileCallFailed: 0,
+    apiDataCallFailed: 0,
     errorText: '',
     rememberMeChecked: false,
     initialVehicleLoaded: false,
@@ -30,6 +32,7 @@ const defaultState = {
     toggleClimateState: false,
     toggleVehicleConfig: false,
     toggleGUISettings: false,
+    toggleAppState: false,
     localOptions: {
         authToken: '',
         vehicleID: '',

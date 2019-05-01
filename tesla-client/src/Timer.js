@@ -46,21 +46,30 @@ class Timer extends Component {
   }
 
   checkMobileAccess(){
-    var self = this;
     axios.post('/mobileAccess', {
       auth: JSON.stringify(this.state.localOptions)
     })
     .then(function (response) {
+      //reset api mobile call failed count on a success
       store.dispatch({
         type: 'UPDATE_OBJECT',
         payload: {
-          mobileAccess: response.data
+          mobileAccess: response.data,
+          apiMobileCallFailed: 0
         }
       })
     })
     .catch(function (error) {
       console.log(error);
-      self.showError("Error: Could not determine mobile access");
+      //increase the mobile api call failed count
+      var newStore = store.getState();
+      newStore.state.apiMobileCallFailed++;
+      store.dispatch({
+        type: 'UPDATE_OBJECT',
+        payload: {
+          apiMobileCallFailed: newStore.state.apiMobileCallFailed
+        }
+      })
     });
   }
 
@@ -79,6 +88,12 @@ class Timer extends Component {
     //first let's make sure we're logged in
     if(this.props.loggedInProp){
       this.checkMobileAccess()
+      if(this.props.apiMobileCallFailedCount >= 5){
+        self.showError("Error: Could not determine mobile access");
+      }
+      if(this.props.apiDataCallFailedCount >= 5){
+        self.showError("Error: Could not retrieve vehicle data");
+      }
       if(this.props.mobileAccessProp === true){
           if(this.props.initialVehicleObject.state === 'asleep' && this.props.waitingForWake === false){
             axios.post('/wakeup', {
@@ -145,12 +160,21 @@ class Timer extends Component {
                       can see when the vehicle goes to sleep and then wake it up automatically again*/
                     initialVehicleLoginObject: newStore.state.initialVehicleLoginObject,
                     refreshInterval: newStore.state.refreshInterval,
-                    initialVehicleLoaded: newStore.state.initialVehicleLoaded
+                    initialVehicleLoaded: newStore.state.initialVehicleLoaded,
+                    apiDataCallFailed: 0
                   }
                 })
               })
               .catch(function (error) {
-                self.showError("Error: Could not retrieve vehicle data");
+                //increment the counter for vehicle data call failing
+                var newStore = store.getState();
+                newStore.state.apiDataCallFailed++;
+                store.dispatch({
+                  type: 'UPDATE_OBJECT',
+                  payload: {
+                    apiDataCallFailed: newStore.state.apiDataCallFailed
+                  }
+                })
                 console.log(error);
               });
             }
@@ -229,7 +253,9 @@ const mapStateToProps = (state) => {
     initialVehicleObject: state.state.initialVehicleLoginObject,
     mobileAccessProp: state.state.mobileAccess,
     vehicleOptionCodes: state.state.vehicleDataObject.option_codes,
-    waitingForWake: state.state.waitingForWake
+    waitingForWake: state.state.waitingForWake,
+    apiMobileCallFailedCount: state.state.apiMobileCallFailed,
+    apiDataCallFailedCount: state.state.apiDataCallFailed
   }
 }
 

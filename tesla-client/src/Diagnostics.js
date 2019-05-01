@@ -19,6 +19,8 @@ class Diagnostics extends Component{
     this.toggleDriveState = this.toggleDriveState.bind(this);
     this.toggleVehicleConfig = this.toggleVehicleConfig.bind(this);
     this.toggleGUISettings = this.toggleGUISettings.bind(this);
+    //put this in the render function to access the entire application state for debugging
+    //<button className="btn btn--modal_btn_diagnostics" onClick={this.toggleAppState}>Entire App State (TEST)</button>
   }
   
   componentDidMount(){
@@ -50,6 +52,7 @@ class Diagnostics extends Component{
             toggleChargeState: false,
             toggleClimateState: false,
             toggleVehicleConfig: false,
+            toggleAppState: false,
             toggleGUISettings: false
         }
     })
@@ -66,6 +69,7 @@ class Diagnostics extends Component{
         toggleChargeState: false,
         toggleClimateState: false,
         toggleVehicleConfig: false,
+        toggleAppState: false,
         toggleGUISettings: false
       }
     })
@@ -81,6 +85,7 @@ class Diagnostics extends Component{
         toggleChargeState: newStore.state.toggleChargeState,
         toggleClimateState: false,
         toggleVehicleConfig: false,
+        toggleAppState: false,
         toggleGUISettings: false
       }
     })
@@ -96,6 +101,7 @@ class Diagnostics extends Component{
         toggleChargeState: false,
         toggleClimateState: newStore.state.toggleClimateState,
         toggleVehicleConfig: false,
+        toggleAppState: false,
         toggleGUISettings: false
       }
     })
@@ -110,6 +116,7 @@ class Diagnostics extends Component{
         toggleDriveState: false,
         toggleChargeState: false,
         toggleClimateState: false,
+        toggleAppState: false,
         toggleVehicleConfig: newStore.state.toggleVehicleConfig,
         toggleGUISettings: false
       }
@@ -126,7 +133,24 @@ class Diagnostics extends Component{
         toggleChargeState: false,
         toggleClimateState: false,
         toggleVehicleConfig: false,
+        toggleAppState: false,
         toggleGUISettings: newStore.state.toggleGUISettings
+      }
+    })
+  }
+  toggleAppState(){
+    var newStore = store.getState();
+    newStore.state.toggleGUISettings = !newStore.state.toggleGUISettings;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        toggleVehicleState: false,
+        toggleDriveState: false,
+        toggleChargeState: false,
+        toggleClimateState: false,
+        toggleVehicleConfig: false,
+        toggleGUISettings: false,
+        toggleAppState: true
       }
     })
   }
@@ -141,12 +165,13 @@ render(){
                     <button onClick={this.hideDiagnosticsModal}id="modal--diagnostics_close" className="modal--close_button"><i className="fas fa-times"></i></button>
                 </div>
                 <div className="diagnostics-buttons">
-                    <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleVehicleState} id="enginetoggle_btn">Vehicle State</button>
-                    <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleDriveState} id="lock">Drive State</button>
-                    <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleChargeState} id="honk">Charge State</button>
-                    <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleClimateState} id="flashlights_btn">Climate States</button>
-                    <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleVehicleConfig} id="openfrunk_btn">Vehicle Config</button>
-                    <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleGUISettings} id="opentrunk_btn">GUI Settings</button>
+                    <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleVehicleState}>Vehicle State</button>
+                    <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleDriveState}>Drive State</button>
+                    <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleChargeState}>Charge State</button>
+                    <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleClimateState}>Climate States</button>
+                    <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleVehicleConfig}>Vehicle Config</button>
+                    <button className="btn btn--modal_btn_diagnostics" onClick={this.toggleGUISettings}>GUI Settings</button>
+
                 </div>
                 
                 {this.props.toggleVehicleState ? <pre className="language-json" dangerouslySetInnerHTML={{__html: "Vehicle State: " + Prism.highlight(JSON.stringify(this.props.vehicleData.vehicle_state, null, 4), Prism.languages.json)}}></pre>: null}
@@ -155,6 +180,7 @@ render(){
                 {this.props.toggleClimateState ? <pre className="language-json" dangerouslySetInnerHTML={{__html: "Climate State: " + Prism.highlight(JSON.stringify(this.props.vehicleData.climate_state, null, 4), Prism.languages.json)}}></pre>: null}
                 {this.props.toggleVehicleConfig ? <pre className="language-json" dangerouslySetInnerHTML={{__html: "Vehicle Config: " + Prism.highlight(JSON.stringify(this.props.vehicleData.vehicle_config, null, 4), Prism.languages.json)}}></pre>: null}
                 {this.props.toggleGUISettings ? <pre className="language-json" dangerouslySetInnerHTML={{__html: "GUI Settings: " + Prism.highlight(JSON.stringify(this.props.vehicleData.gui_settings, null, 4), Prism.languages.json)}}></pre>: null}
+                {this.props.toggleAppState ? <pre className="language-json" dangerouslySetInnerHTML={{__html: "App State: " + Prism.highlight(JSON.stringify(this.props.stateProp, null, 4), Prism.languages.json)}}></pre>: null}
             </div>
         </Modal>
     </div>
@@ -181,7 +207,9 @@ const mapStateToProps = (state) => {
     toggleChargeState: state.state.toggleChargeState,
     toggleClimateState: state.state.toggleClimateState,
     toggleVehicleConfig: state.state.toggleVehicleConfig,
-    toggleGUISettings: state.state.toggleGUISettings
+    toggleGUISettings: state.state.toggleGUISettings,
+    toggleAppState: state.state.toggleAppState,
+    stateProp: state.state
   }
 }
 
