@@ -17,6 +17,8 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
+    "hbs": "^4.0.4",
+    "serve": "^11.0.0",
     "websocket13": "^2.0.1",
     "debug": "~4.1.1",
     "express": "~4.16.0",
