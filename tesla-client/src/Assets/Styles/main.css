@@ -426,3 +426,7 @@ body {
 #confirm--password {
   display: inline;
 }
+
+#charge_state {
+  font-weight: bold;
+}

@@ -216,6 +216,8 @@ class ChargingModal extends Component{
                         step={1}/>
                   </div>
 
+				  <p id="charge_state">{this.props.vehicleCharging}</p>
+
                   { (this.props.vehicleCharging === 'Disconnected') ?
                       <button onClick={this.chargePortButton} id="charging--charge_port" className="btn btn--modal_btn">
                         {this.props.vehicleChargeDoor ? 'Close Charge Port' : 'Open Charge Port'}
@@ -231,10 +233,13 @@ class ChargingModal extends Component{
                   }
 
                   { ((this.props.vehicleCharging === 'Charging' || this.props.vehicleCharging === 'Stopped') && this.props.chargePortLatch === 'Engaged') ?
-                      <button onClick={this.chargingButton} id="charging--charge_port" className="btn btn--modal_btn">
-                        {(this.props.vehicleCharging === 'Charging') ? 'Stop Charge' : null}
-                        {(this.props.vehicleCharging === 'Stopped') ? 'Start Charge' : null}
-                      </button>
+				  		<div>
+						  <p>Time to full charge: {this.props.chargeTimeLeft}</p>
+						  <button onClick={this.chargingButton} id="charging--charge_port" className="btn btn--modal_btn">
+	                        {(this.props.vehicleCharging === 'Charging') ? 'Stop Charge' : null}
+	                        {(this.props.vehicleCharging === 'Stopped') ? 'Start Charge' : null}
+	                      </button>
+						</div>
                       : null
                   }
               </div>
@@ -265,7 +270,8 @@ const mapStateToProps = (state) => {
       localOptionsProp: state.state.localOptions,
       showCharge: state.state.showChargingModal,
       vehicleCharging: state.state.vehicleDataObject.charge_state.charging_state,
-      chargePortLatch: state.state.vehicleDataObject.charge_state.charge_port_latch
+      chargePortLatch: state.state.vehicleDataObject.charge_state.charge_port_latch,
+	  chargeTimeLeft: state.state.vehicleDataObject.charge_state.time_to_full_charge
     }
   }
 export default connect(mapStateToProps)(ChargingModal);
