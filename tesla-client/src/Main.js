@@ -5,6 +5,7 @@ import ControlModal from './Control';
 import MediaModal from './Media';
 import ClimateModal from './Climate';
 import ChargingModal from './Charge';
+import SafetyModal from './Safety';
 import Diagnostics from './Diagnostics';
 import Header from './Header';
 import Timer from './Timer'
@@ -25,6 +26,7 @@ class Main extends Component{
     this.showMedia = this.showMedia.bind(this);
     this.showClimate = this.showClimate.bind(this);
     this.showCharging = this.showCharging.bind(this);
+	this.showSafety = this.showSafety.bind(this);
     this.showDiagnostics = this.showDiagnostics.bind(this);
   }
 
@@ -81,6 +83,17 @@ class Main extends Component{
     })
   }
 
+  showSafety(){
+    var newStore = store.getState();
+    newStore.state.showSafetyModal = true;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showSafetyModal: newStore.state.showSafetyModal
+      }
+    })
+  }
+
   showDiagnostics(){
     var newStore = store.getState();
     newStore.state.showDiagnosticsModal = true;
@@ -111,13 +124,16 @@ class Main extends Component{
               {this.props.vehicleLoaded ?
                 <button onClick={this.showCharging} id="modal--charging_open" className="btn btn--control_btn">Charging</button>
               : null}
+			  {this.props.vehicleLoaded ?
+                <button onClick={this.showSafety} id="modal--safety_open" className="btn btn--control_btn">Safety</button>
+              : null}
               {this.props.vehicleLoaded ?
                 <button onClick={this.showDiagnostics} id="modal--store" className="btn btn--control_btn">Diagnostics</button>
               : null}
-
           </div>
           <Diagnostics/>
           <ChargingModal/>
+		  <SafetyModal/>
           <MediaModal/>
           <ClimateModal/>
           <ControlModal/>

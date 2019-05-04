@@ -14,7 +14,7 @@ const defaultState = {
     showMediaModal: false,
     showClimateModal: false,
     showChargingModal: false,
-    showSummonModal: false,
+    showSafetyModal: false,
     showDiagnosticsModal: false,
     showErrorPrompt: false,
     apiMobileCallFailed: 0,
@@ -171,8 +171,8 @@ const defaultState = {
             speed_limit_mode: {
                 active: false,
                 current_limit_mph: 0,
-                max_limit_mph: 0,
-                min_limit_mph: 0,
+                max_limit_mph: 90,
+                min_limit_mph: 50,
                 pin_code_set: false
             },
             sun_roof_percent_open: null,
