@@ -19,17 +19,21 @@ class ControlModal extends Component{
     this.openTrunkButton = this.openTrunkButton.bind(this);
     this.SunroofButton = this.SunroofButton.bind(this);
     this.showError = this.showError.bind(this);
+	this.summonBackwards = this.summonBackwards.bind(this);
+	this.summonForwards = this.summonForwards.bind(this);
+	this.summonAbort = this.summonAbort.bind(this);
   }
-  
+
   componentDidMount(){
-    this.setState({ 
-      localOptions: this.props.localOptionsProp
+    this.setState({
+      localOptions: this.props.localOptionsProp,
+	  vehicleDataObject: this.props.vehicleDataProp
     });
   }
-  
+
   componentDidUpdate(){
   }
-  
+
   //call this function inside every control
   refreshGlobalTimerWhenAction(){
     var newStore = store.getState();
@@ -51,7 +55,7 @@ class ControlModal extends Component{
       }
     })
   }
-  
+
 
 
   startEngineButton(){
@@ -66,7 +70,7 @@ class ControlModal extends Component{
       }
     })
     //the api call itself is made in the passwordPrompt.js file
-    
+
   }
 
   lockButton(){
@@ -129,7 +133,7 @@ class ControlModal extends Component{
       }
     })
     /* api call actually happens in confirmation modal */
-  
+
   }
 
   openTrunkButton(){
@@ -145,7 +149,7 @@ class ControlModal extends Component{
       }
     })
     /* api call actually happens in confirmation modal */
-    
+
   }
 
   SunroofButton(){
@@ -189,8 +193,52 @@ class ControlModal extends Component{
       }
   }
 
+  summonBackwards(){
+	axios.post('/summonBackward', {
+		email: this.props.emailProp,
+		auth: JSON.stringify(this.state.localOptions),
+		latitude: this.state.vehicleDataObject.drive_state.latitude,
+		longitude: this.state.vehicleDataObject.drive_state.longitude
+	})
+	.then(function(response){
+		//console.log(response);
+	})
+	.catch(function(error){
+		//console.log("Error - SummonBackward Command: " + error);
+	});
+	//alert("Summon Backwards pressed");
+  }
 
+  summonForwards(){
+	//alert(this.props.emailProp);
+	axios.post('/summonForward', {
+		email: this.props.emailProp,
+		auth: JSON.stringify(this.state.localOptions),
+		latitude: this.state.vehicleDataObject.drive_state.latitude,
+		longitude: this.state.vehicleDataObject.drive_state.longitude
+	})
+	.then(function(response){
+		//console.log(response);
+	})
+	.catch(function(error){
+		//console.log("Error - SummonForward Command: " + error);
+	});
+	//alert("Summon Forwards pressed");
+  }
 
+  summonAbort(){
+	axios.post('/summonAbort',{
+		email:this.props.emailProp,
+		auth: JSON.stringify(this.state.localOptions),
+	})
+	.then(function(response){
+		//console.log(response);
+	})
+	.catch(function(error){
+	  //console.log("Error - SummonAbort Command: " + error);
+	});
+	//alert("Summon Aborted");
+  }
 
   hideControlModal = () => {
     var newStore = store.getState();
@@ -219,16 +267,19 @@ class ControlModal extends Component{
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.flashLightsButton} id="flashlights_btn">Flash Lights</button></li>
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openFrunkButton} id="openfrunk_btn">Open Frunk</button></li>
                       <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openTrunkButton} id="opentrunk_btn">Open Trunk</button></li>
-                      {(this.props.optionCodes.includes('RFP2')) ? 
+                      {(this.props.optionCodes.includes('RFP2')) ?
                         <li className="item--modal_btn">
                           <button className="btn btn--modal_btn" onClick={this.SunroofButton} id="sunroof">
                             {this.props.sunroofOpenProp ? 'Close' : 'Open'} Sunroof
                           </button>
                         </li>
-                        :
-                        null
-                      }
-          
+                        : null}
+					  {(!this.props.optionCodes.includes('MDL3')) ?
+					    <div>
+						  <li className="item--modal_btn"><button className="btn btn--modal_btn" onMouseDown={this.summonForwards} onMouseUp={this.summonAbort} id="enginetoggle_btn">Summon Forward</button></li>
+	                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onMouseDown={this.summonBackwards} onMouseUp={this.summonAbort} id="lock">Summon Backwards</button></li>
+						</div>
+					  : null}
                   </ul>
               </div>
           </Modal>
@@ -254,6 +305,8 @@ const Modal = ({ handleClose, show, children }) => {
       optionCodes: state.state.vehicleDataObject.option_codes,
       sunroofOpenProp: state.state.sunroofOpen,
       localOptionsProp: state.state.localOptions,
+	  vehicleDataProp: state.state.vehicleDataObject,
+	  emailProp: state.state.email,
       //REMOVE THIS BELOW AFTER TESTING COMPLETE
       passwordEntered: state.state.accountPass,
       showControl: state.state.showControlModal

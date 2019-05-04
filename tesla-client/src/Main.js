@@ -15,7 +15,6 @@ import PasswordPrompt from './PasswordPrompt.js';
 import LogoutPrompt from './LogoutPrompt.js';
 import ConfirmationPrompt from './ConfirmationPrompt.js';
 import ErrorPrompt from './ErrorPrompt.js';
-import SummonModal from './Summon.js';
 
 class Main extends Component{
   constructor(props){
@@ -93,18 +92,6 @@ class Main extends Component{
     })
   }
 
-  showSummon(){
-    var newStore = store.getState();
-    newStore.state.showSummonModal = true;
-    store.dispatch({
-      type: 'UPDATE_OBJECT',
-      payload: {
-        showSummonModal: newStore.state.showSummonModal
-      }
-    })
-  }
-
-
   render(){
     return(
       <div>
@@ -112,32 +99,28 @@ class Main extends Component{
         <main className="container--main_section">
           <Image/>
           <div className="container--control_btn">
-              {this.props.vehicleLoaded ? 
+              {this.props.vehicleLoaded ?
                 <button onClick={this.showControls} id="modal--control_open" className="btn btn--control_btn">Controls</button>
               : null}
-              {this.props.vehicleLoaded ? 
+              {this.props.vehicleLoaded ?
                 <button onClick={this.showMedia}id="modal--media_open" className="btn btn--control_btn">Media</button>
               : null}
-              {this.props.vehicleLoaded ? 
+              {this.props.vehicleLoaded ?
                 <button onClick={this.showClimate} id="modal--climate_open" className="btn btn--control_btn">Climate</button>
               : null}
-              {this.props.vehicleLoaded ? 
+              {this.props.vehicleLoaded ?
                 <button onClick={this.showCharging} id="modal--charging_open" className="btn btn--control_btn">Charging</button>
               : null}
-              {(this.props.vehicleLoaded && !this.props.vehicleOptions.includes('MDL3')) ? 
-                <button onClick={this.showSummon} id="modal--charging_open" className="btn btn--control_btn">Summon Vehicle</button>
-              : null}
-              {this.props.vehicleLoaded ? 
+              {this.props.vehicleLoaded ?
                 <button onClick={this.showDiagnostics} id="modal--store" className="btn btn--control_btn">Diagnostics</button>
               : null}
-              
+
           </div>
           <Diagnostics/>
           <ChargingModal/>
           <MediaModal/>
           <ClimateModal/>
           <ControlModal/>
-          <SummonModal/>
           <LoginModal/>
           <Timer />
           <PasswordPrompt/>
