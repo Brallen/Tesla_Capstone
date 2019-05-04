@@ -832,10 +832,10 @@ app.post('/activateSpeedLimit', function(req, res) {
 		.then(function(result) {
 			console.log("Successful Response: " + result);
 			res.status(200).send(result);
-		}).catch(function(err)) {
+		}).catch(function(err) {
 			console.log("Error Response: " + err);
 			res.status(400).send(err);
-		}
+		});
 });
 
 app.post('/deactivateSpeedLimit', function(req, res) {
@@ -846,10 +846,10 @@ app.post('/deactivateSpeedLimit', function(req, res) {
 		.then(function(result) {
 			console.log("Successful Response: " + result);
 			res.status(200).send(result);
-		}).catch(function(err)) {
+		}).catch(function(err) {
 			console.log("Error Response: " + err);
 			res.status(400).send(err);
-		}
+		});
 });
 
 app.post('/clearSpeedLimitPin', function(req, res) {
@@ -860,10 +860,10 @@ app.post('/clearSpeedLimitPin', function(req, res) {
 		.then(function(result) {
 			console.log("Successful Response: " + result);
 			res.status(200).send(result);
-		}).catch(function(err)) {
+		}).catch(function(err) {
 			console.log("Error Response: " + err);
 			res.status(400).send(err);
-		}
+		});
 });
 
 app.post('/setSpeedLimit', function(req, res) {
@@ -874,10 +874,10 @@ app.post('/setSpeedLimit', function(req, res) {
 		.then(function(result) {
 			console.log("Successful Response: " + result);
 			res.status(200).send(result);
-		}).catch(function(err)) {
+		}).catch(function(err) {
 			console.log("Error Response: " + err);
 			res.status(400).send(err);
-		}
+		});
 });
 
 // catch 404 and forward to error handler
