@@ -825,7 +825,7 @@ app.post('/resetValetPin', function(req, res) {
 });
 
 app.post('/activateSpeedLimit', function(req, res) {
-	var options =req.body.auth;
+	var options = req.body.auth;
 	var pin = req.body.pin;
 	console.log("Requesting Activate Speed Limit");
 	teslajs.speedLimitActivateAsync(JSON.parse(options), pin)
@@ -839,7 +839,7 @@ app.post('/activateSpeedLimit', function(req, res) {
 });
 
 app.post('/deactivateSpeedLimit', function(req, res) {
-	var options =req.body.auth;
+	var options = req.body.auth;
 	var pin = req.body.pin;
 	console.log("Requesting Deactivate Speed Limit");
 	teslajs.speedLimitDeactivateAsync(JSON.parse(options), pin)
@@ -853,9 +853,9 @@ app.post('/deactivateSpeedLimit', function(req, res) {
 });
 
 app.post('/clearSpeedLimitPin', function(req, res) {
-	var options =req.body.auth;
+	var options = req.body.auth;
 	var pin = req.body.pin;
-	console.log("Requesting Clear Speed Limit Pin");
+	console.log("Requesting Clear Speed Limit Pin with");
 	teslajs.speedLimitClearPinAsync(JSON.parse(options), JSON.parse(pin))
 		.then(function(result) {
 			console.log("Successful Response: " + result);
@@ -867,7 +867,7 @@ app.post('/clearSpeedLimitPin', function(req, res) {
 });
 
 app.post('/setSpeedLimit', function(req, res) {
-	var options =req.body.auth;
+	var options = req.body.auth;
 	var limit = req.body.limit;
 	console.log("Requesting Set Speed Limit to " + limit);
 	teslajs.speedLimitSetLimitAsync(JSON.parse(options), JSON.parse(limit))

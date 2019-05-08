@@ -15,6 +15,7 @@ class SafetyModal extends Component {
 		this.setSpeedLimitFront = this.setSpeedLimitFront.bind(this);
 		this.setSpeedLimitBack = this.setSpeedLimitBack.bind(this);
 		this.speedLimitButton = this.speedLimitButton.bind(this);
+		this.speedLimitClearPinButton = this.speedLimitClearPinButton.bind(this);
 		//this.clearSpeedLimitPin = this.clearSpeedLimitPin.bind(this);
 		//this.valetModeButton = this.valetModeButton.bind(this);
 		//this.resetValetPin = this.resetValetPin.bind(this);
@@ -123,6 +124,21 @@ class SafetyModal extends Component {
 		//the api call itself is made in the pinPrompt.js file
 	}
 
+	speedLimitClearPinButton() {
+		//so the timer doesnt refresh directly after an async api call
+		this.refreshGlobalTimerWhenAction();
+		/* call the pin prompt modal */
+		store.dispatch({
+	      type: 'UPDATE_OBJECT',
+	      payload: {
+	        showPinPrompt: true,
+	        showSafetyModal: false,
+			pinSpeedLimitClear: true
+	      }
+	    })
+		//the api call itself is made in the pinPrompt.js file
+	}
+
 	render(){
 		return(
 			<div>
@@ -156,6 +172,11 @@ class SafetyModal extends Component {
 							</div>
 						}
 
+						{ this.props.speedLimitPinSet ?
+							<button onClick={this.speedLimitClearPinButton} id="safety--speed_limit_reset" className="btn btn--modal_btn">Clear Speed Limit PIN</button>
+							: null
+						}
+
 					</div>
 				</Modal>
 			</div>
@@ -180,7 +201,8 @@ const mapStateToProps = (state) => {
 		speedLimit: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.current_limit_mph,
 		speedLimitMax: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.max_limit_mph,
 		speedLimitMin: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.min_limit_mph,
-		speedLimitActive: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.active
+		speedLimitActive: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.active,
+		speedLimitPinSet: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.pin_code_set
     }
   }
 export default connect(mapStateToProps)(SafetyModal);

@@ -433,6 +433,10 @@ body {
   display: inline;
 }
 
+#enter--pin {
+  display: inline;
+}
+
 #charge_state {
   font-weight: bold;
 }

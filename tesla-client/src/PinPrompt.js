@@ -39,14 +39,11 @@ class PinPrompt extends Component {
 	}
 
 	hidePinModal = () => {
-		var newStore = store.getState();
-		newStore.state.showPinPrompt = false;
-		newStore.state.showSafetyModal = true;
 		store.dispatch({
 			type: 'UPDATE_OBJECT',
 			payload: {
-			  	showPinPrompt: newStore.state.showPasswordPrompt,
-			  	showSafetyModal: newStore.state.showControlModal
+				showPinPrompt: false,
+				showSafetyModal: true
 			}
 		})
 		//remove password from field
@@ -56,29 +53,77 @@ class PinPrompt extends Component {
 	submit = () => {
 		var self = this;
 
-		if (this.props.pinSpeedLimitActivate) {
+		if (this.state.pin === '') this.showError("PIN number required.");
+
+		else if (this.state.pin.length !== 4) this.showError("PIN must be four digits.");
+
+		else if (isNaN(this.state.pin)) this.showError("PIN can only contain numerals.");
+
+		else if (this.props.pinSpeedLimitActivate) {
 			if (this.props.speedLimitActive) {
 				axios.post('/deactivateSpeedLimit', {
 					auth: JSON.stringify(this.state.localOptions),
-					pin: "fakepin"
+					pin: this.state.pin
 				}).then(function(response) {
 					var newStore = store.getState();
 					newStore.state.vehicleDataObject.vehicle_state.speed_limit_mode.active = false;
+					store.dispatch({
+		                type: 'UPDATE_OBJECT',
+		                payload: {
+		                    vehicleDataObject: newStore.state.vehicleDataObject
+		                }
+		            })
 				}).catch(function(err) {
-					this.showError("Error: Could not deactivate the speed limit");
+					self.showError("Error: Could not deactivate the speed limit");
 				});
 			}
 			else {
 				axios.post('/activateSpeedLimit', {
 					auth: JSON.stringify(this.state.localOptions),
-					pin: "fakepin"
+					pin: this.state.pin
 				}).then(function(response) {
 					var newStore = store.getState();
 					newStore.state.vehicleDataObject.vehicle_state.speed_limit_mode.active = true;
+					store.dispatch({
+		                type: 'UPDATE_OBJECT',
+		                payload: {
+		                    vehicleDataObject: newStore.state.vehicleDataObject
+		                }
+		            })
 				}).catch(function(err) {
 					self.showError("Error: Could not activate the speed limit");
 				});
 			}
+			store.dispatch({
+		        type: 'UPDATE_OBJECT',
+		        payload: {
+					pinSpeedLimitActivate: false
+		        }
+	      	})
+		}
+
+		else if (this.props.pinSpeedLimitClear) {
+			axios.post('/clearSpeedLimitPin', {
+				auth: JSON.stringify(this.state.localOptions),
+				pin: this.state.pin
+			}).then(function(response) {
+				var newStore = store.getState();
+				newStore.state.vehicleDataObject.vehicle_state.speed_limit_mode.pin_code_set = false;
+				store.dispatch({
+	                type: 'UPDATE_OBJECT',
+	                payload: {
+	                    vehicleDataObject: newStore.state.vehicleDataObject
+	                }
+	            })
+			}).catch(function(err) {
+				self.showError("Error: Could not clear the speed limit pin");
+			});
+			store.dispatch({
+		        type: 'UPDATE_OBJECT',
+		        payload: {
+					pinSpeedLimitClear: false
+		        }
+	      	})
 		}
 
 		this.hidePinModal();
@@ -96,18 +141,18 @@ class PinPrompt extends Component {
 						</div>
 						<div className="modal--pin-entry">
 							<p id="pin--text">
-								{ (this.props.pinSpeedLimitActivate && !this.props.speedLimitPinSet) ?
+								{ (!this.props.speedLimitPinSet) ?
 									"Please set a PIN to activate the speed limit."
 									: null }
-								{ (this.props.pinSpeedLimitActivate && this.props.speedLimitPinSet) ?
+								{ (this.props.speedLimitPinSet) ?
 									"Please enter your speed limit pin."
 									: null }
 							</p>
 							<br />
-							<div className="pin-form-text">
+							<div className="login-form-text">
 								<label htmlFor="enter--pin">PIN: </label>
 								<input type="password" placeholder="Enter PIN" name="pin" required id="pin" size="4"
-									onChange={this.handlePinChange} value={this.state.password}/>
+									onChange={this.handlePinChange} value={this.state.pin}/>
 							</div>
 							<button id="pin--submit-pin" className="btn btn--modal_btn" onClick={this.submit}>Submit</button>
 						</div>
@@ -134,7 +179,8 @@ const mapStateToProps = (state) => {
 		show: state.state.showPinPrompt,
 		speedLimitActive: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.active,
 		pinSpeedLimitActivate: state.state.pinSpeedLimitActivate,
-		speedLimitPinSet: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.pin_cod_set
+		speedLimitPinSet: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.pin_code_set,
+		pinSpeedLimitClear: state.state.pinSpeedLimitClear
     }
   }
 export default connect(mapStateToProps)(PinPrompt);
