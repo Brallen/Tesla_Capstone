@@ -828,7 +828,7 @@ app.post('/activateSpeedLimit', function(req, res) {
 	var options =req.body.auth;
 	var pin = req.body.pin;
 	console.log("Requesting Activate Speed Limit");
-	teslajs.speedLimitActivateAsync(JSON.parse(options), JSON.parse(pin))
+	teslajs.speedLimitActivateAsync(JSON.parse(options), pin)
 		.then(function(result) {
 			console.log("Successful Response: " + result);
 			res.status(200).send(result);
@@ -842,7 +842,7 @@ app.post('/deactivateSpeedLimit', function(req, res) {
 	var options =req.body.auth;
 	var pin = req.body.pin;
 	console.log("Requesting Deactivate Speed Limit");
-	teslajs.speedLimitDeactivateAsync(JSON.parse(options), JSON.parse(pin))
+	teslajs.speedLimitDeactivateAsync(JSON.parse(options), pin)
 		.then(function(result) {
 			console.log("Successful Response: " + result);
 			res.status(200).send(result);

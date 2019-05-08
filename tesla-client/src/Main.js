@@ -13,6 +13,7 @@ import {store} from './store/index.js';
 import {connect} from 'react-redux';
 import {withCookies} from 'react-cookie';
 import PasswordPrompt from './PasswordPrompt.js';
+import PinPrompt from './PinPrompt.js';
 import LogoutPrompt from './LogoutPrompt.js';
 import ConfirmationPrompt from './ConfirmationPrompt.js';
 import ErrorPrompt from './ErrorPrompt.js';
@@ -140,6 +141,7 @@ class Main extends Component{
           <LoginModal/>
           <Timer />
           <PasswordPrompt/>
+		  <PinPrompt/>
           <LogoutPrompt/>
           <ConfirmationPrompt/>
           <ErrorPrompt/>

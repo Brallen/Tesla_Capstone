@@ -14,7 +14,7 @@ class SafetyModal extends Component {
 		this.refreshGlobalTimerWhenAction = this.refreshGlobalTimerWhenAction.bind(this);
 		this.setSpeedLimitFront = this.setSpeedLimitFront.bind(this);
 		this.setSpeedLimitBack = this.setSpeedLimitBack.bind(this);
-		//this.SpeedLimitButton = this.SpeedLimitButton.bind(this);
+		this.speedLimitButton = this.speedLimitButton.bind(this);
 		//this.clearSpeedLimitPin = this.clearSpeedLimitPin.bind(this);
 		//this.valetModeButton = this.valetModeButton.bind(this);
 		//this.resetValetPin = this.resetValetPin.bind(this);
@@ -108,6 +108,21 @@ class SafetyModal extends Component {
 	    });
 	}
 
+	speedLimitButton() {
+		//so the timer doesnt refresh directly after an async api call
+		this.refreshGlobalTimerWhenAction();
+		/* call the pin prompt modal */
+		store.dispatch({
+	      type: 'UPDATE_OBJECT',
+	      payload: {
+	        showPinPrompt: true,
+	        showSafetyModal: false,
+			pinSpeedLimitActivate: true
+	      }
+	    })
+		//the api call itself is made in the pinPrompt.js file
+	}
+
 	render(){
 		return(
 			<div>
@@ -116,21 +131,31 @@ class SafetyModal extends Component {
 						<div className="modal--close">
 							<button onClick={this.hideSafetyModal}id="modal--charging_close" className="modal--close_button"><i className="fas fa-times"></i></button>
 						</div>
-						<div>
-							<div className="modal--safety_controls">
-								<p id="charging--speedlimit_level" className="modal--level_text">Speed Limit: {parseInt(this.props.speedLimit)} mph</p>
-							  	<div className="modal--slider">
-									<Slider
-										value={this.props.speedLimit}
-										min={this.props.speedLimitMin}
-										max={this.props.speedLimitMax}
-										onChange={this.setSpeedLimitFront}
-										onChangeComplete={this.setSpeedLimitBack}
-										tooltip={false}
-										step={1}/>
-							  	</div>
+
+						{!this.props.speedLimitActive ?
+							<div>
+								<div className="modal--safety_controls">
+									<p id="charging--speedlimit_level" className="modal--level_text">Speed Limit: {parseInt(this.props.speedLimit)} mph</p>
+									<div className="modal--slider">
+										<Slider
+											value={this.props.speedLimit}
+											min={this.props.speedLimitMin}
+											max={this.props.speedLimitMax}
+											onChange={this.setSpeedLimitFront}
+											onChangeComplete={this.setSpeedLimitBack}
+											tooltip={false}
+											step={1}/>
+									</div>
+								</div>
+								<button onClick={this.speedLimitButton} id="safety--speed_limit_activate" className="btn btn--modal_btn">Activate Speed Limit</button>
 							</div>
-						</div>
+						:
+							<div>
+								<p>Speed Limit: {this.props.speedLimit} mph</p>
+								<button onClick={this.speedLimitButton} id="safety--speed_limit_activate" className="btn btn--modal_btn">Deactivate Speed Limit</button>
+							</div>
+						}
+
 					</div>
 				</Modal>
 			</div>
@@ -154,7 +179,8 @@ const mapStateToProps = (state) => {
       	showSafety: state.state.showSafetyModal,
 		speedLimit: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.current_limit_mph,
 		speedLimitMax: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.max_limit_mph,
-		speedLimitMin: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.min_limit_mph
+		speedLimitMin: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.min_limit_mph,
+		speedLimitActive: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.active
     }
   }
 export default connect(mapStateToProps)(SafetyModal);
