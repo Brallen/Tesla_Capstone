@@ -786,7 +786,7 @@ app.post('/setSentryMode', function(req, res) {
 	var onoff = req.body.onoff;
 	if (onoff) console.log("Requesting Set Sentry Mode On");
 	else console.log("Requesting Set Sentry Mode Off");
-	teslajs.setSentryModeAsync(JSON.parse(options), JSON.parse(onoff))
+	teslajs.setSentryModeAsync(JSON.parse(options), onoff)
 		.then(function(result) {
 			console.log("Successful Response: " + result);
 			res.status(200).send(result);
@@ -802,7 +802,7 @@ app.post('/setValetMode', function(req, res) {
 	var pin = req.body.pin;
 	if (onoff) console.log("Requesting Set Valet Mode On");
 	else console.log("Requesting Set Valet Mode Off");
-	teslajs.setSentryModeAsync(JSON.parse(options), JSON.parse(onoff), JSON.parse(pin))
+	teslajs.setValetModeAsync(JSON.parse(options), onoff, pin)
 		.then(function(result) {
 			console.log("Successful Response: " + result);
 			res.status(200).send(result);
@@ -857,7 +857,7 @@ app.post('/clearSpeedLimitPin', function(req, res) {
 	var options = req.body.auth;
 	var pin = req.body.pin;
 	console.log("Requesting Clear Speed Limit Pin with");
-	teslajs.speedLimitClearPinAsync(JSON.parse(options), JSON.parse(pin))
+	teslajs.speedLimitClearPinAsync(JSON.parse(options), pin)
 		.then(function(result) {
 			console.log("Successful Response: " + result);
 			res.status(200).send(result);
@@ -871,7 +871,7 @@ app.post('/setSpeedLimit', function(req, res) {
 	var options = req.body.auth;
 	var limit = req.body.limit;
 	console.log("Requesting Set Speed Limit to " + limit);
-	teslajs.speedLimitSetLimitAsync(JSON.parse(options), JSON.parse(limit))
+	teslajs.speedLimitSetLimitAsync(JSON.parse(options), limit)
 		.then(function(result) {
 			console.log("Successful Response: " + result);
 			res.status(200).send(result);

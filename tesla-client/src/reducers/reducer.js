@@ -29,6 +29,7 @@ const defaultState = {
     confirmationPromptLock: false,
 	pinSpeedLimitActivate: false,
 	pinSpeedLimitClear: false,
+	pinValetActivate: false,
     toggleVehicleState: false,
     toggleDriveState: false,
     toggleChargeState: false,
