@@ -16,10 +16,9 @@ class SafetyModal extends Component {
 		this.setSpeedLimitBack = this.setSpeedLimitBack.bind(this);
 		this.speedLimitButton = this.speedLimitButton.bind(this);
 		this.speedLimitClearPinButton = this.speedLimitClearPinButton.bind(this);
-		//this.clearSpeedLimitPin = this.clearSpeedLimitPin.bind(this);
 		//this.valetModeButton = this.valetModeButton.bind(this);
 		//this.resetValetPin = this.resetValetPin.bind(this);
-		//this.sentryModeButton = this.sentryModeButton.binf(this);
+		this.sentryModeButton = this.sentryModeButton.bind(this);
 		this.showError = this.showError.bind(this);
 	}
 
@@ -139,6 +138,45 @@ class SafetyModal extends Component {
 		//the api call itself is made in the pinPrompt.js file
 	}
 
+	sentryModeButton() {
+
+		this.refreshGlobalTimerWhenAction();
+		var self = this;
+		var onoff;
+
+		if (this.props.sentryModeActive) onoff = false;
+		else onoff = true;
+
+		axios.post('/setSentryMode', {
+			auth: JSON.stringify(this.state.localOptions),
+			onoff: onoff
+		})
+		.then(function (response) {
+			var newStore = store.getState();
+			newStore.state.vehicleDataObject.vehicle_state.sentry_mode = onoff;
+			store.dispatch({
+				type: 'UPDATE_OBJECT',
+				payload: {
+					vehicleDataObject: newStore.state.vehicleDataObject
+				}
+			})
+		})
+		.catch(function (error) {
+			if (onoff) self.showError("Error: Could not activate sentry mode");
+			else self.showError("Error: Could not deactivate sentry mode");
+			//error lets repull our data and ensure its back to normal
+			var newStore = store.getState();
+			newStore.state.refreshTime = 1;
+			store.dispatch({
+				type: 'UPDATE_OBJECT',
+				payload: {
+					refreshTime: newStore.state.refreshTime
+				}
+			})
+		});
+
+	}
+
 	render(){
 		return(
 			<div>
@@ -173,8 +211,13 @@ class SafetyModal extends Component {
 						}
 
 						{ this.props.speedLimitPinSet ?
-							<button onClick={this.speedLimitClearPinButton} id="safety--speed_limit_reset" className="btn btn--modal_btn">Clear Speed Limit PIN</button>
+							<button onClick={this.speedLimitClearPinButton} id="safety--speed_limit_clear" className="btn btn--modal_btn">Clear Speed Limit PIN</button>
 							: null
+						}
+
+						{ this.props.sentryModeActive ?
+							<button onClick={this.sentryModeButton} id="safety--sentry_mode" className="btn btn--modal_btn">Deactivate Sentry Mode</button>
+							: <button onClick={this.sentryModeButton} id="safety--sentry_mode" className="btn btn--modal_btn">Activate Sentry Mode</button>
 						}
 
 					</div>
@@ -202,7 +245,8 @@ const mapStateToProps = (state) => {
 		speedLimitMax: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.max_limit_mph,
 		speedLimitMin: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.min_limit_mph,
 		speedLimitActive: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.active,
-		speedLimitPinSet: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.pin_code_set
+		speedLimitPinSet: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.pin_code_set,
+		sentryModeActive: state.state.vehicleDataObject.vehicle_state.sentry_mode
     }
   }
 export default connect(mapStateToProps)(SafetyModal);

@@ -63,7 +63,7 @@ class PinPrompt extends Component {
 			if (this.props.speedLimitActive) {
 				axios.post('/deactivateSpeedLimit', {
 					auth: JSON.stringify(this.state.localOptions),
-					pin: this.state.pin
+					pin: parseInt(this.state.pin)
 				}).then(function(response) {
 					var newStore = store.getState();
 					newStore.state.vehicleDataObject.vehicle_state.speed_limit_mode.active = false;
@@ -80,7 +80,7 @@ class PinPrompt extends Component {
 			else {
 				axios.post('/activateSpeedLimit', {
 					auth: JSON.stringify(this.state.localOptions),
-					pin: this.state.pin
+					pin: parseInt(this.state.pin)
 				}).then(function(response) {
 					var newStore = store.getState();
 					newStore.state.vehicleDataObject.vehicle_state.speed_limit_mode.active = true;
@@ -105,7 +105,7 @@ class PinPrompt extends Component {
 		else if (this.props.pinSpeedLimitClear) {
 			axios.post('/clearSpeedLimitPin', {
 				auth: JSON.stringify(this.state.localOptions),
-				pin: this.state.pin
+				pin: parseInt(this.state.pin)
 			}).then(function(response) {
 				var newStore = store.getState();
 				newStore.state.vehicleDataObject.vehicle_state.speed_limit_mode.pin_code_set = false;

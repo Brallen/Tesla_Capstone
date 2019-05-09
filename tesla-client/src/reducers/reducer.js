@@ -167,6 +167,7 @@ const defaultState = {
             remote_start: false,
             remote_start_supported: false,
             rt: 0,
+			sentry_mode: false,
             software_update: {
                 expected_duration_sec: 0,
                 status: ''

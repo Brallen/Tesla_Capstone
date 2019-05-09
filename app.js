@@ -571,6 +571,7 @@ app.post('/vehicleData', function (req, res) {
                     remote_start: false,
                     remote_start_supported: true,
                     rt: 0,
+					sentry_mode: false,
                     software_update: {
                         expected_duration_sec: 2700,
                         status: ''
