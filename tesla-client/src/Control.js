@@ -279,21 +279,21 @@ class ControlModal extends Component{
                           </React.Fragment>
                         }
                       </button>
-                      <button className="btn btn--modal_btn_control" onClick={this.honkHornButton} id="honk">
-                        <i className="fas fa-bullhorn" style={{fontSize: this.props.fontSizeProp}}/><br /><br />Honk Horn
-                      </button>
                       <button className="btn btn--modal_btn_control" onClick={this.flashLightsButton} id="flashlights_btn">
                         <i className="fas fa-lightbulb" style={{fontSize: this.props.fontSizeProp}}/><br /><br />Flash Lights
                       </button>
-                      <button className="btn btn--modal_btn_control" onClick={this.openFrunkButton} id="openfrunk_btn">
-                        <i className="fas fa-car-side" style={{fontSize: this.props.fontSizeProp}}/>
-                        <i className="fas fa-caret-up" style={{fontSize: this.props.fontSizeProp}}/>
-                        <br /><br />Open Frunk
+                      <button className="btn btn--modal_btn_control" onClick={this.honkHornButton} id="honk">
+                        <i className="fas fa-bullhorn" style={{fontSize: this.props.fontSizeProp}}/><br /><br />Honk Horn
                       </button>
                       <button className="btn btn--modal_btn_control" onClick={this.openTrunkButton} id="opentrunk_btn">
                         <i className="fas fa-caret-up" style={{fontSize: this.props.fontSizeProp}}/>
                         <i className="fas fa-car-side" style={{fontSize: this.props.fontSizeProp}}/>
                         <br /><br />Open Trunk
+                      </button>
+                      <button className="btn btn--modal_btn_control" onClick={this.openFrunkButton} id="openfrunk_btn">
+                        <i className="fas fa-car-side" style={{fontSize: this.props.fontSizeProp}}/>
+                        <i className="fas fa-caret-up" style={{fontSize: this.props.fontSizeProp}}/>
+                        <br /><br />Open Frunk
                       </button>
                       {(this.props.optionCodes.includes('RFP2')) ?
                           <button className="btn btn--modal_btn_control" onClick={this.SunroofButton} id="sunroof">
@@ -327,9 +327,9 @@ class ControlModal extends Component{
 const Modal = ({ handleClose, show, children }) => {
   const showHideClassName = show ? 'block' : 'none';
     return (
-        <div className='modal' style={{display: showHideClassName}}>
+      <div className='modal' style={{display: showHideClassName}}>
         {children}
-    </div>
+      </div>
     );
   };
 
