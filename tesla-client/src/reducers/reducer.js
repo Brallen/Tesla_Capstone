@@ -37,6 +37,7 @@ const defaultState = {
     toggleVehicleConfig: false,
     toggleGUISettings: false,
     toggleAppState: false,
+    controlIconFontSize: '28px',
     localOptions: {
         authToken: '',
         vehicleID: '',
