@@ -28,6 +28,10 @@ body {
   color: #F8F9FA;
 }
 
+.fas.fa-sign-out-alt {
+  color: #DA3738;
+}
+
 .fas.fa-bolt {
   color: #77CEC9;
 }
@@ -172,6 +176,11 @@ body {
   flex-wrap: wrap;
 }
 
+.control-buttons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .container--modal_login {
   background-color: #33333C;
   width: 100%;
@@ -247,10 +256,17 @@ body {
 }
 
 .btn--modal_btn_diagnostics {
-  margin: 8px auto;
+  margin: 4px auto;
   width: 25%;
   display: block;
   flex-basis: 29%;
+}
+
+.btn--modal_btn_control {
+  margin: 4px auto;
+  width: 35%;
+  display: block;
+  flex-basis: 35%;
 }
 
 .modal-content .modal--close {

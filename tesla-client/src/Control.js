@@ -260,27 +260,25 @@ class ControlModal extends Component{
                   <div className="modal--close">
                       <button onClick={this.hideControlModal}id="modal--control_close" className="modal--close_button"><i className="fas fa-times"></i></button>
                   </div>
-                  <ul className="list--modal_btn">
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.startEngineButton} id="enginetoggle_btn">Start Engine</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.lockButton} id="lock">{this.props.vehicleLocked ? 'Unlock' : 'Lock'}</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.honkHornButton} id="honk">Honk Horn</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.flashLightsButton} id="flashlights_btn">Flash Lights</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openFrunkButton} id="openfrunk_btn">Open Frunk</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openTrunkButton} id="opentrunk_btn">Open Trunk</button></li>
+                  <div className="control-buttons">
+                      <button className="btn btn--modal_btn_control" onClick={this.startEngineButton} id="enginetoggle_btn">Start Engine</button>
+                      <button className="btn btn--modal_btn_control" onClick={this.lockButton} id="lock">{this.props.vehicleLocked ? 'Unlock' : 'Lock'}</button>
+                      <button className="btn btn--modal_btn_control" onClick={this.honkHornButton} id="honk">Honk Horn</button>
+                      <button className="btn btn--modal_btn_control" onClick={this.flashLightsButton} id="flashlights_btn">Flash Lights</button>
+                      <button className="btn btn--modal_btn_control" onClick={this.openFrunkButton} id="openfrunk_btn">Open Frunk</button>
+                      <button className="btn btn--modal_btn_control" onClick={this.openTrunkButton} id="opentrunk_btn">Open Trunk</button>
                       {(this.props.optionCodes.includes('RFP2')) ?
-                        <li className="item--modal_btn">
-                          <button className="btn btn--modal_btn" onClick={this.SunroofButton} id="sunroof">
+                          <button className="btn btn--modal_btn_control" onClick={this.SunroofButton} id="sunroof">
                             {this.props.sunroofOpenProp ? 'Close' : 'Open'} Sunroof
                           </button>
-                        </li>
                         : null}
-					  {(!this.props.optionCodes.includes('MDL3')) ?
-					    <div>
-						  <li className="item--modal_btn"><button className="btn btn--modal_btn" onMouseDown={this.summonForwards} onMouseUp={this.summonAbort} id="enginetoggle_btn">Summon Forward</button></li>
-	                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onMouseDown={this.summonBackwards} onMouseUp={this.summonAbort} id="lock">Summon Backwards</button></li>
-						</div>
-					  : null}
-                  </ul>
+                  </div>
+                  {(!this.props.optionCodes.includes('MDL3')) ?
+                    <div>
+                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onMouseDown={this.summonForwards} onMouseUp={this.summonAbort}>Summon Forward</button></li>
+                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onMouseDown={this.summonBackwards} onMouseUp={this.summonAbort}>Summon Backwards</button></li>
+                    </div>
+                  : null }
               </div>
           </Modal>
       </div>
