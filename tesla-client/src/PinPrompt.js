@@ -46,7 +46,10 @@ class PinPrompt extends Component {
 			type: 'UPDATE_OBJECT',
 			payload: {
 				showPinPrompt: false,
-				showSafetyModal: true
+				showSafetyModal: true,
+				pinSpeedLimitActivate: false,
+				pinSpeedLimitClear: false,
+				pinValetActivate: false
 			}
 		})
 		//remove pin from field
@@ -149,16 +152,7 @@ class PinPrompt extends Component {
 		else if (this.props.pinSpeedLimitClear) this.clearSpeedLimitPin();
 		//Executes request for valet activation
 		else if (this.props.pinValetActivate) this.activateValetMode();
-		//Resets all of the indicators
-		store.dispatch({
-			type: 'UPDATE_OBJECT',
-			payload: {
-				pinSpeedLimitActivate: false,
-				pinSpeedLimitClear: false,
-				pinValetActivate: false,
-			}
-		})
-		//Closes the prompt
+		//Resets all indicators and close the prompt
 		this.hidePinModal();
 	}
 
