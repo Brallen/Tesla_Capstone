@@ -8,16 +8,25 @@ const WS13 = require('websocket13');
 let bodyParser = require('body-parser');
 let fs = require('fs');
 let https = require('https');
+let http = require('http');
 
-let port = process.env.PORT || 3001;
+
+let port = process.env.PORT  || 3000;
 let app = express();
 var testMode = false;
 
 
 // Certificate
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/teslar.duckdns.org/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/teslar.duckdns.org/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/teslar.duckdns.org/chain.pem', 'utf8');
+const privateKey = "";
+const certificate = "";
+const ca = "";
+
+if (fs.existsSync('/etc/letsencrypt/live/teslar.duckdns.org/privkey.pem'))
+    privateKey = fs.readFileSync('/etc/letsencrypt/live/teslar.duckdns.org/privkey.pem', 'utf8');
+if (fs.existsSync('/etc/letsencrypt/live/teslar.duckdns.org/cert.pem'))
+    certificate = fs.readFileSync('/etc/letsencrypt/live/teslar.duckdns.org/cert.pem', 'utf8');
+if (fs.existsSync('/etc/letsencrypt/live/teslar.duckdns.org/chain.pem'))
+    ca = fs.readFileSync('/etc/letsencrypt/live/teslar.duckdns.org/chain.pem', 'utf8');
 
 const credentials = {
 	key: privateKey,
@@ -915,5 +924,6 @@ app.use(function (err, req, res, next) {
 const httpsServer = https.createServer(credentials, app);
 //app.listen(port, () => console.log(`Listening on port ${port}`));
 httpsServer.listen(port, () => {console.log(`Listening on port ${port}`)});
+http.createServer(app).listen(port+3, () => {console.log(`Listening on port ${port+3}`)});
 
 module.exports = httpsServer;
