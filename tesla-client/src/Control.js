@@ -10,6 +10,7 @@ class ControlModal extends Component{
       sunroofCheck: false,
       localOptions: {}
     };
+    
     this.refreshGlobalTimerWhenAction = this.refreshGlobalTimerWhenAction.bind(this);
     this.startEngineButton = this.startEngineButton.bind(this);
     this.lockButton = this.lockButton.bind(this);
@@ -19,9 +20,9 @@ class ControlModal extends Component{
     this.openTrunkButton = this.openTrunkButton.bind(this);
     this.SunroofButton = this.SunroofButton.bind(this);
     this.showError = this.showError.bind(this);
-	this.summonBackwards = this.summonBackwards.bind(this);
-	this.summonForwards = this.summonForwards.bind(this);
-	this.summonAbort = this.summonAbort.bind(this);
+	  this.summonBackwards = this.summonBackwards.bind(this);
+	  this.summonForwards = this.summonForwards.bind(this);
+	  this.summonAbort = this.summonAbort.bind(this);
   }
 
   componentDidMount(){
@@ -260,27 +261,62 @@ class ControlModal extends Component{
                   <div className="modal--close">
                       <button onClick={this.hideControlModal}id="modal--control_close" className="modal--close_button"><i className="fas fa-times"></i></button>
                   </div>
-                  <ul className="list--modal_btn">
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.startEngineButton} id="enginetoggle_btn">Start Engine</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.lockButton} id="lock">{this.props.vehicleLocked ? 'Unlock' : 'Lock'}</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.honkHornButton} id="honk">Honk Horn</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.flashLightsButton} id="flashlights_btn">Flash Lights</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openFrunkButton} id="openfrunk_btn">Open Frunk</button></li>
-                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onClick={this.openTrunkButton} id="opentrunk_btn">Open Trunk</button></li>
+                  <div className="control-buttons">
+                      <button className="btn btn--modal_btn_control" onClick={this.startEngineButton} id="enginetoggle_btn">
+                        <i className="fas fa-redo-alt" style={{fontSize: this.props.fontSizeProp}}/>
+                        <br /><br />Start Engine
+                      </button>
+                      <button className="btn btn--modal_btn_control" onClick={this.lockButton} id="lock">
+                        {this.props.vehicleLocked ?
+                          <React.Fragment>
+                            <i className="fas fa-lock-open" style={{fontSize: this.props.fontSizeProp}}/><br /><br />
+                            Unlock
+                          </React.Fragment>
+                        :
+                          <React.Fragment>
+                            <i className="fas fa-lock" style={{fontSize: this.props.fontSizeProp}}/><br /><br />
+                            Lock
+                          </React.Fragment>
+                        }
+                      </button>
+                      <button className="btn btn--modal_btn_control" onClick={this.flashLightsButton} id="flashlights_btn">
+                        <i className="fas fa-lightbulb" style={{fontSize: this.props.fontSizeProp}}/><br /><br />Flash Lights
+                      </button>
+                      <button className="btn btn--modal_btn_control" onClick={this.honkHornButton} id="honk">
+                        <i className="fas fa-bullhorn" style={{fontSize: this.props.fontSizeProp}}/><br /><br />Honk Horn
+                      </button>
+                      <button className="btn btn--modal_btn_control" onClick={this.openTrunkButton} id="opentrunk_btn">
+                        <i className="fas fa-caret-up" style={{fontSize: this.props.fontSizeProp}}/>
+                        <i className="fas fa-car-side" style={{fontSize: this.props.fontSizeProp}}/>
+                        <br /><br />Open Trunk
+                      </button>
+                      <button className="btn btn--modal_btn_control" onClick={this.openFrunkButton} id="openfrunk_btn">
+                        <i className="fas fa-car-side" style={{fontSize: this.props.fontSizeProp}}/>
+                        <i className="fas fa-caret-up" style={{fontSize: this.props.fontSizeProp}}/>
+                        <br /><br />Open Frunk
+                      </button>
                       {(this.props.optionCodes.includes('RFP2')) ?
-                        <li className="item--modal_btn">
-                          <button className="btn btn--modal_btn" onClick={this.SunroofButton} id="sunroof">
+                          <button className="btn btn--modal_btn_control" onClick={this.SunroofButton} id="sunroof">
+                            <i className="fas fa-sun" style={{fontSize: this.props.fontSizeProp}}/><br /><br />
                             {this.props.sunroofOpenProp ? 'Close' : 'Open'} Sunroof
                           </button>
-                        </li>
                         : null}
-					  {(!this.props.optionCodes.includes('MDL3')) ?
-					    <div>
-						  <li className="item--modal_btn"><button className="btn btn--modal_btn" onMouseDown={this.summonForwards} onMouseUp={this.summonAbort} id="enginetoggle_btn">Summon Forward</button></li>
-	                      <li className="item--modal_btn"><button className="btn btn--modal_btn" onMouseDown={this.summonBackwards} onMouseUp={this.summonAbort} id="lock">Summon Backwards</button></li>
-						</div>
-					  : null}
-                  </ul>
+                  
+                  {(!this.props.optionCodes.includes('MDL3')) ?
+                    <React.Fragment>
+                      <button className="btn btn--modal_btn_control" onMouseDown={this.summonForwards} onMouseUp={this.summonAbort}>
+                        <i className="fas fa-car" style={{fontSize: this.props.fontSizeProp}}/>
+                        <i className="fas fa-arrow-up" style={{fontSize: this.props.fontSizeProp}}/>
+                        <br /><br />Summon Forward
+                      </button>
+                      <button className="btn btn--modal_btn_control" onMouseDown={this.summonBackwards} onMouseUp={this.summonAbort}>
+                        <i className="fas fa-car" style={{fontSize: this.props.fontSizeProp}}/>
+                        <i className="fas fa-arrow-down" style={{fontSize: this.props.fontSizeProp}}/>
+                        <br /><br />Summon Reverse
+                      </button>
+                    </React.Fragment>
+                  : null }
+                </div>
               </div>
           </Modal>
       </div>
@@ -291,9 +327,9 @@ class ControlModal extends Component{
 const Modal = ({ handleClose, show, children }) => {
   const showHideClassName = show ? 'block' : 'none';
     return (
-        <div className='modal' style={{display: showHideClassName}}>
+      <div className='modal' style={{display: showHideClassName}}>
         {children}
-    </div>
+      </div>
     );
   };
 
@@ -305,11 +341,10 @@ const Modal = ({ handleClose, show, children }) => {
       optionCodes: state.state.vehicleDataObject.option_codes,
       sunroofOpenProp: state.state.sunroofOpen,
       localOptionsProp: state.state.localOptions,
-	  vehicleDataProp: state.state.vehicleDataObject,
-	  emailProp: state.state.email,
-      //REMOVE THIS BELOW AFTER TESTING COMPLETE
-      passwordEntered: state.state.accountPass,
-      showControl: state.state.showControlModal
+	    vehicleDataProp: state.state.vehicleDataObject,
+	    emailProp: state.state.email,
+      showControl: state.state.showControlModal,
+      fontSizeProp: state.state.controlIconFontSize
     }
   }
 

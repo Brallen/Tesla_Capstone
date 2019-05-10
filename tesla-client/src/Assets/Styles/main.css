@@ -172,6 +172,11 @@ body {
   flex-wrap: wrap;
 }
 
+.control-buttons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .container--modal_login {
   background-color: #33333C;
   width: 100%;
@@ -253,10 +258,22 @@ body {
   flex-basis: 29%;
 }
 
+.btn--modal_btn_control {
+  margin: 8px auto;
+  width: 25%;
+  display: block;
+  flex-basis: 30%;
+}
+
 .modal-content .modal--close {
   text-align: right;
   margin: -9px 8px 0 0;
   font-size: 25px;
+}
+
+.modal-content .modal--title {
+  text-align: center;
+  margin: -9px 8px 0 0;
 }
 
 .modal-content-diagnostics .modal--close {
