@@ -196,7 +196,7 @@ class SafetyModal extends Component {
 		      payload: {
 		        showPinPrompt: true,
 		        showSafetyModal: false,
-				pinValetActivate: true
+						pinValetActivate: true
 		      }
 		    })
 			//the api call itself is made in the pinPrompt.js file
@@ -204,6 +204,7 @@ class SafetyModal extends Component {
 		else {
 			axios.post('/setValetMode', {
 				auth: JSON.stringify(this.state.localOptions),
+				onoff: onoff,
 				pin: ""
 			})
 			.then(function (response) {
