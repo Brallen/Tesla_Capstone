@@ -287,23 +287,23 @@ class SafetyModal extends Component {
 						}
 
 						{ this.props.speedLimitPinSet ?
-								<button onClick={this.speedLimitClearPinButton} id="safety--speed_limit_clear" className="btn btn--modal_btn">Clear Speed Limit PIN</button>
-								: null
+							<button onClick={this.speedLimitClearPinButton} id="safety--speed_limit_clear" className="btn btn--modal_btn">Clear Speed Limit PIN</button>
+							: null
 						}
 
 						{ this.props.sentryModeActive ?
-								<button onClick={this.sentryModeButton} id="safety--sentry_mode" className="btn btn--modal_btn">Deactivate Sentry Mode</button>
-								: <button onClick={this.sentryModeButton} id="safety--sentry_mode" className="btn btn--modal_btn">Activate Sentry Mode</button>
+							<button onClick={this.sentryModeButton} id="safety--sentry_mode" className="btn btn--modal_btn">Deactivate Sentry Mode</button>
+							: <button onClick={this.sentryModeButton} id="safety--sentry_mode" className="btn btn--modal_btn">Activate Sentry Mode</button>
 						}
 
 						{ this.props.valetModeActive ?
-								<button onClick={this.valetModeButton} id="safety--valet_mode" className="btn btn--modal_btn">Deactivate Valet Mode</button>
-								: <button onClick={this.valetModeButton} id="safety--valet_mode" className="btn btn--modal_btn">Activate Valet Mode</button>
+							<button onClick={this.valetModeButton} id="safety--valet_mode" className="btn btn--modal_btn">Deactivate Valet Mode</button>
+							: <button onClick={this.valetModeButton} id="safety--valet_mode" className="btn btn--modal_btn">Activate Valet Mode</button>
 						}
 
 						{ (!this.props.valetPinNeeded && !this.props.valetModeActive) ?
-								<button onClick={this.resetValetPinButton} id="safety--reset_valet_pin" className="btn btn--modal_btn">Clear Valet Pin</button>
-								: null
+							<button onClick={this.resetValetPinButton} id="safety--reset_valet_pin" className="btn btn--modal_btn">Clear Valet Pin</button>
+							: null
 						}
 
 					</div>

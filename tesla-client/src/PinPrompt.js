@@ -173,14 +173,14 @@ class PinPrompt extends Component {
 									"Please set a PIN to activate the speed limit."
 									: null }
 								{ (this.props.speedLimitPinSet && !this.props.pinValetActivate) ?
-										"Please enter your speed limit pin."
-										: null }
+									"Please enter your speed limit pin."
+									: null }
 								{ (this.props.valetPinNeeded && this.props.pinValetActivate) ?
-										"Please set a PIN to activate valet mode."
-										: null }
+									"Please set a PIN to activate valet mode."
+									: null }
 								{ (!this.props.valetPinNeeded && this.props.pinValetActivate) ?
-										"Please enter your valet mode pin."
-										: null }
+									"Please enter your valet mode pin."
+									: null }
 							</p>
 							<br />
 							<div className="login-form-text container--modal_confirm">
