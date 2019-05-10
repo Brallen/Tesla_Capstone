@@ -16,8 +16,6 @@ class SafetyModal extends Component {
 		this.setSpeedLimitBack = this.setSpeedLimitBack.bind(this);
 		this.speedLimitButton = this.speedLimitButton.bind(this);
 		this.speedLimitClearPinButton = this.speedLimitClearPinButton.bind(this);
-		//this.valetModeButton = this.valetModeButton.bind(this);
-		//this.resetValetPin = this.resetValetPin.bind(this);
 		this.sentryModeButton = this.sentryModeButton.bind(this);
 		this.valetModeButton = this.valetModeButton.bind(this);
 		this.resetValetPinButton = this.resetValetPinButton.bind(this);
@@ -32,24 +30,24 @@ class SafetyModal extends Component {
 
 	//call this function inside every control
 	refreshGlobalTimerWhenAction(){
-	  	var newStore = store.getState();
-	  	newStore.state.refreshTime = this.props.globalTimerInterval;
-	  	store.dispatch({
+		var newStore = store.getState();
+		newStore.state.refreshTime = this.props.globalTimerInterval;
+		store.dispatch({
 			type: 'UPDATE_OBJECT',
 			payload: {
-		  		refreshTime: newStore.state.refreshTime
+				refreshTime: newStore.state.refreshTime
 			}
-	  	})
+		})
 	}
 
 	showError(text){
-	  	store.dispatch({
+		store.dispatch({
 			type: 'UPDATE_OBJECT',
 			payload: {
-		  		showErrorPrompt: true,
-		  		errorText: text
+				showErrorPrompt: true,
+				errorText: text
 			}
-	  	})
+		})
 	}
 
 	hideSafetyModal = () => {
@@ -85,29 +83,27 @@ class SafetyModal extends Component {
 	}
 
 	setSpeedLimitBack(){
-      	this.refreshGlobalTimerWhenAction();
-      	var self = this;
-      	//make API call here to send the speed limit setting
-      	//see comment above setSpeedLimitFront()
-      	axios.post('/setSpeedLimit', {
-	        auth: JSON.stringify(this.state.localOptions),
-	        limit: parseInt(this.state.speedLimit)
-	    })
-	    .then(function (response) {
-	      	//if it's a good response, state is already updated!
-	    })
-	    .catch(function (error) {
-	      	self.showError("Error: Could not set speed limit");
-	        //error lets repull our data and ensure its back to normal
-	        var newStore = store.getState();
-	        newStore.state.refreshTime = 1;
-	        store.dispatch({
-	          	type: 'UPDATE_OBJECT',
-	          	payload: {
-	            	refreshTime: newStore.state.refreshTime
-	          	}
-	        })
-	    });
+		this.refreshGlobalTimerWhenAction();
+		var self = this;
+		//make API call here to send the speed limit setting
+		//see comment above setSpeedLimitFront()
+		axios.post('/setSpeedLimit', {
+			auth: JSON.stringify(this.state.localOptions),
+			limit: parseInt(this.state.speedLimit)
+		}).then(function (response) {
+				//if it's a good response, state is already updated!
+		}).catch(function (error) {
+			self.showError("Error: Could not set speed limit");
+			//error lets repull our data and ensure its back to normal
+			var newStore = store.getState();
+			newStore.state.refreshTime = 1;
+			store.dispatch({
+				type: 'UPDATE_OBJECT',
+				payload: {
+					refreshTime: newStore.state.refreshTime
+				}
+			})
+		});
 	}
 
 	speedLimitButton() {
@@ -115,13 +111,13 @@ class SafetyModal extends Component {
 		this.refreshGlobalTimerWhenAction();
 		/* call the pin prompt modal */
 		store.dispatch({
-	      type: 'UPDATE_OBJECT',
-	      payload: {
-	        showPinPrompt: true,
-	        showSafetyModal: false,
-			pinSpeedLimitActivate: true
-	      }
-	    })
+			type: 'UPDATE_OBJECT',
+			payload: {
+				showPinPrompt: true,
+				showSafetyModal: false,
+				pinSpeedLimitActivate: true
+			}
+		})
 		//the api call itself is made in the pinPrompt.js file
 	}
 
@@ -130,13 +126,13 @@ class SafetyModal extends Component {
 		this.refreshGlobalTimerWhenAction();
 		/* call the pin prompt modal */
 		store.dispatch({
-	      type: 'UPDATE_OBJECT',
-	      payload: {
-	        showPinPrompt: true,
-	        showSafetyModal: false,
-			pinSpeedLimitClear: true
-	      }
-	    })
+			type: 'UPDATE_OBJECT',
+			payload: {
+				showPinPrompt: true,
+				showSafetyModal: false,
+				pinSpeedLimitClear: true
+			}
+		})
 		//the api call itself is made in the pinPrompt.js file
 	}
 
@@ -152,18 +148,16 @@ class SafetyModal extends Component {
 		axios.post('/setSentryMode', {
 			auth: JSON.stringify(this.state.localOptions),
 			onoff: onoff
-		})
-		.then(function (response) {
+		}).then(function (response) {
 			var newStore = store.getState();
 			newStore.state.vehicleDataObject.vehicle_state.sentry_mode = onoff;
 			store.dispatch({
 				type: 'UPDATE_OBJECT',
 				payload: {
-					vehicleDataObject: newStore.state.vehicleDataObject
+						vehicleDataObject: newStore.state.vehicleDataObject
 				}
 			})
-		})
-		.catch(function (error) {
+		}).catch(function (error) {
 			if (onoff) self.showError("Error: Could not activate sentry mode");
 			else self.showError("Error: Could not deactivate sentry mode");
 			//error lets repull our data and ensure its back to normal
@@ -192,13 +186,13 @@ class SafetyModal extends Component {
 		if (!onoff || this.props.valetPinNeeded) {
 			/* call the pin prompt modal */
 			store.dispatch({
-		      type: 'UPDATE_OBJECT',
-		      payload: {
-		        showPinPrompt: true,
-		        showSafetyModal: false,
-						pinValetActivate: true
-		      }
-		    })
+				type: 'UPDATE_OBJECT',
+				payload: {
+					showPinPrompt: true,
+					showSafetyModal: false,
+					pinValetActivate: true
+				}
+			})
 			//the api call itself is made in the pinPrompt.js file
 		}
 		else {
@@ -206,8 +200,7 @@ class SafetyModal extends Component {
 				auth: JSON.stringify(this.state.localOptions),
 				onoff: onoff,
 				pin: ""
-			})
-			.then(function (response) {
+			}).then(function (response) {
 				var newStore = store.getState();
 				newStore.state.vehicleDataObject.vehicle_state.valet_mode = true;
 				store.dispatch({
@@ -216,8 +209,7 @@ class SafetyModal extends Component {
 						vehicleDataObject: newStore.state.vehicleDataObject
 					}
 				})
-			})
-			.catch(function (error) {
+			}).catch(function (error) {
 				self.showError("Error: Could not activate sentry mode");
 				//error lets repull our data and ensure its back to normal
 				var newStore = store.getState();
@@ -238,8 +230,7 @@ class SafetyModal extends Component {
 
 		axios.post('/resetValetPin', {
 			auth: JSON.stringify(this.state.localOptions),
-		})
-		.then(function (response) {
+		}).then(function (response) {
 			var newStore = store.getState();
 			newStore.state.vehicleDataObject.vehicle_state.valet_pin_needed = true;
 			store.dispatch({
@@ -248,8 +239,7 @@ class SafetyModal extends Component {
 					vehicleDataObject: newStore.state.vehicleDataObject
 				}
 			})
-		})
-		.catch(function (error) {
+		}).catch(function (error) {
 			self.showError("Error: Could not clear valet PIN");
 			//error lets repull our data and ensure its back to normal
 			var newStore = store.getState();
@@ -278,42 +268,42 @@ class SafetyModal extends Component {
 									<p id="charging--speedlimit_level" className="modal--level_text">Speed Limit: {parseInt(this.props.speedLimit)} mph</p>
 									<div className="modal--slider">
 										<Slider
-											value={this.props.speedLimit}
-											min={this.props.speedLimitMin}
-											max={this.props.speedLimitMax}
-											onChange={this.setSpeedLimitFront}
-											onChangeComplete={this.setSpeedLimitBack}
-											tooltip={false}
-											step={1}/>
+										value={this.props.speedLimit}
+										min={this.props.speedLimitMin}
+										max={this.props.speedLimitMax}
+										onChange={this.setSpeedLimitFront}
+										onChangeComplete={this.setSpeedLimitBack}
+										tooltip={false}
+										step={1}/>
 									</div>
 								</div>
 								<button onClick={this.speedLimitButton} id="safety--speed_limit_activate" className="btn btn--modal_btn">Activate Speed Limit</button>
-							</div>
-						:
-							<div>
-								<p>Speed Limit: {this.props.speedLimit} mph</p>
+									</div>
+										:
+									<div>
+									<p>Speed Limit: {this.props.speedLimit} mph</p>
 								<button onClick={this.speedLimitButton} id="safety--speed_limit_activate" className="btn btn--modal_btn">Deactivate Speed Limit</button>
 							</div>
 						}
 
 						{ this.props.speedLimitPinSet ?
-							<button onClick={this.speedLimitClearPinButton} id="safety--speed_limit_clear" className="btn btn--modal_btn">Clear Speed Limit PIN</button>
-							: null
+								<button onClick={this.speedLimitClearPinButton} id="safety--speed_limit_clear" className="btn btn--modal_btn">Clear Speed Limit PIN</button>
+								: null
 						}
 
 						{ this.props.sentryModeActive ?
-							<button onClick={this.sentryModeButton} id="safety--sentry_mode" className="btn btn--modal_btn">Deactivate Sentry Mode</button>
-							: <button onClick={this.sentryModeButton} id="safety--sentry_mode" className="btn btn--modal_btn">Activate Sentry Mode</button>
+								<button onClick={this.sentryModeButton} id="safety--sentry_mode" className="btn btn--modal_btn">Deactivate Sentry Mode</button>
+								: <button onClick={this.sentryModeButton} id="safety--sentry_mode" className="btn btn--modal_btn">Activate Sentry Mode</button>
 						}
 
 						{ this.props.valetModeActive ?
-							<button onClick={this.valetModeButton} id="safety--valet_mode" className="btn btn--modal_btn">Deactivate Valet Mode</button>
-							: <button onClick={this.valetModeButton} id="safety--valet_mode" className="btn btn--modal_btn">Activate Valet Mode</button>
+								<button onClick={this.valetModeButton} id="safety--valet_mode" className="btn btn--modal_btn">Deactivate Valet Mode</button>
+								: <button onClick={this.valetModeButton} id="safety--valet_mode" className="btn btn--modal_btn">Activate Valet Mode</button>
 						}
 
 						{ (!this.props.valetPinNeeded && !this.props.valetModeActive) ?
-							<button onClick={this.resetValetPinButton} id="safety--reset_valet_pin" className="btn btn--modal_btn">Clear Valet Pin</button>
-							: null
+								<button onClick={this.resetValetPinButton} id="safety--reset_valet_pin" className="btn btn--modal_btn">Clear Valet Pin</button>
+								: null
 						}
 
 					</div>
@@ -324,19 +314,19 @@ class SafetyModal extends Component {
 }
 
 const Modal = ({ handleClose, show, children }) => {
-  	const showHideClassName = show ? 'block' : 'none';
+	const showHideClassName = show ? 'block' : 'none';
 	return (
-	    <div className='modal' style={{display: showHideClassName}}>
-	    	{children}
+		<div className='modal' style={{display: showHideClassName}}>
+		{children}
 		</div>
 	);
 };
 
 const mapStateToProps = (state) => {
-    return {
+	return {
 		globalTimerInterval: state.state.refreshInterval,
-        localOptionsProp: state.state.localOptions,
-      	showSafety: state.state.showSafetyModal,
+		localOptionsProp: state.state.localOptions,
+		showSafety: state.state.showSafetyModal,
 		speedLimit: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.current_limit_mph,
 		speedLimitMax: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.max_limit_mph,
 		speedLimitMin: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.min_limit_mph,
@@ -345,6 +335,6 @@ const mapStateToProps = (state) => {
 		sentryModeActive: state.state.vehicleDataObject.vehicle_state.sentry_mode,
 		valetModeActive: state.state.vehicleDataObject.vehicle_state.valet_mode,
 		valetPinNeeded: state.state.vehicleDataObject.vehicle_state.valet_pin_needed
-    }
-  }
+	}
+}
 export default connect(mapStateToProps)(SafetyModal);

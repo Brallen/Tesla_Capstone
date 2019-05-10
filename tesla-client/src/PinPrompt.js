@@ -20,22 +20,22 @@ class PinPrompt extends Component {
 	}
 
 	componentDidMount(){
-	    this.setState({
-	        localOptions: this.props.localOptionsProp
-	    });
-    }
+		this.setState({
+			localOptions: this.props.localOptionsProp
+		});
+	}
 
 	showError(text){
-      	store.dispatch({
-	        type: 'UPDATE_OBJECT',
-	        payload: {
-	          	showErrorPrompt: true,
-	          	showPinPrompt: false,
+		store.dispatch({
+			type: 'UPDATE_OBJECT',
+			payload: {
+				showErrorPrompt: true,
+				showPinPrompt: false,
 				showSafetyModal: true,
-	          	errorText: text
-	        }
-      	})
-    }
+				errorText: text
+			}
+		})
+	}
 
 	handlePinChange(evt) {
 		this.setState({ pin: evt.target.value })
@@ -173,20 +173,20 @@ class PinPrompt extends Component {
 									"Please set a PIN to activate the speed limit."
 									: null }
 								{ (this.props.speedLimitPinSet && !this.props.pinValetActivate) ?
-									"Please enter your speed limit pin."
-									: null }
+										"Please enter your speed limit pin."
+										: null }
 								{ (this.props.valetPinNeeded && this.props.pinValetActivate) ?
-									"Please set a PIN to activate valet mode."
-									: null }
+										"Please set a PIN to activate valet mode."
+										: null }
 								{ (!this.props.valetPinNeeded && this.props.pinValetActivate) ?
-									"Please enter your valet mode pin."
-									: null }
+										"Please enter your valet mode pin."
+										: null }
 							</p>
 							<br />
 							<div className="login-form-text container--modal_confirm">
 								<label htmlFor="enter--pin">PIN: </label>
 								<input type="password" placeholder="Enter PIN" name="pin" required id="pin" size="8"
-									onChange={this.handlePinChange} value={this.state.pin}/>
+								onChange={this.handlePinChange} value={this.state.pin}/>
 							</div>
 							<button id="pin--submit-pin" className="btn btn--modal_btn" onClick={this.submit}>Submit</button>
 						</div>
@@ -198,18 +198,18 @@ class PinPrompt extends Component {
 }
 
 const Modal = ({ handleClose, show, children }) => {
-  	const showHideClassName = show ? 'block' : 'none';
+	const showHideClassName = show ? 'block' : 'none';
 	return (
-	    <div className='modal' style={{display: showHideClassName}}>
-	    	{children}
+		<div className='modal' style={{display: showHideClassName}}>
+		{children}
 		</div>
 	);
 };
 
 const mapStateToProps = (state) => {
-    return {
+	return {
 		globalTimerInterval: state.state.refreshInterval,
-        localOptionsProp: state.state.localOptions,
+		localOptionsProp: state.state.localOptions,
 		show: state.state.showPinPrompt,
 		speedLimitActive: state.state.vehicleDataObject.vehicle_state.speed_limit_mode.active,
 		pinSpeedLimitActivate: state.state.pinSpeedLimitActivate,
@@ -218,6 +218,6 @@ const mapStateToProps = (state) => {
 		pinValetActivate: state.state.pinValetActivate,
 		valetModeActive: state.state.vehicleDataObject.vehicle_state.valet_mode,
 		valetPinNeeded: state.state.vehicleDataObject.vehicle_state.valet_pin_needed
-    }
-  }
+	}
+}
 export default connect(mapStateToProps)(PinPrompt);
