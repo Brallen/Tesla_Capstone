@@ -586,6 +586,7 @@ app.post('/vehicleData', function (req, res) {
                     remote_start: false,
                     remote_start_supported: true,
                     rt: 0,
+					sentry_mode: false,
                     software_update: {
                         expected_duration_sec: 2700,
                         status: ''
@@ -793,6 +794,106 @@ app.post('/startCharge', function(req, res) {
             console.log("Error: " + err);
             res.status(400).send(err);
         });
+});
+
+app.post('/setSentryMode', function(req, res) {
+	var options = req.body.auth;
+	var onoff = req.body.onoff;
+	if (onoff) console.log("Requesting Set Sentry Mode On");
+	else console.log("Requesting Set Sentry Mode Off");
+	teslajs.setSentryModeAsync(JSON.parse(options), onoff)
+		.then(function(result) {
+			console.log("Successful Response: " + result);
+			res.status(200).send(result);
+		}).catch(function(err) {
+			console.log("Error: " + err);
+			res.status(400).send(err);
+		});
+});
+
+app.post('/setValetMode', function(req, res) {
+	var options = req.body.auth;
+	var onoff = req.body.onoff;
+	var pin = req.body.pin;
+	if (onoff) console.log("Requesting Set Valet Mode On");
+	else console.log("Requesting Set Valet Mode Off");
+	teslajs.setValetModeAsync(JSON.parse(options), onoff, pin)
+		.then(function(result) {
+			console.log("Successful Response: " + result);
+			res.status(200).send(result);
+		}).catch(function(err) {
+			console.log("Error: " + err);
+			res.status(400).send(err);
+		});
+});
+
+app.post('/resetValetPin', function(req, res) {
+	var options = req.body.auth;
+	console.log("Requesting Reset Valet Pin");
+	teslajs.resetValetPinAsync(JSON.parse(options))
+		.then(function(result) {
+			console.log("Succesful Response: " + result);
+			res.status(200).send(result);
+		}).catch(function(err) {
+			console.log("Error Response: " + err);
+			res.status(400).send(err);
+		})
+});
+
+app.post('/activateSpeedLimit', function(req, res) {
+	var options = req.body.auth;
+	var pin = req.body.pin;
+	console.log("Requesting Activate Speed Limit");
+	teslajs.speedLimitActivateAsync(JSON.parse(options), pin)
+		.then(function(result) {
+			console.log("Successful Response: " + result);
+			res.status(200).send(result);
+		}).catch(function(err) {
+			console.log("Error Response: " + err);
+			res.status(400).send(err);
+		});
+});
+
+app.post('/deactivateSpeedLimit', function(req, res) {
+	var options = req.body.auth;
+	var pin = req.body.pin;
+	console.log("Requesting Deactivate Speed Limit");
+	teslajs.speedLimitDeactivateAsync(JSON.parse(options), pin)
+		.then(function(result) {
+			console.log("Successful Response: " + result);
+			res.status(200).send(result);
+		}).catch(function(err) {
+			console.log("Error Response: " + err);
+			res.status(400).send(err);
+		});
+});
+
+app.post('/clearSpeedLimitPin', function(req, res) {
+	var options = req.body.auth;
+	var pin = req.body.pin;
+	console.log("Requesting Clear Speed Limit Pin with");
+	teslajs.speedLimitClearPinAsync(JSON.parse(options), pin)
+		.then(function(result) {
+			console.log("Successful Response: " + result);
+			res.status(200).send(result);
+		}).catch(function(err) {
+			console.log("Error Response: " + err);
+			res.status(400).send(err);
+		});
+});
+
+app.post('/setSpeedLimit', function(req, res) {
+	var options = req.body.auth;
+	var limit = req.body.limit;
+	console.log("Requesting Set Speed Limit to " + limit);
+	teslajs.speedLimitSetLimitAsync(JSON.parse(options), limit)
+		.then(function(result) {
+			console.log("Successful Response: " + result);
+			res.status(200).send(result);
+		}).catch(function(err) {
+			console.log("Error Response: " + err);
+			res.status(400).send(err);
+		});
 });
 
 // catch 404 and forward to error handler

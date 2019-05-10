@@ -43,6 +43,17 @@ body {
   cursor: pointer;
 }
 
+.btn2 {
+  margin: 5px;
+  padding: 7px 12px;
+  background-color: #07A298;
+  border-radius: 3px;
+  min-width: 100px;
+  color: #F8F9FA;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
 .btn--control_btn {
   flex-basis: 75%;
 }
@@ -172,6 +183,11 @@ body {
   flex-wrap: wrap;
 }
 
+.control-buttons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .container--modal_login {
   background-color: #33333C;
   width: 100%;
@@ -251,6 +267,13 @@ body {
   width: 25%;
   display: block;
   flex-basis: 29%;
+}
+
+.btn2--modal_btn_control {
+  margin: 8px auto;
+  width: 25%;
+  display: block;
+  flex-basis: 25%;
 }
 
 .modal-content .modal--close {
@@ -430,6 +453,10 @@ body {
   }
 }
 #confirm--password {
+  display: inline;
+}
+
+#enter--pin {
   display: inline;
 }
 

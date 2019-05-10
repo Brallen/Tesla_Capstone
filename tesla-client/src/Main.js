@@ -5,6 +5,7 @@ import ControlModal from './Control';
 import MediaModal from './Media';
 import ClimateModal from './Climate';
 import ChargingModal from './Charge';
+import SafetyModal from './Safety';
 import Diagnostics from './Diagnostics';
 import Header from './Header';
 import Timer from './Timer'
@@ -12,10 +13,10 @@ import {store} from './store/index.js';
 import {connect} from 'react-redux';
 import {withCookies} from 'react-cookie';
 import PasswordPrompt from './PasswordPrompt.js';
+import PinPrompt from './PinPrompt.js';
 import LogoutPrompt from './LogoutPrompt.js';
 import ConfirmationPrompt from './ConfirmationPrompt.js';
 import ErrorPrompt from './ErrorPrompt.js';
-import SummonModal from './Summon.js';
 
 class Main extends Component{
   constructor(props){
@@ -26,6 +27,7 @@ class Main extends Component{
     this.showMedia = this.showMedia.bind(this);
     this.showClimate = this.showClimate.bind(this);
     this.showCharging = this.showCharging.bind(this);
+	this.showSafety = this.showSafety.bind(this);
     this.showDiagnostics = this.showDiagnostics.bind(this);
   }
 
@@ -82,6 +84,17 @@ class Main extends Component{
     })
   }
 
+  showSafety(){
+    var newStore = store.getState();
+    newStore.state.showSafetyModal = true;
+    store.dispatch({
+      type: 'UPDATE_OBJECT',
+      payload: {
+        showSafetyModal: newStore.state.showSafetyModal
+      }
+    })
+  }
+
   showDiagnostics(){
     var newStore = store.getState();
     newStore.state.showDiagnosticsModal = true;
@@ -93,18 +106,6 @@ class Main extends Component{
     })
   }
 
-  showSummon(){
-    var newStore = store.getState();
-    newStore.state.showSummonModal = true;
-    store.dispatch({
-      type: 'UPDATE_OBJECT',
-      payload: {
-        showSummonModal: newStore.state.showSummonModal
-      }
-    })
-  }
-
-
   render(){
     return(
       <div>
@@ -112,35 +113,35 @@ class Main extends Component{
         <main className="container--main_section">
           <Image/>
           <div className="container--control_btn">
-              {this.props.vehicleLoaded ? 
+              {this.props.vehicleLoaded ?
                 <button onClick={this.showControls} id="modal--control_open" className="btn btn--control_btn">Controls</button>
               : null}
-              {this.props.vehicleLoaded ? 
+              {this.props.vehicleLoaded ?
                 <button onClick={this.showMedia}id="modal--media_open" className="btn btn--control_btn">Media</button>
               : null}
-              {this.props.vehicleLoaded ? 
+              {this.props.vehicleLoaded ?
                 <button onClick={this.showClimate} id="modal--climate_open" className="btn btn--control_btn">Climate</button>
               : null}
-              {this.props.vehicleLoaded ? 
+              {this.props.vehicleLoaded ?
                 <button onClick={this.showCharging} id="modal--charging_open" className="btn btn--control_btn">Charging</button>
               : null}
-              {(this.props.vehicleLoaded && !this.props.vehicleOptions.includes('MDL3')) ? 
-                <button onClick={this.showSummon} id="modal--charging_open" className="btn btn--control_btn">Summon Vehicle</button>
+			  {this.props.vehicleLoaded ?
+                <button onClick={this.showSafety} id="modal--safety_open" className="btn btn--control_btn">Safety</button>
               : null}
-              {this.props.vehicleLoaded ? 
+              {this.props.vehicleLoaded ?
                 <button onClick={this.showDiagnostics} id="modal--store" className="btn btn--control_btn">Diagnostics</button>
               : null}
-              
           </div>
           <Diagnostics/>
           <ChargingModal/>
+		  <SafetyModal/>
           <MediaModal/>
           <ClimateModal/>
           <ControlModal/>
-          <SummonModal/>
           <LoginModal/>
           <Timer />
           <PasswordPrompt/>
+		  <PinPrompt/>
           <LogoutPrompt/>
           <ConfirmationPrompt/>
           <ErrorPrompt/>
