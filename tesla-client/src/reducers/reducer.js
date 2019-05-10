@@ -9,12 +9,13 @@ const defaultState = {
     waitingForWake: false,
     sunroofOpen: false,
     showPasswordPrompt: false,
+	showPinPrompt: false,
     showLogoutPrompt: false,
     showControlModal: false,
     showMediaModal: false,
     showClimateModal: false,
     showChargingModal: false,
-    showSummonModal: false,
+    showSafetyModal: false,
     showDiagnosticsModal: false,
     showErrorPrompt: false,
     apiMobileCallFailed: 0,
@@ -26,6 +27,9 @@ const defaultState = {
     confirmationPromptFrunk: false,
     confirmationPromptTrunk: false,
     confirmationPromptLock: false,
+	pinSpeedLimitActivate: false,
+	pinSpeedLimitClear: false,
+	pinValetActivate: false,
     toggleVehicleState: false,
     toggleDriveState: false,
     toggleChargeState: false,
@@ -33,6 +37,7 @@ const defaultState = {
     toggleVehicleConfig: false,
     toggleGUISettings: false,
     toggleAppState: false,
+    controlIconFontSize: '28px',
     localOptions: {
         authToken: '',
         vehicleID: '',
@@ -164,6 +169,7 @@ const defaultState = {
             remote_start: false,
             remote_start_supported: false,
             rt: 0,
+			sentry_mode: false,
             software_update: {
                 expected_duration_sec: 0,
                 status: ''
@@ -171,8 +177,8 @@ const defaultState = {
             speed_limit_mode: {
                 active: false,
                 current_limit_mph: 0,
-                max_limit_mph: 0,
-                min_limit_mph: 0,
+                max_limit_mph: 90,
+                min_limit_mph: 50,
                 pin_code_set: false
             },
             sun_roof_percent_open: null,
