@@ -53,6 +53,16 @@ body
     box-shadow: 3px 3px 6px rgb(0,0,0,0.3)
     cursor: pointer
 
+.btn2
+    margin: 5px
+    padding: 7px 12px
+    background-color: $ButtonColor
+    border-radius: 3px
+    min-width: 100px
+    color: $FontColor
+    box-shadow: 3px 3px 6px rgb(0,0,0,0.3)
+    cursor: pointer
+
 .btn--control_btn
     flex-basis: 75%
 
@@ -115,7 +125,12 @@ body
     height: calc(100vh - 25px)
 
 .container--car_image img
-    max-width: 100%
+    max-width: 90%
+    left: 0
+    right: 0
+    margin: 5% auto
+    position: fixed
+    top: 100px
 
 .container--control_btn
     position: fixed
@@ -153,8 +168,13 @@ body
     margin: 28px auto 0 auto
     width: auto
     font-size: .8em
+    overflow: scroll
 
 .diagnostics-buttons
+    display: flex
+    flex-wrap: wrap
+
+.control-buttons
     display: flex
     flex-wrap: wrap
 
@@ -226,6 +246,12 @@ body
     display: block
     flex-basis: 29%
 
+.btn2--modal_btn_control
+    margin: 8px auto
+    width: 25%
+    display: block
+    flex-basis: 25%
+
 .modal-content .modal--close
     text-align: right
     margin: -9px 8px 0 0
@@ -270,17 +296,17 @@ body
     justify-content: center
     margin: 30px 0 20px 0
 
-.modal--media_controls .media-play 
+.modal--media_controls .media-play
     background: #f8f9fa
     border-radius: 50px
     padding: 11px 5px
     font-size: 21px
 
-.fa-playpause::before 
+.fa-playpause::before
   content: "\f04b"
   color: $BackgroundColor
 
-.fa-playpause::after 
+.fa-playpause::after
   content: "\f04c"
   color: $BackgroundColor
 
@@ -338,7 +364,7 @@ body
         padding-top: 71px
 
     .container--car_image
-        height: calc(100vh - 71px)  
+        height: calc(100vh - 71px)
 
     .modal-content
         width: 550px
@@ -361,9 +387,15 @@ body
     .container--car_info p,
     .container--car_info i
         font-size: 16px
-    
+
     .container--logout_menu i
         font-size: 32px
 
-#confirm--password 
+#confirm--password
     display: inline
+
+#enter--pin
+    display: inline
+
+#charge_state
+    font-weight: bold

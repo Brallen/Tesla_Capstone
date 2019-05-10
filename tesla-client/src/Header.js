@@ -45,13 +45,9 @@ class Header extends Component{
                 <p>Estimated Range: {this.props.vehicleDataRangeLeft.toFixed(0)} Miles</p>
               : null }
               <div className="container--logout_menu">
-                <button className="logout-burger" onClick={() => this.openMenu()}>
-                    {this.props.logoutButtonProp ? <i class="fas fa-times"></i> : <i className="fas fa-bars"></i>}
+                <button onClick={() => this.logout()}>
+                    <i className="fas fa-sign-out-alt"></i>
                 </button>
-                {this.props.logoutButtonProp ?
-                    <button className="btn logout-button" onClick={() => this.logout()}>Sign Out</button>
-                    : null
-                }
               </div>
           </div>
         </header>
