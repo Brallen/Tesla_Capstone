@@ -232,16 +232,20 @@ class ChargingModal extends Component{
                       : null
                   }
 
+                  { (this.props.vehicleCharging === 'Charging') ?
+                      <p>Time to full charge: {this.props.chargeTimeLeft}</p>
+                  : null }
+
                   { ((this.props.vehicleCharging === 'Charging' || this.props.vehicleCharging === 'Stopped') && this.props.chargePortLatch === 'Engaged') ?
-				  		<div>
-						  <p>Time to full charge: {this.props.chargeTimeLeft}</p>
-						  <button onClick={this.chargingButton} id="charging--charge_port" className="btn btn--modal_btn">
-	                        {(this.props.vehicleCharging === 'Charging') ? 'Stop Charge' : null}
-	                        {(this.props.vehicleCharging === 'Stopped') ? 'Start Charge' : null}
-	                      </button>
-						</div>
-                      : null
-                  }
+                    <React.Fragment>
+                      <div>
+                        <button onClick={this.chargingButton} id="charging--charge_port" className="btn btn--modal_btn">
+                          {(this.props.vehicleCharging === 'Charging') ? 'Stop Charge' : null}
+                          {(this.props.vehicleCharging === 'Stopped') ? 'Start Charge' : null}
+                        </button>
+                      </div>
+                    </React.Fragment>
+                  : null}
               </div>
             </div>
           </Modal>
