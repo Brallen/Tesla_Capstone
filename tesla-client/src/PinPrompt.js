@@ -183,9 +183,9 @@ class PinPrompt extends Component {
 									: null }
 							</p>
 							<br />
-							<div className="login-form-text">
+							<div className="login-form-text container--modal_confirm">
 								<label htmlFor="enter--pin">PIN: </label>
-								<input type="password" placeholder="Enter PIN" name="pin" required id="pin" size="4"
+								<input type="password" placeholder="Enter PIN" name="pin" required id="pin" size="8"
 									onChange={this.handlePinChange} value={this.state.pin}/>
 							</div>
 							<button id="pin--submit-pin" className="btn btn--modal_btn" onClick={this.submit}>Submit</button>

@@ -240,7 +240,7 @@ class SafetyModal extends Component {
 		})
 		.then(function (response) {
 			var newStore = store.getState();
-			newStore.state.vehicleDataObject.vehicle_state.valet_pin_need = true;
+			newStore.state.vehicleDataObject.vehicle_state.valet_pin_needed = true;
 			store.dispatch({
 				type: 'UPDATE_OBJECT',
 				payload: {
