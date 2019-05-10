@@ -6,12 +6,27 @@ let logger = require('morgan');
 const teslajs = require('teslajs');
 const WS13 = require('websocket13');
 let bodyParser = require('body-parser');
+let fs = require('fs');
+let https = require('https');
 
 let port = process.env.PORT || 3001;
 let app = express();
 var testMode = false;
 
-app.use(express.static(path.join(__dirname, 'tesla-client/build')));
+
+// Certificate
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/teslar.duckdns.org/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/teslar.duckdns.org/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/teslar.duckdns.org/chain.pem', 'utf8');
+
+const credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
+
+app.use(express.static(path.join(__dirname, 'tesla-client/build'), { dotfiles: 'allow' }));
+app.use(express.static(__dirname, { dotfiles: 'allow' })); //this get the https cert
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
@@ -796,6 +811,8 @@ app.use(function (err, req, res, next) {
     //res.render('error');
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+const httpsServer = https.createServer(credentials, app);
+//app.listen(port, () => console.log(`Listening on port ${port}`));
+httpsServer.listen(port, () => {console.log(`Listening on port ${port}`)});
 
-module.exports = app;
+module.exports = httpsServer;
