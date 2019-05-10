@@ -273,7 +273,7 @@ body {
   margin: 8px auto;
   width: 25%;
   display: block;
-  flex-basis: 25%;
+  flex-basis: 29%;
 }
 
 .modal-content .modal--close {
