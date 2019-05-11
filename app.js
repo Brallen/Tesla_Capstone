@@ -17,9 +17,9 @@ var testMode = false;
 
 
 // Certificate
-const privateKey = "";
-const certificate = "";
-const ca = "";
+let privateKey = "";
+let certificate = "";
+let ca = "";
 
 if (fs.existsSync('/etc/letsencrypt/live/teslar.duckdns.org/privkey.pem'))
     privateKey = fs.readFileSync('/etc/letsencrypt/live/teslar.duckdns.org/privkey.pem', 'utf8');
