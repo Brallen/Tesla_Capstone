@@ -310,6 +310,12 @@ body {
   border-radius: 20px;
 }
 
+.media-control_button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+
 .modal--media_controls {
   margin: 15px 0;
 }
