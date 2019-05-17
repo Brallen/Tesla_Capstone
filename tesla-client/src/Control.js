@@ -24,6 +24,13 @@ class ControlModal extends Component{
 	  this.summonForwards = this.summonForwards.bind(this);
 	  this.summonAbort = this.summonAbort.bind(this);
   }
+  /* horn
+
+  <button className="btn2 btn2--modal_btn_control" onClick={this.honkHornButton} id="honk">
+                        <i className="fas fa-bullhorn" style={{fontSize: this.props.fontSizeProp}}/><br /><br />Honk Horn
+                      </button> 
+
+                      */
 
   componentDidMount(){
     this.setState({
@@ -282,9 +289,7 @@ class ControlModal extends Component{
                       <button className="btn2 btn2--modal_btn_control" onClick={this.flashLightsButton} id="flashlights_btn">
                         <i className="fas fa-lightbulb" style={{fontSize: this.props.fontSizeProp}}/><br /><br />Flash Lights
                       </button>
-                      <button className="btn2 btn2--modal_btn_control" onClick={this.honkHornButton} id="honk">
-                        <i className="fas fa-bullhorn" style={{fontSize: this.props.fontSizeProp}}/><br /><br />Honk Horn
-                      </button>
+                      
                       <button className="btn2 btn2--modal_btn_control" onClick={this.openTrunkButton} id="opentrunk_btn">
                         <i className="fas fa-caret-up" style={{fontSize: this.props.fontSizeProp}}/>
                         <i className="fas fa-car-side" style={{fontSize: this.props.fontSizeProp}}/>
