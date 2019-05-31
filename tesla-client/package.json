@@ -14,7 +14,7 @@
     "sass": "^1.17.2"
   },
   "scripts": {
-    "start": "sass --no-source-map src/Assets/Styles/Sass/main.sass src/Assets/Styles/main.css && PORT=3001 react-scripts start",
+    "start": "sass --no-source-map src/Assets/Styles/Sass/main.sass src/Assets/Styles/main.css && set PORT=3001 && react-scripts start",
     "build": "sass --no-source-map src/Assets/Styles/Sass/main.sass src/Assets/Styles/main.css && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
